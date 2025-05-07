@@ -1,0 +1,13 @@
+*.fbx
+.vs/
+*.user
+*.suo
+*.cache
+*.log
+*.pdb
+*.obj
+*.exe
+*.dll
+bin/
+obj/
+
