@@ -11,6 +11,11 @@ struct input
 	float4 boneID  : BONEID;
 
 	float4 weight  : WEIGHT;
+
+	float4 row0 : INSTANCE_ROW0; // SemanticIndex = 0
+	float4 row1 : INSTANCE_ROW1; // SemanticIndex = 0
+	float4 row2 : INSTANCE_ROW2; // SemanticIndex = 0
+	float4 row3 : INSTANCE_ROW3; // SemanticIndex = 0
 };
 
 struct output
@@ -57,6 +62,10 @@ float4x4 boneTransform =
 	{
 		local_pos = float4(vertexIn.position, 1.0f);
 	}
+
+	float4x4 parentBoneMatrix = float4x4(vertexIn.row0, vertexIn.row1, vertexIn.row2, vertexIn.row3);
+
+	local_pos = mul(parentBoneMatrix, local_pos);
 
 	float4 world = mul(world_mat, local_pos);
 

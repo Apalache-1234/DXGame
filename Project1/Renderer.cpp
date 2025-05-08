@@ -89,20 +89,7 @@ Renderer::Renderer(std::shared_ptr<Entity> ent) : Component::Component(ent)
 
 	isSuccess &= InitSRVForBoneBuffer();
 
-	for (int i =  0 ; i < meshDatas.size() ; i++)
-	{
-		auto& mesh = meshDatas[i];
-
-		isSuccess &= InitVBVResource(mesh);
-
-		isSuccess &= MapVB(mesh);
-
-		isSuccess &= InitIBVResource(mesh);
-
-		isSuccess &= MapIB(mesh);
-
-		isSuccess &= LoadTexture("Textures/error.dds" , mesh );
-	}
+	isSuccess &= LoadMesh("Models/Box.fbx");
 
 	isSuccess &= CreateRootSignature();
 
@@ -138,6 +125,7 @@ void Renderer::AddRenderCommand(ComPtr<ID3D12GraphicsCommandList>& cmdList, int 
 		cmdList->SetGraphicsRootDescriptorTable(1, mesh.texView.gpu_handle);
 
 		cmdList->SetGraphicsRootShaderResourceView(2, boneBuffer->GetGPUVirtualAddress());
+
 		cmdList->IASetVertexBuffers(0, 1, &mesh.vbView);
 
 		cmdList->IASetIndexBuffer(&mesh.ibView);
@@ -527,13 +515,18 @@ bool Renderer::CreateRootSignature()
 
 bool Renderer::CreateRenderPipeline()
 {
-	D3D12_INPUT_ELEMENT_DESC desc_element[6] = {
+	D3D12_INPUT_ELEMENT_DESC desc_element[10] = {
 	{"POSITION" , 0 , DXGI_FORMAT_R32G32B32_FLOAT , 0 , D3D12_APPEND_ALIGNED_ELEMENT , D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA , 0},
 	{"TEXCOORD" , 0 , DXGI_FORMAT_R32G32_FLOAT , 0 , D3D12_APPEND_ALIGNED_ELEMENT , D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA , 0},
 	{"TANGENT" , 0 , DXGI_FORMAT_R32G32B32_FLOAT , 0 , D3D12_APPEND_ALIGNED_ELEMENT , D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA , 0},
 	{"NORMAL" , 0 , DXGI_FORMAT_R32G32B32_FLOAT , 0 , D3D12_APPEND_ALIGNED_ELEMENT , D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA , 0},
 	{ "BONEID",   0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
     { "WEIGHT",   0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+
+{ "INSTANCE_ROW", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, D3D12_APPEND_ALIGNED_ELEMENT,  D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+{ "INSTANCE_ROW", 1, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+{ "INSTANCE_ROW", 2, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+{ "INSTANCE_ROW", 3, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
 	};
 
 	D3D12_RASTERIZER_DESC desc_ras = {};
@@ -763,6 +756,7 @@ bool Renderer::InitSRVForBoneBuffer()
 	return true;
 }
 
+
 std::unordered_map<string, UINT> boneMapping;
 
 aiNodeAnim* ParseAnimNode(aiAnimation& anim, string nodeName)
@@ -939,24 +933,19 @@ void Renderer::ReadHierarchyNode(float animationTime , aiNode& node , aiMatrix4x
 
 	for (int i = 0;i < node.mNumMeshes;i++)
 	{
-
 		if (node.mParent == scene.mRootNode)
 			continue;
 
-		auto temp = meshDatas[node.mMeshes[i]];
-
 		for (int j = 0;j < meshDatas[node.mMeshes[i]].VertexDatas.size();j++)
 		{
-			DirectX::XMVECTOR xmvec = DirectX::XMLoadFloat3(&meshDatas[node.mMeshes[i]].VertexDatas[j].vertex);
+			DirectX::XMFLOAT4X4 parentBoneMat;
 
-			xmvec= DirectX::XMVector3Transform(xmvec, Utility::ConvertAiMatrix4x4ToXMMATRIX(resultMat ));
+			DirectX::XMStoreFloat4x4(&parentBoneMat , Utility::ConvertAiMatrix4x4ToXMMATRIX2(resultMat));
 
-			DirectX::XMStoreFloat3(&meshDatas[node.mMeshes[i]].VertexDatas[j].vertex , xmvec);
+			meshDatas[node.mMeshes[i]].VertexDatas[j].parentBoneMatrix = parentBoneMat;
 	    }
 
 		MapVB(meshDatas[node.mMeshes[i]]);
-
-		meshDatas[node.mMeshes[i]] = temp;
 	}
 
 	if (boneMapping.find(name) != boneMapping.end())
@@ -975,11 +964,11 @@ void Renderer::ReadHierarchyNode(float animationTime , aiNode& node , aiMatrix4x
 void Renderer::StartAnimation(float timeInSecond)
 {
 
-	aiAnimation* anim = scene.mAnimations[3];
+	aiAnimation* anim = scene.mAnimations[31];
 
 	auto ticksPerSecond = anim->mTicksPerSecond;
 	auto ticksInSecond = timeInSecond * ticksPerSecond;
-	auto animationTime = fmod(ticksInSecond  / 3, anim->mDuration);
+	auto animationTime = fmod(ticksInSecond , anim->mDuration);
 
 	aiMatrix4x4 mat;
 
@@ -1053,6 +1042,7 @@ void Renderer::InitBone(const aiMesh& mesh, MeshData& meshData)
 {
 	for (UINT j = 0;j < mesh.mNumBones;j++)
 	{
+
 		auto bone = mesh.mBones[j];
 
 		UINT boneIndex = 0;
@@ -1061,18 +1051,16 @@ void Renderer::InitBone(const aiMesh& mesh, MeshData& meshData)
 		{
 			boneIndex = boneMapping.size();
 
-
-
 			BoneInfo bi;
 
 			boneInfos.emplace_back(bi);
+
+			boneMapping[bone->mName.C_Str()] = boneIndex;
 		}
 		else
 		{
 			boneIndex = boneMapping[bone->mName.C_Str()];
 		}
-
-		boneMapping[bone->mName.C_Str()] = boneIndex;
 
 		boneInfos[boneIndex].offset = bone->mOffsetMatrix;
 
@@ -1164,9 +1152,9 @@ bool Renderer::LoadMesh(const std::string filePath)
 
 	flag |= aiProcess_GenSmoothNormals;
 
-	flag |= aiProcess_FlipUVs;
-
 	flag |= aiProcess_JoinIdenticalVertices;
+
+	flag |= aiProcess_ConvertToLeftHanded;
 
 	scene = *import.ReadFile(filePath, flag);
 

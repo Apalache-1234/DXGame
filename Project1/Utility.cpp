@@ -15,6 +15,27 @@ namespace Utility
         return matrix;
     }
 
+    DirectX::XMMATRIX ConvertAiMatrix4x4ToXMMATRIX2(aiMatrix4x4 mat)
+    {
+        DirectX::XMMATRIX matrix
+        {
+            mat.a1,mat.a2,mat.a3,mat.a4,
+            mat.b1,mat.b2,mat.b3,mat.b4,
+            mat.c1,mat.c2,mat.c3,mat.c4,
+            mat.d1,mat.d2,mat.d3,mat.d4
+        };
+
+        return matrix;
+    }
+
+    int GetRandomInt(int min, int max) {
+        std::random_device rd;
+        std::mt19937 gen(rd());
+        std::uniform_int_distribution<> dist(min, max);
+
+        return dist(gen);
+    }
+
     void Debug(const std::string text)
     {
         std::cout << text << std::endl;
