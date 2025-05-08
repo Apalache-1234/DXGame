@@ -1,5 +1,4 @@
 #include "ColliderDetection.h"
-#include <random>
 
 ColliderDetection::ColliderDetection()
 {
@@ -152,14 +151,6 @@ DirectX::XMVECTOR ReturnNearestPoint(DirectX::XMVECTOR p1 , DirectX::XMVECTOR p2
 	{
 		return DirectX::XMVectorAdd(p1, DirectX::XMVectorScale(subVec, t));
 	}
-}
-
-int GetRandomInt(int min, int max) {
-	std::random_device rd;  
-	std::mt19937 gen(rd()); 
-	std::uniform_int_distribution<> dist(min, max);
-
-	return dist(gen);
 }
 
 /// <summary>
@@ -368,7 +359,7 @@ bool ColliderDetection::GJKAlgorithm(std::vector<DirectX::XMVECTOR> dif, std::ve
 				dotToD = DirectX::XMVector3Dot(n, DirectX::XMVectorSubtract(*points[d], *points[a])).m128_f32[0];
 				dotToO = DirectX::XMVector3Dot(n, toOrigin).m128_f32[0];
 
-				if ( (dotToD * dotToO) <= 0)
+				if ( (dotToD * dotToO) < 0)
 				{
 					isOutbound = true;
 					break;

@@ -4,6 +4,7 @@
 #include <iostream>
 #include <DirectXMath.h>
 #include <assimp/matrix4x4.h>
+#include <random>
 
 namespace Utility
 {
@@ -19,6 +20,9 @@ namespace Utility
     static const float ep = 1e-3f;
 
     DirectX::XMMATRIX ConvertAiMatrix4x4ToXMMATRIX(aiMatrix4x4 mat);
+    DirectX::XMMATRIX ConvertAiMatrix4x4ToXMMATRIX2(aiMatrix4x4 mat);
+
+    int GetRandomInt(int min, int max);
 
     void Debug(const std::string text);
 

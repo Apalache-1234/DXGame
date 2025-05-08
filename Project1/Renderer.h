@@ -131,6 +131,8 @@ private:
 		XMFLOAT4 boneID;
 
 		XMFLOAT4 weight;
+
+		DirectX::XMFLOAT4X4 parentBoneMatrix = DirectX::XMFLOAT4X4(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
 	};
 
 	struct BoneInfo {
@@ -205,6 +207,18 @@ private:
 		/// 頂点ビュー
 		/// </summary>
 		D3D12_VERTEX_BUFFER_VIEW vbView;
+
+
+	
+
+		/// <summary>
+        /// 頂点バッファのリソース
+        /// </summary>
+		ComPtr<ID3D12Resource> InstanceBuffer;
+		/// <summary>
+		/// 頂点ビュー
+		/// </summary>
+		D3D12_VERTEX_BUFFER_VIEW instanceBufferView;
 
 		TextureView texView;
 
@@ -301,6 +315,10 @@ private:
 	bool MapBB();
 
 	bool InitSRVForBoneBuffer();
+
+	bool InitInstanceDataResource(MeshData& mesh);
+
+	bool MapInstaceBuffer(MeshData& mesh);
 
 	void ReadHierarchyNode(float animationTime, aiNode& node, aiMatrix4x4& parentMat, aiAnimation& anim);
 
