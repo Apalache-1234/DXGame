@@ -937,6 +937,28 @@ void Renderer::ReadHierarchyNode(float animationTime , aiNode& node , aiMatrix4x
 
 	resultMat = parentMat * nodeTransformation;
 
+	for (int i = 0;i < node.mNumMeshes;i++)
+	{
+
+		if (node.mParent == scene.mRootNode)
+			continue;
+
+		auto temp = meshDatas[node.mMeshes[i]];
+
+		for (int j = 0;j < meshDatas[node.mMeshes[i]].VertexDatas.size();j++)
+		{
+			DirectX::XMVECTOR xmvec = DirectX::XMLoadFloat3(&meshDatas[node.mMeshes[i]].VertexDatas[j].vertex);
+
+			xmvec= DirectX::XMVector3Transform(xmvec, Utility::ConvertAiMatrix4x4ToXMMATRIX(resultMat ));
+
+			DirectX::XMStoreFloat3(&meshDatas[node.mMeshes[i]].VertexDatas[j].vertex , xmvec);
+	    }
+
+		MapVB(meshDatas[node.mMeshes[i]]);
+
+		meshDatas[node.mMeshes[i]] = temp;
+	}
+
 	if (boneMapping.find(name) != boneMapping.end())
 	{
 		boneInfos[boneMapping[name]].finalMat = resultMat * boneInfos[boneMapping[name]].offset;
@@ -953,12 +975,11 @@ void Renderer::ReadHierarchyNode(float animationTime , aiNode& node , aiMatrix4x
 void Renderer::StartAnimation(float timeInSecond)
 {
 
-	aiAnimation* anim = scene.mAnimations[30];
+	aiAnimation* anim = scene.mAnimations[3];
 
 	auto ticksPerSecond = anim->mTicksPerSecond;
 	auto ticksInSecond = timeInSecond * ticksPerSecond;
 	auto animationTime = fmod(ticksInSecond  / 3, anim->mDuration);
-
 
 	aiMatrix4x4 mat;
 
@@ -1024,79 +1045,80 @@ void Renderer::StoreVertices(const std::string filePath)
 			InitMaterial( filePath, *mesh, meshDatas[i], i);
 
 		if (mesh->HasBones())
+			InitBone(*mesh , meshDatas[i]);
+	}
+}
+
+void Renderer::InitBone(const aiMesh& mesh, MeshData& meshData)
+{
+	for (UINT j = 0;j < mesh.mNumBones;j++)
+	{
+		auto bone = mesh.mBones[j];
+
+		UINT boneIndex = 0;
+
+		if (boneMapping.find(bone->mName.C_Str()) == boneMapping.end())
 		{
-			for (UINT j = 0;j < mesh->mNumBones;j++)
-			{
-				auto bone = mesh->mBones[j];
-
-				UINT boneIndex = 0;
-
-				if (boneMapping.find(bone->mName.C_Str()) == boneMapping.end())
-				{
-					boneIndex = boneMapping.size();
-
-				
-
-					BoneInfo bi;
-
-					boneInfos.emplace_back(bi);
-				}
-				else
-				{
-					boneIndex = boneMapping[bone->mName.C_Str()];
-				}
-
-				boneMapping[bone->mName.C_Str()] = boneIndex;
-
-				boneInfos[boneIndex].offset = bone->mOffsetMatrix;
-
-				for (UINT k = 0;k < bone->mNumWeights;k++)
-				{
-					auto weight = bone->mWeights[k];
-
-					meshDatas[i].vertexBoneDatas[weight.mVertexId].boneID.emplace_back(boneIndex);
-					meshDatas[i].vertexBoneDatas[weight.mVertexId].weight.emplace_back(weight.mWeight);
-				}
-			}
-
-			for (int j = 0;j < mesh->mNumVertices;j++)
-			{
-				VertexData* data = &meshDatas[i].VertexDatas[j];
-
-				auto& boneiD = meshDatas[i].vertexBoneDatas[j].boneID;
-				auto& weight = meshDatas[i].vertexBoneDatas[j].weight;
-
-				if (boneiD.size() == 0)
-				{
-					data->boneID = XMFLOAT4(0,0,0,0);
-					data->weight = XMFLOAT4(0,0,0,0);
-				}
-				else if (boneiD.size() == 1)
-				{
-					data->boneID = XMFLOAT4(boneiD[0], 0, 0, 0);
-					data->weight = XMFLOAT4(weight[0], 0, 0, 0);
-				}
-			    else if (boneiD.size() == 2)
-				{
-					data->boneID = XMFLOAT4(boneiD[0], boneiD[1], 0, 0);
-					data->weight = XMFLOAT4(weight[0], weight[1], 0, 0);
-				}
-				else if (boneiD.size() == 3)
-				{
-					data->boneID = XMFLOAT4(boneiD[0], boneiD[1], boneiD[2], 0);
-					data->weight = XMFLOAT4(weight[0], weight[1], weight[2], 0);
-				}
-				else
-				{
-					data->boneID = XMFLOAT4(boneiD[0], boneiD[1], boneiD[2], boneiD[3]);
-					data->weight = XMFLOAT4(weight[0], weight[1], weight[2], weight[3]);
-				}
+			boneIndex = boneMapping.size();
 
 
-			}
+
+			BoneInfo bi;
+
+			boneInfos.emplace_back(bi);
+		}
+		else
+		{
+			boneIndex = boneMapping[bone->mName.C_Str()];
 		}
 
-		
+		boneMapping[bone->mName.C_Str()] = boneIndex;
+
+		boneInfos[boneIndex].offset = bone->mOffsetMatrix;
+
+		for (UINT k = 0;k < bone->mNumWeights;k++)
+		{
+			auto weight = bone->mWeights[k];
+
+			meshData.vertexBoneDatas[weight.mVertexId].boneID.emplace_back(boneIndex);
+			meshData.vertexBoneDatas[weight.mVertexId].weight.emplace_back(weight.mWeight);
+		}
+	}
+
+	for (int j = 0;j < mesh.mNumVertices;j++)
+	{
+		VertexData& vertexData = meshData.VertexDatas[j];
+
+		auto& boneiD = meshData.vertexBoneDatas[j].boneID;
+		auto& weight = meshData.vertexBoneDatas[j].weight;
+
+		if (boneiD.size() == 0)
+		{
+			vertexData.boneID = XMFLOAT4(0, 0, 0, 0);
+			vertexData.weight = XMFLOAT4(0, 0, 0, 0);
+		}
+		else if (boneiD.size() == 1)
+		{
+			vertexData.boneID = XMFLOAT4(boneiD[0], 0, 0, 0);
+			vertexData.weight = XMFLOAT4(weight[0], 0, 0, 0);
+		}
+		else if (boneiD.size() == 2)
+		{
+			vertexData.boneID = XMFLOAT4(boneiD[0], boneiD[1], 0, 0);
+			vertexData.weight = XMFLOAT4(weight[0], weight[1], 0, 0);
+		}
+		else if (boneiD.size() == 3)
+		{
+			vertexData.boneID = XMFLOAT4(boneiD[0], boneiD[1], boneiD[2], 0);
+			vertexData.weight = XMFLOAT4(weight[0], weight[1], weight[2], 0);
+		}
+		else
+		{
+			vertexData.boneID = XMFLOAT4(boneiD[0], boneiD[1], boneiD[2], boneiD[3]);
+			vertexData.weight = XMFLOAT4(weight[0], weight[1], weight[2], weight[3]);
+		}
+
+
 	}
 }
 
@@ -1115,6 +1137,12 @@ void Renderer::InitMaterial(const std::string filePath , const aiMesh& mesh , Me
 		mat->GetTexture(aiTextureType_DIFFUSE, 0, &path);
 
 		std::string str = path.data;
+
+		std::replace(str.begin(), str.end(), '\\', '/');
+
+		auto indexPeriod = str.find_last_of(".");
+
+		str = str.substr(0, indexPeriod) + ".dds";
 
 		LoadTexture(dir + "/" + str, data);
 	}
@@ -1182,8 +1210,11 @@ bool Renderer::LoadMesh(const std::string filePath)
 	}
 }
 
+
+
 bool Renderer::LoadTexture(const std::string fileName, MeshData& mesh)
 {
+
 	int len = MultiByteToWideChar(CP_UTF8, 0, fileName.c_str(), -1, NULL, 0);
 	std::wstring ws(len, L'\0');
 

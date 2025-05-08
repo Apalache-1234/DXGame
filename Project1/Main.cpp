@@ -1164,7 +1164,6 @@ int main()
 	player2->AddComponent<Renderer>();
 	player2->AddComponent<Collider>();
 	player2->AddComponent<Rigidbody>();
-	player->AddComponent<Renderer>();
 	player->AddComponent<Collider>();
 	player->AddComponent<Rigidbody>();
 
@@ -1172,13 +1171,17 @@ int main()
 
 	player->SetWorldScale(DirectX::XMVectorSet(100,10,100,0));
 	player->SetWorldPosition(DirectX::XMVectorSet(0,-5,0,0));
-	player2->SetWorldScale(DirectX::XMVectorSet(0.01, 0.01, 0.01,0));
+	player2->SetWorldScale(DirectX::XMVectorSet(1, 1, 1,0));
 
 	player2->SetWorldPosition(DirectX::XMVectorSet(0,10,0,0));
 
 	bool show_demo_window = true;
 
-	player2->GetComponent<Renderer>()->LoadMesh("Models/Knight01/untitl4ed.fbx");
+	player2->GetComponent<Renderer>()->LoadMesh("Models/Knight01/Animated_Low_Poly_Dark_Knight_BAKED.fbx");
+
+	UINT fpsCounter = 0;
+
+	float timeForFpsCounter = 0;
 
 	while (window->MainLoop())
 	{
@@ -1192,8 +1195,7 @@ int main()
 
 		auto rend = player2->GetComponent<Renderer>();
 
-		player->SetWorldRotation(DirectX::XMVectorSet(sin(hoge * 0.006)*12, hoge * 0.1, 0, 0));
-		player2->SetWorldRotation(DirectX::XMVectorSet(0, -hoge , 0, 0));
+		player2->SetWorldRotation(DirectX::XMVectorSet(0, -hoge * 0.1 , 0, 0));
 
 		DirectX::XMVECTOR velocity = DirectX::XMVectorSet(0,0,0,0);
 
@@ -1251,6 +1253,19 @@ int main()
 		ColliderDetection::GetInstance().MainLoop();
 
 		renSys->Draw();
+
+		timeForFpsCounter += gameManager->DeltaTime;
+
+		fpsCounter++;
+
+		if (timeForFpsCounter >= 1)
+		{
+			std::cout << fpsCounter << std::endl;
+
+			fpsCounter = 0;
+
+			timeForFpsCounter = 0;
+		}
 	}
 
 	myImGui->Term();

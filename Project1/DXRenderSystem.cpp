@@ -80,7 +80,7 @@ D3D12_DEPTH_STENCIL_DESC& DXRenderSystem::GetStencilDesc()
 
 void DXRenderSystem::WaitForRender()
 {
-	swap_chain->Present(1, 0);
+	swap_chain->Present(0, 0);
 
 	auto cur_value = fence_counter;
 

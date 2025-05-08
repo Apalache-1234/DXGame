@@ -310,9 +310,9 @@ private:
 	/// <param name="scene">assimpのメッシュの情報を展開して格納されているaiScene変数</param>
 	void StoreVertices(const std::string filePath);
 
-	void InitMaterial(const std::string filePath,  const aiMesh& mesh, MeshData& data, const int meshIndex);
+	void InitBone(const aiMesh& mesh, MeshData& meshData);
 
-	void SetMeshesWithBones(aiNode& node, aiMatrix4x4& parentMat);
+	void InitMaterial(const std::string filePath,  const aiMesh& mesh, MeshData& data, const int meshIndex);
 
 	/// <summary>
 	/// 座標行列を作成する
