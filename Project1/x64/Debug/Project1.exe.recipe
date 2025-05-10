@@ -10,6 +10,12 @@
       <FullPath>E:\DXGame\x64\Debug\PixelShader.cso</FullPath>
     </ContentFile>
     <ContentFile>
+      <FullPath>E:\DXGame\x64\Debug\SkyBoxPixelShader.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>E:\DXGame\x64\Debug\SkyBoxVertexShader.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
       <FullPath>E:\DXGame\x64\Debug\VertexShader.cso</FullPath>
     </ContentFile>
   </ContentFiles>

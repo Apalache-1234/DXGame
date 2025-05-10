@@ -12,10 +12,7 @@ struct input
 
 	float4 weight  : WEIGHT;
 
-	float4 row0 : INSTANCE_ROW0; // SemanticIndex = 0
-	float4 row1 : INSTANCE_ROW1; // SemanticIndex = 0
-	float4 row2 : INSTANCE_ROW2; // SemanticIndex = 0
-	float4 row3 : INSTANCE_ROW3; // SemanticIndex = 0
+	float parent  : PARENT;
 };
 
 struct output
@@ -38,21 +35,23 @@ struct Bones
 	float4x4 boneFinalMat;
 };
 
-StructuredBuffer<Bones> boneFinalMats : register(t1);
+StructuredBuffer<float4x4> boneFinalMats : register(t1);
 
 output main(input vertexIn)
 {
 	output vertexOut = (output)0;
-	uint id0 = vertexIn.boneID.x; // ïâêîñhé~
+
+	uint id0 = vertexIn.boneID.x ; // ïâêîñhé~
 		uint id1 = vertexIn.boneID.y;
 		uint id2 = vertexIn.boneID.z;
 		uint id3 = vertexIn.boneID.w;
+		uint id4 = vertexIn.parent;
 
 float4x4 boneTransform =
-    boneFinalMats[id0].boneFinalMat * vertexIn.weight.x +
-    boneFinalMats[id1].boneFinalMat * vertexIn.weight.y +
-    boneFinalMats[id2].boneFinalMat * vertexIn.weight.z +
-    boneFinalMats[id3].boneFinalMat * vertexIn.weight.w;
+    boneFinalMats[id0] * vertexIn.weight.x +
+    boneFinalMats[id1] * vertexIn.weight.y +
+    boneFinalMats[id2] * vertexIn.weight.z +
+    boneFinalMats[id3] * vertexIn.weight.w;
 
 	float4 local_pos;
 
@@ -63,9 +62,10 @@ float4x4 boneTransform =
 		local_pos = float4(vertexIn.position, 1.0f);
 	}
 
-	float4x4 parentBoneMatrix = float4x4(vertexIn.row0, vertexIn.row1, vertexIn.row2, vertexIn.row3);
-
-	local_pos = mul(parentBoneMatrix, local_pos);
+	if (id4 != 0)
+	{
+		local_pos = mul(boneFinalMats[id4], local_pos);
+	}
 
 	float4 world = mul(world_mat, local_pos);
 

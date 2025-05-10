@@ -3,7 +3,6 @@
 
 #include "Component.h"
 #include <iostream>
-#include <DirectXMath.h>
 #include <d3d12.h>
 #include <d3dx12.h>
 #pragma comment(lib, "d3d12.lib")
@@ -80,7 +79,7 @@ private:
 	ComPtr<ID3D12Resource> constantBuffer[DXRenderSystem::frameBuffer];
 
 	/// <summary>
-	/// コンスタントバッファビューのデスクリプタヒープ
+	/// デスクリプタヒープ
 	/// </summary>
 	ComPtr<ID3D12DescriptorHeap> heap;
 
@@ -104,18 +103,6 @@ private:
 	UINT numHandling = 0;
 
 	/// <summary>
-	/// テクスチャのリソースやビューのCPUハンドルやレンダーに必要な情報のGPUハンドルを格納する構造体
-	/// </summary>
-	struct TextureView
-	{
-		ComPtr<ID3D12Resource> resource;
-
-		D3D12_CPU_DESCRIPTOR_HANDLE cpu_handle;
-
-		D3D12_GPU_DESCRIPTOR_HANDLE gpu_handle;
-	};
-
-	/// <summary>
 	/// 頂点情報を格納する構造体
 	/// </summary>
 	struct VertexData
@@ -132,7 +119,7 @@ private:
 
 		XMFLOAT4 weight;
 
-		DirectX::XMFLOAT4X4 parentBoneMatrix = DirectX::XMFLOAT4X4(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+		float parentBone = 0;
 	};
 
 	struct BoneInfo {
@@ -140,6 +127,9 @@ private:
 
 		aiMatrix4x4 finalMat;
 	};
+
+
+	std::unordered_map<string, UINT> boneMapping;
 
 	std::vector<XMMATRIX> finalBoneMats;
 
@@ -189,13 +179,23 @@ private:
 		std::vector<VertexBoneData> vertexBoneDatas;
 
 		/// <summary>
+        /// 頂点バッファのアップロードリソース
+        /// </summary>
+		ComPtr<ID3D12Resource> uploadVertexBuffer;
+
+		/// <summary>
 		/// 頂点バッファのリソース
 		/// </summary>
 		ComPtr<ID3D12Resource> vertexBuffer;
 
 		/// <summary>
-		/// インデックスバッファのリソース
-		/// </summary>
+        /// インデックスバッファのアップロードリソース
+        /// </summary>
+		ComPtr<ID3D12Resource> uploadIndexBuffer;
+
+		/// <summary>
+        /// インデックスバッファのリソース
+        /// </summary>
 		ComPtr<ID3D12Resource> indexBuffer;
 
 		/// <summary>
@@ -207,8 +207,6 @@ private:
 		/// 頂点ビュー
 		/// </summary>
 		D3D12_VERTEX_BUFFER_VIEW vbView;
-
-
 	
 
 		/// <summary>
@@ -220,7 +218,7 @@ private:
 		/// </summary>
 		D3D12_VERTEX_BUFFER_VIEW instanceBufferView;
 
-		TextureView texView;
+		DXRenderSystem::TextureView texView;
 
 		int baseVertexNumber;
 
@@ -286,6 +284,8 @@ private:
 	/// <returns>正常に終了したらtrueを返す</returns>
 	bool MapVB(MeshData& mesh);
 
+	bool VBUploadToDefultHeap(MeshData& mesh);
+
 	/// <summary>
 	/// インデックスバッファビューのリソースを作成する
 	/// </summary>
@@ -297,6 +297,8 @@ private:
 	/// </summary>
 	/// <returns>正常に終了したらtrueを返す</returns>
 	bool MapIB(MeshData& mesh);
+
+	bool IBUploadToDefultHeap(MeshData& mesh);
 
 	/// <summary>
 	/// ルートシグネチャを作成する
@@ -315,10 +317,6 @@ private:
 	bool MapBB();
 
 	bool InitSRVForBoneBuffer();
-
-	bool InitInstanceDataResource(MeshData& mesh);
-
-	bool MapInstaceBuffer(MeshData& mesh);
 
 	void ReadHierarchyNode(float animationTime, aiNode& node, aiMatrix4x4& parentMat, aiAnimation& anim);
 

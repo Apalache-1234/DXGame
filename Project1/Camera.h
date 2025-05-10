@@ -8,6 +8,7 @@
 #include <unordered_map>
 #include "Entity.h"
 #include <DirectXMath.h>
+#include "Utility.h"
 
 class Camera
 {
@@ -45,6 +46,18 @@ public:
 	/// カメラのFOV
 	/// </summary>
 	const float fov = DirectX::XMConvertToRadians(70);
+
+	/// <summary>
+    /// カメラの座標を設定する
+    /// </summary>
+    /// <param name="position">カメラ位置</param>
+	void SetCameraPosition(DirectX::XMVECTOR position);
+
+	/// <summary>
+	/// カメラの回転をEulerで設定する
+	/// </summary>
+	/// <param name="rotation">Euler回転</param>
+	void SetCameraRotation(DirectX::XMVECTOR rotation);
 private:
 	/// <summary>
 	/// カメラの座標位置
@@ -56,17 +69,7 @@ private:
 	/// </summary>
 	DirectX::XMVECTOR camRotation = DirectX::XMVectorSet(0, 0, 10, 0);
 protected:
-	/// <summary>
-    /// カメラの座標を設定する
-    /// </summary>
-	/// <param name="position">カメラ位置</param>
-	void SetCameraPosition(DirectX::XMVECTOR position);
 
-	/// <summary>
-	/// カメラの回転をEulerで設定する
-	/// </summary>
-	/// <param name="rotation">Euler回転</param>
-	void SetCameraRotation(DirectX::XMVECTOR rotation);
 
 	/// <summary>
 	/// カメラの回転を四元数で表したもの

@@ -21,6 +21,7 @@
 #include <DDSTextureLoader.h>
 #include <VertexTypes.h>
 #include "MyIMGUI.h"
+#include "SkyBox.h"
 
 using namespace DirectX;
 using namespace Microsoft::WRL;
@@ -47,8 +48,6 @@ public:
 
 	ComPtr<ID3D12GraphicsCommandList>& GetCommandList();
 
-	D3D12_DEPTH_STENCIL_DESC& GetStencilDesc();
-
 	void WaitForRender();
 
 	void Draw();
@@ -56,6 +55,18 @@ public:
 	ComPtr<ID3D12Device>& GetDevice();
 
 	const static int frameBuffer = 2;
+
+	/// <summary>
+    /// テクスチャのリソースやビューのCPUハンドルやレンダーに必要な情報のGPUハンドルを格納する構造体
+    /// </summary>
+	struct TextureView
+	{
+		ComPtr<ID3D12Resource> resource;
+
+		D3D12_CPU_DESCRIPTOR_HANDLE cpu_handle;
+
+		D3D12_GPU_DESCRIPTOR_HANDLE gpu_handle;
+	};
 private:
 
 	/// <summary>
@@ -131,12 +142,6 @@ private:
 	bool CreateDBV();
 
 	/// <summary>
-	/// 深度ステンシルデスクリプタを設定する
-	/// </summary>
-	/// <returns>正常に終了したらtrueを返す</returns>
-	bool SetDepthStencilDesc();
-
-	/// <summary>
 	/// `描画の領域を決めるシザーとビューポートを設定する
 	/// </summary>
 	/// <returns>正常に終了したらtrueを返す</returns>
@@ -177,8 +182,6 @@ private:
 	HANDLE fence_event;
 
 	D3D12_CPU_DESCRIPTOR_HANDLE rtv_handle[frameBuffer] = {};
-
-	D3D12_DEPTH_STENCIL_DESC ds_desc = {};
 
 	D3D12_CPU_DESCRIPTOR_HANDLE dbv_handle = {};
 

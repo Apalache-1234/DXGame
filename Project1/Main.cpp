@@ -11,6 +11,7 @@
 #include "Camera.h"
 #include "PhysicSystem.h"
 #include "Rigidbody.h"
+#include "SkyBox.h"
 
 float hoge = 0;
 
@@ -26,12 +27,14 @@ int main()
 	auto myImGui = &MyIMGUI::GetInstance();
 	auto gameManager = &GameManager::GetInstance();
 	auto physicSystem = &PhysicSystem::GetInstance();
-
+	auto skyBox = &SkyBox::GetInstance();
 
 	window->Init();
 	renSys->Init();
 	if (myImGui->useIMGUI)
 		myImGui->Init();
+	skyBox->Init();
+
 
 	shared_ptr<Entity> player = make_shared<Entity>("Player");
 	shared_ptr<Entity> player2 = make_shared<Entity>("Player2");
@@ -50,6 +53,7 @@ int main()
 	player2->SetWorldScale(DirectX::XMVectorSet(0.01, 0.01, 0.01,0));
 
 	player2->SetWorldPosition(DirectX::XMVectorSet(0,10,0,0));
+	player2->SetWorldRotation(DirectX::XMVectorSet(0,0,0,0));
 
 	bool show_demo_window = true;
 
@@ -73,6 +77,9 @@ int main()
 
 
 		DirectX::XMVECTOR velocity = DirectX::XMVectorSet(0,0,0,0);
+
+		Camera::GetInstance().SetCameraRotation(DirectX::XMVectorSet(0, hoge * 0.01, 0, 0));
+		
 
 		rend->StartAnimation(gameManager->GameTime);
 

@@ -48,7 +48,7 @@ void Camera::SetCameraRotation(DirectX::XMVECTOR rotation)
         DirectX::XMConvertToRadians(DirectX::XMVectorGetZ(camRotation))
     );
 
-    DirectX::XMVECTOR targetVec = DirectX::XMVector3Rotate(forward, camQuaternion);
+    targetVec = DirectX::XMVector3Rotate(forward, camQuaternion);
 
-    DirectX::XMVECTOR targetPos = DirectX::XMVectorAdd(camPosition, targetVec);
+    targetPos = DirectX::XMVectorAdd(camPosition, targetVec);
 }

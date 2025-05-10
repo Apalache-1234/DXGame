@@ -115,7 +115,6 @@ void Renderer::AddRenderCommand(ComPtr<ID3D12GraphicsCommandList>& cmdList, int 
 
 	cmdList->SetGraphicsRootConstantBufferView(0, cbView[backbufferIndex].BufferLocation);
 
-
 	cmdList->SetPipelineState(pipeline.Get());
 
 	cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
@@ -297,13 +296,13 @@ bool Renderer::InitVBVResource(MeshData& mesh)
 		&desc,
 		D3D12_RESOURCE_STATE_GENERIC_READ,
 		nullptr,
-		IID_PPV_ARGS(mesh.vertexBuffer.GetAddressOf())
+		IID_PPV_ARGS(mesh.uploadVertexBuffer.GetAddressOf())
 
 	);
 
 	if (FAILED(hr))
 	{
-		std::cerr << "VBVのリソース作成失敗" << std::endl;
+		std::cerr << "VBVのアップロードリソース作成失敗" << std::endl;
 
 		return false;
 	}
@@ -315,7 +314,7 @@ bool Renderer::MapVB(MeshData& mesh)
 {
 	void* ptr = nullptr;
 
-	hr = mesh.vertexBuffer->Map(0, nullptr, &ptr);
+	hr = mesh.uploadVertexBuffer->Map(0, nullptr, &ptr);
 
 	if (FAILED(hr))
 	{
@@ -325,7 +324,79 @@ bool Renderer::MapVB(MeshData& mesh)
 	}
 	memcpy(ptr, mesh.VertexDatas.data(), sizeof(VertexData) * mesh.VertexDatas.size());
 
-	mesh.vertexBuffer->Unmap(0, nullptr);
+	mesh.uploadVertexBuffer->Unmap(0, nullptr);
+
+	return VBUploadToDefultHeap(mesh);
+}
+
+bool Renderer::VBUploadToDefultHeap(MeshData& mesh)
+{
+	D3D12_HEAP_PROPERTIES prop = {};
+
+	prop.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_UNKNOWN;
+
+	prop.Type = D3D12_HEAP_TYPE_DEFAULT;
+
+	prop.CreationNodeMask = 1;
+
+	prop.VisibleNodeMask = 1;
+
+	prop.MemoryPoolPreference = D3D12_MEMORY_POOL_UNKNOWN;
+
+	D3D12_RESOURCE_DESC desc = {  };
+
+	desc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
+
+	desc.Alignment = 0;
+
+	desc.Height = 1;
+
+	desc.Width = sizeof(VertexData) * mesh.VertexDatas.size();
+
+	desc.Flags = D3D12_RESOURCE_FLAG_NONE;
+
+	desc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
+
+	desc.SampleDesc.Count = 1;
+
+	desc.SampleDesc.Quality = 0;
+
+	desc.DepthOrArraySize = 1;
+
+	desc.MipLevels = 1;
+
+	desc.Format = DXGI_FORMAT_UNKNOWN;
+
+	hr = DXRenderSystem::GetInstance().GetDevice()->CreateCommittedResource(
+		&prop,
+		D3D12_HEAP_FLAG_NONE,
+		&desc,
+		D3D12_RESOURCE_STATE_COPY_DEST, 
+		nullptr,
+		IID_PPV_ARGS(mesh.vertexBuffer.GetAddressOf())
+
+	);
+
+	if (FAILED(hr))
+	{
+		std::cerr << "VBVのリソース作成失敗" << std::endl;
+
+		return false;
+	}
+
+	D3D12_SUBRESOURCE_DATA subresourceData = {};
+	subresourceData.pData = mesh.VertexDatas.data(); 
+	subresourceData.RowPitch = sizeof(VertexData) * mesh.VertexDatas.size();
+	subresourceData.SlicePitch = subresourceData.RowPitch;
+
+	UpdateSubresources(DXRenderSystem::GetInstance().GetCommandList().Get(), mesh.vertexBuffer.Get(), mesh.uploadVertexBuffer.Get(), 0, 0, 1, &subresourceData);
+
+	CD3DX12_RESOURCE_BARRIER barrier = CD3DX12_RESOURCE_BARRIER::Transition(
+		mesh.vertexBuffer.Get(),
+		D3D12_RESOURCE_STATE_COPY_DEST,
+		D3D12_RESOURCE_STATE_VERTEX_AND_CONSTANT_BUFFER
+	);
+	DXRenderSystem::GetInstance().GetCommandList()->ResourceBarrier(1, &barrier);
 
 	mesh.vbView.BufferLocation = mesh.vertexBuffer->GetGPUVirtualAddress();
 	mesh.vbView.SizeInBytes = sizeof(VertexData) * mesh.VertexDatas.size();
@@ -378,7 +449,7 @@ bool Renderer::InitIBVResource(MeshData& mesh)
 		&desc,
 		D3D12_RESOURCE_STATE_GENERIC_READ,
 		nullptr,
-		IID_PPV_ARGS(mesh.indexBuffer.GetAddressOf())
+		IID_PPV_ARGS(mesh.uploadIndexBuffer.GetAddressOf())
 
 	);
 
@@ -396,7 +467,7 @@ bool Renderer::MapIB(MeshData& mesh)
 {
 	void* ptr = nullptr;
 
-	hr = mesh.indexBuffer->Map(0, nullptr, &ptr);
+	hr = mesh.uploadIndexBuffer->Map(0, nullptr, &ptr);
 
 	if (FAILED(hr))
 	{
@@ -407,12 +478,82 @@ bool Renderer::MapIB(MeshData& mesh)
 
 	memcpy(ptr, mesh.indices.data(), sizeof(int) * mesh.indices.size());
 
-	mesh.indexBuffer->Unmap(0, nullptr);
+	mesh.uploadIndexBuffer->Unmap(0, nullptr);
+
+	return IBUploadToDefultHeap(mesh);
+}
+
+bool Renderer::IBUploadToDefultHeap(MeshData& mesh)
+{
+	D3D12_HEAP_PROPERTIES prop = {};
+
+	prop.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_UNKNOWN;
+
+	prop.Type = D3D12_HEAP_TYPE_DEFAULT;
+
+	prop.CreationNodeMask = 1;
+
+	prop.VisibleNodeMask = 1;
+
+	prop.MemoryPoolPreference = D3D12_MEMORY_POOL_UNKNOWN;
+
+	D3D12_RESOURCE_DESC desc = {  };
+
+	desc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
+
+	desc.Alignment = 0;
+
+	desc.Height = 1;
+
+	desc.Width = sizeof(int) * mesh.indices.size();
+
+	desc.Flags = D3D12_RESOURCE_FLAG_NONE;
+
+	desc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
+
+	desc.SampleDesc.Count = 1;
+
+	desc.SampleDesc.Quality = 0;
+
+	desc.DepthOrArraySize = 1;
+
+	desc.MipLevels = 1;
+
+	desc.Format = DXGI_FORMAT_UNKNOWN;
+
+	hr = DXRenderSystem::GetInstance().GetDevice()->CreateCommittedResource(
+		&prop,
+		D3D12_HEAP_FLAG_NONE,
+		&desc,
+		D3D12_RESOURCE_STATE_COPY_DEST, 
+		nullptr,
+		IID_PPV_ARGS(mesh.indexBuffer.GetAddressOf())
+
+	);
+
+	if (FAILED(hr))
+	{
+		std::cerr << "IBVのリソース作成失敗" << std::endl;
+
+		return false;
+	}
+
+	D3D12_SUBRESOURCE_DATA subresourceData = {};
+	subresourceData.pData = mesh.indices.data();
+	subresourceData.RowPitch = sizeof(int) * mesh.indices.size();
+	subresourceData.SlicePitch = subresourceData.RowPitch;
+
+	UpdateSubresources(DXRenderSystem::GetInstance().GetCommandList().Get(), mesh.indexBuffer.Get(), mesh.uploadIndexBuffer.Get(), 0, 0, 1, &subresourceData);
+
+	CD3DX12_RESOURCE_BARRIER barrier = CD3DX12_RESOURCE_BARRIER::Transition(
+		mesh.indexBuffer.Get(),
+		D3D12_RESOURCE_STATE_COPY_DEST,
+		D3D12_RESOURCE_STATE_INDEX_BUFFER
+	);
+	DXRenderSystem::GetInstance().GetCommandList()->ResourceBarrier(1, &barrier);
 
 	mesh.ibView.BufferLocation = mesh.indexBuffer->GetGPUVirtualAddress();
-
 	mesh.ibView.SizeInBytes = sizeof(int) * mesh.indices.size();;
-
 	mesh.ibView.Format = DXGI_FORMAT_R32_UINT;
 
 	return true;
@@ -420,94 +561,92 @@ bool Renderer::MapIB(MeshData& mesh)
 
 bool Renderer::CreateRootSignature()
 {
+	D3D12_ROOT_PARAMETER param[3] = {};
+
+	param[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;
+
+	param[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
+
+	param[0].Descriptor.ShaderRegister = 0;
+
+	param[0].Descriptor.RegisterSpace = 0;
+
+	D3D12_DESCRIPTOR_RANGE range = {};
+
+	range.NumDescriptors = 1;
+
+	range.BaseShaderRegister = 0;
+
+	range.RegisterSpace = 0;
+
+	range.OffsetInDescriptorsFromTableStart = 0;
+
+	range.RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
+
+	param[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
+
+	param[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+
+	param[1].DescriptorTable.NumDescriptorRanges = 1;
+
+	param[1].DescriptorTable.pDescriptorRanges = &range;
+
+	param[2].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;
+
+	param[2].ParameterType = D3D12_ROOT_PARAMETER_TYPE_SRV;
+
+	param[2].Descriptor.ShaderRegister = 1;
+
+	param[2].Descriptor.RegisterSpace = 0;
+
+	D3D12_STATIC_SAMPLER_DESC desc_sampler = {};
+
+	desc_sampler.Filter = D3D12_FILTER_MINIMUM_MIN_MAG_MIP_LINEAR;
+
+	desc_sampler.AddressU = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
+	desc_sampler.AddressV = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
+	desc_sampler.AddressW = D3D12_TEXTURE_ADDRESS_MODE_CLAMP;
+	desc_sampler.MipLODBias = D3D12_DEFAULT_MIP_LOD_BIAS;
+	desc_sampler.MaxAnisotropy = 1;
+	desc_sampler.ComparisonFunc = D3D12_COMPARISON_FUNC_NEVER;
+	desc_sampler.BorderColor = D3D12_STATIC_BORDER_COLOR_TRANSPARENT_BLACK;
+	desc_sampler.MaxLOD = D3D12_FLOAT32_MAX;
+	desc_sampler.MinLOD = -D3D12_FLOAT32_MAX;
+	desc_sampler.ShaderRegister = 0;
+	desc_sampler.RegisterSpace = 0;
+	desc_sampler.ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+
+	D3D12_ROOT_SIGNATURE_DESC desc = {};
+
+	desc.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT | D3D12_ROOT_SIGNATURE_FLAG_DENY_DOMAIN_SHADER_ROOT_ACCESS | D3D12_ROOT_SIGNATURE_FLAG_DENY_GEOMETRY_SHADER_ROOT_ACCESS | D3D12_ROOT_SIGNATURE_FLAG_DENY_HULL_SHADER_ROOT_ACCESS;
+
+	desc.NumParameters = sizeof(param) / sizeof(D3D12_ROOT_PARAMETER);
+
+	desc.NumStaticSamplers = 1;
+
+	desc.pParameters = param;
+
+	desc.pStaticSamplers = &desc_sampler;
+
+	ComPtr<ID3DBlob> blob;
+	ComPtr<ID3DBlob> error_blob;
+
+	hr = D3D12SerializeRootSignature(&desc, D3D_ROOT_SIGNATURE_VERSION_1_0, blob.GetAddressOf(), error_blob.GetAddressOf());
+
+	if (FAILED(hr))
 	{
-		D3D12_ROOT_PARAMETER param[3] = {};
+		std::cerr << "ルートシグネチャシリアライズ化失敗" << std::endl;
 
-		param[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;
+		return false;
+	}
 
-		param[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
+	hr = DXRenderSystem::GetInstance().GetDevice()->CreateRootSignature(0, blob->GetBufferPointer(), blob->GetBufferSize(), IID_PPV_ARGS(rootSig.GetAddressOf()));
 
-		param[0].Descriptor.ShaderRegister = 0;
+	if (FAILED(hr))
+	{
+		std::cerr << "ルートシグネチャ作成失敗" << std::endl;
 
-		param[0].Descriptor.RegisterSpace = 0;
-
-		D3D12_DESCRIPTOR_RANGE range = {};
-
-		range.NumDescriptors = 1;
-
-		range.BaseShaderRegister = 0;
-
-		range.RegisterSpace = 0;
-
-		range.OffsetInDescriptorsFromTableStart = 0;
-
-		range.RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
-
-		param[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
-
-		param[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
-
-		param[1].DescriptorTable.NumDescriptorRanges = 1;
-
-		param[1].DescriptorTable.pDescriptorRanges = &range;
-
-		param[2].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;
-
-		param[2].ParameterType = D3D12_ROOT_PARAMETER_TYPE_SRV;
-
-		param[2].Descriptor.ShaderRegister = 1;
-
-		param[2].Descriptor.RegisterSpace = 0;
-
-		D3D12_STATIC_SAMPLER_DESC desc_sampler = {};
-
-		desc_sampler.Filter = D3D12_FILTER_MINIMUM_MIN_MAG_MIP_LINEAR;
-
-		desc_sampler.AddressU = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
-		desc_sampler.AddressV = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
-		desc_sampler.AddressW = D3D12_TEXTURE_ADDRESS_MODE_CLAMP;
-		desc_sampler.MipLODBias = D3D12_DEFAULT_MIP_LOD_BIAS;
-		desc_sampler.MaxAnisotropy = 1;
-		desc_sampler.ComparisonFunc = D3D12_COMPARISON_FUNC_NEVER;
-		desc_sampler.BorderColor = D3D12_STATIC_BORDER_COLOR_TRANSPARENT_BLACK;
-		desc_sampler.MaxLOD = D3D12_FLOAT32_MAX;
-		desc_sampler.MinLOD = -D3D12_FLOAT32_MAX;
-		desc_sampler.ShaderRegister = 0;
-		desc_sampler.RegisterSpace = 0;
-		desc_sampler.ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
-
-		D3D12_ROOT_SIGNATURE_DESC desc = {};
-
-		desc.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT | D3D12_ROOT_SIGNATURE_FLAG_DENY_DOMAIN_SHADER_ROOT_ACCESS | D3D12_ROOT_SIGNATURE_FLAG_DENY_GEOMETRY_SHADER_ROOT_ACCESS | D3D12_ROOT_SIGNATURE_FLAG_DENY_HULL_SHADER_ROOT_ACCESS;
-
-		desc.NumParameters = sizeof(param) / sizeof(D3D12_ROOT_PARAMETER);
-
-		desc.NumStaticSamplers = 1;
-
-		desc.pParameters = param;
-
-		desc.pStaticSamplers = &desc_sampler;
-
-		ComPtr<ID3DBlob> blob;
-		ComPtr<ID3DBlob> error_blob;
-
-		hr = D3D12SerializeRootSignature(&desc, D3D_ROOT_SIGNATURE_VERSION_1_0, blob.GetAddressOf(), error_blob.GetAddressOf());
-
-		if (FAILED(hr))
-		{
-			std::cerr << "ルートシグネチャシリアライズ化失敗" << std::endl;
-
-			return false;
-		}
-
-		hr = DXRenderSystem::GetInstance().GetDevice()->CreateRootSignature(0, blob->GetBufferPointer(), blob->GetBufferSize(), IID_PPV_ARGS(rootSig.GetAddressOf()));
-
-		if (FAILED(hr))
-		{
-			std::cerr << "ルートシグネチャ作成失敗" << std::endl;
-
-			return false;
-		}
+		return false;
 	}
 
 	return true;
@@ -515,18 +654,14 @@ bool Renderer::CreateRootSignature()
 
 bool Renderer::CreateRenderPipeline()
 {
-	D3D12_INPUT_ELEMENT_DESC desc_element[10] = {
+	D3D12_INPUT_ELEMENT_DESC desc_element[7] = {
 	{"POSITION" , 0 , DXGI_FORMAT_R32G32B32_FLOAT , 0 , D3D12_APPEND_ALIGNED_ELEMENT , D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA , 0},
 	{"TEXCOORD" , 0 , DXGI_FORMAT_R32G32_FLOAT , 0 , D3D12_APPEND_ALIGNED_ELEMENT , D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA , 0},
 	{"TANGENT" , 0 , DXGI_FORMAT_R32G32B32_FLOAT , 0 , D3D12_APPEND_ALIGNED_ELEMENT , D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA , 0},
 	{"NORMAL" , 0 , DXGI_FORMAT_R32G32B32_FLOAT , 0 , D3D12_APPEND_ALIGNED_ELEMENT , D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA , 0},
 	{ "BONEID",   0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
     { "WEIGHT",   0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
-
-{ "INSTANCE_ROW", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, D3D12_APPEND_ALIGNED_ELEMENT,  D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
-{ "INSTANCE_ROW", 1, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
-{ "INSTANCE_ROW", 2, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
-{ "INSTANCE_ROW", 3, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+    { "PARENT",   0, DXGI_FORMAT_R32_FLOAT, 0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
 	};
 
 	D3D12_RASTERIZER_DESC desc_ras = {};
@@ -599,6 +734,14 @@ bool Renderer::CreateRenderPipeline()
 		return false;
 	}
 
+	D3D12_DEPTH_STENCIL_DESC dsDesc;
+
+	dsDesc.DepthEnable = TRUE;
+	dsDesc.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;
+	dsDesc.DepthFunc = D3D12_COMPARISON_FUNC_LESS_EQUAL;
+	dsDesc.StencilWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;
+	dsDesc.StencilEnable = false;
+
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC desc_pipe = {};
 
 	desc_pipe.InputLayout = { desc_element , _countof(desc_element) };
@@ -613,7 +756,7 @@ bool Renderer::CreateRenderPipeline()
 
 	desc_pipe.BlendState = desc_blend;
 
-	desc_pipe.DepthStencilState = DXRenderSystem::GetInstance().GetStencilDesc();
+	desc_pipe.DepthStencilState = dsDesc;
 
 	desc_pipe.SampleMask = UINT_MAX;
 
@@ -712,10 +855,6 @@ bool Renderer::MapBB()
 		{
 			finalBoneMats[i] = Utility::ConvertAiMatrix4x4ToXMMATRIX(boneInfos[i].finalMat);
 		}
-		else
-		{
-			finalBoneMats[i] = DirectX::XMMATRIX(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-		}
 	}
 
 	void* ptr= nullptr;
@@ -755,9 +894,6 @@ bool Renderer::InitSRVForBoneBuffer()
 
 	return true;
 }
-
-
-std::unordered_map<string, UINT> boneMapping;
 
 aiNodeAnim* ParseAnimNode(aiAnimation& anim, string nodeName)
 {
@@ -936,26 +1072,59 @@ void Renderer::ReadHierarchyNode(float animationTime , aiNode& node , aiMatrix4x
 		if (node.mParent == scene.mRootNode)
 			continue;
 
-		for (int j = 0;j < meshDatas[node.mMeshes[i]].VertexDatas.size();j++)
+		UINT boneIndex = 0;
+
+		if (boneMapping.find(name) == boneMapping.end())
 		{
-			DirectX::XMFLOAT4X4 parentBoneMat;
+			boneIndex = boneMapping.size();
 
-			DirectX::XMStoreFloat4x4(&parentBoneMat , Utility::ConvertAiMatrix4x4ToXMMATRIX2(resultMat));
+			BoneInfo bi;
 
-			meshDatas[node.mMeshes[i]].VertexDatas[j].parentBoneMatrix = parentBoneMat;
-	    }
+			boneInfos.emplace_back(bi);
 
-		MapVB(meshDatas[node.mMeshes[i]]);
+
+			boneMapping[name] = boneIndex;
+
+			for (int j = 0;j < meshDatas[node.mMeshes[i]].VertexDatas.size();j++)
+			{
+				meshDatas[node.mMeshes[i]].VertexDatas[j].parentBone = boneIndex;
+			}
+
+			MapVB(meshDatas[node.mMeshes[i]]);
+
+			std::cout << "#AAA";
+		}
+		else if(meshDatas[node.mMeshes[i]].VertexDatas[0].parentBone == 0)
+		{
+			boneIndex = boneMapping[name];
+
+			for (int j = 0;j < meshDatas[node.mMeshes[i]].VertexDatas.size();j++)
+			{
+				meshDatas[node.mMeshes[i]].VertexDatas[j].parentBone = boneIndex;
+			}
+
+			MapVB(meshDatas[node.mMeshes[i]]);
+
+			std::cout << "#AAA";
+		}
+		
+
+
+
+
 	}
+
+	
 
 	if (boneMapping.find(name) != boneMapping.end())
 	{
 		boneInfos[boneMapping[name]].finalMat = resultMat * boneInfos[boneMapping[name]].offset;
-
 	}
 
 	for (int i = 0;i < node.mNumChildren;i++)
 	{
+	
+
 		ReadHierarchyNode(animationTime , *node.mChildren[i] , resultMat , anim);
 	}
 
@@ -964,7 +1133,7 @@ void Renderer::ReadHierarchyNode(float animationTime , aiNode& node , aiMatrix4x
 void Renderer::StartAnimation(float timeInSecond)
 {
 
-	aiAnimation* anim = scene.mAnimations[31];
+	aiAnimation* anim = scene.mAnimations[1];
 
 	auto ticksPerSecond = anim->mTicksPerSecond;
 	auto ticksInSecond = timeInSecond * ticksPerSecond;
@@ -1055,7 +1224,11 @@ void Renderer::InitBone(const aiMesh& mesh, MeshData& meshData)
 
 			boneInfos.emplace_back(bi);
 
+
 			boneMapping[bone->mName.C_Str()] = boneIndex;
+
+			std::cout << bone->mName.C_Str() << std::endl;
+			std::cout << boneMapping[bone->mName.C_Str()] << std::endl;
 		}
 		else
 		{
@@ -1087,7 +1260,7 @@ void Renderer::InitBone(const aiMesh& mesh, MeshData& meshData)
 		}
 		else if (boneiD.size() == 1)
 		{
-			vertexData.boneID = XMFLOAT4(boneiD[0], 0, 0, 0);
+			vertexData.boneID = XMFLOAT4(boneiD[0], 0, 0, 0) ;
 			vertexData.weight = XMFLOAT4(weight[0], 0, 0, 0);
 		}
 		else if (boneiD.size() == 2)

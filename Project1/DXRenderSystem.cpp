@@ -20,6 +20,9 @@ bool DXRenderSystem::Init()
 {
 	ComPtr<ID3D12Debug> debugController;
 	if (SUCCEEDED(D3D12GetDebugInterface(IID_PPV_ARGS(&debugController)))) {
+
+		std::cout << "DirectXデバックモードON" << std::endl;
+
 		debugController->EnableDebugLayer();
 	}
 
@@ -49,8 +52,6 @@ bool DXRenderSystem::Init()
 
 	isSuccess &= CreateDBV();
 
-	isSuccess &= SetDepthStencilDesc();
-
 	isSuccess &= SetScissorAndViewPort();
 
 	if (!isSuccess)
@@ -71,11 +72,6 @@ ComPtr<ID3D12CommandQueue>& DXRenderSystem::GetCommandQueue()
 ComPtr<ID3D12GraphicsCommandList>& DXRenderSystem::GetCommandList()
 {
 	return cmd_list;
-}
-
-D3D12_DEPTH_STENCIL_DESC& DXRenderSystem::GetStencilDesc()
-{
-	return ds_desc;
 }
 
 void DXRenderSystem::WaitForRender()
@@ -131,6 +127,11 @@ void DXRenderSystem::Draw()
 	cmd_list->ClearDepthStencilView(dbv_handle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
 
 	auto rendererComponents = GameManager::GetInstance().GetComponentList<Renderer>();
+
+	cmd_list->RSSetScissorRects(1, &scissor);
+	cmd_list->RSSetViewports(1, &viewport);
+
+	SkyBox::GetInstance().AddRenderCommand(cmd_list, backbuffer_index);
 
 	for (int i = 0; i < rendererComponents.size(); i++)
 	{
@@ -508,17 +509,6 @@ bool DXRenderSystem::CreateDBV()
 	device->CreateDepthStencilView(depth_buffer.Get(), &desc_depth, handle);
 
 	dbv_handle = handle;
-
-	return true;
-}
-
-bool DXRenderSystem::SetDepthStencilDesc()
-{
-	ds_desc.DepthEnable = TRUE;
-	ds_desc.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;
-	ds_desc.DepthFunc = D3D12_COMPARISON_FUNC_LESS_EQUAL;
-	ds_desc.StencilWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;
-	ds_desc.StencilEnable = false;
 
 	return true;
 }
