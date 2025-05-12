@@ -12,6 +12,7 @@
 #include "PhysicSystem.h"
 #include "Rigidbody.h"
 #include "SkyBox.h"
+#include "UIRenderer.h"
 
 float hoge = 0;
 
@@ -38,7 +39,9 @@ int main()
 
 	shared_ptr<Entity> player = make_shared<Entity>("Player");
 	shared_ptr<Entity> player2 = make_shared<Entity>("Player2");
+	shared_ptr<Entity> player3 = make_shared<Entity>("Player3");
 
+	player3->AddComponent<UIRenderer>();
 	player2->AddComponent<Renderer>();
 	player2->AddComponent<Collider>();
 	player2->AddComponent<Rigidbody>();
@@ -57,7 +60,7 @@ int main()
 
 	bool show_demo_window = true;
 
-	player2->GetComponent<Renderer>()->LoadMesh("Models/Knight01/Animated_Low_Poly_Dark_Knight_BAKED.fbx");
+	player2->GetComponent<Renderer>()->LoadMesh("Models/SpartanWarrior/Spartan_Warrior.fbx");
 
 	UINT fpsCounter = 0;
 
@@ -68,20 +71,11 @@ int main()
 		gameManager->MainLoop();
 		physicSystem->MainLoop();
 
-		if (myImGui->useIMGUI)
-			myImGui->MainLoop();
-
 		hoge += 10;
 
 		auto rend = player2->GetComponent<Renderer>();
 
-
 		DirectX::XMVECTOR velocity = DirectX::XMVectorSet(0,0,0,0);
-
-		Camera::GetInstance().SetCameraRotation(DirectX::XMVectorSet(0, hoge * 0.01, 0, 0));
-		
-
-		rend->StartAnimation(gameManager->GameTime);
 
 		if (GetAsyncKeyState(VK_LEFT) & 0x8000)
 		{
@@ -142,7 +136,7 @@ int main()
 
 		if (timeForFpsCounter >= 1)
 		{
-			std::cout << fpsCounter << std::endl;
+			gameManager->GetInstance().fps = fpsCounter;
 
 			fpsCounter = 0;
 

@@ -98,10 +98,6 @@ std::unique_ptr<DXRenderSystem> DXRenderSystem::instance = nullptr;
 
 void DXRenderSystem::Draw()
 {
-	cmd_allocator[backbuffer_index]->Reset();
-
-	cmd_list->Reset(cmd_allocator[backbuffer_index].Get(), nullptr);
-
 	D3D12_RESOURCE_BARRIER barrier;
 
 	barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
@@ -127,6 +123,7 @@ void DXRenderSystem::Draw()
 	cmd_list->ClearDepthStencilView(dbv_handle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
 
 	auto rendererComponents = GameManager::GetInstance().GetComponentList<Renderer>();
+	auto UIRendererComponents = GameManager::GetInstance().GetComponentList<UIRenderer>();
 
 	cmd_list->RSSetScissorRects(1, &scissor);
 	cmd_list->RSSetViewports(1, &viewport);
@@ -140,16 +137,22 @@ void DXRenderSystem::Draw()
 
 		rendererComponents[i]->AddRenderCommand(cmd_list , backbuffer_index);
 	}
+
+	for (int i = 0; i < UIRendererComponents.size(); i++)
+	{
+		cmd_list->RSSetScissorRects(1, &scissor);
+		cmd_list->RSSetViewports(1, &viewport);
+
+		UIRendererComponents[i]->AddRenderCommand(cmd_list, backbuffer_index);
+	}
 	
 	auto myIMGUIIns = MyIMGUI::GetInstance();
 	
 	if (myIMGUIIns.useIMGUI)
 	{
 		cmd_list->SetDescriptorHeaps(1, myIMGUIIns.GetHeap().GetAddressOf());
-		ImGui_ImplDX12_RenderDrawData(ImGui::GetDrawData(), cmd_list.Get());
+		myIMGUIIns.MainLoop();
 	}
-
-
 
 	barrier.Transition.StateBefore = D3D12_RESOURCE_STATE_RENDER_TARGET;
 
@@ -164,6 +167,10 @@ void DXRenderSystem::Draw()
 	cmd_queue->ExecuteCommandLists(1, lists_array);
 
 	WaitForRender();
+
+	cmd_allocator[backbuffer_index]->Reset();
+
+	cmd_list->Reset(cmd_allocator[backbuffer_index].Get(), nullptr);
 }
 
 ComPtr<ID3D12Device>& DXRenderSystem::GetDevice()

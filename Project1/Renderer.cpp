@@ -109,6 +109,32 @@ void Renderer::AddRenderCommand(ComPtr<ID3D12GraphicsCommandList>& cmdList, int 
 {
 	MapCB();
 
+	if (isAnimPlaying)
+	{
+		animTimeCur += GameManager::GetInstance().DeltaTime * animSpeed;
+
+		if (animTimeCur >= animTime)
+		{
+			if (animLoop)
+				animTimeCur = 0;
+			else
+			{
+				animTimeCur = animTime;
+				isAnimPlaying = false;
+			}
+			
+		}
+		else if (0 > animTimeCur)
+		{
+			if (animLoop)
+				animTimeCur = animTime;
+			else
+				animTimeCur = 0;
+		}
+
+		ProcessAnimation(animTimeCur);
+	}
+
 	cmdList->SetGraphicsRootSignature(rootSig.Get());
 
 	cmdList->SetDescriptorHeaps(1, heap.GetAddressOf());
@@ -1082,6 +1108,7 @@ void Renderer::ReadHierarchyNode(float animationTime , aiNode& node , aiMatrix4x
 
 			boneInfos.emplace_back(bi);
 
+			boneInfos[boneIndex].offset = aiMatrix4x4();
 
 			boneMapping[name] = boneIndex;
 
@@ -1091,8 +1118,6 @@ void Renderer::ReadHierarchyNode(float animationTime , aiNode& node , aiMatrix4x
 			}
 
 			MapVB(meshDatas[node.mMeshes[i]]);
-
-			std::cout << "#AAA";
 		}
 		else if(meshDatas[node.mMeshes[i]].VertexDatas[0].parentBone == 0)
 		{
@@ -1104,14 +1129,7 @@ void Renderer::ReadHierarchyNode(float animationTime , aiNode& node , aiMatrix4x
 			}
 
 			MapVB(meshDatas[node.mMeshes[i]]);
-
-			std::cout << "#AAA";
 		}
-		
-
-
-
-
 	}
 
 	
@@ -1130,24 +1148,76 @@ void Renderer::ReadHierarchyNode(float animationTime , aiNode& node , aiMatrix4x
 
 }
 
-void Renderer::StartAnimation(float timeInSecond)
+void Renderer::ProcessAnimation(float time)
 {
-
-	aiAnimation* anim = scene.mAnimations[1];
+	aiAnimation* anim = scene.mAnimations[animIndex];
 
 	auto ticksPerSecond = anim->mTicksPerSecond;
-	auto ticksInSecond = timeInSecond * ticksPerSecond;
-	auto animationTime = fmod(ticksInSecond , anim->mDuration);
+
+	auto ticksInSecond = time * ticksPerSecond;
+
+	float animationTime = fmod(ticksInSecond, anim->mDuration);
 
 	aiMatrix4x4 mat;
 
 	mat = aiMatrix4x4();
 
-	ReadHierarchyNode(animationTime, *scene.mRootNode , mat, *anim);
+	ReadHierarchyNode(animationTime, *scene.mRootNode, mat, *anim);
 
 	InitBoneResource();
 
 	MapBB();
+}
+
+float Renderer::GetAnimCurrentTime()
+{
+	return animTimeCur;
+}
+
+float Renderer::GetAnimTime()
+{
+	return animTime;
+}
+
+int Renderer::GetAnimIndex()
+{
+	return animIndex;
+}
+
+void Renderer::SetAnimTime(float time)
+{
+	animTimeCur = time;
+
+	ProcessAnimation(animTimeCur);
+}
+
+void Renderer::StartAnimation(UINT index,float speed = 1, bool isLoop = false)
+{
+	isAnimPlaying = true;
+
+	animIndex = index;
+
+	aiAnimation* anim = scene.mAnimations[animIndex];
+
+	animSpeed = speed;
+
+	animTime = anim->mDuration / anim->mTicksPerSecond;
+
+	animTimeCur = 0;
+
+	animLoop = isLoop;
+}
+
+std::vector<string> Renderer::GetAnimationNameList()
+{
+	std::vector<string> names;
+
+	for (int i = 0; i < scene.mNumAnimations;i++)
+	{
+		names.emplace_back(scene.mAnimations[i]->mName.C_Str());
+	}
+
+	return names;
 }
 
 void Renderer::StoreVertices(const std::string filePath)
@@ -1317,6 +1387,8 @@ bool Renderer::LoadMesh(const std::string filePath)
 {
 	GameManager::GetInstance().PauseTime();
 
+
+
 	meshDatas.clear();
 
 	int flag = 0;
@@ -1324,8 +1396,6 @@ bool Renderer::LoadMesh(const std::string filePath)
 	flag |= aiProcess_Triangulate;
 
 	flag |= aiProcess_GenSmoothNormals;
-
-	flag |= aiProcess_JoinIdenticalVertices;
 
 	flag |= aiProcess_ConvertToLeftHanded;
 

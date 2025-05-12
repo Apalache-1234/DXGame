@@ -395,7 +395,6 @@ void Entity::AddLocalScale(DirectX::XMVECTOR scale)
 	SetLocalScale(result);
 }
 
-
 void Entity::AdjustDirectionVector()
 {
 	auto mat1 = DirectX::XMMatrixRotationQuaternion(GetWorldQuaternion());

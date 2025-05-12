@@ -23,6 +23,11 @@ DirectX::XMVECTOR Camera::GetPosition()
     return camPosition;
 }
 
+DirectX::XMVECTOR Camera::GetRotation()
+{
+    return  camRotation;
+}
+
 DirectX::XMVECTOR Camera::GetTargetVec()
 {
     return targetVec;
@@ -36,6 +41,8 @@ DirectX::XMVECTOR Camera::GetTargetPos()
 void Camera::SetCameraPosition(DirectX::XMVECTOR position)
 {
     camPosition = position;
+
+    targetPos = DirectX::XMVectorAdd(camPosition, targetVec);
 }
 
 void Camera::SetCameraRotation(DirectX::XMVECTOR rotation)

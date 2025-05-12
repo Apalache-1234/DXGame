@@ -11,6 +11,10 @@
 #include "DXRenderSystem.h"
 #include "Flags.h"
 #include "GameManager.h"
+#include "Collider.h"
+#include "Rigidbody.h"
+#include <iomanip>
+#include <sstream>
 
 class MyIMGUI
 {

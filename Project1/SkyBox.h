@@ -78,8 +78,8 @@ private:
 	};
 
 	/// <summary>
-/// デフォルトは立方体
-/// </summary>
+    /// デフォルトは立方体
+    /// </summary>
 	std::vector<VertexData> vertexDatas = {
 	{ XMFLOAT3(-1, -1, -1)},
 	{ XMFLOAT3(-1, -1,  1)},

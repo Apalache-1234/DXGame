@@ -22,6 +22,7 @@
 #include <VertexTypes.h>
 #include "MyIMGUI.h"
 #include "SkyBox.h"
+#include "UIRenderer.h"
 
 using namespace DirectX;
 using namespace Microsoft::WRL;

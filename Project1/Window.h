@@ -29,10 +29,10 @@ public:
 	static Window& GetInstance();
 
 	//‰æ–Ê‚Ìc•
-	const unsigned int height = 1080;
+	const static int height = 1080;
 
 	//‰æ–Ê‚Ì‰¡•
-	const unsigned int width = 1980;
+	const static int width = 1980;
 
 private:
    	/// <summary>

@@ -25,6 +25,8 @@ public:
 	/// <returns>カメラの座標</returns>
 	DirectX::XMVECTOR GetPosition();
 
+	DirectX::XMVECTOR GetRotation();
+
 	/// <summary>
 	/// カメラの現在向いている方向を単位ベクトルで返す
 	/// </summary>

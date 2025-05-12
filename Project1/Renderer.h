@@ -65,8 +65,23 @@ public:
 	/// </summary>
 	DirectX::XMVECTOR color = DirectX::XMVectorSet(1, 1, 1, 1);
 
-	void StartAnimation(float timeInSecond);
+	void StartAnimation(UINT index , float speed , bool isLoop);
 
+	float GetAnimCurrentTime();
+
+	float GetAnimTime();
+
+	int GetAnimIndex();
+
+	void SetAnimTime(float time);
+
+	std::vector<string> GetAnimationNameList();
+
+	bool isAnimPlaying = false;
+
+	float animSpeed = 1;
+
+	bool animLoop = false;
 private:
 	/// <summary>
     /// WinAPIŒn‚ÌŠÖ”‚Ì‰Â”Û‚ğŠi”[‚·‚é•Ï”
@@ -230,6 +245,12 @@ private:
 
 	Assimp::Importer import;
 
+	float animTimeCur = 0;
+
+	float animTime = 0;
+
+	UINT animIndex = 0;
+
 	aiScene scene;
 
 	struct alignas(256) Transform
@@ -319,6 +340,8 @@ private:
 	bool InitSRVForBoneBuffer();
 
 	void ReadHierarchyNode(float animationTime, aiNode& node, aiMatrix4x4& parentMat, aiAnimation& anim);
+
+	void ProcessAnimation(float time);
 
 	/// <summary>
 	/// “Ç‚İ‚ñ‚¾ƒƒbƒVƒ…‚Ì’¸“_î•ñ‚ğŠi”[‚·‚é

@@ -25,9 +25,8 @@ void MyIMGUI::Init()
 	// Setup Dear ImGui context
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
-	ImGuiIO& io = ImGui::GetIO(); (void)io;
-	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
-	io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+
+	auto io = ImGui::GetIO();
 
 	// Setup Dear ImGui style
 	ImGui::StyleColorsDark();
@@ -73,6 +72,246 @@ void MyIMGUI::Term()
 	ImGui::DestroyContext();
 }
 
+void ShowInfo()
+{
+	string str = "FPS : ";
+	str += to_string(GameManager::GetInstance().fps);
+
+	ImGui::Text(str.c_str());
+
+	str = "DisplaySize : ";
+	str += " X " + std::to_string(Window::width) + " Y " + std::to_string(Window::height);
+
+	ImGui::Text(str.c_str());
+
+	POINT ptScreen;
+	::GetCursorPos(&ptScreen);
+
+	POINT ptClient = ptScreen;
+	::ScreenToClient(Window::GetInstance().GetWH(), &ptClient);
+
+	str = "ScreenPos : ";
+	str += " X " + std::to_string(ptScreen.x) + " Y " + std::to_string(ptScreen.y);
+
+	ImGui::Text(str.c_str());
+
+	str = "ClientPos : ";
+	str += " X " + std::to_string(ptClient.x) + " Y " + std::to_string(ptClient.y);
+
+	ImGui::Text(str.c_str());
+
+	auto io = ImGui::GetIO();
+
+	str = "ImGuiCursorPos : ";
+	str += " X " + std::to_string(io.MousePos.x) + " Y " + std::to_string(io.MousePos.y);
+
+	ImGui::Text(str.c_str());
+
+	str = "GameTime : " + std::to_string(GameManager::GetInstance().GameTime);
+
+	ImGui::Text(str.c_str());
+
+	str = "DeltaTime : " + std::to_string(GameManager::GetInstance().DeltaTime);
+
+	ImGui::Text(str.c_str());
+}
+
+bool showEntityWindow = false;
+bool showAnimationWindow = false;
+
+int currentIndexEntity = 0;
+
+std::vector < std::shared_ptr<Entity>> entityList;
+
+DirectX::XMVECTOR ShowAndSetVecInfo(string label , DirectX::XMVECTOR pos)
+{
+	string str = label;
+
+	float x = DirectX::XMVectorGetX(pos);
+	float y = DirectX::XMVectorGetY(pos);
+	float z = DirectX::XMVectorGetZ(pos);
+
+	ImGui::Text(str.c_str());
+
+	ImGui::PushID(label.c_str());
+
+	float speed = 0.05;
+
+	ImGui::SetNextItemWidth(60);
+	ImGui::DragFloat("X ", &x , speed);
+	ImGui::SameLine();
+	ImGui::SetNextItemWidth(60);
+	ImGui::DragFloat("Y ", &y, speed);
+	ImGui::SameLine();
+	ImGui::SetNextItemWidth(60);
+	ImGui::DragFloat("Z ", &z, speed);
+	ImGui::SameLine();
+	ImGui::NewLine();
+
+	ImGui::PopID();
+
+	return DirectX::XMVectorSet(x, y, z, 0);
+}
+
+void ShowRendererInfo(std::shared_ptr<Renderer> rend)
+{
+	float col[4];
+
+	col[0] = DirectX::XMVectorGetX(rend->color);
+	col[1] = DirectX::XMVectorGetY(rend->color);
+	col[2] = DirectX::XMVectorGetZ(rend->color);
+	col[3] = DirectX::XMVectorGetW(rend->color);
+
+	ImGui::ColorEdit4(" : Color" , col);
+
+	rend->color = DirectX::XMVectorSet(col[0] , col[1] , col[2] , col[3]);
+
+	if (ImGui::TreeNode("Animations")) {
+
+		auto animList = rend->GetAnimationNameList();
+
+		for (int i = 0;i<animList.size();i++)
+		{
+			if (ImGui::Selectable(animList[i].c_str()))
+			{
+				rend->StartAnimation(i , 1 , true);
+
+				showAnimationWindow = true;
+			}
+		}
+
+		ImGui::TreePop();
+	}
+}
+
+void ShowAnimationInfo(std::shared_ptr<Renderer> rend)
+{
+	if (!rend)
+		return;
+
+	if (ImGui::Begin("AnimationWindow", &showAnimationWindow))  // ウィンドウ名を指定
+	{
+		string str = "Time : ";
+
+		std::ostringstream cut;
+
+		cut << std::fixed << std::setprecision(2) << rend->GetAnimCurrentTime();
+
+		str += cut.str();
+
+		str += " / ";
+
+		cut = std::ostringstream();
+
+		cut << std::fixed << std::setprecision(2) << rend->GetAnimTime();
+
+		str += cut.str();
+
+		ImGui::Text(str.c_str());
+
+		ImVec2 ButtonRect = ImVec2(50,20);
+
+		float curTime = rend->GetAnimCurrentTime();
+
+		if (ImGui::SliderFloat(" / TimeBar", &curTime, 0, rend->GetAnimTime()))
+		{
+			rend->SetAnimTime(curTime);
+		}
+
+		ImGui::DragFloat("x Speed", &rend->animSpeed, 0.1);
+
+		ImGui::Checkbox("Loop" , &rend->animLoop);
+
+		if (ImGui::Button("Play", ButtonRect)) {
+			if (rend->isAnimPlaying)
+				rend->isAnimPlaying = true;
+			else
+				rend->StartAnimation(rend->GetAnimIndex(), rend->animSpeed, rend->animLoop);
+		}
+
+		ImGui::SameLine();
+
+		if (ImGui::Button("Stop", ButtonRect)) {
+			rend->isAnimPlaying = false;
+		}
+
+		ImGui::SameLine();
+
+		ImGui::NewLine();
+
+		ImGui::End();
+	}
+
+}
+
+void ShowEntityInfo()
+{
+	string label = "EntityInfo : " + entityList[currentIndexEntity]->name;
+
+	if (ImGui::Begin(label.c_str(), &showEntityWindow))  // ウィンドウ名を指定
+	{
+		entityList[currentIndexEntity]->SetWorldPosition(ShowAndSetVecInfo("WorldPosition : ", entityList[currentIndexEntity]->GetWorldPosition()));
+
+		entityList[currentIndexEntity]->SetLocalPosition(ShowAndSetVecInfo("LocalPosition : ", entityList[currentIndexEntity]->GetLocalPosition()));
+
+		entityList[currentIndexEntity]->SetWorldScale(ShowAndSetVecInfo("WorldScale : ", entityList[currentIndexEntity]->GetWorldScale()));
+
+		entityList[currentIndexEntity]->SetLocalScale(ShowAndSetVecInfo("LocalScale : ", entityList[currentIndexEntity]->GetLocalScale()));
+
+		entityList[currentIndexEntity]->SetWorldRotation(ShowAndSetVecInfo("WorldRotation : ", entityList[currentIndexEntity]->GetWorldRotation()));
+
+		entityList[currentIndexEntity]->SetLocalRotation(ShowAndSetVecInfo("LocalRotation : ", entityList[currentIndexEntity]->GetLocalRotation()));
+
+
+
+		if (entityList[currentIndexEntity]->GetComponent<Renderer>()) {
+
+			if (ImGui::TreeNode("RenderComponent")) {
+
+				ShowRendererInfo(entityList[currentIndexEntity]->GetComponent<Renderer>());
+
+				ImGui::TreePop();
+			}
+		}
+
+		if (entityList[currentIndexEntity]->GetComponent<Collider>()) {
+
+			if (ImGui::TreeNode("ColliderComponent")) {
+
+				ShowInfo();
+
+				ImGui::TreePop();
+			}
+		}
+
+		if (entityList[currentIndexEntity]->GetComponent<Rigidbody>()) {
+
+			if (ImGui::TreeNode("RigidbodyComponent")) {
+
+				ShowInfo();
+
+				ImGui::TreePop();
+			}
+		}
+
+		if (entityList[currentIndexEntity]->GetComponent<UIRenderer>()) {
+
+			if (ImGui::TreeNode("UIRenderComponent")) {
+
+				ShowInfo();
+
+				ImGui::TreePop();
+			}
+		}
+		ImGui::End();
+	}
+
+	if (showAnimationWindow)
+	{
+		ShowAnimationInfo(entityList[currentIndexEntity]->GetComponent<Renderer>());
+	}
+}
+
 void MyIMGUI::MainLoop()
 {
 	// Start the Dear ImGui frame
@@ -82,27 +321,43 @@ void MyIMGUI::MainLoop()
 
 	auto flagIns = Flags::GetInstance();
 
-
-
 	//以下自由にIMGUIをカスタムするためのコード
 	{
-
 		ImGui::Begin("MainWindow");
+
+		ImGui::SetWindowFontScale(1.5);
+
+		if (ImGui::TreeNode("Info")) {
+
+			ShowInfo();
+
+			ImGui::TreePop();
+		}
 
 		if (ImGui::TreeNode("Entites")) {
 
-			auto list = GameManager::GetInstance().GetInstance().GetEntityList();
+			entityList = GameManager::GetInstance().GetInstance().GetEntityList();
 
-			for (auto entity : list)
+			for (int i = 0; i < entityList.size(); i++)
 			{
-				if (!entity->HasParent())
+				if (!entityList[i]->HasParent())
 				{
-					if (ImGui::Selectable(entity->name.c_str()))
+					if (ImGui::Selectable(entityList[i]->name.c_str()))
 					{
-	
+						showEntityWindow = true;
+
+						currentIndexEntity = i;
 					}
 				}
 			}
+
+			ImGui::TreePop();
+		}
+
+		if (ImGui::TreeNode("Camera")) {
+
+			Camera::GetInstance().SetCameraPosition(ShowAndSetVecInfo("Position" , Camera::GetInstance().GetPosition()));
+			Camera::GetInstance().SetCameraRotation(ShowAndSetVecInfo("Rotation" , Camera::GetInstance().GetRotation()));
 
 			ImGui::TreePop();
 		}
@@ -116,6 +371,10 @@ void MyIMGUI::MainLoop()
 		}
 		
 		ImGui::End();
+
+		if (showEntityWindow)
+			ShowEntityInfo();
+
 	}
 	//ここまで
 

@@ -61,6 +61,8 @@ public:
 	/// </summary>
 	float DeltaTime = 0;
 
+	UINT fps = 0;
+
 private:
 	bool pause = false;
 

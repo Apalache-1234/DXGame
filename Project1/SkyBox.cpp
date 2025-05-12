@@ -43,11 +43,9 @@ bool SkyBox::MapCB()
 
 	auto camPos = Camera::GetInstance().GetPosition();
 
-	DirectX::XMVectorSetX(camPos , 0);
-	DirectX::XMVectorSetY(camPos , 0);
-	DirectX::XMVectorSetZ(camPos , 0);
-
 	trans.view = XMMatrixLookAtLH(camPos, Camera::GetInstance().GetTargetPos(), DirectX::XMVectorSet(0, 1, 0, 0));
+
+	trans.view.r[3] = DirectX::XMVectorSet(0, 0, 0, 0);
 
 	trans.projection = XMMatrixPerspectiveFovLH(Camera::GetInstance().fov, Camera::GetInstance().aspect, 1, 1000);
 

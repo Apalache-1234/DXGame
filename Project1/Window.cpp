@@ -84,6 +84,10 @@ bool Window::Init()
 		return false;
 	}
 
+	DWORD windowStyle = WS_OVERLAPPEDWINDOW;
+	RECT rc = { 0, 0, width, height };
+	AdjustWindowRect(&rc, windowStyle, FALSE);
+
 	// ウィンドウ作成
 	window_handle = CreateWindow(
 		// 登録しているウィンドウクラス構造体の名前
@@ -96,8 +100,7 @@ bool Window::Init()
 		CW_USEDEFAULT,
 		CW_USEDEFAULT,
 		// サイズ
-		width,
-		height,
+		rc.right - rc.left, rc.bottom - rc.top,
 		// 親ハンドル
 		NULL,
 		// メニューハンドル
