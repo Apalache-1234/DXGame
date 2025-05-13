@@ -186,6 +186,11 @@ void ShowRendererInfo(std::shared_ptr<Renderer> rend)
 	}
 }
 
+void ShowRigidbodyInfo(std::shared_ptr<Rigidbody> rigid)
+{
+	ImGui::Checkbox("IsStatic" , &rigid->isStatic);
+}
+
 void ShowAnimationInfo(std::shared_ptr<Renderer> rend)
 {
 	if (!rend)
@@ -302,7 +307,7 @@ void ShowEntityInfo()
 
 			if (entityList[currentIndexEntity]->GetComponent<Rigidbody>()) {
 
-				ShowInfo();
+				ShowRigidbodyInfo(entityList[currentIndexEntity]->GetComponent<Rigidbody>());
 			}
 			else
 			{

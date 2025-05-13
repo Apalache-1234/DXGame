@@ -59,18 +59,12 @@ void UpdateVelocity(std::shared_ptr<Collider> col , DirectX::XMVECTOR nd)
 			}
 	    }
 	}
-	else
-	{
-		col->attachFrom->AddWorldPosition(nd);
-	}
 
 }
 
 void ColliderDetection::MainLoop()
 {
 	auto list = GameManager::GetInstance().GetComponentList<Collider>();
-
-	std::cout << list.size() << std::endl;
 
 	for (int i = 0;i < list.size()- 1;i++)
 	{
@@ -85,6 +79,13 @@ void ColliderDetection::MainLoop()
 
 			CheckCollision(colA , colB , ndA);
 			CheckCollision(colB , colA , ndB);
+
+			if (!colA->attachFrom->GetComponent<Rigidbody>()->isStatic && !colB->attachFrom->GetComponent<Rigidbody>()->isStatic)
+			{
+				ndA = DirectX::XMVectorScale(ndA, 0.5);
+				ndB = DirectX::XMVectorScale(ndB, 0.5);
+			}
+
 
 			UpdateVelocity(colA, ndA);
 			UpdateVelocity(colB, ndB);
@@ -245,11 +246,14 @@ bool ColliderDetection::CheckCollision(std::shared_ptr<Collider> colA, std::shar
 
 	if (GJKAlgorithm(difList, points))
 	{
-		if(colA->attachFrom->name != "Player")
+		colA->attachFrom->GetComponent<Renderer>()->color = DirectX::XMVectorSet(0.1, 0.1, 0.5, 1);
+
 		dest = EPAAlgorithm(points, difList);
 
 		return true;
 	}
+	else
+		colA->attachFrom->GetComponent<Renderer>()->color = DirectX::XMVectorSet(1, 1, 1, 1);
 
 	return false;
 }
@@ -287,7 +291,8 @@ bool ColliderDetection::GJKAlgorithm(std::vector<DirectX::XMVECTOR> dif, std::ve
 			return false;
 	}
 
-	for (int repeat = 0;repeat < 100;repeat++)
+
+	for (int repeat = 0;repeat < 30;repeat++)
 	{
 
 		//3,二つの求めた点で繋いだ辺から原点から最近接点を求めて、そこから原点に向かう方向で一番遠い点を求める
@@ -296,15 +301,15 @@ bool ColliderDetection::GJKAlgorithm(std::vector<DirectX::XMVECTOR> dif, std::ve
 
 			if (DirectX::XMVector3Equal(point, Utility::zero3D))
 			{
-				if (abs(p1->m128_f32[0]) > 0)
+				if (fabs(p1->m128_f32[0]) > 0)
 				{
 					point = DirectX::XMVectorSet(0, 1,0,0);
 				}
-				else if (abs(p1->m128_f32[1]) > 0)
+				else if (fabs(p1->m128_f32[1]) > 0)
 				{
 					point = DirectX::XMVectorSet(0, 0, 1, 0);
 				}
-				else if (abs(p1->m128_f32[2]) > 0)
+				else if (fabs(p1->m128_f32[2]) > 0)
 				{
 					point = DirectX::XMVectorSet(1, 0, 0, 0);
 				}
@@ -313,8 +318,6 @@ bool ColliderDetection::GJKAlgorithm(std::vector<DirectX::XMVECTOR> dif, std::ve
 			if (ReturnFarthestPoint(point, dif, *p3))
 				return false;
 		}
-
-
 
 		//4,次に四面体にするために原点から三角形への最近接点を求めて、そこ点から原点への方向で一番遠い点を求める
 		{
@@ -331,7 +334,39 @@ bool ColliderDetection::GJKAlgorithm(std::vector<DirectX::XMVECTOR> dif, std::ve
 				return false;
 		}
 
+		for (int i = 0;i<points.size() - 1;i++)
+		{
+			for (int j = i+1;j < points.size();j++)
+			{
+				if (DirectX::XMVectorGetX(*points[i]) == DirectX::XMVectorGetX(*points[j]))
+				{
+					float x = DirectX::XMVectorGetY(*points[i]);
 
+					x -= Utility::ep;
+
+					*points[i] = DirectX::XMVectorSetY(*points[i], x);
+				}
+
+				if (DirectX::XMVectorGetY(*points[i]) == DirectX::XMVectorGetY(*points[j]))
+				{
+					float y = DirectX::XMVectorGetZ(*points[i]);
+
+					y += Utility::ep;
+
+					*points[i] = DirectX::XMVectorSetZ(*points[i], y);
+				}
+
+				if (DirectX::XMVectorGetZ(*points[i]) == DirectX::XMVectorGetZ(*points[j]))
+				{
+					float z = DirectX::XMVectorGetX(*points[i]);
+
+					z -= Utility::ep;
+
+					*points[i] = DirectX::XMVectorSetX(*points[i], z);
+				}
+
+			}
+		}
 
 		//5,四面体の中に原点が含まれるかを調べる、なければ6に進む
 		{
@@ -361,19 +396,45 @@ bool ColliderDetection::GJKAlgorithm(std::vector<DirectX::XMVECTOR> dif, std::ve
 				dotToD = DirectX::XMVector3Dot(n, DirectX::XMVectorSubtract(*points[d], *points[a])).m128_f32[0];
 				dotToO = DirectX::XMVector3Dot(n, toOrigin).m128_f32[0];
 
-				if ( (dotToD * dotToO) < 0)
+
+
+				if ( (dotToD * dotToO) <= 0)
 				{
 					isOutbound = true;
 					break;
 				}
+
+
 			}
 
+			if (GetAsyncKeyState(VK_NUMPAD9) & 0x8000)
+			{
+				std::cout << "--------------------------------" << std::endl;
+				for (auto a : points)
+				{
+					Utility::Debug(*a);
+				}
+				std::cout << "--------------------------------" << std::endl;
+			}
+
+	
+			if (GetAsyncKeyState(VK_NUMPAD9) & 0x8000)
+			{
+				std::cout << (isOutbound ? "true" : "false") << "AASASAS" << std::endl;
+
+			}
 			if (!isOutbound)
 			{
 				dest.emplace_back(*p1);
 				dest.emplace_back(*p2);
 				dest.emplace_back(*p3);
 				dest.emplace_back(*p4);
+
+				if (GetAsyncKeyState(VK_NUMPAD9) & 0x8000)
+				{
+
+					std::cout << "GAAAAAY" << std::endl;
+				}
 
 				return true;
 			}
@@ -472,7 +533,7 @@ DirectX::XMVECTOR ColliderDetection::EPAAlgorithm(std::vector<DirectX::XMVECTOR>
 	tries.emplace_back(Triangle(p[2], p[3], p[0]));
 	tries.emplace_back(Triangle(p[3] , p[0] , p[1]));
 
-	int repeatNum = 100;
+	int repeatNum = 30;
 
 	for (int repeat = 0;repeat < repeatNum; repeat++)
 	{

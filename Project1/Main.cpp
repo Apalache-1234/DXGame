@@ -38,29 +38,29 @@ int main()
 
 
 	auto player = gameManager->CreateEntity("Player");
+	auto player4 = gameManager->CreateEntity("Player4");
 	auto player2 = gameManager->CreateEntity("Player2");
-	auto player3 = gameManager->CreateEntity("Player3");
 
-	player3->AddComponent<UIRenderer>();
+
+
 	player2->AddComponent<Renderer>();
 	player2->AddComponent<Collider>();
 	player2->AddComponent<Rigidbody>();
+
 	player->AddComponent<Renderer>();
 	player->AddComponent<Collider>();
 	player->AddComponent<Rigidbody>();
+
 
 	player->GetComponent<Rigidbody>()->isStatic = true;
 
 	player->SetWorldScale(DirectX::XMVectorSet(100,10,100,0));
 	player->SetWorldPosition(DirectX::XMVectorSet(0,-5,0,0));
-	player2->SetWorldScale(DirectX::XMVectorSet(0.01, 0.01, 0.01,0));
-
+	player2->SetWorldScale(DirectX::XMVectorSet(1, 1, 1,0));
 	player2->SetWorldPosition(DirectX::XMVectorSet(0,10,0,0));
 	player2->SetWorldRotation(DirectX::XMVectorSet(0,0,0,0));
 
 	bool show_demo_window = true;
-
-	player2->GetComponent<Renderer>()->LoadMesh("Models/SpartanWarrior/Spartan_Warrior.fbx");
 
 	UINT fpsCounter = 0;
 
@@ -72,8 +72,6 @@ int main()
 		physicSystem->MainLoop();
 
 		hoge += 10;
-
-		auto rend = player2->GetComponent<Renderer>();
 
 		DirectX::XMVECTOR velocity = DirectX::XMVectorSet(0,0,0,0);
 
