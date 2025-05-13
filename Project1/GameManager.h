@@ -19,7 +19,11 @@ public:
 
 	std::vector<std::shared_ptr<Entity>>& GetEntityList();
 
+	bool isExitNameEntity(std::string name);
+
 	void SetEntity(std::shared_ptr<Entity> entity);
+
+	std::shared_ptr<Entity> CreateEntity(std::string name);
 
 	void MainLoop();
 

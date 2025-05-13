@@ -25,11 +25,30 @@ std::vector<std::shared_ptr<Entity>>& GameManager::GetEntityList()
 	return entities;
 }
 
+bool GameManager::isExitNameEntity(std::string name)
+{
+	for (int i = 0; i < entities.size(); i++)
+	{
+		if (entities[i]->name == name)
+			return true;
+	}
+
+	return false;
+}
+
 void GameManager::SetEntity(std::shared_ptr<Entity> entity)
 {
 	entities.emplace_back(entity);
 }
 
+std::shared_ptr<Entity> GameManager::CreateEntity(std::string name)
+{
+	auto entity = std::make_shared<Entity>(name);
+
+	SetEntity(entity);
+
+	return entity;
+}
 
 void GameManager::MainLoop()
 {

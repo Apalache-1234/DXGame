@@ -182,7 +182,7 @@ bool DXRenderSystem::CreateDevice()
 {
 	HRESULT hr;
 
-	hr = D3D12CreateDevice(nullptr, D3D_FEATURE_LEVEL_11_0, __uuidof(device), IID_PPV_ARGS_Helper(device.GetAddressOf()));
+	hr = D3D12CreateDevice(nullptr, D3D_FEATURE_LEVEL_12_0, __uuidof(device), IID_PPV_ARGS_Helper(device.GetAddressOf()));
 
 	if (FAILED(hr))
 	{

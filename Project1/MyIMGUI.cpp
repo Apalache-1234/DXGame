@@ -153,6 +153,8 @@ DirectX::XMVECTOR ShowAndSetVecInfo(string label , DirectX::XMVECTOR pos)
 	return DirectX::XMVectorSet(x, y, z, 0);
 }
 
+ImVec2 ButtonRect = ImVec2(50, 20);
+
 void ShowRendererInfo(std::shared_ptr<Renderer> rend)
 {
 	float col[4];
@@ -209,8 +211,6 @@ void ShowAnimationInfo(std::shared_ptr<Renderer> rend)
 
 		ImGui::Text(str.c_str());
 
-		ImVec2 ButtonRect = ImVec2(50,20);
-
 		float curTime = rend->GetAnimCurrentTime();
 
 		if (ImGui::SliderFloat(" / TimeBar", &curTime, 0, rend->GetAnimTime()))
@@ -264,44 +264,72 @@ void ShowEntityInfo()
 
 
 
-		if (entityList[currentIndexEntity]->GetComponent<Renderer>()) {
+		if (ImGui::TreeNode("RenderComponent")) {
 
-			if (ImGui::TreeNode("RenderComponent")) {
+			if (entityList[currentIndexEntity]->GetComponent<Renderer>()) {
 
 				ShowRendererInfo(entityList[currentIndexEntity]->GetComponent<Renderer>());
-
-				ImGui::TreePop();
 			}
+			else
+			{
+				if (ImGui::Button("Add", ButtonRect)) {
+					entityList[currentIndexEntity]->AddComponent<Renderer>();
+				}
+			}
+
+
+			ImGui::TreePop();
 		}
 
-		if (entityList[currentIndexEntity]->GetComponent<Collider>()) {
+		if (ImGui::TreeNode("ColliderComponent")) {
 
-			if (ImGui::TreeNode("ColliderComponent")) {
+			if (entityList[currentIndexEntity]->GetComponent<Collider>()) {
 
 				ShowInfo();
-
-				ImGui::TreePop();
 			}
+			else
+			{
+				if (ImGui::Button("Add", ButtonRect)) {
+					entityList[currentIndexEntity]->AddComponent<Collider>();
+				}
+			}
+
+
+			ImGui::TreePop();
 		}
 
-		if (entityList[currentIndexEntity]->GetComponent<Rigidbody>()) {
+		if (ImGui::TreeNode("RigidbodyComponent")) {
 
-			if (ImGui::TreeNode("RigidbodyComponent")) {
+			if (entityList[currentIndexEntity]->GetComponent<Rigidbody>()) {
 
 				ShowInfo();
-
-				ImGui::TreePop();
 			}
+			else
+			{
+				if (ImGui::Button("Add", ButtonRect)) {
+					entityList[currentIndexEntity]->AddComponent<Rigidbody>();
+				}
+			}
+
+
+			ImGui::TreePop();
 		}
 
-		if (entityList[currentIndexEntity]->GetComponent<UIRenderer>()) {
+		if (ImGui::TreeNode("UIRenderComponent")) {
 
-			if (ImGui::TreeNode("UIRenderComponent")) {
+			if (entityList[currentIndexEntity]->GetComponent<UIRenderer>()) {
 
 				ShowInfo();
-
-				ImGui::TreePop();
 			}
+			else
+			{
+				if (ImGui::Button("Add", ButtonRect)) {
+					entityList[currentIndexEntity]->AddComponent<UIRenderer>();
+				}
+			}
+
+
+			ImGui::TreePop();
 		}
 		ImGui::End();
 	}
@@ -335,6 +363,32 @@ void MyIMGUI::MainLoop()
 		}
 
 		if (ImGui::TreeNode("Entites")) {
+
+			ImGui::SameLine();
+
+			if (ImGui::Button("CreateEntity", ImVec2(150,25))) {
+				string name = "GameObject";
+
+				int i = 0;
+
+				if (GameManager::GetInstance().isExitNameEntity(name))
+				{
+					while (true)
+					{
+						string nameNum = name + to_string(i);
+
+						if (!GameManager::GetInstance().isExitNameEntity(nameNum))
+						{
+							name = nameNum;
+							break;
+						}
+
+						i++;
+					}
+				}
+
+				GameManager::GetInstance().CreateEntity(name);
+			}
 
 			entityList = GameManager::GetInstance().GetInstance().GetEntityList();
 

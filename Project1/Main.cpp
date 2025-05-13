@@ -37,9 +37,9 @@ int main()
 	skyBox->Init();
 
 
-	shared_ptr<Entity> player = make_shared<Entity>("Player");
-	shared_ptr<Entity> player2 = make_shared<Entity>("Player2");
-	shared_ptr<Entity> player3 = make_shared<Entity>("Player3");
+	auto player = gameManager->CreateEntity("Player");
+	auto player2 = gameManager->CreateEntity("Player2");
+	auto player3 = gameManager->CreateEntity("Player3");
 
 	player3->AddComponent<UIRenderer>();
 	player2->AddComponent<Renderer>();

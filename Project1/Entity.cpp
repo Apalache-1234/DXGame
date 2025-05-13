@@ -15,8 +15,6 @@ Entity::Entity(const std::string& name) : Object::Object(name)
 	worldRotation = DirectX::XMVectorSet(0, 0, 0, 0);
 
 	localRotation = DirectX::XMVectorSet(0, 0, 0, 0);
-
-	GameManager::GetInstance().SetEntity(std::shared_ptr<Entity>(this));
 }
 
 Entity::~Entity()

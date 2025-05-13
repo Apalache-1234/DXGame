@@ -23,7 +23,7 @@
 #include "MyIMGUI.h"
 #include "SkyBox.h"
 #include "UIRenderer.h"
-
+#include "wrl.h"
 using namespace DirectX;
 using namespace Microsoft::WRL;
 using namespace std;

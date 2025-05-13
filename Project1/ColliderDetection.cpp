@@ -70,6 +70,8 @@ void ColliderDetection::MainLoop()
 {
 	auto list = GameManager::GetInstance().GetComponentList<Collider>();
 
+	std::cout << list.size() << std::endl;
+
 	for (int i = 0;i < list.size()- 1;i++)
 	{
 		auto colA = list[i];
@@ -243,7 +245,7 @@ bool ColliderDetection::CheckCollision(std::shared_ptr<Collider> colA, std::shar
 
 	if (GJKAlgorithm(difList, points))
 	{
-		if(colA->attachFrom->name == "Player2")
+		if(colA->attachFrom->name != "Player")
 		dest = EPAAlgorithm(points, difList);
 
 		return true;
