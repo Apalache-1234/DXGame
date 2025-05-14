@@ -133,7 +133,7 @@ DirectX::XMVECTOR ShowAndSetVecInfo(string label , DirectX::XMVECTOR pos)
 
 	ImGui::Text(str.c_str());
 
-	ImGui::PushID(label.c_str());
+	ImGui::PushID(label.c_str()); 
 
 	float speed = 0.05;
 
@@ -189,6 +189,81 @@ void ShowRendererInfo(std::shared_ptr<Renderer> rend)
 void ShowRigidbodyInfo(std::shared_ptr<Rigidbody> rigid)
 {
 	ImGui::Checkbox("IsStatic" , &rigid->isStatic);
+
+	auto vel = rigid->GetVelocity();
+
+	ImGui::Text("Velocity : ");
+	ImGui::SetNextItemWidth(60);
+	float x = DirectX::XMVectorGetX(vel);
+	ImGui::DragFloat("X ", &x, 0.1);
+	ImGui::SameLine();
+	ImGui::SetNextItemWidth(60);
+	float y = DirectX::XMVectorGetY(vel);
+	ImGui::DragFloat("Y ", &y, 0.1);
+	ImGui::SameLine();
+	ImGui::SetNextItemWidth(60);
+	float z = DirectX::XMVectorGetZ(vel);
+	ImGui::DragFloat("Z ", &z, 0.1);
+	ImGui::SameLine();
+	ImGui::NewLine();
+
+	rigid->SetVelocity(DirectX::XMVectorSet(x, y, z, 0));
+
+	ImGui::SetNextItemWidth(5-
+		*--0);
+	ImGui::DragFloat(" : Mass", &rigid->mass, 0.1);
+	ImGui::SameLine();
+	ImGui::NewLine();
+
+}
+
+void ShowColliderInfo(std::shared_ptr<Collider> col)
+{
+	auto pos = col->position;
+
+	ImGui::PushID("a");
+
+	ImGui::Text("Position : ");
+	ImGui::SetNextItemWidth(60);
+	float x = DirectX::XMVectorGetX(pos);
+	ImGui::DragFloat("X ", &x, 0.1);
+	ImGui::SameLine();
+	ImGui::SetNextItemWidth(60);
+	float y = DirectX::XMVectorGetY(pos);
+	ImGui::DragFloat("Y ", &y, 0.1);
+	ImGui::SameLine();
+	ImGui::SetNextItemWidth(60);
+	float z = DirectX::XMVectorGetZ(pos);
+	ImGui::DragFloat("Z ", &z, 0.1);
+	ImGui::SameLine();
+	ImGui::NewLine();
+
+	ImGui::PopID();
+
+	col->position = (DirectX::XMVectorSet(x, y, z, 0));
+
+	auto scale = col->scale;
+
+	ImGui::PushID("v");
+
+	ImGui::Text("Scale : ");
+	ImGui::SetNextItemWidth(60);
+	x = DirectX::XMVectorGetX(scale);
+	ImGui::DragFloat("X ", &x, 0.1);
+	ImGui::SameLine();
+	ImGui::SetNextItemWidth(60);
+	y = DirectX::XMVectorGetY(scale);
+	ImGui::DragFloat("Y ", &y, 0.1);
+	ImGui::SameLine();
+	ImGui::SetNextItemWidth(60);
+	z = DirectX::XMVectorGetZ(scale);
+	ImGui::DragFloat("Z ", &z, 0.1);
+	ImGui::SameLine();
+	ImGui::NewLine();
+
+	ImGui::PopID();
+
+	col->scale = (DirectX::XMVectorSet(x, y, z, 0));
 }
 
 void ShowAnimationInfo(std::shared_ptr<Renderer> rend)
@@ -290,7 +365,7 @@ void ShowEntityInfo()
 
 			if (entityList[currentIndexEntity]->GetComponent<Collider>()) {
 
-				ShowInfo();
+				ShowColliderInfo(entityList[currentIndexEntity]->GetComponent<Collider>());
 			}
 			else
 			{
@@ -345,6 +420,63 @@ void ShowEntityInfo()
 	}
 }
 
+void ShowDebugTrees()
+{
+	if (ImGui::TreeNode("Entites")) {
+
+		ImGui::SameLine();
+
+		if (ImGui::Button("CreateEntity", ImVec2(150, 25))) {
+			string name = "GameObject";
+
+			int i = 0;
+
+			if (GameManager::GetInstance().isExitNameEntity(name))
+			{
+				while (true)
+				{
+					string nameNum = name + to_string(i);
+
+					if (!GameManager::GetInstance().isExitNameEntity(nameNum))
+					{
+						name = nameNum;
+						break;
+					}
+
+					i++;
+				}
+			}
+
+			GameManager::GetInstance().CreateEntity(name);
+		}
+
+		entityList = GameManager::GetInstance().GetInstance().GetEntityList();
+
+		for (int i = 0; i < entityList.size(); i++)
+		{
+			if (!entityList[i]->HasParent())
+			{
+				if (ImGui::Selectable(entityList[i]->name.c_str()))
+				{
+					showEntityWindow = true;
+
+					currentIndexEntity = i;
+				}
+			}
+		}
+
+		ImGui::TreePop();
+	}
+
+	if (ImGui::TreeNode("Camera")) {
+
+		Camera::GetInstance().SetCameraPosition(ShowAndSetVecInfo("Position", Camera::GetInstance().GetPosition()));
+		Camera::GetInstance().SetCameraRotation(ShowAndSetVecInfo("Rotation", Camera::GetInstance().GetRotation()));
+
+		ImGui::TreePop();
+	}
+}
+
 void MyIMGUI::MainLoop()
 {
 	// Start the Dear ImGui frame
@@ -367,60 +499,6 @@ void MyIMGUI::MainLoop()
 			ImGui::TreePop();
 		}
 
-		if (ImGui::TreeNode("Entites")) {
-
-			ImGui::SameLine();
-
-			if (ImGui::Button("CreateEntity", ImVec2(150,25))) {
-				string name = "GameObject";
-
-				int i = 0;
-
-				if (GameManager::GetInstance().isExitNameEntity(name))
-				{
-					while (true)
-					{
-						string nameNum = name + to_string(i);
-
-						if (!GameManager::GetInstance().isExitNameEntity(nameNum))
-						{
-							name = nameNum;
-							break;
-						}
-
-						i++;
-					}
-				}
-
-				GameManager::GetInstance().CreateEntity(name);
-			}
-
-			entityList = GameManager::GetInstance().GetInstance().GetEntityList();
-
-			for (int i = 0; i < entityList.size(); i++)
-			{
-				if (!entityList[i]->HasParent())
-				{
-					if (ImGui::Selectable(entityList[i]->name.c_str()))
-					{
-						showEntityWindow = true;
-
-						currentIndexEntity = i;
-					}
-				}
-			}
-
-			ImGui::TreePop();
-		}
-
-		if (ImGui::TreeNode("Camera")) {
-
-			Camera::GetInstance().SetCameraPosition(ShowAndSetVecInfo("Position" , Camera::GetInstance().GetPosition()));
-			Camera::GetInstance().SetCameraRotation(ShowAndSetVecInfo("Rotation" , Camera::GetInstance().GetRotation()));
-
-			ImGui::TreePop();
-		}
-
 		if (ImGui::TreeNode("Flags")) {
 
 			ImGui::Checkbox("Debug", flagIns.isDebug.get());
@@ -428,12 +506,19 @@ void MyIMGUI::MainLoop()
 
 			ImGui::TreePop();
 		}
+
+		if (*flagIns.isDebug)
+		{
+			ShowDebugTrees();
+		}
 		
 		ImGui::End();
 
-		if (showEntityWindow)
-			ShowEntityInfo();
-
+		if (*flagIns.isDebug)
+		{
+			if (showEntityWindow)
+				ShowEntityInfo();
+		}
 	}
 	//‚±‚±‚Ü‚Å
 

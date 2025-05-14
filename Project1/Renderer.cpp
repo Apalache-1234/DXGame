@@ -1387,8 +1387,6 @@ bool Renderer::LoadMesh(const std::string filePath)
 {
 	GameManager::GetInstance().PauseTime();
 
-
-
 	meshDatas.clear();
 
 	int flag = 0;

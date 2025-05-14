@@ -51,7 +51,7 @@ public:
 	/// </summary>
 	/// <param name="fileName">ファイルのパス</param>
 	/// <returns>ロードの可否</returns>
-	bool LoadMesh(const std::string fileName);
+	bool LoadMesh(const std::string filePath);
 
 	/// <summary>
 	/// テクスチャを読み込む
