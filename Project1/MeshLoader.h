@@ -22,7 +22,7 @@ public:
 
 	~MeshLoader();
 
-	enum MESH
+	enum MESHTYPE
 	{
 		KNIGHT,
 		SPARTAN,
@@ -78,26 +78,25 @@ public:
 
 		int baseIndexNumber;
 
-		aiScene scene;
-	};
-
-
-	struct Mesh
-	{
-		std::unordered_map <MESH, std::vector<MeshData>> meshes;
-
-		aiScene scene;
-
 		std::vector<BoneInfo> boneInfos;
 
 		std::unordered_map<std::string, UINT> boneMapping;
 	};
 
+	struct Mesh
+	{
+		std::vector<MeshData> meshes;
+
+		aiScene scene;
+	};
+
 	static MeshLoader& GetInstance();
 
-	std::vector<MeshData> GetMesh(MESH type);
+	Mesh GetMesh(MESHTYPE type);
 private:
 	aiScene scene;
+
+	std::unordered_map<MESHTYPE, Mesh> meshes;
 
 	Assimp::Importer import;
 
@@ -106,7 +105,7 @@ private:
     /// </summary>
     /// <param name="fileName">ファイルのパス</param>
     /// <returns>ロードの可否</returns>
-	bool LoadMesh(const std::string fileName, MESH type);
+	bool LoadMesh(const std::string fileName, MESHTYPE type);
 
 	/// <summary>
     /// DirectXの基幹システムを構築するクラスのシングルトンのインスタンス
@@ -119,7 +118,7 @@ private:
     /// <param name="scene">assimpのメッシュの情報を展開して格納されているaiScene変数</param>
 	void StoreVertices(const std::string filePath, std::vector<MeshData> meshDatas);
 
-	void InitBone(const aiMesh& mesh, MeshData& meshData);
+	void InitBone(const aiMesh& aiMesh, MeshData& meshData);
 
 	void InitMaterial(const std::string filePath, const aiMesh& mesh, MeshData& data);
 
