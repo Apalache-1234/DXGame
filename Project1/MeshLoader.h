@@ -11,6 +11,7 @@
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
+#include "TextureLoader.h"
 
 using namespace DirectX;
 
@@ -24,7 +25,8 @@ public:
 	enum MESH
 	{
 		KNIGHT,
-		SPARTAN
+		SPARTAN,
+		BOX
 	};
 
 	struct VertexData
@@ -61,59 +63,55 @@ public:
 		/// <summary>
 		/// デフォルトは立方体
 		/// </summary>
-		std::vector<VertexData> VertexDatas = {
-		{ XMFLOAT3(-0.5f, -0.5f, -0.5f), XMFLOAT2(0, 0), XMFLOAT3(0, 0, -1), XMFLOAT3(1, 0, 0) , XMFLOAT4(0, 0, 0 , 0), XMFLOAT4(0, 0, 0 , 0)},
-		{ XMFLOAT3(-0.5f, -0.5f,  0.5f), XMFLOAT2(1, 0), XMFLOAT3(0, 0,  1), XMFLOAT3(1, 0, 0) , XMFLOAT4(0, 0, 0 , 0), XMFLOAT4(0, 0, 0 , 0)},
-		{ XMFLOAT3(-0.5f,  0.5f, -0.5f), XMFLOAT2(0, 1), XMFLOAT3(0, 0, -1), XMFLOAT3(1, 0, 0)  , XMFLOAT4(0, 0, 0 , 0), XMFLOAT4(0, 0, 0 , 0)},
-		{ XMFLOAT3(-0.5f,  0.5f,  0.5f), XMFLOAT2(1, 1), XMFLOAT3(0, 0,  1), XMFLOAT3(1, 0, 0)  , XMFLOAT4(0, 0, 0 , 0), XMFLOAT4(0, 0, 0 , 0)},
-		{ XMFLOAT3(0.5f, -0.5f, -0.5f), XMFLOAT2(0, 0), XMFLOAT3(0, 0, -1), XMFLOAT3(1, 0, 0) , XMFLOAT4(0, 0, 0 , 0), XMFLOAT4(0, 0, 0 , 0)},
-		{ XMFLOAT3(0.5f, -0.5f,  0.5f), XMFLOAT2(1, 0), XMFLOAT3(0, 0,  1), XMFLOAT3(1, 0, 0) , XMFLOAT4(0, 0, 0 , 0), XMFLOAT4(0, 0, 0 , 0)},
-		{ XMFLOAT3(0.5f,  0.5f, -0.5f), XMFLOAT2(0, 1), XMFLOAT3(0, 0, -1), XMFLOAT3(1, 0, 0) , XMFLOAT4(0, 0, 0 , 0), XMFLOAT4(0, 0, 0 , 0)},
-		{ XMFLOAT3(0.5f,  0.5f,  0.5f), XMFLOAT2(1, 1), XMFLOAT3(0, 0,  1), XMFLOAT3(1, 0, 0) , XMFLOAT4(0, 0, 0 , 0), XMFLOAT4(0, 0, 0 , 0)}
-		};
+		std::vector<VertexData> VertexDatas;
 
 		/// <summary>
 		/// デフォルトは立方体のインデックス
 		/// </summary>
-		std::vector<int> indices =
-		{
-				4, 5, 7,
-				4, 7, 6,
-				0, 2, 3,
-				0, 3, 1,
-				0, 4, 6,
-				0, 6, 2,
-				1, 3, 7,
-				1, 7, 5,
-				2, 6, 7,
-				2, 7, 3,
-				0, 1, 5,
-				0, 5, 4
-		};
+		std::vector<int> indices;
 
 		std::vector<VertexBoneData> vertexBoneDatas;
 
-		std::vector<BoneInfo> boneInfos;
+		ComPtr<ID3D12Resource> texResource;
 
 		int baseVertexNumber;
 
 		int baseIndexNumber;
+
+		aiScene scene;
 	};
 
-	std::unordered_map <MESH, std::vector<MeshData>> meshes;
+
+	struct Mesh
+	{
+		std::unordered_map <MESH, std::vector<MeshData>> meshes;
+
+		aiScene scene;
+
+		std::vector<BoneInfo> boneInfos;
+
+		std::unordered_map<std::string, UINT> boneMapping;
+	};
+
+	static MeshLoader& GetInstance();
+
+	std::vector<MeshData> GetMesh(MESH type);
+private:
+	aiScene scene;
+
+	Assimp::Importer import;
 
 	/// <summary>
     /// メッシュを読み込む
     /// </summary>
     /// <param name="fileName">ファイルのパス</param>
     /// <returns>ロードの可否</returns>
-	bool LoadMesh(const std::string fileName);
-private:
-	aiScene scene;
+	bool LoadMesh(const std::string fileName, MESH type);
 
-	Assimp::Importer import;
-
-	std::unordered_map<std::string, UINT> boneMapping;
+	/// <summary>
+    /// DirectXの基幹システムを構築するクラスのシングルトンのインスタンス
+    /// </summary>
+	static std::unique_ptr<MeshLoader> instance;
 
 	/// <summary>
     /// 読み込んだメッシュの頂点情報を格納する
@@ -123,7 +121,7 @@ private:
 
 	void InitBone(const aiMesh& mesh, MeshData& meshData);
 
-	void InitMaterial(const std::string filePath, const aiMesh& mesh, MeshData& data, const int meshIndex);
+	void InitMaterial(const std::string filePath, const aiMesh& mesh, MeshData& data);
 
 };
 

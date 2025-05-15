@@ -1,14 +1,33 @@
+
 #include "MeshLoader.h"
 
 MeshLoader::MeshLoader()
 {
+	LoadMesh("Models/Box.fbx" , BOX);
+	LoadMesh("Models/Box.fbx" , SPARTAN);
+	LoadMesh("Models/Box.fbx" , KNIGHT);
 }
 
 MeshLoader::~MeshLoader()
 {
 }
 
-bool MeshLoader::LoadMesh(const std::string filePath)
+std::unique_ptr<MeshLoader> MeshLoader::instance = nullptr;
+
+MeshLoader& MeshLoader::GetInstance()
+{
+	if (!instance) {
+		instance.reset(new MeshLoader());
+	}
+	return *instance;
+}
+
+std::vector<MeshLoader::MeshData> MeshLoader::GetMesh(MESH type)
+{
+	return meshes[type];
+}
+
+bool MeshLoader::LoadMesh(const std::string filePath , MESH type)
 {
 	GameManager::GetInstance().PauseTime();
 
@@ -28,7 +47,7 @@ bool MeshLoader::LoadMesh(const std::string filePath)
 	{
 		meshDatas.resize(scene.mNumMeshes);
 
-		StoreVertices(filePath);
+		StoreVertices(filePath , meshDatas);
 
 		bool isSuccess = true;
 
@@ -40,6 +59,8 @@ bool MeshLoader::LoadMesh(const std::string filePath)
 		}
 
 		GameManager::GetInstance().UnpauseTime();
+
+		meshes[type] = meshDatas;
 
 		return true;
 	}
@@ -103,14 +124,14 @@ void MeshLoader::StoreVertices(const std::string filePath, std::vector<MeshData>
 		baseIndexNum += meshDatas[i].indices.size();
 
 		if (scene.HasMaterials())
-			InitMaterial(filePath, *mesh, meshDatas[i], i);
+			InitMaterial(filePath, *mesh, meshDatas[i]);
 
 		if (mesh->HasBones())
 			InitBone(*mesh, meshDatas[i]);
 	}
 }
 
-void MeshLoader::InitBone(const aiMesh& mesh, MeshData& meshData)
+void MeshLoader::InitBone(const aiMesh& mesh, Mesh& mesh)
 {
 	for (UINT j = 0; j < mesh.mNumBones; j++)
 	{
@@ -119,7 +140,7 @@ void MeshLoader::InitBone(const aiMesh& mesh, MeshData& meshData)
 
 		UINT boneIndex = 0;
 
-		if (boneMapping.find(bone->mName.C_Str()) == boneMapping.end())
+		if (mesh.find(bone->mName.C_Str()) == boneMapping.end())
 		{
 			boneIndex = boneMapping.size();
 
@@ -186,7 +207,7 @@ void MeshLoader::InitBone(const aiMesh& mesh, MeshData& meshData)
 	}
 }
 
-void MeshLoader::InitMaterial(const std::string filePath, const aiMesh& mesh, MeshData& data, const int meshIndex)
+void MeshLoader::InitMaterial(const std::string filePath, const aiMesh& mesh, MeshData& data)
 {
 	auto index = filePath.find_last_of("/");
 
@@ -208,11 +229,11 @@ void MeshLoader::InitMaterial(const std::string filePath, const aiMesh& mesh, Me
 
 		str = str.substr(0, indexPeriod) + ".dds";
 
-		LoadTexture(dir + "/" + str, data);
+		data.texResource = TextureLoader::GetInstance().LoadTexture(dir + "/" + str);
 	}
 	else
 	{
-		LoadTexture("Textures/error.dds", data);
+		data.texResource = TextureLoader::GetInstance().LoadTexture("Textures/error.dds");
 	}
 }
 

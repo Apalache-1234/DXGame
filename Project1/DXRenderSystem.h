@@ -56,18 +56,6 @@ public:
 	ComPtr<ID3D12Device>& GetDevice();
 
 	const static int frameBuffer = 2;
-
-	/// <summary>
-    /// テクスチャのリソースやビューのCPUハンドルやレンダーに必要な情報のGPUハンドルを格納する構造体
-    /// </summary>
-	struct TextureView
-	{
-		ComPtr<ID3D12Resource> resource;
-
-		D3D12_CPU_DESCRIPTOR_HANDLE cpu_handle;
-
-		D3D12_GPU_DESCRIPTOR_HANDLE gpu_handle;
-	};
 private:
 
 	/// <summary>

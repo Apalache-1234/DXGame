@@ -25,6 +25,8 @@
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
+#include "TextureLoader.h"
+#include "MeshLoader.h"
 
 using namespace DirectX;
 using namespace Microsoft::WRL;
@@ -45,13 +47,6 @@ public:
 	/// <param name="cmdList">格納するコマンドリスト</param>
 	/// <param name="backBufferIndex">現在のバックバッファのインデックス</param>
 	void AddRenderCommand(ComPtr<ID3D12GraphicsCommandList>& cmdList , int backBufferIndex);
-
-	/// <summary>
-	/// メッシュを読み込む
-	/// </summary>
-	/// <param name="fileName">ファイルのパス</param>
-	/// <returns>ロードの可否</returns>
-	bool LoadMesh(const std::string filePath);
 
 	/// <summary>
 	/// テクスチャを読み込む
@@ -76,6 +71,8 @@ public:
 	void SetAnimTime(float time);
 
 	std::vector<string> GetAnimationNameList();
+
+	bool CreateMesh(const MeshLoader::MESH type);
 
 	bool isAnimPlaying = false;
 
@@ -156,92 +153,7 @@ private:
 		std::vector<float> weight;
 	};
 
-	struct MeshData
-	{
-		/// <summary>
-		/// デフォルトは立方体
-		/// </summary>
-		std::vector<VertexData> VertexDatas = {
-		{ XMFLOAT3(-0.5f, -0.5f, -0.5f), XMFLOAT2(0, 0), XMFLOAT3(0, 0, -1), XMFLOAT3(1, 0, 0) , XMFLOAT4(0, 0, 0 , 0), XMFLOAT4(0, 0, 0 , 0)},
-		{ XMFLOAT3(-0.5f, -0.5f,  0.5f), XMFLOAT2(1, 0), XMFLOAT3(0, 0,  1), XMFLOAT3(1, 0, 0) , XMFLOAT4(0, 0, 0 , 0), XMFLOAT4(0, 0, 0 , 0)},
-		{ XMFLOAT3(-0.5f,  0.5f, -0.5f), XMFLOAT2(0, 1), XMFLOAT3(0, 0, -1), XMFLOAT3(1, 0, 0)  , XMFLOAT4(0, 0, 0 , 0), XMFLOAT4(0, 0, 0 , 0)},
-		{ XMFLOAT3(-0.5f,  0.5f,  0.5f), XMFLOAT2(1, 1), XMFLOAT3(0, 0,  1), XMFLOAT3(1, 0, 0)  , XMFLOAT4(0, 0, 0 , 0), XMFLOAT4(0, 0, 0 , 0)},
-		{ XMFLOAT3(0.5f, -0.5f, -0.5f), XMFLOAT2(0, 0), XMFLOAT3(0, 0, -1), XMFLOAT3(1, 0, 0) , XMFLOAT4(0, 0, 0 , 0), XMFLOAT4(0, 0, 0 , 0)},
-		{ XMFLOAT3(0.5f, -0.5f,  0.5f), XMFLOAT2(1, 0), XMFLOAT3(0, 0,  1), XMFLOAT3(1, 0, 0) , XMFLOAT4(0, 0, 0 , 0), XMFLOAT4(0, 0, 0 , 0)},
-		{ XMFLOAT3(0.5f,  0.5f, -0.5f), XMFLOAT2(0, 1), XMFLOAT3(0, 0, -1), XMFLOAT3(1, 0, 0) , XMFLOAT4(0, 0, 0 , 0), XMFLOAT4(0, 0, 0 , 0)},
-		{ XMFLOAT3(0.5f,  0.5f,  0.5f), XMFLOAT2(1, 1), XMFLOAT3(0, 0,  1), XMFLOAT3(1, 0, 0) , XMFLOAT4(0, 0, 0 , 0), XMFLOAT4(0, 0, 0 , 0)}
-		};
-
-		/// <summary>
-		/// デフォルトは立方体のインデックス
-		/// </summary>
-		std::vector<int> indices =
-		{
-				4, 5, 7,
-				4, 7, 6,
-				0, 2, 3,
-				0, 3, 1,
-				0, 4, 6,
-				0, 6, 2,
-				1, 3, 7,
-				1, 7, 5,
-				2, 6, 7,
-				2, 7, 3,
-				0, 1, 5,
-				0, 5, 4
-		};
-
-		std::vector<VertexBoneData> vertexBoneDatas;
-
-		/// <summary>
-        /// 頂点バッファのアップロードリソース
-        /// </summary>
-		ComPtr<ID3D12Resource> uploadVertexBuffer;
-
-		/// <summary>
-		/// 頂点バッファのリソース
-		/// </summary>
-		ComPtr<ID3D12Resource> vertexBuffer;
-
-		/// <summary>
-        /// インデックスバッファのアップロードリソース
-        /// </summary>
-		ComPtr<ID3D12Resource> uploadIndexBuffer;
-
-		/// <summary>
-        /// インデックスバッファのリソース
-        /// </summary>
-		ComPtr<ID3D12Resource> indexBuffer;
-
-		/// <summary>
-		/// インデックスビュー
-		/// </summary>
-		D3D12_INDEX_BUFFER_VIEW ibView;
-
-		/// <summary>
-		/// 頂点ビュー
-		/// </summary>
-		D3D12_VERTEX_BUFFER_VIEW vbView;
-	
-
-		/// <summary>
-        /// 頂点バッファのリソース
-        /// </summary>
-		ComPtr<ID3D12Resource> InstanceBuffer;
-		/// <summary>
-		/// 頂点ビュー
-		/// </summary>
-		D3D12_VERTEX_BUFFER_VIEW instanceBufferView;
-
-		DXRenderSystem::TextureView texView;
-
-		int baseVertexNumber;
-
-		int baseIndexNumber;
-	};
-
-
-	std::vector<MeshData> meshDatas = { MeshData() };
+	std::vector<MeshLoader::MeshData> meshDatas = { MeshLoader::MeshData() };
 
 	Assimp::Importer import;
 
