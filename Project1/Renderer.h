@@ -27,6 +27,7 @@
 #include <assimp/postprocess.h>
 #include "TextureLoader.h"
 #include "MeshLoader.h"
+#include "DescriptorHeapManager.h"
 
 using namespace DirectX;
 using namespace Microsoft::WRL;
@@ -53,7 +54,7 @@ public:
 	/// </summary>
 	/// <param name="fileName">ファイルのパス</param>
 	/// <returns>ロードの可否</returns>
-	bool LoadTexture(const std::string fileName, MeshData& mesh);;
+	bool LoadTexture(const std::string fileName, MeshLoader::MeshData& mesh);;
 
 	/// <summary>
 	/// そのメッシュのカラーを決める
@@ -72,7 +73,7 @@ public:
 
 	std::vector<string> GetAnimationNameList();
 
-	bool CreateMesh(const MeshLoader::MESH type);
+	bool CreateMesh(const MeshLoader::MESHTYPE type);
 
 	bool isAnimPlaying = false;
 
@@ -90,15 +91,14 @@ private:
 	/// </summary>
 	ComPtr<ID3D12Resource> constantBuffer[DXRenderSystem::frameBuffer];
 
-	/// <summary>
-	/// デスクリプタヒープ
-	/// </summary>
-	ComPtr<ID3D12DescriptorHeap> heap;
+	DescriptorHeapManager heapManager = DescriptorHeapManager(100);
 
 	/// <summary>
 	/// バックバッファ込みのコンスタントバッファビュー
 	/// </summary>
 	D3D12_CONSTANT_BUFFER_VIEW_DESC cbView[DXRenderSystem::frameBuffer];
+
+	PtrHandles cbHandle[DXRenderSystem::frameBuffer];
 
 	/// <summary>
 	/// ルートシグネチャのCOM
@@ -112,58 +112,13 @@ private:
 
 	ComPtr<ID3D12Resource> boneBuffer;
 
-	UINT numHandling = 0;
-
-	/// <summary>
-	/// 頂点情報を格納する構造体
-	/// </summary>
-	struct VertexData
-	{
-		XMFLOAT3 vertex;
-
-		XMFLOAT2 texCoord;
-
-		XMFLOAT3 normal;
-
-		XMFLOAT3 tangent;
-
-		XMFLOAT4 boneID;
-
-		XMFLOAT4 weight;
-
-		float parentBone = 0;
-	};
-
-	struct BoneInfo {
-		aiMatrix4x4 offset;
-
-		aiMatrix4x4 finalMat;
-	};
-
-
-	std::unordered_map<string, UINT> boneMapping;
-
 	std::vector<XMMATRIX> finalBoneMats;
-
-	std::vector<BoneInfo> boneInfos;
-
-	struct VertexBoneData {
-		std::vector<UINT> boneID;
-
-		std::vector<float> weight;
-	};
-
-	std::vector<MeshLoader::MeshData> meshDatas = { MeshLoader::MeshData() };
-
-	Assimp::Importer import;
 
 	float animTimeCur = 0;
 
 	float animTime = 0;
 
 	UINT animIndex = 0;
-
-	aiScene scene;
 
 	struct alignas(256) Transform
 	{
@@ -185,14 +140,6 @@ private:
 	/// </summary>
 	Transform trans;
 
-	UINT GetHandlingNum();
-
-	/// <summary>
-	/// コンスタントバッファビューのデスクリプタヒープを作成する
-	/// </summary>
-	/// <returns>正常に終了したらtrueを返す</returns>
-	bool InitDescHeap();
-
 	/// <summary>
 	/// コンスタントバッファビューのリソースを作成する
 	/// </summary>
@@ -206,32 +153,18 @@ private:
 	bool LinkCBVResourceToDescHeap();
 
 	/// <summary>
-	/// 頂点バッファビューのリソースを作成する
-	/// </summary>
-	/// <returns>正常に終了したらtrueを返す</returns>
-	bool InitVBVResource(MeshData& mesh);
-
-	/// <summary>
-	/// 頂点バッファをマッピングしてGPUに頂点データを入力する
-	/// </summary>
-	/// <returns>正常に終了したらtrueを返す</returns>
-	bool MapVB(MeshData& mesh);
-
-	bool VBUploadToDefultHeap(MeshData& mesh);
-
-	/// <summary>
 	/// インデックスバッファビューのリソースを作成する
 	/// </summary>
 	///  <returns>正常に終了したらtrueを返す</returns>
-	bool InitIBVResource(MeshData& mesh);
+	bool InitIBVResource(MeshLoader::MeshData& mesh);
 
 	/// <summary>
 	/// インデックスバッファをマッピングしてGPUにインデックスデータを入力する
 	/// </summary>
 	/// <returns>正常に終了したらtrueを返す</returns>
-	bool MapIB(MeshData& mesh);
+	bool MapIB(MeshLoader::MeshData& mesh);
 
-	bool IBUploadToDefultHeap(MeshData& mesh);
+	bool IBUploadToDefultHeap(MeshLoader::MeshData& mesh);
 
 	/// <summary>
 	/// ルートシグネチャを作成する
@@ -254,16 +187,6 @@ private:
 	void ReadHierarchyNode(float animationTime, aiNode& node, aiMatrix4x4& parentMat, aiAnimation& anim);
 
 	void ProcessAnimation(float time);
-
-	/// <summary>
-	/// 読み込んだメッシュの頂点情報を格納する
-	/// </summary>
-	/// <param name="scene">assimpのメッシュの情報を展開して格納されているaiScene変数</param>
-	void StoreVertices(const std::string filePath);
-
-	void InitBone(const aiMesh& mesh, MeshData& meshData);
-
-	void InitMaterial(const std::string filePath,  const aiMesh& mesh, MeshData& data, const int meshIndex);
 
 	/// <summary>
 	/// 座標行列を作成する

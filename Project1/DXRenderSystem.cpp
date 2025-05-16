@@ -92,6 +92,8 @@ void DXRenderSystem::WaitForRender()
 
 		WaitForSingleObjectEx(fence_event, INFINITE, false);
 	}
+
+	updateHeaps.clear();
 }
 
 std::unique_ptr<DXRenderSystem> DXRenderSystem::instance = nullptr;
@@ -518,6 +520,13 @@ bool DXRenderSystem::CreateDBV()
 	dbv_handle = handle;
 
 	return true;
+}
+
+ComPtr<ID3D12Resource>& DXRenderSystem::GetEmptyUpdateHeap()
+{
+	updateHeaps.emplace_back();
+
+	return updateHeaps.back();
 }
 
 bool DXRenderSystem::SetScissorAndViewPort()

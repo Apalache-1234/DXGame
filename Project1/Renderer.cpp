@@ -75,8 +75,6 @@ Renderer::Renderer(std::shared_ptr<Entity> ent) : Component::Component(ent)
 
 	bool isSuccess = true;
 
-	isSuccess &= InitDescHeap();
-
 	isSuccess &= InitCBVResource();
 
 	isSuccess &= LinkCBVResourceToDescHeap();
@@ -137,7 +135,7 @@ void Renderer::AddRenderCommand(ComPtr<ID3D12GraphicsCommandList>& cmdList, int 
 
 	cmdList->SetGraphicsRootSignature(rootSig.Get());
 
-	cmdList->SetDescriptorHeaps(1, heap.GetAddressOf());
+	cmdList->SetDescriptorHeaps(1, heapManager.GetHeap().GetAddressOf());
 
 	cmdList->SetGraphicsRootConstantBufferView(0, cbView[backbufferIndex].BufferLocation);
 
@@ -158,41 +156,6 @@ void Renderer::AddRenderCommand(ComPtr<ID3D12GraphicsCommandList>& cmdList, int 
 		cmdList->DrawIndexedInstanced(mesh.indices.size(), 1, 0, 0, 0);
 	}
 
-}
-
-UINT Renderer::GetHandlingNum()
-{
-	auto num = numHandling;
-
-	std::cout << num << std::endl;
-
-	numHandling++;
-
-	return num;
-}
-
-bool Renderer::InitDescHeap()
-{
-	D3D12_DESCRIPTOR_HEAP_DESC desc = {};
-
-	desc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
-
-	desc.NodeMask = 0;
-
-	desc.NumDescriptors = DXRenderSystem::frameBuffer + meshDatas.size() + 100;
-
-	desc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
-
-	hr = DXRenderSystem::GetInstance().GetDevice()->CreateDescriptorHeap(&desc, IID_PPV_ARGS(heap.GetAddressOf()));
-
-	if (FAILED(hr))
-	{
-		std::cerr << "デスクリプタヒープ作成失敗" << std::endl;
-
-		return false;
-	}
-
-	return true;
 }
 
 bool Renderer::InitCBVResource()
@@ -258,332 +221,23 @@ bool Renderer::InitCBVResource()
 
 bool Renderer::LinkCBVResourceToDescHeap()
 {
-	auto increament = DXRenderSystem::GetInstance().GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+	delete cbHandle;
 
 	for (int i = 0; i < DXRenderSystem::frameBuffer; i++)
 	{
-		auto heapPtr = heap->GetCPUDescriptorHandleForHeapStart();
+		cbHandle[i] = heapManager.GetHandles();
 
 		cbView[i].BufferLocation = constantBuffer[i]->GetGPUVirtualAddress();
 
 		cbView[i].SizeInBytes = sizeof(Transform);
 
-		heapPtr.ptr += increament * GetHandlingNum();
-
-		DXRenderSystem::GetInstance().GetDevice()->CreateConstantBufferView(&cbView[i], heapPtr);
-
-
+		DXRenderSystem::GetInstance().GetDevice()->CreateConstantBufferView(&cbView[i], cbHandle[i].cpuHandle);
 	}
 
 	return true;
 }
 
-bool Renderer::InitVBVResource(MeshData& mesh)
-{
-	D3D12_HEAP_PROPERTIES prop = {};
 
-	prop.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_UNKNOWN;
-
-	prop.Type = D3D12_HEAP_TYPE_UPLOAD;
-
-	prop.CreationNodeMask = 1;
-
-	prop.VisibleNodeMask = 1;
-
-	prop.MemoryPoolPreference = D3D12_MEMORY_POOL_UNKNOWN;
-
-	D3D12_RESOURCE_DESC desc = {  };
-
-	desc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
-
-	desc.Alignment = 0;
-
-	desc.Height = 1;
-
-	desc.Width = sizeof(VertexData) * mesh.VertexDatas.size();
-
-	desc.Flags = D3D12_RESOURCE_FLAG_NONE;
-
-	desc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
-
-	desc.SampleDesc.Count = 1;
-
-	desc.SampleDesc.Quality = 0;
-
-	desc.DepthOrArraySize = 1;
-
-	desc.MipLevels = 1;
-
-	desc.Format = DXGI_FORMAT_UNKNOWN;
-
-	hr = DXRenderSystem::GetInstance().GetDevice()->CreateCommittedResource(
-		&prop,
-		D3D12_HEAP_FLAG_NONE,
-		&desc,
-		D3D12_RESOURCE_STATE_GENERIC_READ,
-		nullptr,
-		IID_PPV_ARGS(mesh.uploadVertexBuffer.GetAddressOf())
-
-	);
-
-	if (FAILED(hr))
-	{
-		std::cerr << "VBVのアップロードリソース作成失敗" << std::endl;
-
-		return false;
-	}
-
-	return true;
-}
-
-bool Renderer::MapVB(MeshData& mesh)
-{
-	void* ptr = nullptr;
-
-	hr = mesh.uploadVertexBuffer->Map(0, nullptr, &ptr);
-
-	if (FAILED(hr))
-	{
-		std::cerr << "頂点データのマッピング失敗" << std::endl;
-
-		return false;
-	}
-	memcpy(ptr, mesh.VertexDatas.data(), sizeof(VertexData) * mesh.VertexDatas.size());
-
-	mesh.uploadVertexBuffer->Unmap(0, nullptr);
-
-	return VBUploadToDefultHeap(mesh);
-}
-
-bool Renderer::VBUploadToDefultHeap(MeshData& mesh)
-{
-	D3D12_HEAP_PROPERTIES prop = {};
-
-	prop.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_UNKNOWN;
-
-	prop.Type = D3D12_HEAP_TYPE_DEFAULT;
-
-	prop.CreationNodeMask = 1;
-
-	prop.VisibleNodeMask = 1;
-
-	prop.MemoryPoolPreference = D3D12_MEMORY_POOL_UNKNOWN;
-
-	D3D12_RESOURCE_DESC desc = {  };
-
-	desc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
-
-	desc.Alignment = 0;
-
-	desc.Height = 1;
-
-	desc.Width = sizeof(VertexData) * mesh.VertexDatas.size();
-
-	desc.Flags = D3D12_RESOURCE_FLAG_NONE;
-
-	desc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
-
-	desc.SampleDesc.Count = 1;
-
-	desc.SampleDesc.Quality = 0;
-
-	desc.DepthOrArraySize = 1;
-
-	desc.MipLevels = 1;
-
-	desc.Format = DXGI_FORMAT_UNKNOWN;
-
-	hr = DXRenderSystem::GetInstance().GetDevice()->CreateCommittedResource(
-		&prop,
-		D3D12_HEAP_FLAG_NONE,
-		&desc,
-		D3D12_RESOURCE_STATE_COPY_DEST, 
-		nullptr,
-		IID_PPV_ARGS(mesh.vertexBuffer.GetAddressOf())
-
-	);
-
-	if (FAILED(hr))
-	{
-		std::cerr << "VBVのリソース作成失敗" << std::endl;
-
-		return false;
-	}
-
-	D3D12_SUBRESOURCE_DATA subresourceData = {};
-	subresourceData.pData = mesh.VertexDatas.data(); 
-	subresourceData.RowPitch = sizeof(VertexData) * mesh.VertexDatas.size();
-	subresourceData.SlicePitch = subresourceData.RowPitch;
-
-	UpdateSubresources(DXRenderSystem::GetInstance().GetCommandList().Get(), mesh.vertexBuffer.Get(), mesh.uploadVertexBuffer.Get(), 0, 0, 1, &subresourceData);
-
-	CD3DX12_RESOURCE_BARRIER barrier = CD3DX12_RESOURCE_BARRIER::Transition(
-		mesh.vertexBuffer.Get(),
-		D3D12_RESOURCE_STATE_COPY_DEST,
-		D3D12_RESOURCE_STATE_VERTEX_AND_CONSTANT_BUFFER
-	);
-	DXRenderSystem::GetInstance().GetCommandList()->ResourceBarrier(1, &barrier);
-
-	mesh.vbView.BufferLocation = mesh.vertexBuffer->GetGPUVirtualAddress();
-	mesh.vbView.SizeInBytes = sizeof(VertexData) * mesh.VertexDatas.size();
-	mesh.vbView.StrideInBytes = sizeof(VertexData);
-
-	return true;
-}
-
-bool Renderer::InitIBVResource(MeshData& mesh)
-{
-	D3D12_HEAP_PROPERTIES prop = {};
-
-	prop.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_UNKNOWN;
-
-	prop.Type = D3D12_HEAP_TYPE_UPLOAD;
-
-	prop.CreationNodeMask = 1;
-
-	prop.VisibleNodeMask = 1;
-
-	prop.MemoryPoolPreference = D3D12_MEMORY_POOL_UNKNOWN;
-
-	D3D12_RESOURCE_DESC desc = {  };
-
-	desc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
-
-	desc.Alignment = 0;
-
-	desc.Height = 1;
-
-	desc.Width = sizeof(int) * mesh.indices.size();
-
-	desc.Flags = D3D12_RESOURCE_FLAG_NONE;
-
-	desc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
-
-	desc.SampleDesc.Count = 1;
-
-	desc.SampleDesc.Quality = 0;
-
-	desc.DepthOrArraySize = 1;
-
-	desc.MipLevels = 1;
-
-	desc.Format = DXGI_FORMAT_UNKNOWN;
-
-	hr = DXRenderSystem::GetInstance().GetDevice()->CreateCommittedResource(
-		&prop,
-		D3D12_HEAP_FLAG_NONE,
-		&desc,
-		D3D12_RESOURCE_STATE_GENERIC_READ,
-		nullptr,
-		IID_PPV_ARGS(mesh.uploadIndexBuffer.GetAddressOf())
-
-	);
-
-	if (FAILED(hr))
-	{
-		std::cerr << "IBVのリソース作成失敗" << std::endl;
-
-		return false;
-	}
-
-	return true;
-}
-
-bool Renderer::MapIB(MeshData& mesh)
-{
-	void* ptr = nullptr;
-
-	hr = mesh.uploadIndexBuffer->Map(0, nullptr, &ptr);
-
-	if (FAILED(hr))
-	{
-		std::cerr << "インデックスデータのマッピング失敗" << std::endl;
-
-		return false;
-	}
-
-	memcpy(ptr, mesh.indices.data(), sizeof(int) * mesh.indices.size());
-
-	mesh.uploadIndexBuffer->Unmap(0, nullptr);
-
-	return IBUploadToDefultHeap(mesh);
-}
-
-bool Renderer::IBUploadToDefultHeap(MeshData& mesh)
-{
-	D3D12_HEAP_PROPERTIES prop = {};
-
-	prop.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_UNKNOWN;
-
-	prop.Type = D3D12_HEAP_TYPE_DEFAULT;
-
-	prop.CreationNodeMask = 1;
-
-	prop.VisibleNodeMask = 1;
-
-	prop.MemoryPoolPreference = D3D12_MEMORY_POOL_UNKNOWN;
-
-	D3D12_RESOURCE_DESC desc = {  };
-
-	desc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
-
-	desc.Alignment = 0;
-
-	desc.Height = 1;
-
-	desc.Width = sizeof(int) * mesh.indices.size();
-
-	desc.Flags = D3D12_RESOURCE_FLAG_NONE;
-
-	desc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
-
-	desc.SampleDesc.Count = 1;
-
-	desc.SampleDesc.Quality = 0;
-
-	desc.DepthOrArraySize = 1;
-
-	desc.MipLevels = 1;
-
-	desc.Format = DXGI_FORMAT_UNKNOWN;
-
-	hr = DXRenderSystem::GetInstance().GetDevice()->CreateCommittedResource(
-		&prop,
-		D3D12_HEAP_FLAG_NONE,
-		&desc,
-		D3D12_RESOURCE_STATE_COPY_DEST, 
-		nullptr,
-		IID_PPV_ARGS(mesh.indexBuffer.GetAddressOf())
-
-	);
-
-	if (FAILED(hr))
-	{
-		std::cerr << "IBVのリソース作成失敗" << std::endl;
-
-		return false;
-	}
-
-	D3D12_SUBRESOURCE_DATA subresourceData = {};
-	subresourceData.pData = mesh.indices.data();
-	subresourceData.RowPitch = sizeof(int) * mesh.indices.size();
-	subresourceData.SlicePitch = subresourceData.RowPitch;
-
-	UpdateSubresources(DXRenderSystem::GetInstance().GetCommandList().Get(), mesh.indexBuffer.Get(), mesh.uploadIndexBuffer.Get(), 0, 0, 1, &subresourceData);
-
-	CD3DX12_RESOURCE_BARRIER barrier = CD3DX12_RESOURCE_BARRIER::Transition(
-		mesh.indexBuffer.Get(),
-		D3D12_RESOURCE_STATE_COPY_DEST,
-		D3D12_RESOURCE_STATE_INDEX_BUFFER
-	);
-	DXRenderSystem::GetInstance().GetCommandList()->ResourceBarrier(1, &barrier);
-
-	mesh.ibView.BufferLocation = mesh.indexBuffer->GetGPUVirtualAddress();
-	mesh.ibView.SizeInBytes = sizeof(int) * mesh.indices.size();;
-	mesh.ibView.Format = DXGI_FORMAT_R32_UINT;
-
-	return true;
-}
 
 bool Renderer::CreateRootSignature()
 {
@@ -1112,20 +766,20 @@ void Renderer::ReadHierarchyNode(float animationTime , aiNode& node , aiMatrix4x
 
 			boneMapping[name] = boneIndex;
 
-			for (int j = 0;j < meshDatas[node.mMeshes[i]].VertexDatas.size();j++)
+			for (int j = 0;j < meshDatas[node.mMeshes[i]].vertexDatas.size();j++)
 			{
-				meshDatas[node.mMeshes[i]].VertexDatas[j].parentBone = boneIndex;
+				meshDatas[node.mMeshes[i]].vertexDatas[j].parentBone = boneIndex;
 			}
 
 			MapVB(meshDatas[node.mMeshes[i]]);
 		}
-		else if(meshDatas[node.mMeshes[i]].VertexDatas[0].parentBone == 0)
+		else if(meshDatas[node.mMeshes[i]].vertexDatas[0].parentBone == 0)
 		{
 			boneIndex = boneMapping[name];
 
-			for (int j = 0;j < meshDatas[node.mMeshes[i]].VertexDatas.size();j++)
+			for (int j = 0;j < meshDatas[node.mMeshes[i]].vertexDatas.size();j++)
 			{
-				meshDatas[node.mMeshes[i]].VertexDatas[j].parentBone = boneIndex;
+				meshDatas[node.mMeshes[i]].vertexDatas[j].parentBone = boneIndex;
 			}
 
 			MapVB(meshDatas[node.mMeshes[i]]);
@@ -1221,73 +875,9 @@ std::vector<string> Renderer::GetAnimationNameList()
 }
 
 
-bool Renderer::CreateMesh(const MeshLoader::MESH type)
+bool Renderer::CreateMesh(const MeshLoader::MESHTYPE type)
 {
 	auto meshData = MeshLoader::GetInstance().GetMesh(type);
-
-	return true;
-}
-
-bool Renderer::LoadTexture(const std::string fileName, MeshData& mesh)
-{
-
-	int len = MultiByteToWideChar(CP_UTF8, 0, fileName.c_str(), -1, NULL, 0);
-	std::wstring ws(len, L'\0');
-
-	MultiByteToWideChar(CP_UTF8, 0, fileName.c_str(), -1, &ws[0], len);
-
-	ws.pop_back();
-
-	DirectX::ResourceUploadBatch batch(DXRenderSystem::GetInstance().GetDevice().Get());
-
-	batch.Begin();
-
-	hr = DirectX::CreateDDSTextureFromFile(DXRenderSystem::GetInstance().GetDevice().Get(), batch, ws.c_str(), mesh.texView.resource.GetAddressOf(), true);
-
-	std::wcout << L"path = " << ws << std::endl;
-
-	if (FAILED(hr))
-	{
-		std::cerr << "ddsファイル読み込みエラー" << std::endl;
-
-		hr = DirectX::CreateDDSTextureFromFile(DXRenderSystem::GetInstance().GetDevice().Get(), batch, L"Textures/error.dds", mesh.texView.resource.GetAddressOf(), true);
-	}
-
-	auto load = batch.End(DXRenderSystem::GetInstance().GetCommandQueue().Get());
-
-	load.wait();
-
-	UINT descriptorSize = DXRenderSystem::GetInstance().GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
-
-	int handlingNum = GetHandlingNum();
-
-	// meshIndexは「現在のmesh番号」 (呼び出し元でi番目とか渡す)
-	D3D12_CPU_DESCRIPTOR_HANDLE cpuHandle = heap->GetCPUDescriptorHandleForHeapStart();
-	cpuHandle.ptr += handlingNum * descriptorSize;
-
-	D3D12_GPU_DESCRIPTOR_HANDLE gpuHandle = heap->GetGPUDescriptorHandleForHeapStart();
-	gpuHandle.ptr += handlingNum * descriptorSize;
-
-	// meshごとに異なるハンドル保存
-	mesh.texView.cpu_handle = cpuHandle;
-	mesh.texView.gpu_handle = gpuHandle;
-
-	auto texture_desc = mesh.texView.resource->GetDesc();
-
-	D3D12_SHADER_RESOURCE_VIEW_DESC desc = {};
-
-	desc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
-
-	desc.Format = texture_desc.Format;
-
-	desc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
-
-	desc.Texture2D.MipLevels = texture_desc.MipLevels;
-	desc.Texture2D.PlaneSlice = 0;
-	desc.Texture2D.MostDetailedMip = 0;
-	desc.Texture2D.ResourceMinLODClamp = 0;
-
-	DXRenderSystem::GetInstance().GetDevice()->CreateShaderResourceView(mesh.texView.resource.Get(), &desc, cpuHandle);
 
 	return true;
 }

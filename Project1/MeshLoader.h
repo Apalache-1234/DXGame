@@ -58,12 +58,12 @@ public:
 		aiMatrix4x4 finalMat;
 	};
 
-	struct MeshData
+	struct Mesh
 	{
 		/// <summary>
 		/// デフォルトは立方体
 		/// </summary>
-		std::vector<VertexData> VertexDatas;
+		std::vector<VertexData> vertexDatas;
 
 		/// <summary>
 		/// デフォルトは立方体のインデックス
@@ -81,24 +81,32 @@ public:
 		std::vector<BoneInfo> boneInfos;
 
 		std::unordered_map<std::string, UINT> boneMapping;
+
+		TextureLoader::TextureView texView;
+
+		D3D12_VERTEX_BUFFER_VIEW vbView;
+
+		D3D12_INDEX_BUFFER_VIEW ibView;
 	};
 
-	struct Mesh
+	struct MeshData
 	{
-		std::vector<MeshData> meshes;
+		std::vector<Mesh> meshes;
 
 		aiScene scene;
 	};
 
 	static MeshLoader& GetInstance();
 
-	Mesh GetMesh(MESHTYPE type);
+	std::vector<MeshLoader::Mesh> GetMesh(MESHTYPE type);
 private:
 	aiScene scene;
 
-	std::unordered_map<MESHTYPE, Mesh> meshes;
+	std::unordered_map<MESHTYPE, MeshData> meshData;
 
 	Assimp::Importer import;
+
+	HRESULT hr;
 
 	/// <summary>
     /// メッシュを読み込む
@@ -116,11 +124,17 @@ private:
     /// 読み込んだメッシュの頂点情報を格納する
     /// </summary>
     /// <param name="scene">assimpのメッシュの情報を展開して格納されているaiScene変数</param>
-	void StoreVertices(const std::string filePath, std::vector<MeshData> meshDatas);
+	void StoreVertices(const std::string filePath, std::vector<Mesh> meshDatas);
 
-	void InitBone(const aiMesh& aiMesh, MeshData& meshData);
+	void InitBone(const aiMesh& aiMesh, Mesh& meshData);
 
-	void InitMaterial(const std::string filePath, const aiMesh& mesh, MeshData& data);
+	void InitMaterial(const std::string filePath, const aiMesh& mesh, Mesh& data);
+
+	bool InitVBVResource(MeshLoader::Mesh& mesh);
+
+	bool MapVB(MeshLoader::Mesh& mesh);
+
+	bool VBUploadToDefultHeap(MeshLoader::Mesh& mesh);
 
 };
 

@@ -143,6 +143,7 @@
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="ColliderDetection.cpp" />
     <ClCompile Include="Component.cpp" />
+    <ClCompile Include="DescriptorHeapManager.cpp" />
     <ClCompile Include="DXRenderSystem.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="Flags.cpp" />
@@ -210,6 +211,7 @@
     <ClInclude Include="Collider.h" />
     <ClInclude Include="ColliderDetection.h" />
     <ClInclude Include="Component.h" />
+    <ClInclude Include="DescriptorHeapManager.h" />
     <ClInclude Include="DXRenderSystem.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Flags.h" />
