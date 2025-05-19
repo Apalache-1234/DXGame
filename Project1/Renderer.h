@@ -50,13 +50,6 @@ public:
 	void AddRenderCommand(ComPtr<ID3D12GraphicsCommandList>& cmdList , int backBufferIndex);
 
 	/// <summary>
-	/// テクスチャを読み込む
-	/// </summary>
-	/// <param name="fileName">ファイルのパス</param>
-	/// <returns>ロードの可否</returns>
-	bool LoadTexture(const std::string fileName, MeshLoader::MeshData& mesh);;
-
-	/// <summary>
 	/// そのメッシュのカラーを決める
 	/// </summary>
 	DirectX::XMVECTOR color = DirectX::XMVectorSet(1, 1, 1, 1);
@@ -73,6 +66,8 @@ public:
 
 	std::vector<string> GetAnimationNameList();
 
+	MeshLoader::MESHTYPE GetCurrentMeshType();
+
 	bool CreateMesh(const MeshLoader::MESHTYPE type);
 
 	bool isAnimPlaying = false;
@@ -86,19 +81,27 @@ private:
     /// </summary>
 	HRESULT hr;
 
+	MeshLoader::MeshData* meshData;
+
+	MeshLoader::MESHTYPE currentMeshType;
+
 	/// <summary>
 	/// バックバッファ込みのコンスタントバッファのリソース
 	/// </summary>
 	ComPtr<ID3D12Resource> constantBuffer[DXRenderSystem::frameBuffer];
 
-	DescriptorHeapManager heapManager = DescriptorHeapManager(100);
+	DescriptorHeapManager heapManager;
 
 	/// <summary>
 	/// バックバッファ込みのコンスタントバッファビュー
 	/// </summary>
 	D3D12_CONSTANT_BUFFER_VIEW_DESC cbView[DXRenderSystem::frameBuffer];
 
-	PtrHandles cbHandle[DXRenderSystem::frameBuffer];
+	DescriptorHeapManager::PtrHandles cbHandle[DXRenderSystem::frameBuffer];
+
+	std::vector<DescriptorHeapManager::PtrHandles> texHandle;
+
+	DescriptorHeapManager::PtrHandles boneHandle;
 
 	/// <summary>
 	/// ルートシグネチャのCOM
@@ -153,20 +156,6 @@ private:
 	bool LinkCBVResourceToDescHeap();
 
 	/// <summary>
-	/// インデックスバッファビューのリソースを作成する
-	/// </summary>
-	///  <returns>正常に終了したらtrueを返す</returns>
-	bool InitIBVResource(MeshLoader::MeshData& mesh);
-
-	/// <summary>
-	/// インデックスバッファをマッピングしてGPUにインデックスデータを入力する
-	/// </summary>
-	/// <returns>正常に終了したらtrueを返す</returns>
-	bool MapIB(MeshLoader::MeshData& mesh);
-
-	bool IBUploadToDefultHeap(MeshLoader::MeshData& mesh);
-
-	/// <summary>
 	/// ルートシグネチャを作成する
 	/// </summary>
 	///  <returns>正常に終了したらtrueを返す</returns>
@@ -177,6 +166,8 @@ private:
 	/// </summary>
 	/// <returns>正常に終了したらtrueを返す</returns>
 	bool CreateRenderPipeline();
+
+	void RegisterTextureSRV();
 
 	bool InitBoneResource();
 

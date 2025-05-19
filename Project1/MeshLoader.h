@@ -1,10 +1,8 @@
-#ifndef MESHLOADER_H
-#define MESHLOADER_H
-
 #include <memory>
 #include <iostream>
 #include <vector>
 #include "Entity.h"
+#define NOMINMAX
 #include "windows.h"
 #include "DirectXMath.h"
 #include "GameManager.h"
@@ -12,6 +10,9 @@
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 #include "TextureLoader.h"
+
+#ifndef MESHLOADER_H
+#define MESHLOADER_H
 
 using namespace DirectX;
 
@@ -52,12 +53,6 @@ public:
 		std::vector<float> weight;
 	};
 
-	struct BoneInfo {
-		aiMatrix4x4 offset;
-
-		aiMatrix4x4 finalMat;
-	};
-
 	struct Mesh
 	{
 		/// <summary>
@@ -72,19 +67,17 @@ public:
 
 		std::vector<VertexBoneData> vertexBoneDatas;
 
-		ComPtr<ID3D12Resource> texResource;
-
 		int baseVertexNumber;
 
 		int baseIndexNumber;
 
-		std::vector<BoneInfo> boneInfos;
+		ComPtr<ID3D12Resource> texResource;
 
-		std::unordered_map<std::string, UINT> boneMapping;
-
-		TextureLoader::TextureView texView;
+		ComPtr<ID3D12Resource> vertexBuffer;
 
 		D3D12_VERTEX_BUFFER_VIEW vbView;
+
+		ComPtr<ID3D12Resource> indexBuffer;
 
 		D3D12_INDEX_BUFFER_VIEW ibView;
 	};
@@ -93,14 +86,24 @@ public:
 	{
 		std::vector<Mesh> meshes;
 
+		std::vector<aiMatrix4x4> boneOffset;
+
+		std::unordered_map<std::string, UINT> boneMapping;
+
 		aiScene scene;
+
+		Assimp::Importer import;
+
+		MeshData() = default;
 	};
+
+	void Init();
 
 	static MeshLoader& GetInstance();
 
-	std::vector<MeshLoader::Mesh> GetMesh(MESHTYPE type);
+	MeshData* GetMesh(MESHTYPE type);
 private:
-	aiScene scene;
+	aiScene currentScene;
 
 	std::unordered_map<MESHTYPE, MeshData> meshData;
 
@@ -115,6 +118,8 @@ private:
     /// <returns>ロードの可否</returns>
 	bool LoadMesh(const std::string fileName, MESHTYPE type);
 
+	void RelateMeshWithBone(MeshData& meshData, aiNode& node);
+
 	/// <summary>
     /// DirectXの基幹システムを構築するクラスのシングルトンのインスタンス
     /// </summary>
@@ -124,18 +129,25 @@ private:
     /// 読み込んだメッシュの頂点情報を格納する
     /// </summary>
     /// <param name="scene">assimpのメッシュの情報を展開して格納されているaiScene変数</param>
-	void StoreVertices(const std::string filePath, std::vector<Mesh> meshDatas);
+	void StoreVertices(const std::string filePath, std::vector<Mesh>& meshes, MeshData& meshData);
 
-	void InitBone(const aiMesh& aiMesh, Mesh& meshData);
+	void InitBone(const aiMesh& aiMesh, Mesh& mesh, MeshData& meshData);
 
 	void InitMaterial(const std::string filePath, const aiMesh& mesh, Mesh& data);
 
-	bool InitVBVResource(MeshLoader::Mesh& mesh);
+	bool InitVBVResource(MeshLoader::Mesh& mesh , ComPtr<ID3D12Resource>& uploadVertexbuffer);
 
-	bool MapVB(MeshLoader::Mesh& mesh);
+	bool MapVB(MeshLoader::Mesh& mesh, ComPtr<ID3D12Resource>& uploadVertexbuffer);
 
-	bool VBUploadToDefultHeap(MeshLoader::Mesh& mesh);
+	bool VBUploadToDefultHeap(MeshLoader::Mesh& mesh, ComPtr<ID3D12Resource>& uploadVertexbuffer);
 
+	bool InitIBVResource(MeshLoader::Mesh& mesh, ComPtr<ID3D12Resource>& uploadIndexbuffer);
+
+	bool MapIB(MeshLoader::Mesh& mesh, ComPtr<ID3D12Resource>& uploadIndexbuffer);
+
+	bool IBUploadToDefultHeap(MeshLoader::Mesh& mesh, ComPtr<ID3D12Resource>& uploadIndexbuffer);
+
+	void Init(MESHTYPE type);
 };
 
 #endif

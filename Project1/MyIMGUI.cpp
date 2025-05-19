@@ -184,6 +184,26 @@ void ShowRendererInfo(std::shared_ptr<Renderer> rend)
 
 		ImGui::TreePop();
 	}
+
+	if (ImGui::TreeNode("Mesh")) {
+
+		const char* meshNames[] = {
+     	"Wireframe",
+	    "Solid",
+	    "Textured"
+		};
+
+		MeshLoader::MESHTYPE currentMeshType = rend->GetCurrentMeshType();
+
+		int currentIndex = static_cast<int>(currentMeshType);
+		if (ImGui::Combo("MeshType", &currentIndex, meshNames, IM_ARRAYSIZE(meshNames))) {
+			currentMeshType = static_cast<MeshLoader::MESHTYPE>(currentIndex);
+
+			rend->CreateMesh(currentMeshType);
+		}
+
+		ImGui::TreePop();
+	}
 }
 
 void ShowRigidbodyInfo(std::shared_ptr<Rigidbody> rigid)
@@ -209,8 +229,7 @@ void ShowRigidbodyInfo(std::shared_ptr<Rigidbody> rigid)
 
 	rigid->SetVelocity(DirectX::XMVectorSet(x, y, z, 0));
 
-	ImGui::SetNextItemWidth(5-
-		*--0);
+	ImGui::SetNextItemWidth(50);
 	ImGui::DragFloat(" : Mass", &rigid->mass, 0.1);
 	ImGui::SameLine();
 	ImGui::NewLine();

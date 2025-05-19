@@ -92,8 +92,6 @@ void DXRenderSystem::WaitForRender()
 
 		WaitForSingleObjectEx(fence_event, INFINITE, false);
 	}
-
-	updateHeaps.clear();
 }
 
 std::unique_ptr<DXRenderSystem> DXRenderSystem::instance = nullptr;
@@ -162,6 +160,14 @@ void DXRenderSystem::Draw()
 
 	cmd_list->ResourceBarrier(1, &barrier);
 
+	ExecuteCommands();
+
+	if (uploadHeaps.size() > 0)
+		uploadHeaps.clear();
+}
+
+void DXRenderSystem::ExecuteCommands()
+{
 	cmd_list->Close();
 
 	ID3D12CommandList* lists_array[] = { cmd_list.Get() };
@@ -522,11 +528,11 @@ bool DXRenderSystem::CreateDBV()
 	return true;
 }
 
-ComPtr<ID3D12Resource>& DXRenderSystem::GetEmptyUpdateHeap()
+ComPtr<ID3D12Resource>& DXRenderSystem::GetEmptyUploadHeap()
 {
-	updateHeaps.emplace_back();
+	uploadHeaps.emplace_back();
 
-	return updateHeaps.back();
+	return uploadHeaps.back();
 }
 
 bool DXRenderSystem::SetScissorAndViewPort()

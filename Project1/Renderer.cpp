@@ -71,7 +71,6 @@ bool Renderer::MapCB()
 
 Renderer::Renderer(std::shared_ptr<Entity> ent) : Component::Component(ent)
 {
-	finalBoneMats.resize(200);
 
 	bool isSuccess = true;
 
@@ -81,13 +80,13 @@ Renderer::Renderer(std::shared_ptr<Entity> ent) : Component::Component(ent)
 
 	isSuccess &= MapCB();
 
+	isSuccess &= CreateMesh(MeshLoader::BOX);
+
 	isSuccess &= InitBoneResource();
 
 	isSuccess &= MapBB();
 
 	isSuccess &= InitSRVForBoneBuffer();
-
-	isSuccess &= CreateMesh(MeshLoader::BOX);
 
 	isSuccess &= CreateRootSignature();
 
@@ -143,9 +142,11 @@ void Renderer::AddRenderCommand(ComPtr<ID3D12GraphicsCommandList>& cmdList, int 
 
 	cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-	for (auto& mesh : meshDatas)
+	for (int i =0;i<meshData->meshes.size();i++)
 	{
-		cmdList->SetGraphicsRootDescriptorTable(1, mesh.texView.gpu_handle);
+		auto& mesh = meshData->meshes[i];
+
+		cmdList->SetGraphicsRootDescriptorTable(1, texHandle[i].gpuHandle);
 
 		cmdList->SetGraphicsRootShaderResourceView(2, boneBuffer->GetGPUVirtualAddress());
 
@@ -156,7 +157,7 @@ void Renderer::AddRenderCommand(ComPtr<ID3D12GraphicsCommandList>& cmdList, int 
 		cmdList->DrawIndexedInstanced(mesh.indices.size(), 1, 0, 0, 0);
 	}
 
-}
+}//uploadIndexBuffer = 0x0000021b7c486440 < 情報はありません。d3d12SDKLayers.dll のシンボルが読み込まれていません > vertexBuffer = 0x0000021b6ff54450 < 情報はありません。d3d12SDKLayers.dll のシンボルが読み込まれていません >
 
 bool Renderer::InitCBVResource()
 {
@@ -221,11 +222,9 @@ bool Renderer::InitCBVResource()
 
 bool Renderer::LinkCBVResourceToDescHeap()
 {
-	delete cbHandle;
-
 	for (int i = 0; i < DXRenderSystem::frameBuffer; i++)
 	{
-		cbHandle[i] = heapManager.GetHandles();
+		cbHandle[i] = std::move(heapManager.GetHandle());
 
 		cbView[i].BufferLocation = constantBuffer[i]->GetGPUVirtualAddress();
 
@@ -468,8 +467,37 @@ bool Renderer::CreateRenderPipeline()
 	return true;
 }
 
+void Renderer::RegisterTextureSRV()
+{
+	texHandle.clear();
+
+	for (int i = 0;i < meshData->meshes.size();i++)
+	{
+		texHandle.push_back(std::move(heapManager.GetHandle()));
+
+		auto texture_desc = meshData->meshes[i].texResource->GetDesc();
+
+		D3D12_SHADER_RESOURCE_VIEW_DESC desc = {};
+
+		desc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
+
+		desc.Format = texture_desc.Format;
+
+		desc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+
+		desc.Texture2D.MipLevels = texture_desc.MipLevels;
+		desc.Texture2D.MostDetailedMip = 0;
+		desc.Texture2D.ResourceMinLODClamp = 0;
+		desc.Texture2D.PlaneSlice = 0;
+
+		DXRenderSystem::GetInstance().GetDevice()->CreateShaderResourceView(meshData->meshes[i].texResource.Get(), &desc, texHandle[i].cpuHandle);
+	}
+}
+
 bool Renderer::InitBoneResource()
 {
+	finalBoneMats.resize(400, DirectX::XMMatrixIdentity());
+
 	UINT bufferSize = sizeof(XMMATRIX) * finalBoneMats.size();
 
 	D3D12_HEAP_PROPERTIES prop = {};
@@ -514,7 +542,7 @@ bool Renderer::InitBoneResource()
 		&desc,
 		D3D12_RESOURCE_STATE_GENERIC_READ,
 		nullptr,
-		IID_PPV_ARGS(&boneBuffer)
+		IID_PPV_ARGS(boneBuffer.GetAddressOf())
 	);
 
 	if (FAILED(hr))
@@ -529,14 +557,6 @@ bool Renderer::InitBoneResource()
 
 bool Renderer::MapBB()
 {
-	for (int i = 0;i < finalBoneMats.size();i++)
-	{
-		if (boneInfos.size() > i)
-		{
-			finalBoneMats[i] = Utility::ConvertAiMatrix4x4ToXMMATRIX(boneInfos[i].finalMat);
-		}
-	}
-
 	void* ptr= nullptr;
 
 	hr = boneBuffer->Map(0, nullptr, &ptr);
@@ -565,12 +585,9 @@ bool Renderer::InitSRVForBoneBuffer()
 	srvDesc.Buffer.StructureByteStride = sizeof(XMMATRIX);
 	srvDesc.Buffer.Flags = D3D12_BUFFER_SRV_FLAG_NONE;
 
-	D3D12_CPU_DESCRIPTOR_HANDLE handle = heap->GetCPUDescriptorHandleForHeapStart();
-	UINT increment = DXRenderSystem::GetInstance().GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+	boneHandle = std::move(heapManager.GetHandle());
 
-	handle.ptr += increment * GetHandlingNum();
-
-	DXRenderSystem::GetInstance().GetDevice()->CreateShaderResourceView(boneBuffer.Get(), &srvDesc, handle);
+	DXRenderSystem::GetInstance().GetDevice()->CreateShaderResourceView(boneBuffer.Get(), &srvDesc, boneHandle.cpuHandle);
 
 	return true;
 }
@@ -747,56 +764,15 @@ void Renderer::ReadHierarchyNode(float animationTime , aiNode& node , aiMatrix4x
 
 	resultMat = parentMat * nodeTransformation;
 
-	for (int i = 0;i < node.mNumMeshes;i++)
+	if (meshData->boneMapping.find(name) != meshData->boneMapping.end())
 	{
-		if (node.mParent == scene.mRootNode)
-			continue;
+		auto animationMat = resultMat * meshData->boneOffset[meshData->boneMapping[name]];
 
-		UINT boneIndex = 0;
-
-		if (boneMapping.find(name) == boneMapping.end())
-		{
-			boneIndex = boneMapping.size();
-
-			BoneInfo bi;
-
-			boneInfos.emplace_back(bi);
-
-			boneInfos[boneIndex].offset = aiMatrix4x4();
-
-			boneMapping[name] = boneIndex;
-
-			for (int j = 0;j < meshDatas[node.mMeshes[i]].vertexDatas.size();j++)
-			{
-				meshDatas[node.mMeshes[i]].vertexDatas[j].parentBone = boneIndex;
-			}
-
-			MapVB(meshDatas[node.mMeshes[i]]);
-		}
-		else if(meshDatas[node.mMeshes[i]].vertexDatas[0].parentBone == 0)
-		{
-			boneIndex = boneMapping[name];
-
-			for (int j = 0;j < meshDatas[node.mMeshes[i]].vertexDatas.size();j++)
-			{
-				meshDatas[node.mMeshes[i]].vertexDatas[j].parentBone = boneIndex;
-			}
-
-			MapVB(meshDatas[node.mMeshes[i]]);
-		}
-	}
-
-	
-
-	if (boneMapping.find(name) != boneMapping.end())
-	{
-		boneInfos[boneMapping[name]].finalMat = resultMat * boneInfos[boneMapping[name]].offset;
+		finalBoneMats[meshData->boneMapping[name]] = Utility::ConvertAiMatrix4x4ToXMMATRIX(animationMat);
 	}
 
 	for (int i = 0;i < node.mNumChildren;i++)
 	{
-	
-
 		ReadHierarchyNode(animationTime , *node.mChildren[i] , resultMat , anim);
 	}
 
@@ -804,7 +780,7 @@ void Renderer::ReadHierarchyNode(float animationTime , aiNode& node , aiMatrix4x
 
 void Renderer::ProcessAnimation(float time)
 {
-	aiAnimation* anim = scene.mAnimations[animIndex];
+	aiAnimation* anim = meshData->scene.mAnimations[animIndex];
 
 	auto ticksPerSecond = anim->mTicksPerSecond;
 
@@ -816,7 +792,7 @@ void Renderer::ProcessAnimation(float time)
 
 	mat = aiMatrix4x4();
 
-	ReadHierarchyNode(animationTime, *scene.mRootNode, mat, *anim);
+	ReadHierarchyNode(animationTime, *meshData->scene.mRootNode, mat, *anim);
 
 	InitBoneResource();
 
@@ -851,7 +827,7 @@ void Renderer::StartAnimation(UINT index,float speed = 1, bool isLoop = false)
 
 	animIndex = index;
 
-	aiAnimation* anim = scene.mAnimations[animIndex];
+	aiAnimation* anim = meshData->scene.mAnimations[animIndex];
 
 	animSpeed = speed;
 
@@ -866,18 +842,28 @@ std::vector<string> Renderer::GetAnimationNameList()
 {
 	std::vector<string> names;
 
-	for (int i = 0; i < scene.mNumAnimations;i++)
+	for (int i = 0; i < meshData->scene.mNumAnimations;i++)
 	{
-		names.emplace_back(scene.mAnimations[i]->mName.C_Str());
+		names.emplace_back(meshData->scene.mAnimations[i]->mName.C_Str());
 	}
 
 	return names;
 }
 
+MeshLoader::MESHTYPE  Renderer::GetCurrentMeshType()
+{
+	return currentMeshType;
+}
 
 bool Renderer::CreateMesh(const MeshLoader::MESHTYPE type)
 {
-	auto meshData = MeshLoader::GetInstance().GetMesh(type);
+	currentMeshType = type;
+
+	meshData = MeshLoader::GetInstance().GetMesh(type);
+
+	finalBoneMats.resize(meshData->boneMapping.size());
+
+	RegisterTextureSRV();
 
 	return true;
 }

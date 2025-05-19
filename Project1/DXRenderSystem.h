@@ -53,11 +53,15 @@ public:
 
 	void Draw();
 
+	void ExecuteCommands();
+
 	ComPtr<ID3D12Device>& GetDevice();
+
+	ComPtr<ID3D12Resource>& GetEmptyUploadHeap();
 
 	const static int frameBuffer = 2;
 private:
-	std::vector<ComPtr<ID3D12Resource>> updateHeaps;
+	std::vector<ComPtr<ID3D12Resource>> uploadHeaps;
 
 	/// <summary>
 	/// DirectX12のデバイスを作成する
@@ -130,8 +134,6 @@ private:
 	/// </summary>
 	/// <returns>正常に終了したらtrueを返す</returns>
 	bool CreateDBV();
-
-	ComPtr<ID3D12Resource>& GetEmptyUpdateHeap();
 
 	/// <summary>
 	/// `描画の領域を決めるシザーとビューポートを設定する

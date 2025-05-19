@@ -20,7 +20,6 @@ namespace Utility
     static const float ep = 1e-3f;
 
     DirectX::XMMATRIX ConvertAiMatrix4x4ToXMMATRIX(aiMatrix4x4 mat);
-    DirectX::XMMATRIX ConvertAiMatrix4x4ToXMMATRIX2(aiMatrix4x4 mat);
 
     int GetRandomInt(int min, int max);
 

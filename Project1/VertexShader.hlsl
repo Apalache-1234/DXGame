@@ -57,7 +57,7 @@ float4x4 boneTransform =
 
 	local_pos = mul(boneTransform, float4(vertexIn.position, 1.0f));
 
-	if(length(local_pos) == 0)
+	if (length(local_pos) == 0)
 	{
 		local_pos = float4(vertexIn.position, 1.0f);
 	}

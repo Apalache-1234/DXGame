@@ -79,7 +79,7 @@ void SkyBox::AddRenderCommand(ComPtr<ID3D12GraphicsCommandList>& cmdList, int ba
 
 	cmdList->SetGraphicsRootSignature(rootSig.Get());
 
-	cmdList->SetDescriptorHeaps(1, heap.GetAddressOf());
+	cmdList->SetDescriptorHeaps(1, heapManager.GetHeap().GetAddressOf());
 
 	cmdList->SetGraphicsRootConstantBufferView(0, cbView[backbufferIndex].BufferLocation);
 
@@ -87,20 +87,23 @@ void SkyBox::AddRenderCommand(ComPtr<ID3D12GraphicsCommandList>& cmdList, int ba
 
 	cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-	cmdList->SetGraphicsRootDescriptorTable(1, texView.gpu_handle);
+	cmdList->SetGraphicsRootDescriptorTable(1, texHandle.gpuHandle);
 
-	cmdList->IASetVertexBuffers(0, 1, &vbView);
+	for (int i = 0;i < meshData->meshes.size();i++)
+	{
+		auto& mesh = meshData->meshes[i];
 
-	cmdList->IASetIndexBuffer(&ibView);
+		cmdList->IASetVertexBuffers(0, 1, &mesh.vbView);
 
-	cmdList->DrawIndexedInstanced(indices.size(), 1, 0, 0, 0);
+		cmdList->IASetIndexBuffer(&mesh.ibView);
+
+		cmdList->DrawIndexedInstanced(mesh.indices.size(), 1, 0, 0, 0);
+	}
 }
 
 bool SkyBox::Init()
 {
 	bool isSuccess = true;
-
-	isSuccess &= InitDescHeap();
 
 	isSuccess &= InitCBVResource();
 
@@ -108,19 +111,13 @@ bool SkyBox::Init()
 
 	isSuccess &= MapCB();
 
-	isSuccess &= InitVBVResource();
+	isSuccess &= CreateMesh(MeshLoader::BOX);
 
-	isSuccess &= MapVB();
-
-	isSuccess &= InitIBVResource();
-
-	isSuccess &= MapIB();
+	isSuccess &= CreateTexture();
 
 	isSuccess &= CreateRootSignature();
 
 	isSuccess &= CreateRenderPipeline();
-
-	isSuccess &= LoadTexture();
 
 	if (!isSuccess)
 	{
@@ -128,30 +125,6 @@ bool SkyBox::Init()
 	}
 
 	return isSuccess;
-}
-
-bool SkyBox::InitDescHeap()
-{
-	D3D12_DESCRIPTOR_HEAP_DESC desc = {};
-
-	desc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
-
-	desc.NodeMask = 0;
-
-	desc.NumDescriptors = DXRenderSystem::frameBuffer + 2;
-
-	desc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
-
-	hr = DXRenderSystem::GetInstance().GetDevice()->CreateDescriptorHeap(&desc, IID_PPV_ARGS(heap.GetAddressOf()));
-
-	if (FAILED(hr))
-	{
-		std::cerr << "デスクリプタヒープ作成失敗" << std::endl;
-
-		return false;
-	}
-
-	return true;
 }
 
 bool SkyBox::InitCBVResource()
@@ -217,327 +190,17 @@ bool SkyBox::InitCBVResource()
 
 bool SkyBox::LinkCBVResourceToDescHeap()
 {
-	auto increament = DXRenderSystem::GetInstance().GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
-
-	auto heapPtr = heap->GetCPUDescriptorHandleForHeapStart();
 
 	for (int i = 0; i < DXRenderSystem::frameBuffer; i++)
 	{
+		cbHandle[i] = std::move(heapManager.GetHandle());
+
 		cbView[i].BufferLocation = constantBuffer[i]->GetGPUVirtualAddress();
 
 		cbView[i].SizeInBytes = sizeof(Transform);
 
-		heapPtr.ptr += increament;
-
-		DXRenderSystem::GetInstance().GetDevice()->CreateConstantBufferView(&cbView[i], heapPtr);
+		DXRenderSystem::GetInstance().GetDevice()->CreateConstantBufferView(&cbView[i], cbHandle[i].cpuHandle);
 	}
-
-	return true;
-}
-
-bool SkyBox::InitVBVResource()
-{
-	D3D12_HEAP_PROPERTIES prop = {};
-
-	prop.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_UNKNOWN;
-
-	prop.Type = D3D12_HEAP_TYPE_UPLOAD;
-
-	prop.CreationNodeMask = 1;
-
-	prop.VisibleNodeMask = 1;
-
-	prop.MemoryPoolPreference = D3D12_MEMORY_POOL_UNKNOWN;
-
-	D3D12_RESOURCE_DESC desc = {  };
-
-	desc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
-
-	desc.Alignment = 0;
-
-	desc.Height = 1;
-
-	desc.Width = sizeof(VertexData) * vertexDatas.size();
-
-	desc.Flags = D3D12_RESOURCE_FLAG_NONE;
-
-	desc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
-
-	desc.SampleDesc.Count = 1;
-
-	desc.SampleDesc.Quality = 0;
-
-	desc.DepthOrArraySize = 1;
-
-	desc.MipLevels = 1;
-
-	desc.Format = DXGI_FORMAT_UNKNOWN;
-
-	hr = DXRenderSystem::GetInstance().GetDevice()->CreateCommittedResource(
-		&prop,
-		D3D12_HEAP_FLAG_NONE,
-		&desc,
-		D3D12_RESOURCE_STATE_GENERIC_READ,
-		nullptr,
-		IID_PPV_ARGS(uploadVertexBuffer.GetAddressOf())
-
-	);
-
-	if (FAILED(hr))
-	{
-		std::cerr << "VBVのアップロードリソース作成失敗" << std::endl;
-
-		return false;
-	}
-
-	return true;
-}
-
-bool SkyBox::MapVB()
-{
-	void* ptr = nullptr;
-
-	hr = uploadVertexBuffer->Map(0, nullptr, &ptr);
-
-	if (FAILED(hr))
-	{
-		std::cerr << "頂点データのマッピング失敗" << std::endl;
-
-		return false;
-	}
-	memcpy(ptr, vertexDatas.data(), sizeof(VertexData) * vertexDatas.size());
-
-	uploadVertexBuffer->Unmap(0, nullptr);
-
-	return VBUploadToDefultHeap();
-}
-
-bool SkyBox::VBUploadToDefultHeap()
-{
-	D3D12_HEAP_PROPERTIES prop = {};
-
-	prop.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_UNKNOWN;
-
-	prop.Type = D3D12_HEAP_TYPE_DEFAULT;
-
-	prop.CreationNodeMask = 1;
-
-	prop.VisibleNodeMask = 1;
-
-	prop.MemoryPoolPreference = D3D12_MEMORY_POOL_UNKNOWN;
-
-	D3D12_RESOURCE_DESC desc = {  };
-
-	desc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
-
-	desc.Alignment = 0;
-
-	desc.Height = 1;
-
-	desc.Width = sizeof(VertexData) * vertexDatas.size();
-
-	desc.Flags = D3D12_RESOURCE_FLAG_NONE;
-
-	desc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
-
-	desc.SampleDesc.Count = 1;
-
-	desc.SampleDesc.Quality = 0;
-
-	desc.DepthOrArraySize = 1;
-
-	desc.MipLevels = 1;
-
-	desc.Format = DXGI_FORMAT_UNKNOWN;
-
-	hr = DXRenderSystem::GetInstance().GetDevice()->CreateCommittedResource(
-		&prop,
-		D3D12_HEAP_FLAG_NONE,
-		&desc,
-		D3D12_RESOURCE_STATE_COPY_DEST,
-		nullptr,
-		IID_PPV_ARGS(vertexBuffer.GetAddressOf())
-
-	);
-
-	if (FAILED(hr))
-	{
-		std::cerr << "VBVのリソース作成失敗" << std::endl;
-
-		return false;
-	}
-
-	D3D12_SUBRESOURCE_DATA subresourceData = {};
-	subresourceData.pData = vertexDatas.data();
-	subresourceData.RowPitch = sizeof(VertexData) * vertexDatas.size();
-	subresourceData.SlicePitch = subresourceData.RowPitch;
-
-	UpdateSubresources(DXRenderSystem::GetInstance().GetCommandList().Get(), vertexBuffer.Get(), uploadVertexBuffer.Get(), 0, 0, 1, &subresourceData);
-
-	CD3DX12_RESOURCE_BARRIER barrier = CD3DX12_RESOURCE_BARRIER::Transition(
-		vertexBuffer.Get(),
-		D3D12_RESOURCE_STATE_COPY_DEST,
-		D3D12_RESOURCE_STATE_VERTEX_AND_CONSTANT_BUFFER
-	);
-	DXRenderSystem::GetInstance().GetCommandList()->ResourceBarrier(1, &barrier);
-
-	vbView.BufferLocation = vertexBuffer->GetGPUVirtualAddress();
-	vbView.SizeInBytes = sizeof(VertexData) * vertexDatas.size();
-	vbView.StrideInBytes = sizeof(VertexData);
-
-	return true;
-}
-
-bool SkyBox::InitIBVResource()
-{
-	D3D12_HEAP_PROPERTIES prop = {};
-
-	prop.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_UNKNOWN;
-
-	prop.Type = D3D12_HEAP_TYPE_UPLOAD;
-
-	prop.CreationNodeMask = 1;
-
-	prop.VisibleNodeMask = 1;
-
-	prop.MemoryPoolPreference = D3D12_MEMORY_POOL_UNKNOWN;
-
-	D3D12_RESOURCE_DESC desc = {  };
-
-	desc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
-
-	desc.Alignment = 0;
-
-	desc.Height = 1;
-
-	desc.Width = sizeof(int) * indices.size();
-
-	desc.Flags = D3D12_RESOURCE_FLAG_NONE;
-
-	desc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
-
-	desc.SampleDesc.Count = 1;
-
-	desc.SampleDesc.Quality = 0;
-
-	desc.DepthOrArraySize = 1;
-
-	desc.MipLevels = 1;
-
-	desc.Format = DXGI_FORMAT_UNKNOWN;
-
-	hr = DXRenderSystem::GetInstance().GetDevice()->CreateCommittedResource(
-		&prop,
-		D3D12_HEAP_FLAG_NONE,
-		&desc,
-		D3D12_RESOURCE_STATE_GENERIC_READ,
-		nullptr,
-		IID_PPV_ARGS(uploadIndexBuffer.GetAddressOf())
-
-	);
-
-	if (FAILED(hr))
-	{
-		std::cerr << "IBVのリソース作成失敗" << std::endl;
-
-		return false;
-	}
-
-	return true;
-}
-
-bool SkyBox::MapIB()
-{
-	void* ptr = nullptr;
-
-	hr = uploadIndexBuffer->Map(0, nullptr, &ptr);
-
-	if (FAILED(hr))
-	{
-		std::cerr << "インデックスデータのマッピング失敗" << std::endl;
-
-		return false;
-	}
-
-	memcpy(ptr, indices.data(), sizeof(int) * indices.size());
-
-	uploadIndexBuffer->Unmap(0, nullptr);
-
-	return IBUploadToDefultHeap();
-}
-
-bool SkyBox::IBUploadToDefultHeap()
-{
-	D3D12_HEAP_PROPERTIES prop = {};
-
-	prop.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_UNKNOWN;
-
-	prop.Type = D3D12_HEAP_TYPE_DEFAULT;
-
-	prop.CreationNodeMask = 1;
-
-	prop.VisibleNodeMask = 1;
-
-	prop.MemoryPoolPreference = D3D12_MEMORY_POOL_UNKNOWN;
-
-	D3D12_RESOURCE_DESC desc = {  };
-
-	desc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
-
-	desc.Alignment = 0;
-
-	desc.Height = 1;
-
-	desc.Width = sizeof(int) * indices.size();
-
-	desc.Flags = D3D12_RESOURCE_FLAG_NONE;
-
-	desc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
-
-	desc.SampleDesc.Count = 1;
-
-	desc.SampleDesc.Quality = 0;
-
-	desc.DepthOrArraySize = 1;
-
-	desc.MipLevels = 1;
-
-	desc.Format = DXGI_FORMAT_UNKNOWN;
-
-	hr = DXRenderSystem::GetInstance().GetDevice()->CreateCommittedResource(
-		&prop,
-		D3D12_HEAP_FLAG_NONE,
-		&desc,
-		D3D12_RESOURCE_STATE_COPY_DEST,
-		nullptr,
-		IID_PPV_ARGS(indexBuffer.GetAddressOf())
-
-	);
-
-	if (FAILED(hr))
-	{
-		std::cerr << "IBVのリソース作成失敗" << std::endl;
-
-		return false;
-	}
-
-	D3D12_SUBRESOURCE_DATA subresourceData = {};
-	subresourceData.pData = indices.data();
-	subresourceData.RowPitch = sizeof(int) * indices.size();
-	subresourceData.SlicePitch = subresourceData.RowPitch;
-
-	UpdateSubresources(DXRenderSystem::GetInstance().GetCommandList().Get(), indexBuffer.Get(), uploadIndexBuffer.Get(), 0, 0, 1, &subresourceData);
-
-	CD3DX12_RESOURCE_BARRIER barrier = CD3DX12_RESOURCE_BARRIER::Transition(
-		indexBuffer.Get(),
-		D3D12_RESOURCE_STATE_COPY_DEST,
-		D3D12_RESOURCE_STATE_INDEX_BUFFER
-	);
-	DXRenderSystem::GetInstance().GetCommandList()->ResourceBarrier(1, &barrier);
-
-	ibView.BufferLocation = indexBuffer->GetGPUVirtualAddress();
-	ibView.SizeInBytes = sizeof(int) * indices.size();;
-	ibView.Format = DXGI_FORMAT_R32_UINT;
 
 	return true;
 }
@@ -629,8 +292,14 @@ bool SkyBox::CreateRootSignature()
 
 bool SkyBox::CreateRenderPipeline()
 {
-	D3D12_INPUT_ELEMENT_DESC desc_element[1] = {
+	D3D12_INPUT_ELEMENT_DESC desc_element[7] = {
 	{"POSITION" , 0 , DXGI_FORMAT_R32G32B32_FLOAT , 0 , D3D12_APPEND_ALIGNED_ELEMENT , D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA , 0},
+	{"TEXCOORD" , 0 , DXGI_FORMAT_R32G32_FLOAT , 0 , D3D12_APPEND_ALIGNED_ELEMENT , D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA , 0},
+	{"TANGENT" , 0 , DXGI_FORMAT_R32G32B32_FLOAT , 0 , D3D12_APPEND_ALIGNED_ELEMENT , D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA , 0},
+	{"NORMAL" , 0 , DXGI_FORMAT_R32G32B32_FLOAT , 0 , D3D12_APPEND_ALIGNED_ELEMENT , D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA , 0},
+	{ "BONEID",   0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+	{ "WEIGHT",   0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+	{ "PARENT",   0, DXGI_FORMAT_R32_FLOAT, 0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
 	};
 
 	D3D12_RASTERIZER_DESC desc_ras = {};
@@ -760,53 +429,34 @@ bool SkyBox::CreateRenderPipeline()
 	return true;
 }
 
-bool SkyBox::LoadTexture()
+bool SkyBox::CreateMesh(const MeshLoader::MESHTYPE type)
 {
-	DirectX::ResourceUploadBatch batch(DXRenderSystem::GetInstance().GetDevice().Get());
+	meshData = MeshLoader::GetInstance().GetMesh(type);
 
-	batch.Begin();
+	return true;
+}
 
-	hr = DirectX::CreateDDSTextureFromFile(DXRenderSystem::GetInstance().GetDevice().Get(), batch, L"Textures/SkyBox.dds", texView.resource.GetAddressOf(), false);
+bool SkyBox::CreateTexture()
+{
+	texHandle = std::move(heapManager.GetHandle());
 
-	if (FAILED(hr))
-	{
-		std::cerr << "ddsファイル読み込みエラー" << std::endl;
+	auto resource = TextureLoader::GetInstance().LoadTexture("Textures/SkyBox.dds");
 
-		hr = DirectX::CreateDDSTextureFromFile(DXRenderSystem::GetInstance().GetDevice().Get(), batch, L"Textures/error.dds", texView.resource.GetAddressOf(), true);
-	}
-
-	auto load = batch.End(DXRenderSystem::GetInstance().GetCommandQueue().Get());
-
-	load.wait();
-
-	UINT descriptorSize = DXRenderSystem::GetInstance().GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
-
-	UINT ptrNum = DXRenderSystem::frameBuffer + 1;
-
-	D3D12_CPU_DESCRIPTOR_HANDLE cpuHandle = heap->GetCPUDescriptorHandleForHeapStart();
-	cpuHandle.ptr += ptrNum * descriptorSize;
-
-	D3D12_GPU_DESCRIPTOR_HANDLE gpuHandle = heap->GetGPUDescriptorHandleForHeapStart();
-	gpuHandle.ptr += ptrNum * descriptorSize;
-
-	texView.cpu_handle = cpuHandle;
-	texView.gpu_handle = gpuHandle;
-
-	auto texture_desc = texView.resource->GetDesc();
+	auto textureDesc = resource->GetDesc();
 
 	D3D12_SHADER_RESOURCE_VIEW_DESC desc = {};
 
 	desc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURECUBE;
 
-	desc.Format = texture_desc.Format;
+	desc.Format = textureDesc.Format;
 
 	desc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
 
-	desc.TextureCube.MipLevels = texture_desc.MipLevels;
+	desc.TextureCube.MipLevels = textureDesc.MipLevels;
 	desc.TextureCube.MostDetailedMip = 0;
 	desc.TextureCube.ResourceMinLODClamp = 0;
 
-	DXRenderSystem::GetInstance().GetDevice()->CreateShaderResourceView(texView.resource.Get(), &desc, cpuHandle);
+	DXRenderSystem::GetInstance().GetDevice()->CreateShaderResourceView(resource.Get(), &desc, texHandle.cpuHandle);
 
 	return true;
 }

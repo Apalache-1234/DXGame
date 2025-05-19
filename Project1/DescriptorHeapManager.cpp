@@ -1,8 +1,12 @@
 #include "DescriptorHeapManager.h"
 
+DescriptorHeapManager::DescriptorHeapManager() : DescriptorHeapManager(100)
+{
+}
+
 DescriptorHeapManager::DescriptorHeapManager(UINT num)
 {
-	assert(num == 0);
+	assert(num != 0);
 
 	capacity = num;
 
@@ -17,22 +21,20 @@ DescriptorHeapManager::~DescriptorHeapManager()
 {
 }
 
-PtrHandles DescriptorHeapManager::GetHandles()
+DescriptorHeapManager::PtrHandles DescriptorHeapManager::GetHandle()
 {
-	assert(free.size() <= 0);
+	assert(free.size() >= 0);
 
-	PtrHandles handles = free.back();
+	PtrHandles handles = std::move(free.back());
 
 	free.pop_back();
 
-	return handles;
+	return std::move(handles);
 }
 
-void DescriptorHeapManager::BackHandles(PtrHandles handles)
+void DescriptorHeapManager::BackHandles(D3D12_CPU_DESCRIPTOR_HANDLE cpuHandle , D3D12_GPU_DESCRIPTOR_HANDLE gpuHandle)
 {
-	assert(free.size() >= 100);
 
-	free.push_back(handles);
 }
 
 ComPtr<ID3D12DescriptorHeap> DescriptorHeapManager::GetHeap()
@@ -66,9 +68,9 @@ bool DescriptorHeapManager::InitDescHeap()
 
 bool DescriptorHeapManager::InitList()
 {
-	assert(capacity == 0);
+	assert(capacity != 0);
 
-	free.resize(capacity);
+	free.reserve(capacity);
 
 	auto increment = DXRenderSystem::GetInstance().GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
 
@@ -80,9 +82,7 @@ bool DescriptorHeapManager::InitList()
 		cpuHandle.ptr += increment * i;
 		gpuHandle.ptr += increment * i;
 
-		PtrHandles handles = PtrHandles(cpuHandle , gpuHandle , this);
-
-		free.emplace_back(handles);
+		free.emplace_back(cpuHandle, gpuHandle, this);
 	}
 
 	return true;

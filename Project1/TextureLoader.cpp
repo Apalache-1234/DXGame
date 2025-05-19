@@ -34,7 +34,7 @@ ComPtr<ID3D12Resource> TextureLoader::LoadTexture(const std::string filePath)
 
 	batch.Begin();
 
-	HRESULT hr = DirectX::CreateDDSTextureFromFile(DXRenderSystem::GetInstance().GetDevice().Get(), batch, ws.c_str(), resource.GetAddressOf(), true);
+	HRESULT hr = DirectX::CreateDDSTextureFromFile(DXRenderSystem::GetInstance().GetDevice().Get(), batch, ws.c_str(), resource.GetAddressOf(), false);
 
 	std::wcout << L"path = " << ws << std::endl;
 
@@ -42,7 +42,7 @@ ComPtr<ID3D12Resource> TextureLoader::LoadTexture(const std::string filePath)
 	{
 		std::cerr << "ddsファイル読み込みエラー" << std::endl;
 
-		hr = DirectX::CreateDDSTextureFromFile(DXRenderSystem::GetInstance().GetDevice().Get(), batch, L"Textures/error.dds", resource.GetAddressOf(), true);
+		hr = DirectX::CreateDDSTextureFromFile(DXRenderSystem::GetInstance().GetDevice().Get(), batch, L"Textures/error.dds", resource.GetAddressOf(), false);
 	}
 
 	auto load = batch.End(DXRenderSystem::GetInstance().GetCommandQueue().Get());
@@ -51,7 +51,7 @@ ComPtr<ID3D12Resource> TextureLoader::LoadTexture(const std::string filePath)
 
 	textures[fileName] = resource;
 
-	return resource;
+	return textures[fileName];
 }
 
 TextureLoader& TextureLoader::GetInstance()

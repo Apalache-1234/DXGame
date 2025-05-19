@@ -3,13 +3,20 @@
 
 MeshLoader::MeshLoader()
 {
-	LoadMesh("Models/Box.fbx" , BOX);
-	LoadMesh("Models/Box.fbx" , SPARTAN);
-	LoadMesh("Models/Box.fbx" , KNIGHT);
+	Init();
 }
 
 MeshLoader::~MeshLoader()
 {
+}
+
+void MeshLoader::Init()
+{
+	LoadMesh("Models/SpartanWarrior/Spartan_Warrio1r.fbx", SPARTAN);
+	LoadMesh("Models/Knight01/Animated_Low_Poly_Dark_Knight_BAKED.fbx", KNIGHT);
+	LoadMesh("Models/Box.fbx", BOX);
+
+
 }
 
 std::unique_ptr<MeshLoader> MeshLoader::instance = nullptr;
@@ -22,9 +29,11 @@ MeshLoader& MeshLoader::GetInstance()
 	return *instance;
 }
 
-std::vector<MeshLoader::Mesh> MeshLoader::GetMesh(MESHTYPE type)
+MeshLoader::MeshData* MeshLoader::GetMesh(MESHTYPE type)
 {
-	return meshData[type].meshes;
+	assert(meshData.find(type) != meshData.end());
+
+	return &meshData[type];
 }
 
 bool MeshLoader::LoadMesh(const std::string filePath , MESHTYPE type)
@@ -41,13 +50,15 @@ bool MeshLoader::LoadMesh(const std::string filePath , MESHTYPE type)
 
 	flag |= aiProcess_ConvertToLeftHanded;
 
-	scene = *import.ReadFile(filePath, flag);
+	meshData[type].scene = *meshData[type].import.ReadFile(filePath, flag);
 
-	if (scene.HasMeshes())
+	currentScene = meshData[type].scene;
+
+	if (currentScene.HasMeshes())
 	{
-		meshes.resize(scene.mNumMeshes);
+		meshes.resize(currentScene.mNumMeshes);
 
-		StoreVertices(filePath , meshes);
+		StoreVertices(filePath , meshes , meshData[type]);
 
 		bool isSuccess = true;
 
@@ -61,7 +72,10 @@ bool MeshLoader::LoadMesh(const std::string filePath , MESHTYPE type)
 		GameManager::GetInstance().UnpauseTime();
 
 		meshData[type].meshes = meshes;
-		meshData[type].scene = scene;
+
+		RelateMeshWithBone(meshData[type], *meshData[type].scene.mRootNode);
+
+		Init(type);
 
 		return true;
 	}
@@ -75,18 +89,86 @@ bool MeshLoader::LoadMesh(const std::string filePath , MESHTYPE type)
 	}
 }
 
+void MeshLoader::RelateMeshWithBone(MeshData& meshData ,aiNode& node)
+{
+	string name(node.mName.C_Str());
 
+	for (int i = 0;i < node.mNumMeshes;i++)
+	{
+		if (node.mParent == meshData.scene.mRootNode)
+			continue;
 
-void MeshLoader::StoreVertices(const std::string filePath, std::vector<Mesh> meshes)
+		UINT boneIndex = 0;
+
+		if (meshData.boneMapping.find(name) == meshData.boneMapping.end())
+		{
+			boneIndex = meshData.boneMapping.size();
+
+			aiMatrix4x4 indentify = aiMatrix4x4();
+
+			meshData.boneOffset.push_back(indentify);
+
+			meshData.boneMapping[name] = boneIndex;
+
+			for (int j = 0;j < meshData.meshes[node.mMeshes[i]].vertexDatas.size();j++)
+			{
+				meshData.meshes[node.mMeshes[i]].vertexDatas[j].parentBone = boneIndex;
+			}
+		}
+		else if (meshData.meshes[node.mMeshes[i]].vertexDatas[0].parentBone == 0)
+		{
+			boneIndex = meshData.boneMapping[name];
+
+			for (int j = 0;j < meshData.meshes[node.mMeshes[i]].vertexDatas.size();j++)
+			{
+				meshData.meshes[node.mMeshes[i]].vertexDatas[j].parentBone = boneIndex;
+			}
+		}
+	}
+
+	for (int i = 0;i < node.mNumChildren;i++)
+	{
+		RelateMeshWithBone(meshData, *node.mChildren[i]);
+	}
+}
+
+void MeshLoader::Init(MESHTYPE type)
+{
+	for (int i = 0; i <  meshData[type].meshes.size();i++)
+	{
+		auto& uploadVertexBuffer = DXRenderSystem::GetInstance().GetEmptyUploadHeap();
+
+		InitVBVResource(meshData[type].meshes[i], uploadVertexBuffer);
+
+		MapVB(meshData[type].meshes[i], uploadVertexBuffer);
+
+		DXRenderSystem::GetInstance().ExecuteCommands();
+
+		VBUploadToDefultHeap(meshData[type].meshes[i], uploadVertexBuffer);
+
+		auto& uploadIndexBuffer = DXRenderSystem::GetInstance().GetEmptyUploadHeap();
+
+		InitIBVResource(meshData[type].meshes[i], uploadIndexBuffer);
+
+		MapIB(meshData[type].meshes[i], uploadIndexBuffer);
+
+		DXRenderSystem::GetInstance().ExecuteCommands();
+
+		IBUploadToDefultHeap(meshData[type].meshes[i], uploadIndexBuffer);
+	}
+
+}
+
+void MeshLoader::StoreVertices(const std::string filePath, std::vector<Mesh>& meshes , MeshData& meshData)
 {
 	aiVector3D zero = aiVector3D(0, 0, 0);
 
 	UINT baseVertexNum = 0;
 	UINT baseIndexNum = 0;
 
-	for (int i = 0; i < scene.mNumMeshes; i++)
+	for (int i = 0; i < currentScene.mNumMeshes; i++)
 	{
-		aiMesh* mesh = scene.mMeshes[i];
+		aiMesh* mesh = currentScene.mMeshes[i];
 
 		meshes[i].vertexDatas.resize(mesh->mNumVertices);
 		meshes[i].vertexBoneDatas.resize(mesh->mNumVertices);
@@ -126,42 +208,34 @@ void MeshLoader::StoreVertices(const std::string filePath, std::vector<Mesh> mes
 		baseVertexNum += mesh->mNumVertices;
 		baseIndexNum += meshes[i].indices.size();
 
-		if (scene.HasMaterials())
+		if (currentScene.HasMaterials())
 			InitMaterial(filePath, *mesh, meshes[i]);
 
 		if (mesh->HasBones())
-			InitBone(*mesh, meshes[i]);
+			InitBone(*mesh, meshes[i] , meshData);
 	}
 }
 
-void MeshLoader::InitBone(const aiMesh& aiMesh, Mesh& mesh)
+void MeshLoader::InitBone(const aiMesh& aiMesh, Mesh& mesh , MeshData& meshData)
 {
 	for (UINT j = 0; j < aiMesh.mNumBones; j++)
 	{
-
 		auto bone = aiMesh.mBones[j];
 
 		UINT boneIndex = 0;
 
-		if (mesh.boneMapping.find(bone->mName.C_Str()) == mesh.boneMapping.end())
+		if (meshData.boneMapping.find(bone->mName.C_Str()) == meshData.boneMapping.end())
 		{
-			boneIndex = mesh.boneMapping.size();
+			boneIndex = meshData.boneMapping.size();
 
-			BoneInfo bi;
-
-			mesh.boneInfos.emplace_back(bi);
-
-			mesh.boneMapping[bone->mName.C_Str()] = boneIndex;
-
-			std::cout << bone->mName.C_Str() << std::endl;
-			std::cout << mesh.boneMapping[bone->mName.C_Str()] << std::endl;
+			meshData.boneMapping[bone->mName.C_Str()] = boneIndex;
 		}
 		else
 		{
-			boneIndex = mesh.boneMapping[bone->mName.C_Str()];
+			boneIndex = meshData.boneMapping[bone->mName.C_Str()];
 		}
 
-		mesh.boneInfos[boneIndex].offset = bone->mOffsetMatrix;
+		meshData.boneOffset.emplace_back(bone->mOffsetMatrix);
 
 		for (UINT k = 0; k < bone->mNumWeights; k++)
 		{
@@ -217,7 +291,7 @@ void MeshLoader::InitMaterial(const std::string filePath, const aiMesh& mesh, Me
 
 	aiString path;
 
-	aiMaterial* mat = scene.mMaterials[mesh.mMaterialIndex];
+	aiMaterial* mat = currentScene.mMaterials[mesh.mMaterialIndex];
 
 	if (mat->GetTextureCount(aiTextureType_DIFFUSE) > 0)
 	{
@@ -239,9 +313,7 @@ void MeshLoader::InitMaterial(const std::string filePath, const aiMesh& mesh, Me
 	}
 }
 
-ComPtr<ID3D12Resource>& uploadVertexBuffer;
-
-bool MeshLoader::InitVBVResource(MeshLoader::Mesh& mesh)
+bool MeshLoader::InitVBVResource(MeshLoader::Mesh& mesh, ComPtr<ID3D12Resource>& uploadVertexBuffer)
 {
 	D3D12_HEAP_PROPERTIES prop = {};
 
@@ -299,7 +371,7 @@ bool MeshLoader::InitVBVResource(MeshLoader::Mesh& mesh)
 	return true;
 }
 
-bool MeshLoader::MapVB(MeshLoader::Mesh& mesh)
+bool MeshLoader::MapVB(MeshLoader::Mesh& mesh, ComPtr<ID3D12Resource>& uploadVertexBuffer)
 {
 	void* ptr = nullptr;
 
@@ -315,10 +387,12 @@ bool MeshLoader::MapVB(MeshLoader::Mesh& mesh)
 
 	uploadVertexBuffer->Unmap(0, nullptr);
 
-	return VBUploadToDefultHeap(mesh);
+
+
+	return true;
 }
 
-bool MeshLoader::VBUploadToDefultHeap(MeshLoader::Mesh& mesh)
+bool MeshLoader::VBUploadToDefultHeap(MeshLoader::Mesh& mesh , ComPtr<ID3D12Resource>& uploadVertexBuffer)
 {
 	D3D12_HEAP_PROPERTIES prop = {};
 
@@ -362,7 +436,7 @@ bool MeshLoader::VBUploadToDefultHeap(MeshLoader::Mesh& mesh)
 		&desc,
 		D3D12_RESOURCE_STATE_COPY_DEST,
 		nullptr,
-		IID_PPV_ARGS(uploadVertexBuffer.GetAddressOf())
+		IID_PPV_ARGS(mesh.vertexBuffer.GetAddressOf())
 	);
 
 	if (FAILED(hr))
@@ -377,7 +451,12 @@ bool MeshLoader::VBUploadToDefultHeap(MeshLoader::Mesh& mesh)
 	subresourceData.RowPitch = sizeof(VertexData) * mesh.vertexDatas.size();
 	subresourceData.SlicePitch = subresourceData.RowPitch;
 
-	UpdateSubresources(DXRenderSystem::GetInstance().GetCommandList().Get(), mesh.vertexBuffer.Get(), mesh.uploadVertexBuffer.Get(), 0, 0, 1, &subresourceData);
+	DXRenderSystem::GetInstance().GetCommandList()->CopyBufferRegion(
+		mesh.vertexBuffer.Get(), 
+		0,            
+		uploadVertexBuffer.Get(),  
+		0,            
+		sizeof(VertexData) * mesh.vertexDatas.size()); 
 
 	CD3DX12_RESOURCE_BARRIER barrier = CD3DX12_RESOURCE_BARRIER::Transition(
 		mesh.vertexBuffer.Get(),
@@ -393,7 +472,7 @@ bool MeshLoader::VBUploadToDefultHeap(MeshLoader::Mesh& mesh)
 	return true;
 }
 
-bool Renderer::InitIBVResource(MeshLoader::MeshData& mesh)
+bool MeshLoader::InitIBVResource(MeshLoader::Mesh& mesh, ComPtr<ID3D12Resource>& uploadIndexBuffer)
 {
 	D3D12_HEAP_PROPERTIES prop = {};
 
@@ -437,7 +516,7 @@ bool Renderer::InitIBVResource(MeshLoader::MeshData& mesh)
 		&desc,
 		D3D12_RESOURCE_STATE_GENERIC_READ,
 		nullptr,
-		IID_PPV_ARGS(mesh.uploadIndexBuffer.GetAddressOf())
+		IID_PPV_ARGS(uploadIndexBuffer.GetAddressOf())
 
 	);
 
@@ -451,11 +530,11 @@ bool Renderer::InitIBVResource(MeshLoader::MeshData& mesh)
 	return true;
 }
 
-bool Renderer::MapIB(MeshLoader::MeshData& mesh)
+bool MeshLoader::MapIB(MeshLoader::Mesh& mesh, ComPtr<ID3D12Resource>& uploadIndexBuffer)
 {
 	void* ptr = nullptr;
 
-	hr = mesh.uploadIndexBuffer->Map(0, nullptr, &ptr);
+	hr = uploadIndexBuffer->Map(0, nullptr, &ptr);
 
 	if (FAILED(hr))
 	{
@@ -466,12 +545,12 @@ bool Renderer::MapIB(MeshLoader::MeshData& mesh)
 
 	memcpy(ptr, mesh.indices.data(), sizeof(int) * mesh.indices.size());
 
-	mesh.uploadIndexBuffer->Unmap(0, nullptr);
+	uploadIndexBuffer->Unmap(0, nullptr);
 
-	return IBUploadToDefultHeap(mesh);
+	return true;
 }
 
-bool Renderer::IBUploadToDefultHeap(MeshLoader::MeshData& mesh)
+bool MeshLoader::IBUploadToDefultHeap(MeshLoader::Mesh& mesh, ComPtr<ID3D12Resource>& uploadIndexBuffer)
 {
 	D3D12_HEAP_PROPERTIES prop = {};
 
@@ -531,7 +610,12 @@ bool Renderer::IBUploadToDefultHeap(MeshLoader::MeshData& mesh)
 	subresourceData.RowPitch = sizeof(int) * mesh.indices.size();
 	subresourceData.SlicePitch = subresourceData.RowPitch;
 
-	UpdateSubresources(DXRenderSystem::GetInstance().GetCommandList().Get(), mesh.indexBuffer.Get(), mesh.uploadIndexBuffer.Get(), 0, 0, 1, &subresourceData);
+	DXRenderSystem::GetInstance().GetCommandList()->CopyBufferRegion(
+		mesh.indexBuffer.Get(),
+		0,               
+		uploadIndexBuffer.Get(),   
+		0,               
+		sizeof(int) * mesh.indices.size()); 
 
 	CD3DX12_RESOURCE_BARRIER barrier = CD3DX12_RESOURCE_BARRIER::Transition(
 		mesh.indexBuffer.Get(),

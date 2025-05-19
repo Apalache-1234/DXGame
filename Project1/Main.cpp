@@ -13,6 +13,7 @@
 #include "Rigidbody.h"
 #include "SkyBox.h"
 #include "UIRenderer.h"
+#include "MeshLoader.h"
 
 float hoge = 0;
 
@@ -28,20 +29,23 @@ int main()
 	auto myImGui = &MyIMGUI::GetInstance();
 	auto gameManager = &GameManager::GetInstance();
 	auto physicSystem = &PhysicSystem::GetInstance();
-	auto skyBox = &SkyBox::GetInstance();
+
 
 	window->Init();
 	renSys->Init();
 	if (myImGui->useIMGUI)
 		myImGui->Init();
-	skyBox->Init();
 
+	auto skyBox = &SkyBox::GetInstance();
+	auto meshLoader = &MeshLoader::GetInstance();
+
+	meshLoader->Init();
+
+	skyBox->Init();
 
 	auto player = gameManager->CreateEntity("Player");
 	auto player4 = gameManager->CreateEntity("Player4");
 	auto player2 = gameManager->CreateEntity("Player2");
-
-
 
 	player2->AddComponent<Renderer>();
 	player2->AddComponent<Collider>();
@@ -51,6 +55,7 @@ int main()
 	player->AddComponent<Collider>();
 	player->AddComponent<Rigidbody>();
 
+	player2->GetComponent<Renderer>()->CreateMesh(MeshLoader::KNIGHT);
 
 	player->GetComponent<Rigidbody>()->isStatic = true;
 
