@@ -12,7 +12,7 @@ MeshLoader::~MeshLoader()
 
 void MeshLoader::Init()
 {
-	LoadMesh("Models/SpartanWarrior/Spartan_Warrio1r.fbx", SPARTAN);
+	LoadMesh("Models/SpartanWarrior/Spartan_Warrior.fbx", SPARTAN);
 	LoadMesh("Models/Knight01/Animated_Low_Poly_Dark_Knight_BAKED.fbx", KNIGHT);
 	LoadMesh("Models/Box.fbx", BOX);
 
@@ -93,7 +93,8 @@ void MeshLoader::RelateMeshWithBone(MeshData& meshData ,aiNode& node)
 {
 	string name(node.mName.C_Str());
 
-	for (int i = 0;i < node.mNumMeshes;i++)
+
+	for (int i = 0; i < node.mNumMeshes; i++)
 	{
 		if (node.mParent == meshData.scene.mRootNode)
 			continue;
@@ -110,7 +111,7 @@ void MeshLoader::RelateMeshWithBone(MeshData& meshData ,aiNode& node)
 
 			meshData.boneMapping[name] = boneIndex;
 
-			for (int j = 0;j < meshData.meshes[node.mMeshes[i]].vertexDatas.size();j++)
+			for (int j = 0; j < meshData.meshes[node.mMeshes[i]].vertexDatas.size(); j++)
 			{
 				meshData.meshes[node.mMeshes[i]].vertexDatas[j].parentBone = boneIndex;
 			}
@@ -119,12 +120,14 @@ void MeshLoader::RelateMeshWithBone(MeshData& meshData ,aiNode& node)
 		{
 			boneIndex = meshData.boneMapping[name];
 
-			for (int j = 0;j < meshData.meshes[node.mMeshes[i]].vertexDatas.size();j++)
+			for (int j = 0; j < meshData.meshes[node.mMeshes[i]].vertexDatas.size(); j++)
 			{
 				meshData.meshes[node.mMeshes[i]].vertexDatas[j].parentBone = boneIndex;
 			}
 		}
 	}
+
+
 
 	for (int i = 0;i < node.mNumChildren;i++)
 	{
@@ -229,13 +232,17 @@ void MeshLoader::InitBone(const aiMesh& aiMesh, Mesh& mesh , MeshData& meshData)
 			boneIndex = meshData.boneMapping.size();
 
 			meshData.boneMapping[bone->mName.C_Str()] = boneIndex;
+
+			meshData.boneOffset.emplace_back(bone->mOffsetMatrix);
 		}
 		else
 		{
 			boneIndex = meshData.boneMapping[bone->mName.C_Str()];
+
+			meshData.boneOffset[boneIndex] = bone->mOffsetMatrix;
 		}
 
-		meshData.boneOffset.emplace_back(bone->mOffsetMatrix);
+
 
 		for (UINT k = 0; k < bone->mNumWeights; k++)
 		{

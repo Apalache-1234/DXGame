@@ -54,7 +54,7 @@ private:
     /// </summary>
 	D3D12_CONSTANT_BUFFER_VIEW_DESC cbView[DXRenderSystem::frameBuffer];
 
-	DescriptorHeapManager::PtrHandles cbHandle[DXRenderSystem::frameBuffer];
+	std::unique_ptr<DescriptorHeapManager::PtrHandles> cbHandle[DXRenderSystem::frameBuffer];
 
 	struct alignas(256) Transform
 	{
@@ -75,7 +75,7 @@ private:
 
 	MeshLoader::MeshData* meshData;
 
-	DescriptorHeapManager::PtrHandles texHandle;
+	std::unique_ptr<DescriptorHeapManager::PtrHandles> texHandle;
 
 	/// <summary>
     /// ルートシグネチャのCOM

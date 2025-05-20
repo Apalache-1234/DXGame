@@ -146,7 +146,7 @@ void Renderer::AddRenderCommand(ComPtr<ID3D12GraphicsCommandList>& cmdList, int 
 	{
 		auto& mesh = meshData->meshes[i];
 
-		cmdList->SetGraphicsRootDescriptorTable(1, texHandle[i].gpuHandle);
+		cmdList->SetGraphicsRootDescriptorTable(1, texHandle[i]->gpuHandle);
 
 		cmdList->SetGraphicsRootShaderResourceView(2, boneBuffer->GetGPUVirtualAddress());
 
@@ -230,7 +230,7 @@ bool Renderer::LinkCBVResourceToDescHeap()
 
 		cbView[i].SizeInBytes = sizeof(Transform);
 
-		DXRenderSystem::GetInstance().GetDevice()->CreateConstantBufferView(&cbView[i], cbHandle[i].cpuHandle);
+		DXRenderSystem::GetInstance().GetDevice()->CreateConstantBufferView(&cbView[i], cbHandle[i]->cpuHandle);
 	}
 
 	return true;
@@ -490,7 +490,7 @@ void Renderer::RegisterTextureSRV()
 		desc.Texture2D.ResourceMinLODClamp = 0;
 		desc.Texture2D.PlaneSlice = 0;
 
-		DXRenderSystem::GetInstance().GetDevice()->CreateShaderResourceView(meshData->meshes[i].texResource.Get(), &desc, texHandle[i].cpuHandle);
+		DXRenderSystem::GetInstance().GetDevice()->CreateShaderResourceView(meshData->meshes[i].texResource.Get(), &desc, texHandle[i]->cpuHandle);
 	}
 }
 
@@ -587,7 +587,7 @@ bool Renderer::InitSRVForBoneBuffer()
 
 	boneHandle = std::move(heapManager.GetHandle());
 
-	DXRenderSystem::GetInstance().GetDevice()->CreateShaderResourceView(boneBuffer.Get(), &srvDesc, boneHandle.cpuHandle);
+	DXRenderSystem::GetInstance().GetDevice()->CreateShaderResourceView(boneBuffer.Get(), &srvDesc, boneHandle->cpuHandle);
 
 	return true;
 }
@@ -855,13 +855,34 @@ MeshLoader::MESHTYPE  Renderer::GetCurrentMeshType()
 	return currentMeshType;
 }
 
+void Renderer::ResetAnimationStatue()
+{
+	finalBoneMats.clear();
+
+	finalBoneMats.resize(meshData->boneMapping.size(), DirectX::XMMatrixIdentity());
+
+	isAnimPlaying = false;
+
+	animIndex = 0;
+
+	aiAnimation* anim = nullptr;
+
+	animSpeed = 1;
+
+	animLoop = false;
+
+	InitBoneResource();
+
+	MapBB();
+}
+
 bool Renderer::CreateMesh(const MeshLoader::MESHTYPE type)
 {
 	currentMeshType = type;
 
 	meshData = MeshLoader::GetInstance().GetMesh(type);
 
-	finalBoneMats.resize(meshData->boneMapping.size());
+	ResetAnimationStatue();
 
 	RegisterTextureSRV();
 

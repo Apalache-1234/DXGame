@@ -72,27 +72,19 @@ UIRenderer::UIRenderer(std::shared_ptr<Entity> ent) : Component::Component(ent)
 {
 	bool isSuccess = true;
 
-	isSuccess &= InitDescHeap();
-
 	isSuccess &= InitCBVResource();
 
 	isSuccess &= LinkCBVResourceToDescHeap();
 
 	isSuccess &= MapCB();
 
-	isSuccess &= InitVBVResource();
-
-	isSuccess &= MapVB();
-
-	isSuccess &= InitIBVResource();
-
-	isSuccess &= MapIB();
+	meshData = MeshLoader::GetInstance().GetMesh(MeshLoader::BOX);
 
 	isSuccess &= CreateRootSignature();
 
 	isSuccess &= CreateRenderPipeline();
 
-	isSuccess &= LoadTexture("Textures/error.dds");
+	isSuccess &= CreateTexture("Textures/error.dds");
 
 	if (!isSuccess)
 	{
@@ -110,7 +102,7 @@ void UIRenderer::AddRenderCommand(ComPtr<ID3D12GraphicsCommandList>& cmdList, in
 
 	cmdList->SetGraphicsRootSignature(rootSig.Get());
 
-	cmdList->SetDescriptorHeaps(1, heap.GetAddressOf());
+	cmdList->SetDescriptorHeaps(1, heapManager.GetHeap().GetAddressOf());
 
 	cmdList->SetGraphicsRootConstantBufferView(0, cbView[backbufferIndex].BufferLocation);
 
@@ -118,37 +110,9 @@ void UIRenderer::AddRenderCommand(ComPtr<ID3D12GraphicsCommandList>& cmdList, in
 
 	cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-	cmdList->SetGraphicsRootDescriptorTable(1, texView.gpu_handle);
+	cmdList->SetGraphicsRootDescriptorTable(1, texHandle->gpuHandle);
 
-	cmdList->IASetVertexBuffers(0, 1, &vbView);
-
-	cmdList->IASetIndexBuffer(&ibView);
-
-	cmdList->DrawIndexedInstanced(indices.size(), 1, 0, 0, 0);
-}
-
-bool UIRenderer::InitDescHeap()
-{
-	D3D12_DESCRIPTOR_HEAP_DESC desc = {};
-
-	desc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
-
-	desc.NodeMask = 0;
-
-	desc.NumDescriptors = DXRenderSystem::frameBuffer + 2;
-
-	desc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
-
-	hr = DXRenderSystem::GetInstance().GetDevice()->CreateDescriptorHeap(&desc, IID_PPV_ARGS(heap.GetAddressOf()));
-
-	if (FAILED(hr))
-	{
-		std::cerr << "デスクリプタヒープ作成失敗" << std::endl;
-
-		return false;
-	}
-
-	return true;
+	meshData->AddCommandForMesh(cmdList);
 }
 
 bool UIRenderer::InitCBVResource()
@@ -216,7 +180,7 @@ bool UIRenderer::LinkCBVResourceToDescHeap()
 {
 	auto increament = DXRenderSystem::GetInstance().GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
 
-	auto heapPtr = heap->GetCPUDescriptorHandleForHeapStart();
+	auto heapPtr = heapManager.GetHeap()->GetCPUDescriptorHandleForHeapStart();
 
 	for (int i = 0; i < DXRenderSystem::frameBuffer; i++)
 	{
@@ -758,74 +722,28 @@ bool UIRenderer::CreateRenderPipeline()
 	return true;
 }
 
-bool UIRenderer::LoadTexture(const std::string fileName)
+bool UIRenderer::CreateTexture(const std::string fileName)
 {
+	texHandle = heapManager.GetHandle();
 
-	int len = MultiByteToWideChar(CP_UTF8, 0, fileName.c_str(), -1, NULL, 0);
-	std::wstring ws(len, L'\0');
+	auto resource = TextureLoader::GetInstance().LoadTexture("Textures/SkyBox.dds");
 
-	MultiByteToWideChar(CP_UTF8, 0, fileName.c_str(), -1, &ws[0], len);
-
-	ws.pop_back();
-
-	DirectX::ResourceUploadBatch batch(DXRenderSystem::GetInstance().GetDevice().Get());
-
-	batch.Begin();
-
-	hr = DirectX::CreateDDSTextureFromFile(DXRenderSystem::GetInstance().GetDevice().Get(), batch, ws.c_str(), texView.resource.GetAddressOf(), true);
-
-	int texHeight = texView.resource->GetDesc().Height / 2;
-	int texWidth = texView.resource->GetDesc().Width / 2;
-
-	vertexDatas[0].vertex = DirectX::XMFLOAT3(-texWidth , texHeight , 0);
-	vertexDatas[1].vertex = DirectX::XMFLOAT3(texWidth , texHeight , 0);
-	vertexDatas[2].vertex = DirectX::XMFLOAT3(texWidth , -texHeight , 0);
-	vertexDatas[3].vertex = DirectX::XMFLOAT3(-texWidth , -texHeight , 0);
-
-	MapVB();
-
-	std::wcout << L"path = " << ws << std::endl;
-
-	if (FAILED(hr))
-	{
-		std::cerr << "ddsファイル読み込みエラー" << std::endl;
-
-		hr = DirectX::CreateDDSTextureFromFile(DXRenderSystem::GetInstance().GetDevice().Get(), batch, L"Textures/error.dds", texView.resource.GetAddressOf(), true);
-	}
-
-	auto load = batch.End(DXRenderSystem::GetInstance().GetCommandQueue().Get());
-
-	load.wait();
-
-	UINT descriptorSize = DXRenderSystem::GetInstance().GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
-
-	UINT ptrNum = DXRenderSystem::frameBuffer + 1;
-
-	D3D12_CPU_DESCRIPTOR_HANDLE cpuHandle = heap->GetCPUDescriptorHandleForHeapStart();
-	cpuHandle.ptr += ptrNum * descriptorSize;
-
-	D3D12_GPU_DESCRIPTOR_HANDLE gpuHandle = heap->GetGPUDescriptorHandleForHeapStart();
-	gpuHandle.ptr += ptrNum * descriptorSize;
-
-	texView.cpu_handle = cpuHandle;
-	texView.gpu_handle = gpuHandle;
-
-	auto texture_desc = texView.resource->GetDesc();
+	auto textureDesc = resource->GetDesc(); 
 
 	D3D12_SHADER_RESOURCE_VIEW_DESC desc = {};
 
 	desc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
 
-	desc.Format = texture_desc.Format;
+	desc.Format = textureDesc.Format;
 
 	desc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
 
-	desc.Texture2D.MipLevels = texture_desc.MipLevels;
+	desc.Texture2D.MipLevels = textureDesc.MipLevels;
 	desc.Texture2D.PlaneSlice = 0;
 	desc.Texture2D.MostDetailedMip = 0;
 	desc.Texture2D.ResourceMinLODClamp = 0;
 
-	DXRenderSystem::GetInstance().GetDevice()->CreateShaderResourceView(texView.resource.Get(), &desc, cpuHandle);
+	DXRenderSystem::GetInstance().GetDevice()->CreateShaderResourceView(resource.Get(), &desc, texHandle->cpuHandle);
 
 	return true;
 }

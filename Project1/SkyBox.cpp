@@ -28,9 +28,9 @@ void SkyBox::ConvertValues()
 
 	auto rotationMat = XMMatrixRotationY(0);
 
-	float scaleX = 60;
-	float scaleY = 60;
-	float scaleZ = 60;
+	float scaleX = 90;
+	float scaleY = 90;
+	float scaleZ = 90;
 
 	auto scale_mat = XMMatrixScaling(scaleX, scaleY, scaleZ);
 
@@ -87,7 +87,7 @@ void SkyBox::AddRenderCommand(ComPtr<ID3D12GraphicsCommandList>& cmdList, int ba
 
 	cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-	cmdList->SetGraphicsRootDescriptorTable(1, texHandle.gpuHandle);
+	cmdList->SetGraphicsRootDescriptorTable(1, texHandle->gpuHandle);
 
 	for (int i = 0;i < meshData->meshes.size();i++)
 	{
@@ -199,7 +199,7 @@ bool SkyBox::LinkCBVResourceToDescHeap()
 
 		cbView[i].SizeInBytes = sizeof(Transform);
 
-		DXRenderSystem::GetInstance().GetDevice()->CreateConstantBufferView(&cbView[i], cbHandle[i].cpuHandle);
+		DXRenderSystem::GetInstance().GetDevice()->CreateConstantBufferView(&cbView[i], cbHandle[i]->cpuHandle);
 	}
 
 	return true;
@@ -438,7 +438,7 @@ bool SkyBox::CreateMesh(const MeshLoader::MESHTYPE type)
 
 bool SkyBox::CreateTexture()
 {
-	texHandle = std::move(heapManager.GetHandle());
+	texHandle = heapManager.GetHandle();
 
 	auto resource = TextureLoader::GetInstance().LoadTexture("Textures/SkyBox.dds");
 
@@ -456,7 +456,7 @@ bool SkyBox::CreateTexture()
 	desc.TextureCube.MostDetailedMip = 0;
 	desc.TextureCube.ResourceMinLODClamp = 0;
 
-	DXRenderSystem::GetInstance().GetDevice()->CreateShaderResourceView(resource.Get(), &desc, texHandle.cpuHandle);
+	DXRenderSystem::GetInstance().GetDevice()->CreateShaderResourceView(resource.Get(), &desc, texHandle->cpuHandle);
 
 	return true;
 }

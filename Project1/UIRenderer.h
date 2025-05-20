@@ -35,34 +35,26 @@ public:
 
 	void AddRenderCommand(ComPtr<ID3D12GraphicsCommandList>& cmdList, int backbufferIndex);
 
-	bool LoadTexture(const std::string fileName);
+	bool CreateTexture(const std::string fileName);
 
 	/// <summary>
-    /// そのメッシュのカラーを決める
-    /// </summary>
+/// そのメッシュのカラーを決める
+/// </summary>
 	DirectX::XMVECTOR color = DirectX::XMVectorSet(1, 1, 1, 1);
 private:
+	MeshLoader::MeshData* meshData;
+
+	std::unique_ptr<DescriptorHeapManager::PtrHandles> texHandle;
+
 	/// <summary>
-    /// テクスチャのリソースやビューのCPUハンドルやレンダーに必要な情報のGPUハンドルを格納する構造体
-    /// </summary>
-	struct TextureView
-	{
-		ComPtr<ID3D12Resource> resource;
-
-		D3D12_CPU_DESCRIPTOR_HANDLE cpu_handle;
-
-		D3D12_GPU_DESCRIPTOR_HANDLE gpu_handle;
-	};
+/// デスクリプタヒープ
+/// </summary>
+	DescriptorHeapManager heapManager;
 
 	/// <summary>
 	/// WinAPI系の関数の可否を格納する変数
 	/// </summary>
 	HRESULT hr;
-
-	/// <summary>
-	/// デスクリプタヒープ
-	/// </summary>
-	ComPtr<ID3D12DescriptorHeap> heap;
 
 	/// <summary>
 	// バックバッファ込みのコンスタントバッファのリソース
@@ -90,66 +82,6 @@ private:
 	};
 
 	Transform trans;
-
-	/// <summary>
-	/// 頂点情報を格納する構造体
-	/// </summary>
-	struct VertexData
-	{
-		XMFLOAT3 vertex;
-		XMFLOAT2 uv;
-	};
-
-	/// <summary>
-    /// デフォルトは立方体
-    /// </summary>
-	std::vector<VertexData> vertexDatas = {
-	{ XMFLOAT3(-Window::width /2, Window::height / 2, 0) , XMFLOAT2(0, 0)},
-	{ XMFLOAT3(Window::width / 2, Window::height / 2, 0) , XMFLOAT2(1, 0)},
-	{ XMFLOAT3(Window::width / 2, -Window::height / 2, 0) , XMFLOAT2(1, 1)},
-	{ XMFLOAT3(-Window::width / 2, -Window::height / 2, 0) , XMFLOAT2(0, 1)},
-	};
-
-	/// <summary>
-	/// デフォルトは立方体のインデックス
-	/// </summary>
-	std::vector<int> indices =
-	{
-	0, 1, 2,
-	2, 3, 0 
-	};
-
-	TextureView texView;
-
-	/// <summary>
-	/// 頂点バッファのアップロードリソース
-	/// </summary>
-	ComPtr<ID3D12Resource> uploadVertexBuffer;
-
-	/// <summary>
-	/// 頂点バッファのリソース
-	/// </summary>
-	ComPtr<ID3D12Resource> vertexBuffer;
-
-	/// <summary>
-	/// インデックスバッファのアップロードリソース
-	/// </summary>
-	ComPtr<ID3D12Resource> uploadIndexBuffer;
-
-	/// <summary>
-	/// インデックスバッファのリソース
-	/// </summary>
-	ComPtr<ID3D12Resource> indexBuffer;
-
-	/// <summary>
-	/// インデックスビュー
-	/// </summary>
-	D3D12_INDEX_BUFFER_VIEW ibView;
-
-	/// <summary>
-	/// 頂点ビュー
-	/// </summary>
-	D3D12_VERTEX_BUFFER_VIEW vbView;
 
 	/// <summary>
 	/// ルートシグネチャのCOM

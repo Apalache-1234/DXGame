@@ -2,27 +2,27 @@
 <Project>
   <ProjectOutputs>
     <ProjectOutput>
-      <FullPath>E:\DXGame\x64\Debug\Project1.exe</FullPath>
+      <FullPath>D:\Users\2312031\Documents\DXGame\x64\Debug\Project1.exe</FullPath>
     </ProjectOutput>
   </ProjectOutputs>
   <ContentFiles>
     <ContentFile>
-      <FullPath>E:\DXGame\x64\Debug\PixelShader.cso</FullPath>
+      <FullPath>D:\Users\2312031\Documents\DXGame\x64\Debug\PixelShader.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>E:\DXGame\x64\Debug\SkyBoxPixelShader.cso</FullPath>
+      <FullPath>D:\Users\2312031\Documents\DXGame\x64\Debug\SkyBoxPixelShader.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>E:\DXGame\x64\Debug\SkyBoxVertexShader.cso</FullPath>
+      <FullPath>D:\Users\2312031\Documents\DXGame\x64\Debug\SkyBoxVertexShader.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>E:\DXGame\x64\Debug\UIPixelShader.cso</FullPath>
+      <FullPath>D:\Users\2312031\Documents\DXGame\x64\Debug\UIPixelShader.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>E:\DXGame\x64\Debug\UIVertexShader.cso</FullPath>
+      <FullPath>D:\Users\2312031\Documents\DXGame\x64\Debug\UIVertexShader.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>E:\DXGame\x64\Debug\VertexShader.cso</FullPath>
+      <FullPath>D:\Users\2312031\Documents\DXGame\x64\Debug\VertexShader.cso</FullPath>
     </ContentFile>
   </ContentFiles>
   <SatelliteDlls />

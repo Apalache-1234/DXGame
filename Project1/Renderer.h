@@ -68,6 +68,8 @@ public:
 
 	MeshLoader::MESHTYPE GetCurrentMeshType();
 
+	void ResetAnimationStatue();
+
 	bool CreateMesh(const MeshLoader::MESHTYPE type);
 
 	bool isAnimPlaying = false;
@@ -97,11 +99,11 @@ private:
 	/// </summary>
 	D3D12_CONSTANT_BUFFER_VIEW_DESC cbView[DXRenderSystem::frameBuffer];
 
-	DescriptorHeapManager::PtrHandles cbHandle[DXRenderSystem::frameBuffer];
+	std::unique_ptr<DescriptorHeapManager::PtrHandles> cbHandle[DXRenderSystem::frameBuffer];
 
-	std::vector<DescriptorHeapManager::PtrHandles> texHandle;
+	std::vector<std::unique_ptr<DescriptorHeapManager::PtrHandles>> texHandle;
 
-	DescriptorHeapManager::PtrHandles boneHandle;
+	std::unique_ptr<DescriptorHeapManager::PtrHandles> boneHandle;
 
 	/// <summary>
 	/// ルートシグネチャのCOM

@@ -25,6 +25,8 @@ public:
 
 	~DescriptorHeapManager();
 
+	void BackHandles(D3D12_CPU_DESCRIPTOR_HANDLE cpuHandle, D3D12_GPU_DESCRIPTOR_HANDLE gpuHandle);
+
 	struct PtrHandles
 	{
 	public:
@@ -32,36 +34,22 @@ public:
 
 		D3D12_GPU_DESCRIPTOR_HANDLE gpuHandle;
 
-		PtrHandles(D3D12_CPU_DESCRIPTOR_HANDLE cpuPtr, D3D12_GPU_DESCRIPTOR_HANDLE gpuPtr, DescriptorHeapManager* heap) : cpuHandle(cpuPtr), gpuHandle(gpuPtr)
+		PtrHandles(D3D12_CPU_DESCRIPTOR_HANDLE cpuPtr, D3D12_GPU_DESCRIPTOR_HANDLE gpuPtr, DescriptorHeapManager* heap) : cpuHandle(cpuPtr), gpuHandle(gpuPtr), descHeap(heap) {}
+
+		void ReturnHandle()
 		{
-			descHeap = heap;
+			descHeap->BackHandles(cpuHandle , gpuHandle);
 		}
-
-		PtrHandles(const PtrHandles&) = delete;
-		PtrHandles& operator=(const PtrHandles&) = delete;
-
-		PtrHandles(PtrHandles&&) noexcept = default;
-		PtrHandles& operator=(PtrHandles&&) noexcept = default;
-
-		PtrHandles() = default;
 
 		~PtrHandles()
 		{
-			if (!isDeleted) {
-		
-				descHeap->BackHandles(this->cpuHandle , this->gpuHandle);
-			}
+
 		}
-
-		DescriptorHeapManager* descHeap = nullptr;
-
-		bool isDeleted = false;
 	private:
+		DescriptorHeapManager* descHeap = nullptr;
 	};
 
-	PtrHandles GetHandle();
-
-	void BackHandles(D3D12_CPU_DESCRIPTOR_HANDLE cpuHandle, D3D12_GPU_DESCRIPTOR_HANDLE gpuHandle);
+	std::unique_ptr<DescriptorHeapManager::PtrHandles> GetHandle();
 
 	ComPtr<ID3D12DescriptorHeap> GetHeap();
 private:
@@ -70,13 +58,27 @@ private:
     /// </summary>
 	ComPtr<ID3D12DescriptorHeap> heap;
 
-	std::vector<PtrHandles> free;
+	std::vector<std::unique_ptr<PtrHandles>> free;
 
 	bool InitDescHeap();
 
 	bool InitList();
 
 	UINT capacity = 0;
+};
+
+namespace std
+{
+	template<>
+	struct default_delete<DescriptorHeapManager::PtrHandles>
+	{
+		void operator()(DescriptorHeapManager::PtrHandles* handle) const
+		{
+			handle->ReturnHandle();
+
+			delete handle;
+		}
+	};
 };
 
 #endif

@@ -10,7 +10,7 @@ DescriptorHeapManager::DescriptorHeapManager(UINT num)
 
 	capacity = num;
 
-	bool isSucceed;
+	bool isSucceed = true;
 
 	isSucceed &= InitDescHeap();
 
@@ -21,20 +21,24 @@ DescriptorHeapManager::~DescriptorHeapManager()
 {
 }
 
-DescriptorHeapManager::PtrHandles DescriptorHeapManager::GetHandle()
+void DescriptorHeapManager::BackHandles(D3D12_CPU_DESCRIPTOR_HANDLE cpuHandle , D3D12_GPU_DESCRIPTOR_HANDLE gpuHandle)
+{
+	assert(free.size() < 100);
+
+	auto handle = std::make_unique<PtrHandles>(cpuHandle, gpuHandle, this);
+
+	free.push_back(std::move(handle));
+}
+
+std::unique_ptr<DescriptorHeapManager::PtrHandles> DescriptorHeapManager::GetHandle()
 {
 	assert(free.size() >= 0);
 
-	PtrHandles handles = std::move(free.back());
+	auto handles = std::move(free.back());
 
 	free.pop_back();
 
-	return std::move(handles);
-}
-
-void DescriptorHeapManager::BackHandles(D3D12_CPU_DESCRIPTOR_HANDLE cpuHandle , D3D12_GPU_DESCRIPTOR_HANDLE gpuHandle)
-{
-
+	return handles;
 }
 
 ComPtr<ID3D12DescriptorHeap> DescriptorHeapManager::GetHeap()
@@ -82,7 +86,9 @@ bool DescriptorHeapManager::InitList()
 		cpuHandle.ptr += increment * i;
 		gpuHandle.ptr += increment * i;
 
-		free.emplace_back(cpuHandle, gpuHandle, this);
+		auto handle = std::make_unique<PtrHandles>(cpuHandle, gpuHandle, this);
+
+		free.push_back(std::move(handle));
 	}
 
 	return true;

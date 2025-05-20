@@ -188,9 +188,9 @@ void ShowRendererInfo(std::shared_ptr<Renderer> rend)
 	if (ImGui::TreeNode("Mesh")) {
 
 		const char* meshNames[] = {
-     	"Wireframe",
-	    "Solid",
-	    "Textured"
+     	"KNIGHT",
+	    "SPARTAN",
+	    "BOX"
 		};
 
 		MeshLoader::MESHTYPE currentMeshType = rend->GetCurrentMeshType();
