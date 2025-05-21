@@ -391,7 +391,6 @@ bool Renderer::CreateRenderPipeline()
 		desc_blend.RenderTarget[i] = desc_rt_blend;
 	}
 
-
 	ComPtr<ID3DBlob> vs_blob;
 	ComPtr<ID3DBlob> ps_blob;
 
@@ -453,7 +452,6 @@ bool Renderer::CreateRenderPipeline()
 	desc_pipe.SampleDesc.Count = 1;
 
 	desc_pipe.SampleDesc.Quality = 0;
-
 
 	hr = DXRenderSystem::GetInstance().GetDevice()->CreateGraphicsPipelineState(&desc_pipe, IID_PPV_ARGS(pipeline.GetAddressOf()));
 

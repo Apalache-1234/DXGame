@@ -117,7 +117,9 @@ int main()
 
 		velocity = DirectX::XMVectorScale(velocity , 0.07);
 
-		player2->GetComponent<Rigidbody>()->AddVelocity(velocity);
+		Utility::Debug(velocity);
+
+		player2->GetComponent<Rigidbody>()->AddForce(velocity);
 
 		auto hoge1 = DirectX::XMVectorScale(player2->GetRight(),4);
 		auto hoge2 = DirectX::XMVectorScale(player2->GetUp(),4);

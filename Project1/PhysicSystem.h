@@ -21,7 +21,7 @@ public:
 
 	~PhysicSystem();
 
-	float gravityPow = 0;
+	float gravityPow = 0.7;
 
 	void SetGravityVec(DirectX::XMVECTOR vec);
 

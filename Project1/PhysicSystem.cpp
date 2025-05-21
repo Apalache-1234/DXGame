@@ -27,7 +27,7 @@ void PhysicSystem::MainLoop()
         if (comp->isStatic)
             continue;
 
-        comp->AddVelocity(DirectX::XMVectorScale(GetGravity() , comp->mass));
+        comp->AddForce(DirectX::XMVectorScale(GetGravity() , comp->GetMass()));
 
         comp->attachFrom->AddWorldPosition(DirectX::XMVectorScale(comp->GetVelocity(), GameManager::GetInstance().DeltaTime));
     }

@@ -55,7 +55,7 @@ void UpdateVelocity(std::shared_ptr<Collider> col , DirectX::XMVECTOR nd)
 			{
 				n = DirectX::XMVectorScale(n, -dot);
 
-				col->attachFrom->GetComponent<Rigidbody>()->AddVelocity(n);
+				col->attachFrom->GetComponent<Rigidbody>()->AddForce(n);
 			}
 	    }
 	}
@@ -291,52 +291,50 @@ bool ColliderDetection::GJKAlgorithm(std::vector<DirectX::XMVECTOR> dif, std::ve
 			return false;
 	}
 
+	//3,二つの求めた点で繋いだ辺から原点から最近接点を求めて、そこから原点に向かう方向で一番遠い点を求める
+	{
+		auto point = ReturnNearestPoint(*p1, *p2);
+
+		if (DirectX::XMVector3Equal(point, Utility::zero3D))
+		{
+			if (fabs(p1->m128_f32[0]) > 0)
+			{
+				point = DirectX::XMVectorSet(0, 1, 0, 0);
+			}
+			else if (fabs(p1->m128_f32[1]) > 0)
+			{
+				point = DirectX::XMVectorSet(0, 0, 1, 0);
+			}
+			else if (fabs(p1->m128_f32[2]) > 0)
+			{
+				point = DirectX::XMVectorSet(1, 0, 0, 0);
+			}
+		}
+
+		if (ReturnFarthestPoint(point, dif, *p3))
+			return false;
+	}
+
+	//4,次に四面体にするために原点から三角形への最近接点を求めて、そこ点から原点への方向で一番遠い点を求める
+	{
+		auto nearestPoint = ReturnNearestPointInTriangle(*p1, *p2, *p3);
+
+		if (DirectX::XMVector3Equal(nearestPoint, Utility::zero3D))
+		{
+			auto n = DirectX::XMVector3Cross(DirectX::XMVectorSubtract(*p1, *p2), DirectX::XMVectorSubtract(*p1, *p3));
+
+			nearestPoint = DirectX::XMVectorAdd(nearestPoint, DirectX::XMVector3Normalize(n));
+		}
+
+		if (ReturnFarthestPoint(nearestPoint, dif, *p4))
+			return false;
+	}
 
 	for (int repeat = 0;repeat < 30;repeat++)
 	{
-
-		//3,二つの求めた点で繋いだ辺から原点から最近接点を求めて、そこから原点に向かう方向で一番遠い点を求める
+		for (int i = 0; i < points.size() - 1; i++)
 		{
-			auto point = ReturnNearestPoint(*p1, *p2);
-
-			if (DirectX::XMVector3Equal(point, Utility::zero3D))
-			{
-				if (fabs(p1->m128_f32[0]) > 0)
-				{
-					point = DirectX::XMVectorSet(0, 1,0,0);
-				}
-				else if (fabs(p1->m128_f32[1]) > 0)
-				{
-					point = DirectX::XMVectorSet(0, 0, 1, 0);
-				}
-				else if (fabs(p1->m128_f32[2]) > 0)
-				{
-					point = DirectX::XMVectorSet(1, 0, 0, 0);
-				}
-			}
-
-			if (ReturnFarthestPoint(point, dif, *p3))
-				return false;
-		}
-
-		//4,次に四面体にするために原点から三角形への最近接点を求めて、そこ点から原点への方向で一番遠い点を求める
-		{
-			auto nearestPoint = ReturnNearestPointInTriangle(*p1 , *p2 , *p3);
-
-			if (DirectX::XMVector3Equal(nearestPoint, Utility::zero3D))
-			{
-				auto n = DirectX::XMVector3Cross(DirectX::XMVectorSubtract(*p1,*p2) , DirectX::XMVectorSubtract(*p1, *p3));
-
-				nearestPoint = DirectX::XMVectorAdd(nearestPoint , DirectX::XMVector3Normalize(n));
-			}
-
-			if (ReturnFarthestPoint(nearestPoint, dif, *p4))
-				return false;
-		}
-
-		for (int i = 0;i<points.size() - 1;i++)
-		{
-			for (int j = i+1;j < points.size();j++)
+			for (int j = i + 1; j < points.size(); j++)
 			{
 				if (DirectX::XMVectorGetX(*points[i]) == DirectX::XMVectorGetX(*points[j]))
 				{
@@ -396,33 +394,13 @@ bool ColliderDetection::GJKAlgorithm(std::vector<DirectX::XMVECTOR> dif, std::ve
 				dotToD = DirectX::XMVector3Dot(n, DirectX::XMVectorSubtract(*points[d], *points[a])).m128_f32[0];
 				dotToO = DirectX::XMVector3Dot(n, toOrigin).m128_f32[0];
 
-
-
 				if ( (dotToD * dotToO) <= 0)
 				{
 					isOutbound = true;
 					break;
 				}
-
-
 			}
 
-			if (GetAsyncKeyState(VK_NUMPAD9) & 0x8000)
-			{
-				std::cout << "--------------------------------" << std::endl;
-				for (auto a : points)
-				{
-					Utility::Debug(*a);
-				}
-				std::cout << "--------------------------------" << std::endl;
-			}
-
-	
-			if (GetAsyncKeyState(VK_NUMPAD9) & 0x8000)
-			{
-				std::cout << (isOutbound ? "true" : "false") << "AASASAS" << std::endl;
-
-			}
 			if (!isOutbound)
 			{
 				dest.emplace_back(*p1);
@@ -430,51 +408,62 @@ bool ColliderDetection::GJKAlgorithm(std::vector<DirectX::XMVECTOR> dif, std::ve
 				dest.emplace_back(*p3);
 				dest.emplace_back(*p4);
 
-				if (GetAsyncKeyState(VK_NUMPAD9) & 0x8000)
-				{
-
-					std::cout << "GAAAAAY" << std::endl;
-				}
-
 				return true;
 			}
-		
 		}
+
 
 		//6,もし原点が含まれていなかったら原点から一番遠い点を除外して3にもどる
 		{
-			std::vector<float> lengths;
+			std::vector<DirectX::XMVECTOR> lengths;
 
-			auto p1length = DirectX::XMVector3Length(*p1).m128_f32[0];
-			auto p2length = DirectX::XMVector3Length(*p2).m128_f32[0];
-			auto p3length = DirectX::XMVector3Length(*p3).m128_f32[0];
-			auto p4length = DirectX::XMVector3Length(*p4).m128_f32[0];
+			auto oneTriLength = ReturnNearestPointInTriangle(*p1,*p2,*p3);
+			auto twoTriLength = ReturnNearestPointInTriangle(*p2, *p3, *p4);
+			auto threeTriLength = ReturnNearestPointInTriangle(*p3, *p4, *p1);
+			auto fourTriLength = ReturnNearestPointInTriangle(*p4, *p1, *p2);
 
-			lengths.emplace_back(p1length);
-			lengths.emplace_back(p2length);
-			lengths.emplace_back(p3length);
-			lengths.emplace_back(p4length);
-
-			int index = 0;
-
-			float maxLength = -FLT_MAX;
+			lengths.emplace_back(oneTriLength);
+			lengths.emplace_back(twoTriLength);
+			lengths.emplace_back(threeTriLength);
+			lengths.emplace_back(fourTriLength);
 
 			for (int i = 0;i < lengths.size() - 1;i++)
 			{
 				for (int j = i+1;j < lengths.size();j++)
 				{
-					if (lengths[i] >= lengths[j])
+					auto length1 = DirectX::XMVectorGetX(DirectX::XMVector3Length(lengths[i]));
+					auto length2 = DirectX::XMVectorGetX(DirectX::XMVector3Length(lengths[j]));
+
+					if (length1 >= length2)
 					{
 						auto temp1 = lengths[i];
 						lengths[i] = lengths[j];
 						lengths[j] = temp1;
-
-						auto temp2 = *points[i];
-						*points[i] = *points[j];
-						*points[j] = temp2;
 					}
 				}
 			}
+
+			DirectX::XMVECTOR p5;
+
+			ReturnFarthestPoint(lengths[0], dif, p5);
+
+			int index = 0;
+
+			float max = -FLT_MAX;
+
+			for (int i = 0; i < points.size(); i++)
+			{
+				float length = DirectX::XMVectorGetX(DirectX::XMVector3Length(*points[i]));
+
+				if (length >= max)
+				{
+					index = i;
+
+					max = length;
+				}
+			}
+
+			*points[index] = p5;
 		}
 	}
 
@@ -495,8 +484,8 @@ struct Triangle
 
 	Triangle(DirectX::XMVECTOR a, DirectX::XMVECTOR b, DirectX::XMVECTOR c) : p1(a), p2(b), p3(c)
 	{
-		auto p1TOp2 = DirectX::XMVectorSubtract(p2 , p1);
-		auto p1TOp3 = DirectX::XMVectorSubtract(p3 , p1);
+		auto p1TOp2 = DirectX::XMVectorSubtract(p2, p1);
+		auto p1TOp3 = DirectX::XMVectorSubtract(p3, p1);
 
 		n = DirectX::XMVector3Normalize(DirectX::XMVector3Cross(p1TOp2, p1TOp3));
 
@@ -516,8 +505,8 @@ struct Triangle
 
 		edges = {
 			std::make_pair(p1,p2),
-		    std::make_pair(p2,p3),
-	    	std::make_pair(p3,p1)
+			std::make_pair(p2,p3),
+			std::make_pair(p3,p1)
 		};
 	}
 };

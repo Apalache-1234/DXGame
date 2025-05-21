@@ -3,6 +3,7 @@
 
 #include <memory>
 #include "Component.h"
+#include "utility.h" 
 
 class Rigidbody : public Component
 {
@@ -15,14 +16,18 @@ public:
 
 	void SetVelocity(DirectX::XMVECTOR vel);
 
-	void AddVelocity(DirectX::XMVECTOR vel);
+	void AddForce(DirectX::XMVECTOR vel);
 
-	float mass = 1;
+	float GetMass();
+
+	void SetMass(float val);
 
 	bool isStatic = false;
 
 private:
 	DirectX::XMVECTOR velocity = DirectX::XMVectorSet(0,0,0,0);
+
+	float mass = 1;
 };
 
 #endif

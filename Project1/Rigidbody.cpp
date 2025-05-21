@@ -15,14 +15,25 @@ DirectX::XMVECTOR Rigidbody::GetVelocity()
 
 void Rigidbody::SetVelocity(DirectX::XMVECTOR vel)
 {
-	vel = DirectX::XMVectorScale(vel , 1 / mass);
-
 	velocity = vel;
 }
 
-void Rigidbody::AddVelocity(DirectX::XMVECTOR vel)
+void Rigidbody::AddForce(DirectX::XMVECTOR vel)
 {
 	vel = DirectX::XMVectorScale(vel, 1 / mass);
 
 	velocity = DirectX::XMVectorAdd(vel, velocity);
+}
+
+float Rigidbody::GetMass()
+{
+	return mass;
+}
+
+void Rigidbody::SetMass(float val)
+{
+	if (val < Utility::ep)
+		val = Utility::ep;
+	
+	mass = val;
 }

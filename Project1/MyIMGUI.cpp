@@ -234,11 +234,14 @@ void ShowRigidbodyInfo(std::shared_ptr<Rigidbody> rigid)
 
 	rigid->SetVelocity(DirectX::XMVectorSet(x, y, z, 0));
 
+	float mass = rigid->GetMass();
+
 	ImGui::SetNextItemWidth(50);
-	ImGui::DragFloat(" : Mass", &rigid->mass, 0.1);
+	ImGui::DragFloat(" : Mass", &mass, 0.1);
 	ImGui::SameLine();
 	ImGui::NewLine();
 
+	rigid->SetMass(mass);
 }
 
 void ShowColliderInfo(std::shared_ptr<Collider> col)
