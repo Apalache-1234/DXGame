@@ -155,18 +155,23 @@ DirectX::XMVECTOR ShowAndSetVecInfo(string label , DirectX::XMVECTOR pos)
 
 ImVec2 ButtonRect = ImVec2(50, 20);
 
-void ShowRendererInfo(std::shared_ptr<Renderer> rend)
+void EditColor(DirectX::XMVECTOR* color)
 {
 	float col[4];
 
-	col[0] = DirectX::XMVectorGetX(rend->color);
-	col[1] = DirectX::XMVectorGetY(rend->color);
-	col[2] = DirectX::XMVectorGetZ(rend->color);
-	col[3] = DirectX::XMVectorGetW(rend->color);
+	col[0] = DirectX::XMVectorGetX(*color);
+	col[1] = DirectX::XMVectorGetY(*color);
+	col[2] = DirectX::XMVectorGetZ(*color);
+	col[3] = DirectX::XMVectorGetW(*color);
 
-	ImGui::ColorEdit4(" : Color" , col);
+	ImGui::ColorEdit4(" : Color", col);
 
-	rend->color = DirectX::XMVectorSet(col[0] , col[1] , col[2] , col[3]);
+	*color = DirectX::XMVectorSet(col[0], col[1], col[2], col[3]);
+}
+
+void ShowRendererInfo(std::shared_ptr<Renderer> rend)
+{
+	EditColor(&rend->color);
 
 	if (ImGui::TreeNode("Animations")) {
 
@@ -343,6 +348,44 @@ void ShowAnimationInfo(std::shared_ptr<Renderer> rend)
 
 }
 
+void ShowUIRendererInfo(std::shared_ptr<UIRenderer> uiRend)
+{
+	if (!uiRend)
+		return;
+
+	string str = "Width : ";
+	str += std::to_string(uiRend->GetImageWidth());
+	str += " Height : ";
+	str += std::to_string(uiRend->GetImageHeight());
+
+	ImGui::Text(str.c_str());
+
+	EditColor(&uiRend->color);
+
+	if (ImGui::Button("Open Image File", ImVec2(140, 20)))
+	{
+		OPENFILENAME ofn = {};
+
+		const UINT MAXLENGTH = 200;
+
+		TCHAR filePath[MAXLENGTH] = _T("");
+
+		ofn.lStructSize = sizeof(OPENFILENAME);
+		ofn.lpstrFile = filePath;
+		ofn.nMaxFile = MAXLENGTH;
+		ofn.lpstrFilter = "‰æ‘œƒtƒ@ƒCƒ‹ (*.dds) \0*.dds\0";
+		ofn.nFilterIndex = 1;
+		ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
+
+		if (GetOpenFileName(&ofn))
+		{
+			string path(filePath);
+
+			uiRend->CreateTexture(path);
+		}
+	}
+}
+
 void ShowEntityInfo()
 {
 	string label = "EntityInfo : " + entityList[currentIndexEntity]->name;
@@ -418,7 +461,7 @@ void ShowEntityInfo()
 
 			if (entityList[currentIndexEntity]->GetComponent<UIRenderer>()) {
 
-				ShowInfo();
+				ShowUIRendererInfo(entityList[currentIndexEntity]->GetComponent<UIRenderer>());
 			}
 			else
 			{

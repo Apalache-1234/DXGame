@@ -759,7 +759,7 @@ void Renderer::ReadHierarchyNode(float animationTime , aiNode& node , aiMatrix4x
 		aiMatrix4x4 transMat;
 		aiMatrix4x4::Translation(trans, transMat);
 
-		nodeTransformation = transMat * rotMat * scalingMat;
+		nodeTransformation = transMat * rotMat;
 	}
 
 	resultMat = parentMat * nodeTransformation;

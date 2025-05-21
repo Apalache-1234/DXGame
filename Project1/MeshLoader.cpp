@@ -15,8 +15,6 @@ void MeshLoader::Init()
 	LoadMesh("Models/SpartanWarrior/Spartan_Warrior.fbx", SPARTAN);
 	LoadMesh("Models/Knight01/Animated_Low_Poly_Dark_Knight_BAKED.fbx", KNIGHT);
 	LoadMesh("Models/Box.fbx", BOX);
-
-
 }
 
 std::unique_ptr<MeshLoader> MeshLoader::instance = nullptr;

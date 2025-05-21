@@ -12,7 +12,7 @@ std::unique_ptr<TextureLoader> TextureLoader::instance = nullptr;
 
 ComPtr<ID3D12Resource> TextureLoader::LoadTexture(const std::string filePath)
 {
-	auto index = filePath.find_last_of("/");
+	auto index = filePath.find_last_of("/\\");
 
 	std::string fileName = filePath.substr(index, filePath.length());
 

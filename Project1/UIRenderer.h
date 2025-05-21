@@ -12,7 +12,6 @@
 #pragma comment(lib, "d3dcompiler.lib")
 #include <DirectXMath.h>
 #pragma comment(lib, "dxguid.lib")
-#include <d3dcompiler.h>
 #pragma comment(lib, "d3dcompiler.lib")
 #include <ResourceUploadBatch.h>
 #include <DDSTextureLoader.h>
@@ -25,6 +24,8 @@
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
+#include "MeshLoader.h"
+#include "DescriptorHeapManager.h"
 
 class UIRenderer : public Component, public std::enable_shared_from_this<UIRenderer>
 {
@@ -41,6 +42,10 @@ public:
 /// そのメッシュのカラーを決める
 /// </summary>
 	DirectX::XMVECTOR color = DirectX::XMVectorSet(1, 1, 1, 1);
+
+	UINT GetImageWidth();
+
+	UINT GetImageHeight();
 private:
 	MeshLoader::MeshData* meshData;
 
@@ -55,6 +60,10 @@ private:
 	/// WinAPI系の関数の可否を格納する変数
 	/// </summary>
 	HRESULT hr;
+
+	float imageWidth = 1;
+
+	float imageHeight = 1;
 
 	/// <summary>
 	// バックバッファ込みのコンスタントバッファのリソース

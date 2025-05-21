@@ -95,20 +95,6 @@ public:
 		Assimp::Importer import;
 
 		MeshData() = default;
-
-		void AddCommandForMesh(ComPtr<ID3D12GraphicsCommandList> cmdList)
-		{
-			for (int i = 0; i < meshes.size(); i++)
-			{
-				auto& mesh = meshes[i];
-
-				cmdList->IASetVertexBuffers(0, 1, &mesh.vbView);
-
-				cmdList->IASetIndexBuffer(&mesh.ibView);
-
-				cmdList->DrawIndexedInstanced(mesh.indices.size(), 1, 0, 0, 0);
-			}
-		}
 	};
 
 	void Init();
