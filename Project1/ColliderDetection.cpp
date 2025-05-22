@@ -246,14 +246,10 @@ bool ColliderDetection::CheckCollision(std::shared_ptr<Collider> colA, std::shar
 
 	if (GJKAlgorithm(difList, points))
 	{
-		colA->attachFrom->GetComponent<Renderer>()->color = DirectX::XMVectorSet(0.1, 0.1, 0.5, 1);
-
 		dest = EPAAlgorithm(points, difList);
 
 		return true;
 	}
-	else
-		colA->attachFrom->GetComponent<Renderer>()->color = DirectX::XMVectorSet(1, 1, 1, 1);
 
 	return false;
 }

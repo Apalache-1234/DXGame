@@ -6,6 +6,9 @@
 #include <vector>
 #include "Entity.h"
 #include "windows.h"
+#include <sstream>
+
+class Entity;
 
 class GameManager
 {

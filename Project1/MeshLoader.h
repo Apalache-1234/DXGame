@@ -27,7 +27,8 @@ public:
 	{
 		KNIGHT,
 		SPARTAN,
-		BOX
+		BOX,
+		PLANE
 	};
 
 	struct VertexData

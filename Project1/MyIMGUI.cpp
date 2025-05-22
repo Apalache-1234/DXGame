@@ -1,4 +1,5 @@
 #include "MyIMGUI.h"
+#include <tchar.h> 
 
 std::unique_ptr<MyIMGUI> MyIMGUI::instance = nullptr;
 
@@ -119,11 +120,11 @@ void ShowInfo()
 bool showEntityWindow = false;
 bool showAnimationWindow = false;
 
-int currentIndexEntity = 0;
+shared_ptr<Entity> currentEntity = 0;
 
 std::vector < std::shared_ptr<Entity>> entityList;
 
-DirectX::XMVECTOR ShowAndSetVecInfo(string label , DirectX::XMVECTOR pos)
+DirectX::XMVECTOR ShowAndSetVecInfo(string label , DirectX::XMVECTOR pos, float speed = 0.05)
 {
 	string str = label;
 
@@ -134,8 +135,6 @@ DirectX::XMVECTOR ShowAndSetVecInfo(string label , DirectX::XMVECTOR pos)
 	ImGui::Text(str.c_str());
 
 	ImGui::PushID(label.c_str()); 
-
-	float speed = 0.05;
 
 	ImGui::SetNextItemWidth(60);
 	ImGui::DragFloat("X ", &x , speed);
@@ -389,15 +388,30 @@ void ShowUIRendererInfo(std::shared_ptr<UIRenderer> uiRend)
 	}
 }
 
+#pragma warning(disable: 4996)  // strcpy に関する警告を無効化
+
 void ShowEntityInfo()
 {
-	string label = "EntityInfo : " + entityList[currentIndexEntity]->name;
+	string label = "EntityInfo : " + entityList[currentIndexEntity]->GetName();
 
 	if (ImGui::Begin(label.c_str(), &showEntityWindow))  // ウィンドウ名を指定
 	{
-		entityList[currentIndexEntity]->SetWorldPosition(ShowAndSetVecInfo("WorldPosition : ", entityList[currentIndexEntity]->GetWorldPosition()));
+		if (ImGui::Button("CreateChild", ImVec2(150, 22))) {
+			auto child = GameManager::GetInstance().CreateEntity("GameObject");
 
-		entityList[currentIndexEntity]->SetLocalPosition(ShowAndSetVecInfo("LocalPosition : ", entityList[currentIndexEntity]->GetLocalPosition()));
+			entityList[currentIndexEntity]->AddChild(child);
+		}
+
+		if (entityList[currentIndexEntity]->GetComponent<UIRenderer>())
+		{
+			entityList[currentIndexEntity]->SetWorldPosition(ShowAndSetVecInfo("WorldPosition : ", entityList[currentIndexEntity]->GetWorldPosition(), 5));
+			entityList[currentIndexEntity]->SetLocalPosition(ShowAndSetVecInfo("LocalPosition : ", entityList[currentIndexEntity]->GetLocalPosition() , 5));
+		}
+		else
+		{
+			entityList[currentIndexEntity]->SetWorldPosition(ShowAndSetVecInfo("WorldPosition : ", entityList[currentIndexEntity]->GetWorldPosition()));
+			entityList[currentIndexEntity]->SetLocalPosition(ShowAndSetVecInfo("LocalPosition : ", entityList[currentIndexEntity]->GetLocalPosition()));
+		}
 
 		entityList[currentIndexEntity]->SetWorldScale(ShowAndSetVecInfo("WorldScale : ", entityList[currentIndexEntity]->GetWorldScale()));
 
@@ -485,34 +499,35 @@ void ShowEntityInfo()
 	}
 }
 
+void ShowEntityTree(shared_ptr<Entity> ent)
+{
+	if (ImGui::Selectable(ent->GetName().c_str()))
+	{
+		showEntityWindow = true;
+
+		currentEntity = ent;
+
+		if (ent->HasChild())
+		{
+			auto childs = ent->GetChild();
+
+			for (auto child : childs)
+			{
+				auto childEnt = std::dynamic_pointer_cast<Entity>(child);
+
+				if (childEnt)
+					ShowEntityTree(childEnt);
+			}
+		}
+	}
+}
+
 void ShowDebugTrees()
 {
 	if (ImGui::TreeNode("Entites")) {
 
-		ImGui::SameLine();
-
-		if (ImGui::Button("CreateEntity", ImVec2(150, 25))) {
-			string name = "GameObject";
-
-			int i = 0;
-
-			if (GameManager::GetInstance().isExitNameEntity(name))
-			{
-				while (true)
-				{
-					string nameNum = name + to_string(i);
-
-					if (!GameManager::GetInstance().isExitNameEntity(nameNum))
-					{
-						name = nameNum;
-						break;
-					}
-
-					i++;
-				}
-			}
-
-			GameManager::GetInstance().CreateEntity(name);
+		if (ImGui::Button("CreateObject", ImVec2(150, 22))) {
+			GameManager::GetInstance().CreateEntity("GameObject");
 		}
 
 		entityList = GameManager::GetInstance().GetInstance().GetEntityList();
@@ -521,12 +536,7 @@ void ShowDebugTrees()
 		{
 			if (!entityList[i]->HasParent())
 			{
-				if (ImGui::Selectable(entityList[i]->name.c_str()))
-				{
-					showEntityWindow = true;
-
-					currentIndexEntity = i;
-				}
+				ShowEntityTree(entityList[i]);
 			}
 		}
 

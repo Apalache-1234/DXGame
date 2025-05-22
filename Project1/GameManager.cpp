@@ -29,7 +29,7 @@ bool GameManager::isExitNameEntity(std::string name)
 {
 	for (int i = 0; i < entities.size(); i++)
 	{
-		if (entities[i]->name == name)
+		if (entities[i]->GetName() == name)
 			return true;
 	}
 
@@ -41,8 +41,27 @@ void GameManager::SetEntity(std::shared_ptr<Entity> entity)
 	entities.emplace_back(entity);
 }
 
+
 std::shared_ptr<Entity> GameManager::CreateEntity(std::string name)
 {
+	if (isExitNameEntity(name))
+	{
+		int i = 1;
+
+		while (true)
+		{
+			std::string nameNum = name + std::to_string(i);
+
+			if (!isExitNameEntity(nameNum))
+			{
+				name = nameNum;
+				break;
+			}
+
+			i++;
+		}
+	}
+
 	auto entity = std::make_shared<Entity>(name);
 
 	SetEntity(entity);

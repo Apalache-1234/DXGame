@@ -1,5 +1,6 @@
 #include "Object.h"
 #include "Component.h"
+#include "GameManager.h"
 
 Object::Object(const std::string& name)
 {
@@ -73,6 +74,34 @@ void Object::SetParent(std::shared_ptr<Object> obj)
 	}
 
 	parent = obj;
+}
+
+void Object::SetName(std::string name)
+{
+	if (GameManager::GetInstance().isExitNameEntity(name))
+	{
+		int i = 1;
+
+		while (true)
+		{
+			std::string nameNum = name + std::to_string(i);
+
+			if (!GameManager::GetInstance().isExitNameEntity(nameNum))
+			{
+				name = nameNum;
+				break;
+			}
+
+			i++;
+		}
+	}
+
+	this->name = name;
+}
+
+std::string Object::GetName()
+{
+	return this->name;
 }
 
 std::shared_ptr<Object> Object::GetParent()

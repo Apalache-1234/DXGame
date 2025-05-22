@@ -6,6 +6,7 @@
 #include <memory>
 #include <iostream>
 #include <unordered_map>
+#include <sstream>
 
 class Object : public std::enable_shared_from_this<Object>
 {
@@ -44,6 +45,10 @@ public:
     /// <returns>セットする親</returns>
 	void SetParent(std::shared_ptr<Object> obj);
 
+	void SetName(std::string name);
+
+	std::string GetName();
+
 	/// <summary>
     /// 親のシェアドポインタを返す
     /// </summary>
@@ -59,12 +64,6 @@ public:
      /// 子供が存在するかどうかを返す
      /// </summary>
 	 bool HasChild();
-
-	 /// <summary>
-	 /// オブジェクトの名前
-	 /// </summary>
-	 std::string name;
-
 private:
 	//子供のオブジェクトの辞書型配列
 	std::vector<std::shared_ptr<Object>> objsChild;
@@ -72,7 +71,10 @@ private:
 	//親のオブジェクトのポインター
 	std::shared_ptr<Object> parent = nullptr;
 
-
+	/// <summary>
+    /// オブジェクトの名前
+    /// </summary>
+	std::string name;
 };
 
 #endif

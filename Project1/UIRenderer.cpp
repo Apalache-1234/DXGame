@@ -88,7 +88,7 @@ UIRenderer::UIRenderer(std::shared_ptr<Entity> ent) : Component::Component(ent)
 
 	isSuccess &= MapCB();
 
-	meshData = MeshLoader::GetInstance().GetMesh(MeshLoader::BOX);
+	meshData = MeshLoader::GetInstance().GetMesh(MeshLoader::PLANE);
 
 	isSuccess &= CreateRootSignature();
 
