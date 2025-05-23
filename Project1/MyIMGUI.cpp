@@ -392,47 +392,47 @@ void ShowUIRendererInfo(std::shared_ptr<UIRenderer> uiRend)
 
 void ShowEntityInfo()
 {
-	string label = "EntityInfo : " + entityList[currentIndexEntity]->GetName();
+	string label = "EntityInfo : " + currentEntity->GetName();
 
 	if (ImGui::Begin(label.c_str(), &showEntityWindow))  // ウィンドウ名を指定
 	{
 		if (ImGui::Button("CreateChild", ImVec2(150, 22))) {
 			auto child = GameManager::GetInstance().CreateEntity("GameObject");
 
-			entityList[currentIndexEntity]->AddChild(child);
+			currentEntity->AddChild(child);
 		}
 
-		if (entityList[currentIndexEntity]->GetComponent<UIRenderer>())
+		if (currentEntity->GetComponent<UIRenderer>())
 		{
-			entityList[currentIndexEntity]->SetWorldPosition(ShowAndSetVecInfo("WorldPosition : ", entityList[currentIndexEntity]->GetWorldPosition(), 5));
-			entityList[currentIndexEntity]->SetLocalPosition(ShowAndSetVecInfo("LocalPosition : ", entityList[currentIndexEntity]->GetLocalPosition() , 5));
+			currentEntity->SetWorldPosition(ShowAndSetVecInfo("WorldPosition : ", currentEntity->GetWorldPosition(), 5));
+			currentEntity->SetLocalPosition(ShowAndSetVecInfo("LocalPosition : ", currentEntity->GetLocalPosition() , 5));
 		}
 		else
 		{
-			entityList[currentIndexEntity]->SetWorldPosition(ShowAndSetVecInfo("WorldPosition : ", entityList[currentIndexEntity]->GetWorldPosition()));
-			entityList[currentIndexEntity]->SetLocalPosition(ShowAndSetVecInfo("LocalPosition : ", entityList[currentIndexEntity]->GetLocalPosition()));
+			currentEntity->SetWorldPosition(ShowAndSetVecInfo("WorldPosition : ", currentEntity->GetWorldPosition()));
+			currentEntity->SetLocalPosition(ShowAndSetVecInfo("LocalPosition : ", currentEntity->GetLocalPosition()));
 		}
 
-		entityList[currentIndexEntity]->SetWorldScale(ShowAndSetVecInfo("WorldScale : ", entityList[currentIndexEntity]->GetWorldScale()));
+		currentEntity->SetWorldScale(ShowAndSetVecInfo("WorldScale : ", currentEntity->GetWorldScale()));
 
-		entityList[currentIndexEntity]->SetLocalScale(ShowAndSetVecInfo("LocalScale : ", entityList[currentIndexEntity]->GetLocalScale()));
+		currentEntity->SetLocalScale(ShowAndSetVecInfo("LocalScale : ", currentEntity->GetLocalScale()));
 
-		entityList[currentIndexEntity]->SetWorldRotation(ShowAndSetVecInfo("WorldRotation : ", entityList[currentIndexEntity]->GetWorldRotation()));
+		currentEntity->SetWorldRotation(ShowAndSetVecInfo("WorldRotation : ", currentEntity->GetWorldRotation()));
 
-		entityList[currentIndexEntity]->SetLocalRotation(ShowAndSetVecInfo("LocalRotation : ", entityList[currentIndexEntity]->GetLocalRotation()));
+		currentEntity->SetLocalRotation(ShowAndSetVecInfo("LocalRotation : ", currentEntity->GetLocalRotation()));
 
 
 
 		if (ImGui::TreeNode("RenderComponent")) {
 
-			if (entityList[currentIndexEntity]->GetComponent<Renderer>()) {
+			if (currentEntity->GetComponent<Renderer>()) {
 
-				ShowRendererInfo(entityList[currentIndexEntity]->GetComponent<Renderer>());
+				ShowRendererInfo(currentEntity->GetComponent<Renderer>());
 			}
 			else
 			{
 				if (ImGui::Button("Add", ButtonRect)) {
-					entityList[currentIndexEntity]->AddComponent<Renderer>();
+					currentEntity->AddComponent<Renderer>();
 				}
 			}
 
@@ -442,14 +442,14 @@ void ShowEntityInfo()
 
 		if (ImGui::TreeNode("ColliderComponent")) {
 
-			if (entityList[currentIndexEntity]->GetComponent<Collider>()) {
+			if (currentEntity->GetComponent<Collider>()) {
 
-				ShowColliderInfo(entityList[currentIndexEntity]->GetComponent<Collider>());
+				ShowColliderInfo(currentEntity->GetComponent<Collider>());
 			}
 			else
 			{
 				if (ImGui::Button("Add", ButtonRect)) {
-					entityList[currentIndexEntity]->AddComponent<Collider>();
+					currentEntity->AddComponent<Collider>();
 				}
 			}
 
@@ -459,14 +459,14 @@ void ShowEntityInfo()
 
 		if (ImGui::TreeNode("RigidbodyComponent")) {
 
-			if (entityList[currentIndexEntity]->GetComponent<Rigidbody>()) {
+			if (currentEntity->GetComponent<Rigidbody>()) {
 
-				ShowRigidbodyInfo(entityList[currentIndexEntity]->GetComponent<Rigidbody>());
+				ShowRigidbodyInfo(currentEntity->GetComponent<Rigidbody>());
 			}
 			else
 			{
 				if (ImGui::Button("Add", ButtonRect)) {
-					entityList[currentIndexEntity]->AddComponent<Rigidbody>();
+					currentEntity->AddComponent<Rigidbody>();
 				}
 			}
 
@@ -476,14 +476,14 @@ void ShowEntityInfo()
 
 		if (ImGui::TreeNode("UIRenderComponent")) {
 
-			if (entityList[currentIndexEntity]->GetComponent<UIRenderer>()) {
+			if (currentEntity->GetComponent<UIRenderer>()) {
 
-				ShowUIRendererInfo(entityList[currentIndexEntity]->GetComponent<UIRenderer>());
+				ShowUIRendererInfo(currentEntity->GetComponent<UIRenderer>());
 			}
 			else
 			{
 				if (ImGui::Button("Add", ButtonRect)) {
-					entityList[currentIndexEntity]->AddComponent<UIRenderer>();
+					currentEntity->AddComponent<UIRenderer>();
 				}
 			}
 
@@ -495,13 +495,38 @@ void ShowEntityInfo()
 
 	if (showAnimationWindow)
 	{
-		ShowAnimationInfo(entityList[currentIndexEntity]->GetComponent<Renderer>());
+		ShowAnimationInfo(currentEntity->GetComponent<Renderer>());
 	}
+}
+
+bool IsSelectedChild(shared_ptr<Entity> ent , bool isSelected = false)
+{
+	if (ent->HasChild())
+	{
+		auto childs = ent->GetChild();
+
+		for (auto child : childs)
+		{
+			auto childEnt = std::dynamic_pointer_cast<Entity>(child);
+
+			if (currentEntity == childEnt)
+			{
+				return true;
+			}
+
+			if (childEnt)
+				isSelected = IsSelectedChild(childEnt , isSelected);
+		}
+	}
+
+	return isSelected;
 }
 
 void ShowEntityTree(shared_ptr<Entity> ent)
 {
-	if (ImGui::Selectable(ent->GetName().c_str()))
+	ImGui::TreeNode-
+
+	if (ImGui::TreeNode(ent->GetName().c_str()))
 	{
 		showEntityWindow = true;
 
@@ -519,6 +544,8 @@ void ShowEntityTree(shared_ptr<Entity> ent)
 					ShowEntityTree(childEnt);
 			}
 		}
+
+		ImGui::TreePop();
 	}
 }
 
