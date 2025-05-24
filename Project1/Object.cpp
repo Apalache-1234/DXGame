@@ -76,6 +76,59 @@ void Object::SetParent(std::shared_ptr<Object> obj)
 	parent = obj;
 }
 
+void Object::ResetParent()
+{
+	if (HasParent())
+	{
+		parent->ResetChild(this->GetName());
+
+		parent = nullptr;
+	}
+}
+
+void Object::ResetAllChild()
+{
+	for (int i = 0;i < objsChild.size();i++)
+	{
+		objsChild[i]->ResetParent();
+	}
+
+	objsChild.clear();
+}
+
+void Object::ResetChild(int num)
+{
+	if (num >= objsChild.size())
+	{
+		std::cerr << "その子のインデックスが存在しないため子のリセットの失敗" << std::endl;
+
+		return;
+	}
+
+	objsChild[num]->parent = nullptr;
+
+	objsChild.erase(objsChild.begin() +  num);
+}
+
+void Object::ResetChild(std::string name)
+{
+	for (int i = 0;i < objsChild.size() ;i++)
+	{
+		if (objsChild[i]->GetName() == name)
+		{
+			objsChild[i]->parent = nullptr;
+
+			objsChild.erase(objsChild.begin() + i);
+
+			return;
+		}
+	}
+
+	std::cerr << "その子の名前が存在しないため子のリセットの失敗" << std::endl;
+
+	return;
+}
+
 void Object::SetName(std::string name)
 {
 	if (GameManager::GetInstance().isExitNameEntity(name))
@@ -97,6 +150,20 @@ void Object::SetName(std::string name)
 	}
 
 	this->name = name;
+}
+
+bool Object::IsDestoroyed()
+{
+	return isDestroyed;
+}
+
+void Object::Destroy()
+{
+	ResetParent();
+
+	ResetAllChild();
+
+	isDestroyed = true;
 }
 
 std::string Object::GetName()

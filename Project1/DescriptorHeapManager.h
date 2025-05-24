@@ -38,7 +38,8 @@ public:
 
 		void ReturnHandle()
 		{
-			descHeap->BackHandles(cpuHandle , gpuHandle);
+			if (!descHeap->IsDestroyed())
+				descHeap->BackHandles(cpuHandle, gpuHandle);
 		}
 
 		~PtrHandles()
@@ -52,6 +53,8 @@ public:
 	std::unique_ptr<DescriptorHeapManager::PtrHandles> GetHandle();
 
 	ComPtr<ID3D12DescriptorHeap> GetHeap();
+
+	bool IsDestroyed();
 private:
 	/// <summary>
     /// デスクリプタヒープ
@@ -65,6 +68,8 @@ private:
 	bool InitList();
 
 	UINT capacity = 0;
+
+	bool isDestroyed = false;
 };
 
 namespace std

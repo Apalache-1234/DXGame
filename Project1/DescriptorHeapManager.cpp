@@ -19,11 +19,14 @@ DescriptorHeapManager::DescriptorHeapManager(UINT num)
 
 DescriptorHeapManager::~DescriptorHeapManager()
 {
+	isDestroyed = true;
+
+	free.clear();
 }
 
 void DescriptorHeapManager::BackHandles(D3D12_CPU_DESCRIPTOR_HANDLE cpuHandle , D3D12_GPU_DESCRIPTOR_HANDLE gpuHandle)
 {
-	assert(free.size() < 100);
+	assert(free.size() < capacity );
 
 	auto handle = std::make_unique<PtrHandles>(cpuHandle, gpuHandle, this);
 
@@ -44,6 +47,11 @@ std::unique_ptr<DescriptorHeapManager::PtrHandles> DescriptorHeapManager::GetHan
 ComPtr<ID3D12DescriptorHeap> DescriptorHeapManager::GetHeap()
 {
 	return heap;
+}
+
+bool DescriptorHeapManager::IsDestroyed()
+{
+	return isDestroyed;
 }
 
 bool DescriptorHeapManager::InitDescHeap()

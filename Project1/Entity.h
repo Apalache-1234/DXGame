@@ -22,6 +22,8 @@ public:
 
 	~Entity();
 
+	void Init();
+
 	/// <summary>
 	/// ワールド座標をXMVECTOR形式で返す
 	/// </summary>
@@ -166,6 +168,8 @@ public:
 	/// <param name="scale">足すワールドの大きさ</param>
 	void AddWorldScale(DirectX::XMVECTOR scale);
 
+	void Destroy() override;
+
 	/// <summary>
 	/// ローカルの大きさを足す
 	/// </summary>
@@ -180,14 +184,17 @@ public:
 	void
     AddComponent()
 	{
-        // shared_from_this()を使用してEntityのshared_ptrを作成
-        std::shared_ptr<Entity> ent = std::dynamic_pointer_cast<Entity>(shared_from_this());
-        
-        // コンポーネントを作成してマップに追加
-        components[typeid(T)] = std::make_shared<T>(ent);
+		if (components.find(typeid(T)) == components.end())
+		{
+			// shared_from_this()を使用してEntityのshared_ptrを作成
+			std::shared_ptr<Entity> ent = std::dynamic_pointer_cast<Entity>(shared_from_this());
 
-        // コンポーネントの初期化
-        components[typeid(T)]->Init();
+			// コンポーネントを作成してマップに追加
+			components[typeid(T)] = std::make_shared<T>(ent);
+
+			// コンポーネントの初期化
+			components[typeid(T)]->Init();
+		}
 	}
 
 	/// <summary>

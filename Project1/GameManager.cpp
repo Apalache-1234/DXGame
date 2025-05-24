@@ -64,6 +64,8 @@ std::shared_ptr<Entity> GameManager::CreateEntity(std::string name)
 
 	auto entity = std::make_shared<Entity>(name);
 
+	entity->Init();
+
 	SetEntity(entity);
 
 	return entity;
@@ -79,6 +81,14 @@ void GameManager::MainLoop()
 	DeltaTime = GameTime - prevTime;
 
 	prevTime = GameTime;
+
+	for (int i = 0;i<entities.size();i++)
+	{
+		if (entities[i]->IsDestoroyed())
+		{
+			entities.erase(entities.begin() + i);
+		}
+	}
 }
 
 void GameManager::PauseTime()

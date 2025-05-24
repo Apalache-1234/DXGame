@@ -45,7 +45,19 @@ public:
     /// <returns>セットする親</returns>
 	void SetParent(std::shared_ptr<Object> obj);
 
+	void ResetParent();
+
+	void ResetAllChild();
+
+	void ResetChild(int num);
+
+	void ResetChild(std::string name);
+
 	void SetName(std::string name);
+
+	bool IsDestoroyed();
+
+	void virtual Destroy();
 
 	std::string GetName();
 
@@ -70,6 +82,8 @@ private:
 
 	//親のオブジェクトのポインター
 	std::shared_ptr<Object> parent = nullptr;
+
+	bool isDestroyed = false;
 
 	/// <summary>
     /// オブジェクトの名前

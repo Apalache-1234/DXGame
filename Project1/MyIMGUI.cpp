@@ -396,10 +396,16 @@ void ShowEntityInfo()
 
 	if (ImGui::Begin(label.c_str(), &showEntityWindow))  // ウィンドウ名を指定
 	{
-		if (ImGui::Button("CreateChild", ImVec2(150, 22))) {
+		if (ImGui::Button("CreateChild", ImVec2(110, 22))) {
 			auto child = GameManager::GetInstance().CreateEntity("GameObject");
 
 			currentEntity->AddChild(child);
+		}
+
+		ImGui::SameLine();
+
+		if (ImGui::Button("Init", ImVec2(110, 22))) {
+			currentEntity->Init();
 		}
 
 		if (currentEntity->GetComponent<UIRenderer>())
@@ -416,6 +422,8 @@ void ShowEntityInfo()
 		currentEntity->SetWorldScale(ShowAndSetVecInfo("WorldScale : ", currentEntity->GetWorldScale()));
 
 		currentEntity->SetLocalScale(ShowAndSetVecInfo("LocalScale : ", currentEntity->GetLocalScale()));
+
+		ShowAndSetVecInfo("FinalScale : ", currentEntity->GetScale());
 
 		currentEntity->SetWorldRotation(ShowAndSetVecInfo("WorldRotation : ", currentEntity->GetWorldRotation()));
 
@@ -490,6 +498,15 @@ void ShowEntityInfo()
 
 			ImGui::TreePop();
 		}
+
+		ImGui::PushStyleColor(ImGuiCol_::ImGuiCol_Button , ImVec4(0.3,0,0,1));
+		if (ImGui::Button("Destroy", ImVec2(110, 22))) {
+			currentEntity->Destroy();
+			currentEntity = nullptr;
+			showEntityWindow = false;
+		}
+		ImGui::PopStyleColor();
+
 		ImGui::End();
 	}
 
@@ -524,13 +541,14 @@ bool IsSelectedChild(shared_ptr<Entity> ent , bool isSelected = false)
 
 void ShowEntityTree(shared_ptr<Entity> ent)
 {
-	ImGui::TreeNode-
-
 	if (ImGui::TreeNode(ent->GetName().c_str()))
 	{
-		showEntityWindow = true;
+		if (ImGui::IsItemClicked())
+		{
+			showEntityWindow = true;
 
-		currentEntity = ent;
+			currentEntity = ent;
+		}
 
 		if (ent->HasChild())
 		{
@@ -601,6 +619,8 @@ void MyIMGUI::MainLoop()
 			ImGui::TreePop();
 		}
 
+		ShowDebugTrees();
+
 		if (ImGui::TreeNode("Flags")) {
 
 			ImGui::Checkbox("Debug", flagIns.isDebug.get());
@@ -608,19 +628,11 @@ void MyIMGUI::MainLoop()
 
 			ImGui::TreePop();
 		}
-
-		if (*flagIns.isDebug)
-		{
-			ShowDebugTrees();
-		}
 		
 		ImGui::End();
 
-		if (*flagIns.isDebug)
-		{
-			if (showEntityWindow)
-				ShowEntityInfo();
-		}
+		if (showEntityWindow)
+			ShowEntityInfo();
 	}
 	//ここまで
 

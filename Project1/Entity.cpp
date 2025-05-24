@@ -19,6 +19,23 @@ Entity::Entity(const std::string& name) : Object::Object(name)
 
 Entity::~Entity()
 {
+	std::cout << GetName() << "‚ª”jŠü‚³‚ê‚½" << std::endl;
+}
+
+void Entity::Init()
+{
+	SetWorldPosition(DirectX::XMVectorZero());
+	SetLocalPosition(DirectX::XMVectorZero());
+
+	SetWorldScale(DirectX::XMVectorSplatOne());
+	SetLocalScale(DirectX::XMVectorSplatOne());
+
+	SetWorldRotation(DirectX::XMVectorZero());
+	SetLocalRotation(DirectX::XMVectorZero());
+
+	components.clear();
+
+	AddComponent<Renderer>();
 }
 
 DirectX::XMVECTOR Entity::GetWorldPosition()
@@ -55,13 +72,16 @@ DirectX::XMVECTOR Entity::GetScale()
 	float scaleY = DirectX::XMVectorGetY(scale);
 	float scaleZ = DirectX::XMVectorGetZ(scale);
 
-	scale = GetLocalScale();
+	if (HasParent())
+	{
+		scale = GetLocalScale();
 
-	scaleX *= DirectX::XMVectorGetX(scale);
-	scaleY *= DirectX::XMVectorGetY(scale);
-	scaleZ *= DirectX::XMVectorGetZ(scale);
+		scaleX *= DirectX::XMVectorGetX(scale);
+		scaleY *= DirectX::XMVectorGetY(scale);
+		scaleZ *= DirectX::XMVectorGetZ(scale);
+	}
 
-	return scale;
+	return DirectX::XMVectorSet(scaleX, scaleY, scaleZ, 0);
 }
 
 DirectX::XMVECTOR Entity::GetWorldRotation()
@@ -270,6 +290,8 @@ void Entity::SetWorldScale(DirectX::XMVECTOR scale)
 			{
 				std::shared_ptr<Entity> ent = std::dynamic_pointer_cast<Entity>(obj);
 
+				DirectX::XMVECTOR offset;
+
 				if (ent != nullptr)
 				{
 					auto subVec = ent->GetLocalPosition();
@@ -278,9 +300,10 @@ void Entity::SetWorldScale(DirectX::XMVECTOR scale)
 					auto magnitudeY = subVec.m128_f32[1] / prevScale.m128_f32[1];
 					auto magnitudeZ = subVec.m128_f32[2] / prevScale.m128_f32[2];
 
-					auto offset = DirectX::XMVectorSet(magnitudeX * worldScale.m128_f32[0], magnitudeY * worldScale.m128_f32[1], magnitudeZ * worldScale.m128_f32[2], 0);
+					offset = DirectX::XMVectorSet(magnitudeX * worldScale.m128_f32[0], magnitudeY * worldScale.m128_f32[1], magnitudeZ * worldScale.m128_f32[2], 0);
 
-
+					if (DirectX::XMVector3IsNaN(offset))
+						offset = DirectX::XMVectorZero();
 
 					ent->SetLocalPosition(offset);
 
@@ -382,6 +405,13 @@ void Entity::AddWorldScale(DirectX::XMVECTOR scale)
 	auto result = DirectX::XMVectorAdd(sc, scale);
 
 	SetWorldScale(result);
+}
+
+void Entity::Destroy()
+{
+	Object::Destroy();
+
+	components.clear();
 }
 
 void Entity::AddLocalScale(DirectX::XMVECTOR scale)

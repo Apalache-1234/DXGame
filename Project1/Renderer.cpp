@@ -100,6 +100,7 @@ Renderer::Renderer(std::shared_ptr<Entity> ent) : Component::Component(ent)
 
 Renderer::~Renderer()
 {
+	std::cout << "Rendererコンポーネントが破棄された" << std::endl;
 }
 
 void Renderer::AddRenderCommand(ComPtr<ID3D12GraphicsCommandList>& cmdList, int backbufferIndex)

@@ -80,15 +80,21 @@ void ColliderDetection::MainLoop()
 			CheckCollision(colA , colB , ndA);
 			CheckCollision(colB , colA , ndB);
 
-			if (!colA->attachFrom->GetComponent<Rigidbody>()->isStatic && !colB->attachFrom->GetComponent<Rigidbody>()->isStatic)
+			if (colA->attachFrom->GetComponent<Rigidbody>() && colB->attachFrom->GetComponent<Rigidbody>())
 			{
-				ndA = DirectX::XMVectorScale(ndA, 0.5);
-				ndB = DirectX::XMVectorScale(ndB, 0.5);
+				if (!colA->attachFrom->GetComponent<Rigidbody>()->isStatic && !colB->attachFrom->GetComponent<Rigidbody>()->isStatic)
+				{
+					ndA = DirectX::XMVectorScale(ndA, 0.5);
+					ndB = DirectX::XMVectorScale(ndB, 0.5);
+				}
 			}
 
 
-			UpdateVelocity(colA, ndA);
-			UpdateVelocity(colB, ndB);
+
+			if (colA->attachFrom->GetComponent<Rigidbody>())
+				UpdateVelocity(colA, ndA);
+			if (colB->attachFrom->GetComponent<Rigidbody>())
+				UpdateVelocity(colB, ndB);
 		
 		}
 	}
