@@ -1,13 +1,25 @@
 #ifndef TEXTURELOADER_H
 #define TEXTURELOADER_H
 
-#include <memory>
-#include <iostream>
-#include <vector>
-#include "Entity.h"
-#include "DirectXMath.h"
 #include "GameManager.h"
-#include "Renderer.h"
+#include <windows.h>
+#include <memory>
+#include <tchar.h>
+#include "Window.h"
+#include <iostream>
+#include <DirectXMath.h>
+#include <d3d12.h>
+#include <d3dx12.h>
+#include <dxgi1_4.h>
+#include <D3Dcompiler.h>
+#include <DirectXMath.h>
+#include <d3dcompiler.h>
+#include "wrl.h"
+
+using namespace DirectX;
+using namespace Microsoft::WRL;
+using namespace std;
+
 
 using namespace DirectX;
 

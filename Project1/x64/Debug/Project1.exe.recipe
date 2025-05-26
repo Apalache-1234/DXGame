@@ -7,7 +7,16 @@
   </ProjectOutputs>
   <ContentFiles>
     <ContentFile>
-      <FullPath>E:\DXGame\x64\Debug\PixelShader.cso</FullPath>
+      <FullPath>E:\DXGame\x64\Debug\DebugPixelShader.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>E:\DXGame\x64\Debug\DebugVertexShader.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>E:\DXGame\x64\Debug\RendererPixelShader.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>E:\DXGame\x64\Debug\SkinnedPixelShader.cso</FullPath>
     </ContentFile>
     <ContentFile>
       <FullPath>E:\DXGame\x64\Debug\SkyBoxPixelShader.cso</FullPath>
@@ -22,7 +31,10 @@
       <FullPath>E:\DXGame\x64\Debug\UIVertexShader.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>E:\DXGame\x64\Debug\VertexShader.cso</FullPath>
+      <FullPath>E:\DXGame\x64\Debug\SkinnedVertexShader.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>E:\DXGame\x64\Debug\RendererVertexShader.cso</FullPath>
     </ContentFile>
   </ContentFiles>
   <SatelliteDlls />

@@ -8,14 +8,14 @@
 #include <unordered_map>
 #include <DirectXMath.h>
 #include "Component.h"
-#include "Entity.h"
-#include "Utility.h"
+
+class Entity;
 
 class Collider : public Component
 {
 public:
 	enum ColliderType 
-	{ Cube};
+	{ Cube , Sphere};
 
 	Collider(std::shared_ptr<Entity> ent);
 
@@ -27,9 +27,13 @@ public:
 	/// <returns>調整後の頂点座標</returns>
 	std::vector<DirectX::XMVECTOR> GetCurrentVerticesPos();
 
+	DirectX::XMMATRIX GetTRSMatrix();
+
 	void SetColliderType(ColliderType type);
 
 	ColliderType GetColliderType();
+
+	DirectX::XMVECTOR GetRotQuaternion();
 
 	/// <summary>
 	/// コライダーの位置
@@ -39,16 +43,16 @@ public:
 	/// <summary>
 	/// コライダーの大きさ
 	/// </summary>
-	DirectX::XMVECTOR scale = DirectX::XMVectorSet(1, 1, 1, 0);;
+	DirectX::XMVECTOR scale = DirectX::XMVectorSet(1, 1, 1, 0);
 
+	DirectX::XMVECTOR rot = DirectX::XMVectorSet(0, 0, 0, 0);
 
+	bool isColliding = false;
 private:
 	/// <summary>
 	/// 頂点座標
 	/// </summary>
 	std::vector<DirectX::XMVECTOR> verticesPos;
-
-	int sphereCorrectness = 18;
 
 	ColliderType currentType = Cube;
 };

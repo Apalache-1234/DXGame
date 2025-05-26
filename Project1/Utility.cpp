@@ -28,7 +28,7 @@ namespace Utility
         std::cout << text << std::endl;
     }
 
-    void Debug(const DirectX::XMVECTOR xm)
+    void Debug(const DirectX::FXMVECTOR xm)
     {
         float x = DirectX::XMVectorGetX(xm);
         float y = DirectX::XMVectorGetY(xm);
@@ -39,7 +39,7 @@ namespace Utility
     }
 
 
-    void Debug(const DirectX::XMMATRIX xm)
+    void Debug(const DirectX::FXMMATRIX xm)
     {
         for (int i = 0;i < 4;i++)
         {
@@ -50,7 +50,7 @@ namespace Utility
     }
 
 
-    DirectX::XMMATRIX CreateTransMat(const DirectX::XMVECTOR xm1 , const DirectX::XMVECTOR xm2 , const DirectX::XMVECTOR xm3)
+    DirectX::XMMATRIX CreateTransMat(const DirectX::FXMVECTOR xm1 , const DirectX::GXMVECTOR xm2 , const DirectX::HXMVECTOR xm3)
     {
         DirectX::XMVECTOR* ptrs = new DirectX::XMVECTOR[3];
 
@@ -76,5 +76,13 @@ namespace Utility
         delete[] ptrs;
 
         return mat;
+    }
+
+    DirectX::XMVECTOR GetZYXMultiplyQuaternion(DirectX::FXMVECTOR x, DirectX::GXMVECTOR y, DirectX::HXMVECTOR z)
+    {
+        DirectX::XMVECTOR qResult = DirectX::XMQuaternionMultiply(x, y); 
+        qResult = DirectX::XMQuaternionMultiply(qResult, z);
+
+        return qResult;
     }
 }

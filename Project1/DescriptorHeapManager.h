@@ -5,7 +5,7 @@
 #include <D3Dcompiler.h>
 #include <DirectXMath.h>
 #include <d3dcompiler.h>
-#include "DXRenderSystem.h"
+
 
 using namespace DirectX;
 using namespace Microsoft::WRL;

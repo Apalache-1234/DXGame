@@ -5,79 +5,80 @@
 #include <iostream>
 #include <d3d12.h>
 #include <d3dx12.h>
-#pragma comment(lib, "d3d12.lib")
 #include <dxgi1_4.h>
-#pragma comment(lib, "dxgi.lib")
 #include <D3Dcompiler.h>
-#pragma comment(lib, "d3dcompiler.lib")
 #include <DirectXMath.h>
-#pragma comment(lib, "dxguid.lib")
-#include <d3dcompiler.h>
-#pragma comment(lib, "d3dcompiler.lib")
-#include <ResourceUploadBatch.h>
-#include <DDSTextureLoader.h>
-#include <VertexTypes.h>
-#include "Camera.h"
 #include "Window.h"
 #undef min
 #undef max
-#include "DXRenderSystem.h"
-#include <assimp/Importer.hpp>
-#include <assimp/scene.h>
-#include <assimp/postprocess.h>
-#include "TextureLoader.h"
-#include "MeshLoader.h"
 #include "DescriptorHeapManager.h"
+#include "MeshLoader.h"
+#include "DXRenderSystem.h"
+#include "Utility.h"
 
 using namespace DirectX;
 using namespace Microsoft::WRL;
 using namespace std;
 
-class Renderer : public Component , public std::enable_shared_from_this<Renderer>
+class Renderer : public Component
 {
 public:
 	struct MeshData;
 
 	Renderer(std::shared_ptr<Entity> ent);
 
-	~Renderer();
+	virtual ~Renderer();
+
+	void Init() override;
 
 	/// <summary>
 	/// メッシュを描画するレンダーコマンドをコマンドリストに格納する
 	/// </summary>
 	/// <param name="cmdList">格納するコマンドリスト</param>
 	/// <param name="backBufferIndex">現在のバックバッファのインデックス</param>
-	void AddRenderCommand(ComPtr<ID3D12GraphicsCommandList>& cmdList , int backBufferIndex);
+	void virtual AddRenderCommand(ComPtr<ID3D12GraphicsCommandList>& cmdList, int backBufferIndex);
 
 	/// <summary>
 	/// そのメッシュのカラーを決める
 	/// </summary>
 	DirectX::XMVECTOR color = DirectX::XMVectorSet(1, 1, 1, 1);
 
-	void StartAnimation(UINT index , float speed , bool isLoop);
-
-	float GetAnimCurrentTime();
-
-	float GetAnimTime();
-
-	int GetAnimIndex();
-
-	void SetAnimTime(float time);
-
-	std::vector<string> GetAnimationNameList();
-
 	MeshLoader::MESHTYPE GetCurrentMeshType();
-
-	void ResetAnimationStatue();
 
 	bool CreateMesh(const MeshLoader::MESHTYPE type);
 
-	bool isAnimPlaying = false;
+	D3D12_PRIMITIVE_TOPOLOGY primitiveType = D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+protected:
+	void virtual Update();
 
-	float animSpeed = 1;
+	void virtual InitRenderer();
 
-	bool animLoop = false;
-private:
+	void virtual InitInCreateMesh();
+
+	void AddRootParam(D3D12_ROOT_PARAMETER param);
+
+	void AddInputElementDesc(D3D12_INPUT_ELEMENT_DESC desc);
+
+	void virtual AddCommand(ComPtr<ID3D12GraphicsCommandList> cmdList);
+
+	void SetDescSampler(D3D12_STATIC_SAMPLER_DESC desc);
+
+	void PrepareForRootSignature();
+
+	void PrepareForRenderPipeline();
+
+	void SetRasterizerDesc(D3D12_RASTERIZER_DESC desc);
+
+	void SetRTBDesc(D3D12_RENDER_TARGET_BLEND_DESC desc);
+
+	void LoadVertexShader(LPCWSTR vsName);
+
+	void LoadPixelShader(LPCWSTR psName);
+
+	void SetDepthStencilDesc(D3D12_DEPTH_STENCIL_DESC desc);
+
+	int instanceCount = 1;
+
 	/// <summary>
     /// WinAPI系の関数の可否を格納する変数
     /// </summary>
@@ -101,9 +102,7 @@ private:
 
 	std::unique_ptr<DescriptorHeapManager::PtrHandles> cbHandle[DXRenderSystem::frameBuffer];
 
-	std::vector<std::unique_ptr<DescriptorHeapManager::PtrHandles>> texHandle;
-
-	std::unique_ptr<DescriptorHeapManager::PtrHandles> boneHandle;
+	std::vector<std::unique_ptr<DescriptorHeapManager::PtrHandles>> texHandles;
 
 	/// <summary>
 	/// ルートシグネチャのCOM
@@ -115,35 +114,30 @@ private:
 	/// </summary>
 	ComPtr<ID3D12PipelineState> pipeline;
 
-	ComPtr<ID3D12Resource> boneBuffer;
-
-	std::vector<XMMATRIX> finalBoneMats;
-
-	float animTimeCur = 0;
-
-	float animTime = 0;
-
-	UINT animIndex = 0;
-
-	struct alignas(256) Transform
-	{
-		//ワールド変換行列
-		XMMATRIX world;
-
-		//ビュー行列
-		XMMATRIX view;
-
-		//投影行列
-		XMMATRIX projection;
-
-		//メッシュに適用する色
-		XMFLOAT4 color;
-	};
-
 	/// <summary>
 	/// 変換行列とカラーを格納するTransform変数
 	/// </summary>
 	Transform trans;
+private:
+	D3D12_STATIC_SAMPLER_DESC descSampler;
+
+	std::vector<D3D12_ROOT_PARAMETER> param;
+
+	D3D12_DESCRIPTOR_RANGE range;
+
+	std::vector<D3D12_INPUT_ELEMENT_DESC> descElement;
+
+	D3D12_RASTERIZER_DESC descRas;
+
+	D3D12_RENDER_TARGET_BLEND_DESC descRtBlend;
+
+	ComPtr<ID3DBlob> vsBlob;
+
+	ComPtr<ID3DBlob> psBlob;
+
+	D3D12_BLEND_DESC descBlend;
+
+	D3D12_DEPTH_STENCIL_DESC dsDesc;
 
 	/// <summary>
 	/// コンスタントバッファビューのリソースを作成する
@@ -171,26 +165,16 @@ private:
 
 	void RegisterTextureSRV();
 
-	bool InitBoneResource();
-
-	bool MapBB();
-
-	bool InitSRVForBoneBuffer();
-
-	void ReadHierarchyNode(float animationTime, aiNode& node, aiMatrix4x4& parentMat, aiAnimation& anim);
-
-	void ProcessAnimation(float time);
-
 	/// <summary>
 	/// 座標行列を作成する
 	/// </summary>
 	void ConvertValues();
 
-	 /// <summary>
-	 /// コンスタントバッファをマッピングしてGPUに座標行列などを入力する
-	 /// </summary>
-	 ///<returns>正常に終了したらtrueを返す</returns>
-	 bool MapCB();
+	/// <summary>
+	/// コンスタントバッファをマッピングしてGPUに座標行列などを入力する
+	/// </summary>
+	///<returns>正常に終了したらtrueを返す</returns>
+	bool MapCB();
 };
 
 #endif

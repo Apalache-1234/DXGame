@@ -1,14 +1,8 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 
-#include <vector>
-#include <list>
-#include <memory>
-#include <iostream>
-#include <unordered_map>
-#include "Entity.h"
 #include <DirectXMath.h>
-#include "Utility.h"
+#include <memory>
 
 class Camera
 {
@@ -42,12 +36,15 @@ public:
 	/// <summary>
     /// カメラのアスペクト比
     /// </summary>
-	const float aspect = (float)16 / (float)9;
+	const float static aspect;
 
 	/// <summary>
 	/// カメラのFOV
 	/// </summary>
-	const float fov = DirectX::XMConvertToRadians(70);
+	const float static fov;
+
+	const static float nearZ;
+	const static float farZ;
 
 	/// <summary>
     /// カメラの座標を設定する

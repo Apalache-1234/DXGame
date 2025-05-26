@@ -1,4 +1,32 @@
-float4 main() : SV_TARGET
+struct output
 {
-	return float4(1.0f, 1.0f, 1.0f, 1.0f);
+	float4 position : SV_POSITION;
+
+	float2 TexCoord : TEXCOORD;
+
+	float3 tangent : TANGENT;
+
+	float3 normal : NORMAL;
+
+	float4 color : COLOR0;
+};
+
+struct pixelOp
+{
+	float4 color: SV_TARGET0;
+};
+
+Texture2D tex : register(t0);
+
+SamplerState tex_sampler : register(s0);
+
+pixelOp main(output vertexOp)
+{
+	pixelOp output_pixel = (pixelOp)0;
+
+	output_pixel.color = vertexOp.color;
+
+	if (output_pixel.color.a == 0.0f) discard;
+
+	return output_pixel;
 }

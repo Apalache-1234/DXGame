@@ -1,4 +1,9 @@
 #include "DXRenderSystem.h"
+#include "MyIMGUI.h"
+#include "SkyBox.h"
+#include "UIRenderer.h"
+#include "SkinnedRenderer.h"
+#include "DebugRenderer.h"
 
 DXRenderSystem::DXRenderSystem()
 {
@@ -96,6 +101,69 @@ void DXRenderSystem::WaitForRender()
 
 std::unique_ptr<DXRenderSystem> DXRenderSystem::instance = nullptr;
 
+void DXRenderSystem::RenderSkyBox()
+{
+	auto Skybox = GameManager::GetInstance().GetComponentList<SkyBox>();
+
+	for (int i = 0; i < Skybox.size(); i++)
+	{
+		cmd_list->RSSetScissorRects(1, &scissor);
+		cmd_list->RSSetViewports(1, &viewport);
+
+		Skybox[i]->AddRenderCommand(cmd_list, backbuffer_index);
+	}
+}
+
+void DXRenderSystem::RenderSkinnedRenderer()
+{
+	auto skinnedRendererComponents = GameManager::GetInstance().GetComponentList<SkinnedRenderer>();
+
+	for (int i = 0; i < skinnedRendererComponents.size(); i++)
+	{
+		cmd_list->RSSetScissorRects(1, &scissor);
+		cmd_list->RSSetViewports(1, &viewport);
+
+		skinnedRendererComponents[i]->AddRenderCommand(cmd_list, backbuffer_index);
+	}
+}
+
+void DXRenderSystem::RenderDebugRenderer()
+{
+	auto DebugRendererComponents = GameManager::GetInstance().GetComponentList<DebugRenderer>();
+
+	for (int i = 0; i < DebugRendererComponents.size(); i++)
+	{
+		cmd_list->RSSetScissorRects(1, &scissor);
+		cmd_list->RSSetViewports(1, &viewport);
+
+		DebugRendererComponents[i]->AddRenderCommand(cmd_list, backbuffer_index);
+	}
+}
+
+void DXRenderSystem::RenderUIRenderer()
+{
+	auto UIRendererComponents = GameManager::GetInstance().GetComponentList<UIRenderer>();
+
+	for (int i = 0; i < UIRendererComponents.size(); i++)
+	{
+		cmd_list->RSSetScissorRects(1, &scissor);
+		cmd_list->RSSetViewports(1, &viewport);
+
+		UIRendererComponents[i]->AddRenderCommand(cmd_list, backbuffer_index);
+	}
+}
+
+void DXRenderSystem::RenderIMGUI()
+{
+	auto myIMGUIIns = MyIMGUI::GetInstance();
+
+	if (myIMGUIIns.useIMGUI)
+	{
+		cmd_list->SetDescriptorHeaps(1, myIMGUIIns.GetHeap().GetAddressOf());
+		myIMGUIIns.MainLoop();
+	}
+}
+
 void DXRenderSystem::Draw()
 {
 	D3D12_RESOURCE_BARRIER barrier;
@@ -122,37 +190,19 @@ void DXRenderSystem::Draw()
 
 	cmd_list->ClearDepthStencilView(dbv_handle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
 
-	auto rendererComponents = GameManager::GetInstance().GetComponentList<Renderer>();
-	auto UIRendererComponents = GameManager::GetInstance().GetComponentList<UIRenderer>();
+	RenderSkyBox();
 
-	cmd_list->RSSetScissorRects(1, &scissor);
-	cmd_list->RSSetViewports(1, &viewport);
+	RenderSkinnedRenderer();
 
-	SkyBox::GetInstance().AddRenderCommand(cmd_list, backbuffer_index);
-
-	for (int i = 0; i < rendererComponents.size(); i++)
+	if (*Flags::GetInstance().isDebug)
 	{
-		cmd_list->RSSetScissorRects(1, &scissor);
-		cmd_list->RSSetViewports(1, &viewport);
-
-		rendererComponents[i]->AddRenderCommand(cmd_list , backbuffer_index);
+		RenderDebugRenderer();
 	}
 
-	for (int i = 0; i < UIRendererComponents.size(); i++)
-	{
-		cmd_list->RSSetScissorRects(1, &scissor);
-		cmd_list->RSSetViewports(1, &viewport);
 
-		UIRendererComponents[i]->AddRenderCommand(cmd_list, backbuffer_index);
-	}
+	RenderUIRenderer();
 	
-	auto myIMGUIIns = MyIMGUI::GetInstance();
-	
-	if (myIMGUIIns.useIMGUI)
-	{
-		cmd_list->SetDescriptorHeaps(1, myIMGUIIns.GetHeap().GetAddressOf());
-		myIMGUIIns.MainLoop();
-	}
+	RenderIMGUI();
 
 	barrier.Transition.StateBefore = D3D12_RESOURCE_STATE_RENDER_TARGET;
 

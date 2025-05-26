@@ -1,12 +1,7 @@
 #ifndef COMPONENT_H
 #define COMPONENT_H
 
-#include <vector>
-#include <list>
 #include <memory>
-#include <iostream>
-#include <unordered_map>
-#include "Entity.h"
 
 class Entity;
 

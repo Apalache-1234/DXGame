@@ -14,6 +14,8 @@
 #include "SkyBox.h"
 #include "UIRenderer.h"
 #include "MeshLoader.h"
+#include "SkinnedRenderer.h"
+#include "DebugRenderer.h"
 
 float hoge = 0;
 
@@ -36,26 +38,21 @@ int main()
 	if (myImGui->useIMGUI)
 		myImGui->Init();
 
-	auto skyBox = &SkyBox::GetInstance();
 	auto meshLoader = &MeshLoader::GetInstance();
 
 	meshLoader->Init();
 
-	skyBox->Init();
-
 	auto player = gameManager->CreateEntity("Player");
 	auto player4 = gameManager->CreateEntity("Player4");
 	auto player2 = gameManager->CreateEntity("Player2");
+	auto Skybox = gameManager->CreateEntity("Skybox");
+	auto debugCol = gameManager->CreateEntity("Debug");
 
-	player2->AddComponent<Renderer>();
 	player2->AddComponent<Collider>();
 	player2->AddComponent<Rigidbody>();
 
-	player->AddComponent<Renderer>();
 	player->AddComponent<Collider>();
 	player->AddComponent<Rigidbody>();
-
-	player2->GetComponent<Renderer>()->CreateMesh(MeshLoader::KNIGHT);
 
 	player->GetComponent<Rigidbody>()->isStatic = true;
 
@@ -64,6 +61,12 @@ int main()
 	player2->SetWorldScale(DirectX::XMVectorSet(1, 1, 1,0));
 	player2->SetWorldPosition(DirectX::XMVectorSet(0,10,0,0));
 	player2->SetWorldRotation(DirectX::XMVectorSet(0,0,0,0));
+
+	Skybox->RemoveComponent<SkinnedRenderer>();
+	Skybox->AddComponent<SkyBox>();
+
+	debugCol->RemoveComponent<SkinnedRenderer>();
+	debugCol->AddComponent<DebugRenderer>();
 
 	bool show_demo_window = true;
 

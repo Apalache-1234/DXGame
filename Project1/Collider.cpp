@@ -1,4 +1,7 @@
+#include "MeshLoader.h"
 #include "Collider.h"
+#include "Utility.h"
+#include "Entity.h"
 
 Collider::Collider(std::shared_ptr<Entity> ent) : Component::Component(ent)
 {
@@ -15,39 +18,54 @@ std::vector<DirectX::XMVECTOR> Collider::GetCurrentVerticesPos()
 
 	for (auto& pos : cpy)
 	{
-		pos = DirectX::XMVectorMultiply(pos, scale);
-
-		pos = DirectX::XMVectorMultiply(pos, attachFrom->GetScale());
-
-		auto mat1 = DirectX::XMMatrixRotationQuaternion(attachFrom->GetWorldQuaternion());
-		auto mat2 = DirectX::XMMatrixRotationQuaternion(attachFrom->GetLocalQuaternion());
-
-		auto rotationMat = mat1 * mat2;
-
-		pos = XMVector3Transform(pos, -rotationMat);
-
-		pos = DirectX::XMVectorAdd(pos, position);
-
-		pos = DirectX::XMVectorAdd(pos, attachFrom->GetWorldPosition());
+		pos = DirectX::XMVector3Transform(pos , GetTRSMatrix());
 	}
 
 	return cpy;
 }
 
+DirectX::XMMATRIX Collider::GetTRSMatrix()
+{
+	auto positionMat = DirectX::XMMatrixTranslationFromVector(attachFrom->GetWorldPosition()) * DirectX::XMMatrixTranslationFromVector(position);
+
+	auto qWorld = attachFrom->GetWorldQuaternion();
+	auto qLocal = attachFrom->GetLocalQuaternion();
+	auto qCol = GetRotQuaternion();
+
+	auto resultQ = DirectX::XMQuaternionMultiply(qLocal, qWorld);
+	resultQ = DirectX::XMQuaternionMultiply(resultQ, qCol);
+
+	auto rotationMat = DirectX::XMMatrixRotationQuaternion(resultQ);
+
+	auto resultS = DirectX::XMVectorMultiply(scale , attachFrom->GetScale());
+
+	auto scaleMat = DirectX::XMMatrixScalingFromVector(resultS);
+
+	return scaleMat * rotationMat * positionMat;
+}
+
 void Collider::SetColliderType(ColliderType type)
 {
+	verticesPos.clear();
+
+	MeshLoader::MeshData* Mesh;
+
 	switch (currentType)
 	{
 	case Cube:
-		verticesPos.emplace_back(DirectX::XMVectorSet(0.5, 0.5, 0.5, 0));
-		verticesPos.emplace_back(DirectX::XMVectorSet(-0.5, 0.5, 0.5, 0));
-		verticesPos.emplace_back(DirectX::XMVectorSet(0.5, 0.5, -0.5, 0));
-		verticesPos.emplace_back(DirectX::XMVectorSet(-0.5, 0.5, -0.5, 0));
-		verticesPos.emplace_back(DirectX::XMVectorSet(0.5, -0.5, 0.5, 0));
-		verticesPos.emplace_back(DirectX::XMVectorSet(-0.5, -0.5, 0.5, 0));
-		verticesPos.emplace_back(DirectX::XMVectorSet(0.5, -0.5, -0.5, 0));
-		verticesPos.emplace_back(DirectX::XMVectorSet(-0.5, -0.5, -0.5, 0));
+		Mesh = MeshLoader::GetInstance().GetMesh(MeshLoader::BOX);
 		break;
+	case Sphere:
+		Mesh = MeshLoader::GetInstance().GetMesh(MeshLoader::SPHERE);
+		break;
+	default:
+		Mesh = MeshLoader::GetInstance().GetMesh(MeshLoader::BOX);
+		break;
+	}
+
+	for (int i = 0;i < Mesh->meshes[0].vertexDatas.size();i++)
+	{
+		verticesPos.emplace_back(DirectX::XMLoadFloat3(&Mesh->meshes[0].vertexDatas[i].vertex));
 	}
 
 	currentType = type;
@@ -57,4 +75,23 @@ void Collider::SetColliderType(ColliderType type)
 Collider::ColliderType Collider::GetColliderType()
 {
 	return currentType;
+}
+
+DirectX::XMVECTOR Collider::GetRotQuaternion()
+{
+	DirectX::XMVECTOR resultQ = DirectX::XMVectorSet(0, 0, 0, 0);
+
+	auto rotation = rot;
+
+	float rotX = DirectX::XMConvertToRadians(DirectX::XMVectorGetX(rotation));
+	float rotY = DirectX::XMConvertToRadians(DirectX::XMVectorGetY(rotation));
+	float rotZ = DirectX::XMConvertToRadians(DirectX::XMVectorGetZ(rotation));
+
+	auto XQuaternion = DirectX::XMQuaternionRotationAxis(DirectX::XMVectorSet(1, 0, 0, 0), rotX);
+	auto YQuaternion = DirectX::XMQuaternionRotationAxis(DirectX::XMVectorSet(0, 1, 0, 0), rotY);
+	auto ZQuaternion = DirectX::XMQuaternionRotationAxis(DirectX::XMVectorSet(0, 0, 1, 0), rotZ);
+
+	resultQ = Utility::GetZYXMultiplyQuaternion(XQuaternion, YQuaternion, ZQuaternion);
+
+	return resultQ;
 }

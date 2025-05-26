@@ -1,4 +1,14 @@
 #include "Camera.h"
+#include "Utility.h"
+#include <iostream>
+#include "Entity.h"
+#include <vector>
+#include <list>
+
+const float Camera::nearZ = 1.0f;
+const float Camera::farZ = 1000.0f;
+const float Camera::aspect = (float)16 / (float)9;
+const float Camera::fov = DirectX::XMConvertToRadians(70);
 
 Camera::Camera()
 {

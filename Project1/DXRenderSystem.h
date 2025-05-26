@@ -2,28 +2,19 @@
 #include <memory>
 #include <tchar.h>
 #include "Window.h"
-#include "Renderer.h"
-
 #include <iostream>
 #include <DirectXMath.h>
 #include <d3d12.h>
 #include <d3dx12.h>
-#pragma comment(lib, "d3d12.lib")
 #include <dxgi1_4.h>
-#pragma comment(lib, "dxgi.lib")
 #include <D3Dcompiler.h>
-#pragma comment(lib, "d3dcompiler.lib")
 #include <DirectXMath.h>
-#pragma comment(lib, "dxguid.lib")
 #include <d3dcompiler.h>
-#pragma comment(lib, "d3dcompiler.lib")
 #include <ResourceUploadBatch.h>
 #include <DDSTextureLoader.h>
 #include <VertexTypes.h>
-#include "MyIMGUI.h"
-#include "SkyBox.h"
-#include "UIRenderer.h"
 #include "wrl.h"
+
 using namespace DirectX;
 using namespace Microsoft::WRL;
 using namespace std;
@@ -32,7 +23,7 @@ using namespace std;
 #ifndef DXRENDERSYSTEM_H
 #define DXRENDERSYSTEM_H
 
-class Renderer;
+class SkinnedRenderer;
 
 class DXRenderSystem
 {
@@ -50,6 +41,16 @@ public:
 	ComPtr<ID3D12GraphicsCommandList>& GetCommandList();
 
 	void WaitForRender();
+
+	void RenderSkyBox();
+
+	void RenderSkinnedRenderer();
+
+	void RenderDebugRenderer();
+
+	void RenderUIRenderer();
+
+	void RenderIMGUI();
 
 	void Draw();
 

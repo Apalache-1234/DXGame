@@ -10,6 +10,11 @@
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 #include "TextureLoader.h"
+#include "wrl.h"
+
+using namespace DirectX;
+using namespace Microsoft::WRL;
+using namespace std;
 
 #ifndef MESHLOADER_H
 #define MESHLOADER_H
@@ -28,7 +33,8 @@ public:
 		KNIGHT,
 		SPARTAN,
 		BOX,
-		PLANE
+		PLANE,
+		SPHERE
 	};
 
 	struct VertexData

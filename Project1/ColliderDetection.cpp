@@ -252,10 +252,14 @@ bool ColliderDetection::CheckCollision(std::shared_ptr<Collider> colA, std::shar
 
 	if (GJKAlgorithm(difList, points))
 	{
+		colA->isColliding = true;
+
 		dest = EPAAlgorithm(points, difList);
 
 		return true;
 	}
+
+	colA->isColliding = false;
 
 	return false;
 }

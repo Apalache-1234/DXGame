@@ -1,5 +1,8 @@
 #include "MyIMGUI.h"
+#include "SkinnedRenderer.h"
+#include "UIRenderer.h"
 #include <tchar.h> 
+#include "Camera.h"
 
 std::unique_ptr<MyIMGUI> MyIMGUI::instance = nullptr;
 
@@ -168,7 +171,7 @@ void EditColor(DirectX::XMVECTOR* color)
 	*color = DirectX::XMVectorSet(col[0], col[1], col[2], col[3]);
 }
 
-void ShowRendererInfo(std::shared_ptr<Renderer> rend)
+void ShowRendererInfo(std::shared_ptr<SkinnedRenderer> rend)
 {
 	EditColor(&rend->color);
 
@@ -194,7 +197,9 @@ void ShowRendererInfo(std::shared_ptr<Renderer> rend)
 		const char* meshNames[] = {
      	"KNIGHT",
 	    "SPARTAN",
-	    "BOX"
+	    "BOX",
+	    "PLANE",
+		"SPHERE"
 		};
 
 		MeshLoader::MESHTYPE currentMeshType = rend->GetCurrentMeshType();
@@ -247,7 +252,7 @@ void ShowColliderInfo(std::shared_ptr<Collider> col)
 {
 	auto pos = col->position;
 
-	ImGui::PushID("a");
+	ImGui::PushID("p");
 
 	ImGui::Text("Position : ");
 	ImGui::SetNextItemWidth(60);
@@ -270,7 +275,7 @@ void ShowColliderInfo(std::shared_ptr<Collider> col)
 
 	auto scale = col->scale;
 
-	ImGui::PushID("v");
+	ImGui::PushID("s");
 
 	ImGui::Text("Scale : ");
 	ImGui::SetNextItemWidth(60);
@@ -290,9 +295,46 @@ void ShowColliderInfo(std::shared_ptr<Collider> col)
 	ImGui::PopID();
 
 	col->scale = (DirectX::XMVectorSet(x, y, z, 0));
+
+	auto rot = col->rot;
+
+	ImGui::PushID("r");
+
+	ImGui::Text("Scale : ");
+	ImGui::SetNextItemWidth(60);
+	x = DirectX::XMVectorGetX(rot);
+	ImGui::DragFloat("X ", &x, 0.1);
+	ImGui::SameLine();
+	ImGui::SetNextItemWidth(60);
+	y = DirectX::XMVectorGetY(rot);
+	ImGui::DragFloat("Y ", &y, 0.1);
+	ImGui::SameLine();
+	ImGui::SetNextItemWidth(60);
+	z = DirectX::XMVectorGetZ(rot);
+	ImGui::DragFloat("Z ", &z, 0.1);
+	ImGui::SameLine();
+	ImGui::NewLine();
+
+	ImGui::PopID();
+
+	col->rot = (DirectX::XMVectorSet(x, y, z, 0));
+
+	const char* colNames[] = {
+	"BOX",
+	"SPHERE"
+	};
+
+	auto currentColType = col->GetColliderType();
+
+	int currentIndex = static_cast<int>(currentColType);
+	if (ImGui::Combo("ColliderType", &currentIndex, colNames, IM_ARRAYSIZE(colNames))) {
+		currentColType = static_cast<Collider::ColliderType>(currentIndex);
+
+		col->SetColliderType(currentColType);
+	}
 }
 
-void ShowAnimationInfo(std::shared_ptr<Renderer> rend)
+void ShowAnimationInfo(std::shared_ptr<SkinnedRenderer> rend)
 {
 	if (!rend)
 		return;
@@ -431,16 +473,16 @@ void ShowEntityInfo()
 
 
 
-		if (ImGui::TreeNode("RenderComponent")) {
+		if (ImGui::TreeNode("SkinnedRenderComponent")) {
 
-			if (currentEntity->GetComponent<Renderer>()) {
+			if (currentEntity->GetComponent<SkinnedRenderer>()) {
 
-				ShowRendererInfo(currentEntity->GetComponent<Renderer>());
+				ShowRendererInfo(currentEntity->GetComponent<SkinnedRenderer>());
 			}
 			else
 			{
 				if (ImGui::Button("Add", ButtonRect)) {
-					currentEntity->AddComponent<Renderer>();
+					currentEntity->AddComponent<SkinnedRenderer>();
 				}
 			}
 
@@ -506,13 +548,13 @@ void ShowEntityInfo()
 			showEntityWindow = false;
 		}
 		ImGui::PopStyleColor();
-
-		ImGui::End();
 	}
+
+	ImGui::End();
 
 	if (showAnimationWindow)
 	{
-		ShowAnimationInfo(currentEntity->GetComponent<Renderer>());
+		ShowAnimationInfo(currentEntity->GetComponent<SkinnedRenderer>());
 	}
 }
 

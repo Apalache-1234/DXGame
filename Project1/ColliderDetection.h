@@ -12,7 +12,6 @@
 #include "Entity.h"
 #include "Collider.h"
 #include "Utility.h"
-#include "Renderer.h"
 #include "Rigidbody.h"
 
 class ColliderDetection

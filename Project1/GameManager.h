@@ -8,8 +8,6 @@
 #include "windows.h"
 #include <sstream>
 
-class Entity;
-
 class GameManager
 {
 public:

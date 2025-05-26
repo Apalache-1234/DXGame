@@ -1,4 +1,7 @@
 #include "TextureLoader.h"
+#include "Entity.h"
+#include "DirectXMath.h"
+#include "DXRenderSystem.h"
 
 TextureLoader::TextureLoader()
 {

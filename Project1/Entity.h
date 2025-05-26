@@ -8,7 +8,6 @@
 #include <iostream>
 #include <unordered_map>
 #include "Object.h"
-#pragma comment(lib, "d3dcompiler.lib")
 #include "Component.h"
 #include <DirectXMath.h>
 
@@ -211,6 +210,15 @@ public:
 		else
 		{
 			return nullptr;
+		}
+	}
+
+	template <typename T>
+	void RemoveComponent()
+	{
+		if (components.find(typeid(T)) != components.end())
+		{
+			components.erase(typeid(T));
 		}
 	}
 

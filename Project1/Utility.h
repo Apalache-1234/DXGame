@@ -5,6 +5,10 @@
 #include <DirectXMath.h>
 #include <assimp/matrix4x4.h>
 #include <random>
+#include <Windows.h>
+#include "DescriptorHeapManager.h"
+
+using namespace Microsoft::WRL;
 
 namespace Utility
 {
@@ -30,6 +34,22 @@ namespace Utility
     void Debug(const DirectX::XMMATRIX xm);
 
     DirectX::XMMATRIX CreateTransMat(const DirectX::XMVECTOR xm1, const DirectX::XMVECTOR xm2, const DirectX::XMVECTOR xm3);
-}
+
+    DirectX::XMVECTOR GetZYXMultiplyQuaternion(DirectX::XMVECTOR x, DirectX::XMVECTOR y , DirectX::XMVECTOR z);}
+
+struct alignas(256) Transform
+{
+    //ワールド変換行列
+    DirectX::XMMATRIX world;
+
+    //ビュー行列
+    DirectX::XMMATRIX view;
+
+    //投影行列
+    DirectX::XMMATRIX projection;
+
+    //メッシュに適用する色
+    DirectX::XMFLOAT4 color;
+};
 
 #endif

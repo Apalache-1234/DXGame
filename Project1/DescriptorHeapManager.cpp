@@ -1,4 +1,5 @@
 #include "DescriptorHeapManager.h"
+#include "DXRenderSystem.h"
 
 DescriptorHeapManager::DescriptorHeapManager() : DescriptorHeapManager(100)
 {

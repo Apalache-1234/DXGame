@@ -1,6 +1,6 @@
 #include "Entity.h"
 #include "Utility.h"
-#include "Renderer.h"
+#include "SkinnedRenderer.h"
 
 Entity::Entity(const std::string& name) : Object::Object(name)
 {
@@ -35,7 +35,7 @@ void Entity::Init()
 
 	components.clear();
 
-	AddComponent<Renderer>();
+	AddComponent<SkinnedRenderer>();
 }
 
 DirectX::XMVECTOR Entity::GetWorldPosition()
@@ -91,12 +91,6 @@ DirectX::XMVECTOR Entity::GetWorldRotation()
 
 DirectX::XMVECTOR Entity::GetWorldQuaternion()
 {
-	/*	auto XQuaternion = DirectX::XMQuaternionRotationAxis(DirectX::XMVectorSet(1, 0, 0, 0), rotX);
-	auto YQuaternion = DirectX::XMQuaternionRotationAxis(DirectX::XMVectorSet(0, 1, 0, 0), rotY);
-	auto ZQuaternion = DirectX::XMQuaternionRotationAxis(DirectX::XMVectorSet(0, 0, 1, 0), rotZ);
-
-	resultQ = DirectX::XMQuaternionMultiply(XQuaternion, YQuaternion);
-	resultQ = DirectX::XMQuaternionMultiply(resultQ, ZQuaternion);*/
 	DirectX::XMVECTOR resultQ = DirectX::XMVectorSet(0, 0, 0, 0);
 
 	auto rotation = GetWorldRotation();
@@ -105,9 +99,13 @@ DirectX::XMVECTOR Entity::GetWorldQuaternion()
 	float rotY = XMConvertToRadians(DirectX::XMVectorGetY(rotation));
 	float rotZ = XMConvertToRadians(DirectX::XMVectorGetZ(rotation));
 
-	
+	auto XQuaternion = DirectX::XMQuaternionRotationAxis(DirectX::XMVectorSet(1, 0, 0, 0), rotX);
+	auto YQuaternion = DirectX::XMQuaternionRotationAxis(DirectX::XMVectorSet(0, 1, 0, 0), rotY);
+	auto ZQuaternion = DirectX::XMQuaternionRotationAxis(DirectX::XMVectorSet(0, 0, 1, 0), rotZ);
 
-	return DirectX::XMQuaternionRotationRollPitchYaw(rotX, rotY, rotZ);
+	resultQ = Utility::GetZYXMultiplyQuaternion(XQuaternion , YQuaternion , ZQuaternion);
+
+	return resultQ;
 }
 
 DirectX::XMVECTOR Entity::GetLocalRotation()
@@ -129,8 +127,7 @@ DirectX::XMVECTOR Entity::GetLocalQuaternion()
 	auto YQuaternion = DirectX::XMQuaternionRotationAxis(GetUp(), rotY);
 	auto ZQuaternion = DirectX::XMQuaternionRotationAxis(GetForward(), rotZ);
 
-	resultQ = DirectX::XMQuaternionMultiply(XQuaternion, YQuaternion);
-	resultQ = DirectX::XMQuaternionMultiply(resultQ, ZQuaternion);
+	resultQ = Utility::GetZYXMultiplyQuaternion(XQuaternion, YQuaternion, ZQuaternion);
 
 	return resultQ;
 }
