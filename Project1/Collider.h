@@ -8,6 +8,7 @@
 #include <unordered_map>
 #include <DirectXMath.h>
 #include "Component.h"
+#include "MeshLoader.h"
 
 class Entity;
 
@@ -35,6 +36,8 @@ public:
 
 	DirectX::XMVECTOR GetRotQuaternion();
 
+	std::pair < std::vector<int>*, std::vector <MeshLoader::VertexData>*> GetTriangles();
+
 	/// <summary>
 	/// コライダーの位置
 	/// </summary>
@@ -55,6 +58,8 @@ private:
 	std::vector<DirectX::XMVECTOR> verticesPos;
 
 	ColliderType currentType = Cube;
+
+	MeshLoader::MeshData* mesh;
 };
 
 #endif

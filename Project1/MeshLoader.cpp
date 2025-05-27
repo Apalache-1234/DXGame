@@ -17,7 +17,7 @@ void MeshLoader::Init()
 	LoadMesh("Models/Knight01/Animated_Low_Poly_Dark_Knight_BAKED.fbx", KNIGHT);
 	LoadMesh("Models/Box.fbx", BOX);
 	LoadMesh("Models/Box.fbx", PLANE);
-	LoadMesh("Models/Sphere.fbx", SPHERE);
+	LoadMesh("Models/box.fbx", SPHERE);
 }
 
 std::unique_ptr<MeshLoader> MeshLoader::instance = nullptr;
@@ -286,8 +286,6 @@ void MeshLoader::InitBone(const aiMesh& aiMesh, Mesh& mesh , MeshData& meshData)
 			vertexData.boneID = XMFLOAT4(boneiD[0], boneiD[1], boneiD[2], boneiD[3]);
 			vertexData.weight = XMFLOAT4(weight[0], weight[1], weight[2], weight[3]);
 		}
-
-
 	}
 }
 

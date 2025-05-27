@@ -1,4 +1,4 @@
-#include "MeshLoader.h"
+
 #include "Collider.h"
 #include "Utility.h"
 #include "Entity.h"
@@ -48,24 +48,22 @@ void Collider::SetColliderType(ColliderType type)
 {
 	verticesPos.clear();
 
-	MeshLoader::MeshData* Mesh;
-
 	switch (currentType)
 	{
 	case Cube:
-		Mesh = MeshLoader::GetInstance().GetMesh(MeshLoader::BOX);
+		mesh = MeshLoader::GetInstance().GetMesh(MeshLoader::BOX);
 		break;
 	case Sphere:
-		Mesh = MeshLoader::GetInstance().GetMesh(MeshLoader::SPHERE);
+		mesh = MeshLoader::GetInstance().GetMesh(MeshLoader::SPHERE);
 		break;
 	default:
-		Mesh = MeshLoader::GetInstance().GetMesh(MeshLoader::BOX);
+		mesh = MeshLoader::GetInstance().GetMesh(MeshLoader::BOX);
 		break;
 	}
 
-	for (int i = 0;i < Mesh->meshes[0].vertexDatas.size();i++)
+	for (int i = 0;i < mesh->meshes[0].vertexDatas.size();i++)
 	{
-		verticesPos.emplace_back(DirectX::XMLoadFloat3(&Mesh->meshes[0].vertexDatas[i].vertex));
+		verticesPos.emplace_back(DirectX::XMLoadFloat3(&mesh->meshes[0].vertexDatas[i].vertex));
 	}
 
 	currentType = type;
@@ -94,4 +92,14 @@ DirectX::XMVECTOR Collider::GetRotQuaternion()
 	resultQ = Utility::GetZYXMultiplyQuaternion(XQuaternion, YQuaternion, ZQuaternion);
 
 	return resultQ;
+}
+
+std::pair < std::vector<int>*, std::vector <MeshLoader::VertexData>*> Collider::GetTriangles()
+{
+	std::pair < std::vector<int>*, std::vector <MeshLoader::VertexData>*> triangles;
+
+	triangles.first = &mesh->meshes[0].indices;
+	triangles.second = &mesh->meshes[0].vertexDatas;
+
+	return triangles;
 }
