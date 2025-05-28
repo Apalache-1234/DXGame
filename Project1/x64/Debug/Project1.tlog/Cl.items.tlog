@@ -10,6 +10,8 @@ D:\Users\2312031\Documents\DXGame\Project1\CameraComponent.cpp;D:\Users\2312031\
 D:\Users\2312031\Documents\DXGame\Project1\Collider.cpp;D:\Users\2312031\Documents\DXGame\Project1\x64\Debug\Collider.obj
 D:\Users\2312031\Documents\DXGame\Project1\ColliderDetection.cpp;D:\Users\2312031\Documents\DXGame\Project1\x64\Debug\ColliderDetection.obj
 D:\Users\2312031\Documents\DXGame\Project1\Component.cpp;D:\Users\2312031\Documents\DXGame\Project1\x64\Debug\Component.obj
+D:\Users\2312031\Documents\DXGame\Project1\DebugColliderCube.cpp;D:\Users\2312031\Documents\DXGame\Project1\x64\Debug\DebugColliderCube.obj
+D:\Users\2312031\Documents\DXGame\Project1\DebugRayCast.cpp;D:\Users\2312031\Documents\DXGame\Project1\x64\Debug\DebugRayCast.obj
 D:\Users\2312031\Documents\DXGame\Project1\DebugRenderer.cpp;D:\Users\2312031\Documents\DXGame\Project1\x64\Debug\DebugRenderer.obj
 D:\Users\2312031\Documents\DXGame\Project1\DescriptorHeapManager.cpp;D:\Users\2312031\Documents\DXGame\Project1\x64\Debug\DescriptorHeapManager.obj
 D:\Users\2312031\Documents\DXGame\Project1\DXRenderSystem.cpp;D:\Users\2312031\Documents\DXGame\Project1\x64\Debug\DXRenderSystem.obj
@@ -21,6 +23,7 @@ D:\Users\2312031\Documents\DXGame\Project1\MeshLoader.cpp;D:\Users\2312031\Docum
 D:\Users\2312031\Documents\DXGame\Project1\MyIMGUI.cpp;D:\Users\2312031\Documents\DXGame\Project1\x64\Debug\MyIMGUI.obj
 D:\Users\2312031\Documents\DXGame\Project1\Object.cpp;D:\Users\2312031\Documents\DXGame\Project1\x64\Debug\Object.obj
 D:\Users\2312031\Documents\DXGame\Project1\PhysicSystem.cpp;D:\Users\2312031\Documents\DXGame\Project1\x64\Debug\PhysicSystem.obj
+D:\Users\2312031\Documents\DXGame\Project1\RayCast.cpp;D:\Users\2312031\Documents\DXGame\Project1\x64\Debug\RayCast.obj
 D:\Users\2312031\Documents\DXGame\Project1\Renderer.cpp;D:\Users\2312031\Documents\DXGame\Project1\x64\Debug\Renderer.obj
 D:\Users\2312031\Documents\DXGame\Project1\SkinnedRenderer.cpp;D:\Users\2312031\Documents\DXGame\Project1\x64\Debug\SkinnedRenderer.obj
 D:\Users\2312031\Documents\DXGame\Project1\Rigidbody.cpp;D:\Users\2312031\Documents\DXGame\Project1\x64\Debug\Rigidbody.obj

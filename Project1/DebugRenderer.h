@@ -12,7 +12,6 @@
 #include <dxgi1_4.h>
 #include <D3Dcompiler.h>
 #include <DirectXMath.h>
-#include <d3dcompiler.h>
 #include "Window.h"
 #include "DXRenderSystem.h"
 #include "Utility.h"
@@ -27,35 +26,33 @@ class DebugRenderer : public Renderer
 public:
 	DebugRenderer(std::shared_ptr<Entity> ent);
 
-	~DebugRenderer();
-
-	bool InitDebugVertexBuffer();
-
-	bool MapDVB();
-
-	bool InitDBV();
+	virtual ~DebugRenderer();
 protected:
-	void AddCommand(ComPtr<ID3D12GraphicsCommandList> cmdList) override;
+	bool InitIVB();
 
-	void Update() override;
+	void virtual InitDebugRenderer();
 
-	void InitRenderer() override;
-private:
-	void RenderDebugCollider();
-
-	HRESULT hr;
-
-	struct DebugColMat
+	struct Instance
 	{
 		XMMATRIX world;
 		XMFLOAT4 color;
 	};
 
-	ComPtr<ID3D12Resource> colliderDVB;
+	std::vector<Instance> instances;
 
-	D3D12_VERTEX_BUFFER_VIEW colliderDVBV;
+	bool MapDVB();
+private:
+	void AddCommand(ComPtr<ID3D12GraphicsCommandList> cmdList) override;
 
-	std::vector<DebugColMat> debugColMat;
+	void InitRenderer() override;
+
+	bool InitDebugVertexBuffer();
+
+	bool InitDBV();
+
+	ComPtr<ID3D12Resource> IVB;
+
+	D3D12_VERTEX_BUFFER_VIEW IVBV;
 };
 
 #endif

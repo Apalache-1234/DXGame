@@ -66,6 +66,11 @@ void ColliderDetection::MainLoop()
 {
 	auto list = GameManager::GetInstance().GetComponentList<Collider>();
 
+	for (int i = 0; i < list.size() - 1; i++)
+	{
+		list[i]->isColliding = false;
+	}
+
 	for (int i = 0;i < list.size()- 1;i++)
 	{
 		auto colA = list[i];
@@ -258,8 +263,6 @@ bool ColliderDetection::CheckCollision(std::shared_ptr<Collider> colA, std::shar
 
 		return true;
 	}
-
-	colA->isColliding = false;
 
 	return false;
 }

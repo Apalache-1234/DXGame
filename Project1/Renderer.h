@@ -20,7 +20,7 @@ using namespace DirectX;
 using namespace Microsoft::WRL;
 using namespace std;
 
-class Renderer : public Component
+class Renderer : public Component , public enable_shared_from_this<Renderer>
 {
 public:
 	struct MeshData;

@@ -15,7 +15,7 @@
 #include "UIRenderer.h"
 #include "MeshLoader.h"
 #include "SkinnedRenderer.h"
-#include "DebugRenderer.h"
+#include "DebugColliderCube.h"
 
 float hoge = 0;
 
@@ -66,7 +66,7 @@ int main()
 	Skybox->AddComponent<SkyBox>();
 
 	debugCol->RemoveComponent<SkinnedRenderer>();
-	debugCol->AddComponent<DebugRenderer>();
+	debugCol->AddComponent<DebugColiderCube>();
 
 	bool show_demo_window = true;
 

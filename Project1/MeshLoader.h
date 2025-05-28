@@ -2,8 +2,9 @@
 #include <iostream>
 #include <vector>
 #include "Entity.h"
-#define NOMINMAX
 #include "windows.h"
+#undef min
+#undef max
 #include "DirectXMath.h"
 #include "GameManager.h"
 #include <assimp/Importer.hpp>

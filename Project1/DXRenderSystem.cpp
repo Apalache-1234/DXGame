@@ -3,7 +3,7 @@
 #include "SkyBox.h"
 #include "UIRenderer.h"
 #include "SkinnedRenderer.h"
-#include "DebugRenderer.h"
+#include "DebugColliderCube.h"
 
 DXRenderSystem::DXRenderSystem()
 {
@@ -129,7 +129,7 @@ void DXRenderSystem::RenderSkinnedRenderer()
 
 void DXRenderSystem::RenderDebugRenderer()
 {
-	auto DebugRendererComponents = GameManager::GetInstance().GetComponentList<DebugRenderer>();
+	auto DebugRendererComponents = GameManager::GetInstance().GetComponentList<DebugColiderCube>();
 
 	for (int i = 0; i < DebugRendererComponents.size(); i++)
 	{

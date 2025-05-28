@@ -12,18 +12,21 @@
 class RayCast
 {
 public:
-	RayCast(DirectX::XMVECTOR start , DirectX::XMVECTOR end);
+	RayCast(DirectX::XMVECTOR startPoint, DirectX::XMVECTOR dir, float distance);
 
 	~RayCast();
 
 	bool GetIsHit();
+	void ParseRayInteract(DirectX::XMVECTOR p1, DirectX::XMVECTOR p2, DirectX::XMVECTOR p3);
 private:
 	void CheckHit();
 
 	std::vector<Collider> cols;
 
 	DirectX::XMVECTOR startPoint;
-	DirectX::XMVECTOR endPoint;
+	DirectX::XMVECTOR hitPoint;
+	DirectX::XMVECTOR direction;
+	float distance = 0;
 
 	bool isHit = false;
 };

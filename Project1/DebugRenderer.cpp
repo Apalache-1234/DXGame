@@ -12,7 +12,7 @@ DebugRenderer::~DebugRenderer()
 
 bool DebugRenderer::InitDebugVertexBuffer()
 {
-	UINT bufferSize = sizeof(DebugColMat) * debugColMat.size();
+	UINT bufferSize = sizeof(Instance) * instances.size();
 
 	D3D12_HEAP_PROPERTIES prop = {};
 
@@ -56,12 +56,12 @@ bool DebugRenderer::InitDebugVertexBuffer()
 		&desc,
 		D3D12_RESOURCE_STATE_GENERIC_READ,
 		nullptr,
-		IID_PPV_ARGS(colliderDVB.GetAddressOf())
+		IID_PPV_ARGS(IVB.GetAddressOf())
 	);
 
 	if (FAILED(hr))
 	{
-		std::cerr << "デバックコライダーバッファのリソースの作成失敗" << std::endl;
+		std::cerr << "インスタンスデバックバッファのリソースの作成失敗" << std::endl;
 
 		return false;
 	}
@@ -73,79 +73,40 @@ bool DebugRenderer::MapDVB()
 {
 	void* ptr = nullptr;
 
-	hr = colliderDVB->Map(0, nullptr, &ptr);
+	hr = IVB->Map(0, nullptr, &ptr);
 
 	if (FAILED(hr))
 	{
-		std::cerr << "コライダーの各座標が収納されたDVBマッピング失敗" << std::endl;
+		std::cerr << "インスタンスの各座標が収納されたDVBマッピング失敗" << std::endl;
 
 		return false;
 	}
 
-	memcpy(ptr, debugColMat.data(), sizeof(DebugColMat) * debugColMat.size());
+	memcpy(ptr, instances.data(), sizeof(Instance) * instances.size());
 
-	colliderDVB->Unmap(0, nullptr);
+	IVB->Unmap(0, nullptr);
 
 	return true;
 }
 
 bool DebugRenderer::InitDBV()
 {
-	colliderDVBV.BufferLocation = colliderDVB->GetGPUVirtualAddress();
-	colliderDVBV.SizeInBytes = sizeof(DebugColMat) * debugColMat.size();
-	colliderDVBV.StrideInBytes = sizeof(DebugColMat);
+	IVBV.BufferLocation = IVB->GetGPUVirtualAddress();
+	IVBV.SizeInBytes = sizeof(Instance) * instances.size();
+	IVBV.StrideInBytes = sizeof(Instance);
 
 	return true;
 }
 
 void DebugRenderer::AddCommand(ComPtr<ID3D12GraphicsCommandList> cmdList)
 {
-	cmdList->IASetVertexBuffers(1, 1, &colliderDVBV);
+	cmdList->IASetVertexBuffers(1, 1, &IVBV);
 }
 
-void DebugRenderer::Update()
+bool DebugRenderer::InitIVB()
 {
-	auto colList = GameManager::GetInstance().GetComponentList<Collider>();
-
-	if (colList.size() != instanceCount)
-	{
-		RenderDebugCollider();
-
-		bool isSuccess = true;
-
-		isSuccess &= InitDebugVertexBuffer();
-
-		isSuccess &= MapDVB();
-
-		isSuccess &= InitDBV();
-
-		if (!isSuccess)
-			std::cerr << "DebugRendererの初期化失敗" << std::endl;
-	}
-
-
-
-	for (int i = 0;i < instanceCount;i++)
-	{
-		debugColMat[i].world = DirectX::XMMatrixTranspose(colList[i]->GetTRSMatrix());
-		if (colList[i]->isColliding)
-			debugColMat[i].color = XMFLOAT4(1, 0, 0, 0.3);
-		else
-			debugColMat[i].color = XMFLOAT4(0, 1, 0, 0.3);
-
-	}
-
-	MapDVB();
-}
-
-void DebugRenderer::InitRenderer()
-{
-	primitiveType = D3D12_PRIMITIVE_TOPOLOGY::D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
-
-	RenderDebugCollider();
-
 	bool isSuccess = true;
-
+	std::cout << "b" << std::endl;
 	isSuccess &= InitDebugVertexBuffer();
 
 	isSuccess &= MapDVB();
@@ -153,7 +114,22 @@ void DebugRenderer::InitRenderer()
 	isSuccess &= InitDBV();
 
 	if (!isSuccess)
-		std::cerr << "DebugRendererの初期化失敗" << std::endl;
+		std::cerr << "IDBの初期化失敗" << std::endl;
+
+	return isSuccess;
+}
+
+void DebugRenderer::InitDebugRenderer()
+{
+}
+
+void DebugRenderer::InitRenderer()
+{
+	InitDebugRenderer();
+
+	InitIVB();
+
+	std::cout << "a" << std::endl;
 
 	LoadVertexShader(L"DebugVertexShader.cso");
 	LoadPixelShader(L"DebugPixelShader.cso");
@@ -172,23 +148,4 @@ void DebugRenderer::InitRenderer()
 
 	param = { "COLORS", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 1, 64, D3D12_INPUT_CLASSIFICATION_PER_INSTANCE_DATA, 1 };
 	AddInputElementDesc(param);
-}
-
-void DebugRenderer::RenderDebugCollider()
-{
-	auto colList = GameManager::GetInstance().GetComponentList<Collider>();
-
-	instanceCount = colList.size();
-
-	debugColMat.resize(instanceCount);
-
-	for (int i = 0;i < instanceCount;i++)
-	{
-		debugColMat[i].world = DirectX::XMMatrixTranspose(colList[i]->GetTRSMatrix());
-		if(colList[i]->isColliding)
-			debugColMat[i].color = XMFLOAT4(1,0,0, 0.3);
-		else
-			debugColMat[i].color = XMFLOAT4(0, 1, 0, 0.3);
-	
-	}
 }
