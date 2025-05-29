@@ -48,6 +48,8 @@ void Collider::SetColliderType(ColliderType type)
 {
 	verticesPos.clear();
 
+	currentType = type;
+
 	switch (currentType)
 	{
 	case Cube:
@@ -65,9 +67,6 @@ void Collider::SetColliderType(ColliderType type)
 	{
 		verticesPos.emplace_back(DirectX::XMLoadFloat3(&mesh->meshes[0].vertexDatas[i].vertex));
 	}
-
-	currentType = type;
-
 }
 
 Collider::ColliderType Collider::GetColliderType()

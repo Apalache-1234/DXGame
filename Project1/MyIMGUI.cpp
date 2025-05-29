@@ -320,7 +320,7 @@ void ShowColliderInfo(std::shared_ptr<Collider> col)
 	col->rot = (DirectX::XMVectorSet(x, y, z, 0));
 
 	const char* colNames[] = {
-	"BOX",
+	"CUBE",
 	"SPHERE"
 	};
 
@@ -328,7 +328,12 @@ void ShowColliderInfo(std::shared_ptr<Collider> col)
 
 	int currentIndex = static_cast<int>(currentColType);
 	if (ImGui::Combo("ColliderType", &currentIndex, colNames, IM_ARRAYSIZE(colNames))) {
+
+		std::cout << currentColType << std::endl;
+
 		currentColType = static_cast<Collider::ColliderType>(currentIndex);
+
+		std::cout << currentColType << std::endl;
 
 		col->SetColliderType(currentColType);
 	}

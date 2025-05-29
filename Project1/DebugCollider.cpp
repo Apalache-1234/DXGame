@@ -1,29 +1,35 @@
-#include "DebugColliderCube.h"
-#include "Collider.h"
+#include "DebugCollider.h"
 
-DebugColiderCube::DebugColiderCube(std::shared_ptr<Entity> ent) : DebugRenderer(ent)
+DebugColider::DebugColider(std::shared_ptr<Entity> ent) : DebugRenderer(ent)
 {
 }
 
-DebugColiderCube::~DebugColiderCube()
+DebugColider::DebugColider(std::shared_ptr<Entity> ent , Collider::ColliderType type) : DebugRenderer(ent)
+{
+	debugForType = type;
+
+	std::cout << "adaafaw" << std::endl;
+}
+
+DebugColider::~DebugColider()
 {
 }
 
-void DebugColiderCube::Update()
+void DebugColider::Update()
 {
 	auto colList = GameManager::GetInstance().GetComponentList<Collider>();
 
-	int cube = 0;
+	int sameCol = 0;
 
 	for (int i = 0; i < colList.size(); i++)
 	{
-		if (colList[i]->GetColliderType() == Collider::ColliderType::Cube)
+		if (colList[i]->GetColliderType() == debugForType)
 		{
-			cube++;
+			sameCol++;
 		}
 	}
 
-	if (cube != instanceCount)
+	if (sameCol != instanceCount)
 	{
 		InitDebugRenderer();
 
@@ -33,8 +39,8 @@ void DebugColiderCube::Update()
 
 	for (int i = 0; i < instanceCount; i++)
 	{
-		instances[i].world = DirectX::XMMatrixTranspose(colList[i]->GetTRSMatrix());
-		if (colList[i]->isColliding)
+		instances[i].world = DirectX::XMMatrixTranspose(cols[i]->GetTRSMatrix());
+		if (cols[i]->isColliding)
 			instances[i].color = XMFLOAT4(1, 0, 0, 1);
 		else
 			instances[i].color = XMFLOAT4(0, 1, 0, 1);
@@ -44,9 +50,19 @@ void DebugColiderCube::Update()
 	MapDVB();
 }
 
-void DebugColiderCube::InitDebugRenderer()
+void DebugColider::InitDebugRenderer()
 {
 	primitiveType = D3D10_PRIMITIVE_TOPOLOGY_LINESTRIP;
+
+	switch (debugForType)
+	{
+	case Collider::Cube:
+		CreateMesh(MeshLoader::BOX);
+		break;
+	case Collider::Sphere:
+		CreateMesh(MeshLoader::SPHERE);
+		break;
+	}
 
 	auto colList = GameManager::GetInstance().GetComponentList<Collider>();
 
@@ -54,10 +70,11 @@ void DebugColiderCube::InitDebugRenderer()
 
 	for (int i = 0; i < colList.size(); i++)
 	{
-		if (colList[i]->GetColliderType() == Collider::ColliderType::Cube)
+		if (colList[i]->GetColliderType() == debugForType)
 		{
 			Instance inst;
 			inst.world = DirectX::XMMatrixTranspose(colList[i]->GetTRSMatrix());
+			cols.emplace_back(colList[i]);
 			if (colList[i]->isColliding)
 				inst.color = XMFLOAT4(1, 0, 0, 1);
 			else

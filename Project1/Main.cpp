@@ -15,7 +15,7 @@
 #include "UIRenderer.h"
 #include "MeshLoader.h"
 #include "SkinnedRenderer.h"
-#include "DebugColliderCube.h"
+#include "DebugCollider.h"
 
 float hoge = 0;
 
@@ -46,7 +46,8 @@ int main()
 	auto player4 = gameManager->CreateEntity("Player4");
 	auto player2 = gameManager->CreateEntity("Player2");
 	auto Skybox = gameManager->CreateEntity("Skybox");
-	auto debugCol = gameManager->CreateEntity("Debug");
+	auto debugColCube = gameManager->CreateEntity("DebugCube");
+	auto debugColSphere = gameManager->CreateEntity("DebugSphere");
 
 	player2->AddComponent<Collider>();
 	player2->AddComponent<Rigidbody>();
@@ -65,8 +66,11 @@ int main()
 	Skybox->RemoveComponent<SkinnedRenderer>();
 	Skybox->AddComponent<SkyBox>();
 
-	debugCol->RemoveComponent<SkinnedRenderer>();
-	debugCol->AddComponent<DebugColiderCube>();
+	debugColCube->RemoveComponent<SkinnedRenderer>();
+	debugColCube->AddComponent<DebugColider>();
+
+	debugColSphere->RemoveComponent<SkinnedRenderer>();
+	debugColSphere->AddComponent<DebugColider>(Collider::ColliderType::Sphere);
 
 	bool show_demo_window = true;
 

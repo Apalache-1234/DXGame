@@ -10,6 +10,7 @@
 #include "Object.h"
 #include "Component.h"
 #include <DirectXMath.h>
+#include <type_traits>
 
 class Component;
 
@@ -175,13 +176,13 @@ public:
 	///<param name="scale">足すローカルの大きさ</param>
     void AddLocalScale(DirectX::XMVECTOR scale);
 
+
 	/// <summary>
 	/// コンポーネントを追加する
 	/// </summary>
 	/// <typeparam name="T">追加するタイプ</typeparam>
-	template <typename T>
-	void
-    AddComponent()
+	template <typename T , typename... Args , std::enable_if_t<std::is_base_of_v<Component, T>>* = nullptr>
+	void AddComponent(Args&&... args )
 	{
 		if (components.find(typeid(T)) == components.end())
 		{
@@ -189,7 +190,7 @@ public:
 			std::shared_ptr<Entity> ent = std::dynamic_pointer_cast<Entity>(shared_from_this());
 
 			// コンポーネントを作成してマップに追加
-			components[typeid(T)] = std::make_shared<T>(ent);
+			components[typeid(T)] = std::make_shared<T>(ent , std::forward<Args>(args)...);
 
 			// コンポーネントの初期化
 			components[typeid(T)]->Init();
@@ -200,7 +201,7 @@ public:
     /// コンポーネントのシェアドポインタを返す、存在しない場合はnullptrを返す
     /// </summary>
     /// <typeparam name="T">返すタイプ</typeparam>
-	template <typename T>
+	template <typename T ,  std::enable_if_t<std::is_base_of_v<Component, T>>* = nullptr>
 	std::shared_ptr<T> GetComponent()
 	{
 		if (components.find(typeid(T)) != components.end())
@@ -213,7 +214,7 @@ public:
 		}
 	}
 
-	template <typename T>
+	template <typename T , std::enable_if_t<std::is_base_of_v<Component, T>>* = nullptr>
 	void RemoveComponent()
 	{
 		if (components.find(typeid(T)) != components.end())

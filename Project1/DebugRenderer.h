@@ -16,6 +16,7 @@
 #include "DXRenderSystem.h"
 #include "Utility.h"
 #include "Renderer.h"
+#include "Collider.h"
 
 using namespace DirectX;
 using namespace Microsoft::WRL;
@@ -39,6 +40,7 @@ protected:
 	};
 
 	std::vector<Instance> instances;
+	std::vector<std::shared_ptr<Collider>> cols;
 
 	bool MapDVB();
 private:

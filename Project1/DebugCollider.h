@@ -1,5 +1,5 @@
 #ifndef DEBUG_COLLIDER_CUBE_H 
-#define DEBUG_COLLIDER_CUBE_H 
+#define DEBUG_COLLIDER_H 
 
 #include <memory>
 #include <iostream>
@@ -17,22 +17,27 @@
 #include "Utility.h"
 #include "Renderer.h"
 #include "DebugRenderer.h"
+#include "Collider.h"
 
 using namespace DirectX;
 using namespace Microsoft::WRL;
 using namespace std;
 
-class DebugColiderCube : public DebugRenderer
+class DebugColider : public DebugRenderer
 {
 public:
-	DebugColiderCube(std::shared_ptr<Entity> ent);
+	DebugColider(std::shared_ptr<Entity> ent);
 
-	~DebugColiderCube();
+	DebugColider(std::shared_ptr<Entity> ent, Collider::ColliderType type);
+
+	~DebugColider();
 protected:
 
 	void Update() override;
 private:
 	void InitDebugRenderer() override;
+
+	Collider::ColliderType debugForType = Collider::ColliderType::Cube;
 };
 
 #endif
