@@ -3,7 +3,9 @@
 #include "SkyBox.h"
 #include "UIRenderer.h"
 #include "SkinnedRenderer.h"
-#include "DebugColliderCube.h"
+#include "DebugCollider.h"
+#include "DebugOrigin.h"
+#include "DebugRayCast.h"
 
 DXRenderSystem::DXRenderSystem()
 {
@@ -23,12 +25,9 @@ DXRenderSystem& DXRenderSystem::GetInstance()
 
 bool DXRenderSystem::Init()
 {
-	ComPtr<ID3D12Debug> debugController;
-	if (SUCCEEDED(D3D12GetDebugInterface(IID_PPV_ARGS(&debugController)))) {
-
-		std::cout << "DirectXデバックモードON" << std::endl;
-
-		debugController->EnableDebugLayer();
+	ComPtr<ID3D12Debug> debug;
+	if (SUCCEEDED(D3D12GetDebugInterface(IID_PPV_ARGS(&debug)))) {
+		debug->EnableDebugLayer();
 	}
 
 	bool isSuccess = true;
@@ -49,13 +48,19 @@ bool DXRenderSystem::Init()
 
 	isSuccess &= CreateRTV();
 
-	isSuccess &= CreateFence();
-
 	isSuccess &= CreateDBVResouce();
 
 	isSuccess &= CreateDBVDescripterHeap();
 
 	isSuccess &= CreateDBV();
+
+	isSuccess &= CheckMSAASupport();
+
+	isSuccess &= CreateMSAAResource();
+
+	isSuccess &= CreateMSAAView();
+
+	isSuccess &= CreateFence();
 
 	isSuccess &= SetScissorAndViewPort();
 
@@ -77,6 +82,28 @@ ComPtr<ID3D12CommandQueue>& DXRenderSystem::GetCommandQueue()
 ComPtr<ID3D12GraphicsCommandList>& DXRenderSystem::GetCommandList()
 {
 	return cmd_list;
+}
+
+bool DXRenderSystem::CreateMSAAView()
+{
+	msaaRTVHandle = heapRT->GetHandle();
+
+	D3D12_RENDER_TARGET_VIEW_DESC rtvDesc = {};
+	rtvDesc.Format =DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+	rtvDesc.ViewDimension = D3D12_RTV_DIMENSION_TEXTURE2DMS;
+
+	device->CreateRenderTargetView(msaaRT.Get(), &rtvDesc, msaaRTVHandle->cpuHandle);
+
+	msaaDSVHandle = heapDS->GetHandle();
+
+	D3D12_DEPTH_STENCIL_VIEW_DESC dsvDesc = {};
+	dsvDesc.Format = DXGI_FORMAT_D32_FLOAT;
+	dsvDesc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2DMS;
+	dsvDesc.Flags = D3D12_DSV_FLAG_NONE;
+
+	device->CreateDepthStencilView(msaaDS.Get(), &dsvDesc, msaaDSVHandle->cpuHandle);
+
+	return true;
 }
 
 void DXRenderSystem::WaitForRender()
@@ -129,14 +156,34 @@ void DXRenderSystem::RenderSkinnedRenderer()
 
 void DXRenderSystem::RenderDebugRenderer()
 {
-	auto DebugRendererComponents = GameManager::GetInstance().GetComponentList<DebugColiderCube>();
+	auto DebugCol = GameManager::GetInstance().GetComponentList<DebugCollider>();
 
-	for (int i = 0; i < DebugRendererComponents.size(); i++)
+	for (int i = 0; i < DebugCol.size(); i++)
 	{
 		cmd_list->RSSetScissorRects(1, &scissor);
 		cmd_list->RSSetViewports(1, &viewport);
 
-		DebugRendererComponents[i]->AddRenderCommand(cmd_list, backbuffer_index);
+		DebugCol[i]->AddRenderCommand(cmd_list, backbuffer_index);
+	}
+
+	auto DebugO = GameManager::GetInstance().GetComponentList<DebugOrigin>();
+
+	for (int i = 0; i < DebugO.size(); i++)
+	{
+		cmd_list->RSSetScissorRects(1, &scissor);
+		cmd_list->RSSetViewports(1, &viewport);
+
+		DebugO[i]->AddRenderCommand(cmd_list, backbuffer_index);
+	}
+
+	auto DebugRay = GameManager::GetInstance().GetComponentList<DebugRayCast>();
+
+	for (int i = 0; i < DebugRay.size(); i++)
+	{
+		cmd_list->RSSetScissorRects(1, &scissor);
+		cmd_list->RSSetViewports(1, &viewport);
+
+		DebugRay[i]->AddRenderCommand(cmd_list, backbuffer_index);
 	}
 }
 
@@ -184,11 +231,11 @@ void DXRenderSystem::Draw()
 
 	cmd_list->ResourceBarrier(1, &barrier);
 
-	cmd_list->OMSetRenderTargets(1, &rtv_handle[backbuffer_index], false, &dbv_handle);
+	cmd_list->OMSetRenderTargets(1, &msaaRTVHandle->cpuHandle, false, &msaaDSVHandle->cpuHandle);
 
-	cmd_list->ClearRenderTargetView(rtv_handle[backbuffer_index], colorBG, 0, nullptr);
+	cmd_list->ClearRenderTargetView(msaaRTVHandle->cpuHandle, colorBG, 0, nullptr);
 
-	cmd_list->ClearDepthStencilView(dbv_handle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
+	cmd_list->ClearDepthStencilView(msaaDSVHandle->cpuHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
 
 	RenderSkyBox();
 
@@ -199,12 +246,35 @@ void DXRenderSystem::Draw()
 		RenderDebugRenderer();
 	}
 
-
 	RenderUIRenderer();
 	
 	RenderIMGUI();
 
+	barrier.Transition.pResource = msaaRT.Get();
+
 	barrier.Transition.StateBefore = D3D12_RESOURCE_STATE_RENDER_TARGET;
+
+	barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_RESOLVE_SOURCE;
+
+	cmd_list->ResourceBarrier(1, &barrier);
+
+	barrier.Transition.pResource = color_buffer[backbuffer_index].Get();
+
+	barrier.Transition.StateBefore = D3D12_RESOURCE_STATE_RENDER_TARGET;
+
+	barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_RESOLVE_DEST;
+
+	cmd_list->ResourceBarrier(1, &barrier);
+
+	cmd_list->ResolveSubresource(
+		color_buffer[backbuffer_index].Get(),         // 解像先
+		0,                  // MipLevel
+		msaaRT.Get(),   // 解像元
+		0,                  // MipLevel
+		DXGI_FORMAT_R8G8B8A8_UNORM
+	);
+
+	barrier.Transition.StateBefore = D3D12_RESOURCE_STATE_RESOLVE_DEST;
 
 	barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_PRESENT;
 
@@ -315,7 +385,7 @@ bool DXRenderSystem::CreateSwapChain()
 
 	desc.SampleDesc.Quality = 0;
 
-	desc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+	desc.BufferDesc.Format =DXGI_FORMAT_R8G8B8A8_UNORM;
 
 	desc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
 
@@ -384,36 +454,32 @@ bool DXRenderSystem::CreateCommandList()
 	return true;
 }
 
+bool DXRenderSystem::CheckMSAASupport()
+{
+	D3D12_FEATURE_DATA_MULTISAMPLE_QUALITY_LEVELS qualityLevels = {};
+	qualityLevels.Format =DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+	qualityLevels.SampleCount = msaaCount;
+
+	device->CheckFeatureSupport(
+		D3D12_FEATURE_MULTISAMPLE_QUALITY_LEVELS,
+		&qualityLevels,
+		sizeof(qualityLevels));
+
+	msaaQuality = qualityLevels.NumQualityLevels;
+	assert(msaaQuality > 0); 
+
+	return true;
+}
+
 bool DXRenderSystem::CreateRTVDescriptorHeap()
 {
-	D3D12_DESCRIPTOR_HEAP_DESC desc = {};
-
-	desc.NodeMask = 0;
-
-	desc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
-
-	desc.NumDescriptors = frameBuffer;
-
-	desc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;
-
-	hr = device->CreateDescriptorHeap(&desc, IID_PPV_ARGS(heap_rtv.GetAddressOf()));
-
-	if (FAILED(hr))
-	{
-		cout << "レンダーターゲットビュー用のデスクリプタヒープの作成失敗" << endl;
-
-		return false;
-	}
+	heapRT.emplace(100 , D3D12_DESCRIPTOR_HEAP_TYPE_RTV , D3D12_DESCRIPTOR_HEAP_FLAG_NONE);
 
 	return true;
 }
 
 bool DXRenderSystem::CreateRTV()
 {
-	auto handle = heap_rtv->GetCPUDescriptorHandleForHeapStart();
-
-	auto increment = device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
-
 	for (int i = 0; i < frameBuffer; i++)
 	{
 		hr = swap_chain->GetBuffer(i, IID_PPV_ARGS(color_buffer[i].GetAddressOf()));
@@ -429,17 +495,67 @@ bool DXRenderSystem::CreateRTV()
 
 		desc.ViewDimension = D3D12_RTV_DIMENSION_TEXTURE2D;
 
-		desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+		desc.Format =DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
 
 		desc.Texture2D.MipSlice = 0;
 
 		desc.Texture2D.PlaneSlice = 0;
 
-		device->CreateRenderTargetView(color_buffer[i].Get(), &desc, handle);
+		RTVHandle[i] = heapRT->GetHandle();
 
-		rtv_handle[i] = handle;
+		device->CreateRenderTargetView(color_buffer[i].Get(), &desc, RTVHandle[i]->cpuHandle);
+	}
 
-		handle.ptr += increment;
+	return true;
+}
+
+bool DXRenderSystem::CreateMSAAResource()
+{
+	D3D12_RESOURCE_DESC colorDesc = {};
+	colorDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
+	colorDesc.Format =DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+	colorDesc.Width = Window::width;
+	colorDesc.Height = Window::height;
+	colorDesc.Flags = D3D12_RESOURCE_FLAG_ALLOW_RENDER_TARGET;
+	colorDesc.DepthOrArraySize = 1;
+	colorDesc.MipLevels = 1;
+	colorDesc.SampleDesc.Count = msaaCount;
+	colorDesc.SampleDesc.Quality = msaaQuality - 1;
+
+	auto heapProperties = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT);
+
+	hr = device->CreateCommittedResource(
+		&heapProperties,
+		D3D12_HEAP_FLAG_NONE,
+		&colorDesc,
+		D3D12_RESOURCE_STATE_RENDER_TARGET,
+		nullptr,
+		IID_PPV_ARGS(&msaaRT));
+
+	if (FAILED(hr))
+	{
+		cout << "MSAA用のRTバッファ作成失敗" << std::endl;
+
+		return false;
+	}
+
+	D3D12_RESOURCE_DESC depthDesc = colorDesc;
+	depthDesc.Format = DXGI_FORMAT_D32_FLOAT;
+	depthDesc.Flags = D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL;
+
+	hr = device->CreateCommittedResource(
+		&heapProperties,
+		D3D12_HEAP_FLAG_NONE,
+		&depthDesc,
+		D3D12_RESOURCE_STATE_DEPTH_WRITE,
+		&clearDepth,
+		IID_PPV_ARGS(&msaaDS));
+
+	if (FAILED(hr))
+	{
+		cout << "MSAA用のDSバッファ作成失敗" << std::endl;
+
+		return false;
 	}
 
 	return true;
@@ -506,18 +622,16 @@ bool DXRenderSystem::CreateDBVResouce()
 
 	desc.Format = DXGI_FORMAT_D32_FLOAT;
 
-	D3D12_CLEAR_VALUE clear_depth = {};
-
-	clear_depth.Format = DXGI_FORMAT_D32_FLOAT;
-	clear_depth.DepthStencil.Depth = 1.0f;
-	clear_depth.DepthStencil.Stencil = 0;
+	clearDepth.Format = DXGI_FORMAT_D32_FLOAT;
+	clearDepth.DepthStencil.Depth = 1.0f;
+	clearDepth.DepthStencil.Stencil = 0;
 
 	hr = device->CreateCommittedResource(
 		&prop,
 		D3D12_HEAP_FLAG_NONE,
 		&desc,
 		D3D12_RESOURCE_STATE_DEPTH_WRITE,
-		&clear_depth,
+		&clearDepth,
 		IID_PPV_ARGS(depth_buffer.GetAddressOf())
 
 	);
@@ -535,35 +649,16 @@ bool DXRenderSystem::CreateDBVResouce()
 
 bool DXRenderSystem::CreateDBVDescripterHeap()
 {
-	D3D12_DESCRIPTOR_HEAP_DESC heap_desc = {};
+	heapDS.emplace(100 , D3D12_DESCRIPTOR_HEAP_TYPE_DSV , D3D12_DESCRIPTOR_HEAP_FLAG_NONE);
 
-	heap_desc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
-
-	heap_desc.NodeMask = 0;
-
-	heap_desc.NumDescriptors = 1;
-
-	heap_desc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_DSV;
-
-	hr = device->CreateDescriptorHeap(&heap_desc, IID_PPV_ARGS(heap_dbv.GetAddressOf()));
-
-	if (FAILED(hr))
-	{
-		std::cerr << "デスクリプターヒープ作成失敗" << std::endl;
-
-		return false;
-	}
-
-	return true;
+	return  true;
 }
 
 bool DXRenderSystem::CreateDBV()
 {
+	DSVHandle = heapDS.value().GetHandle();
+
 	D3D12_DEPTH_STENCIL_VIEW_DESC desc_depth = {};
-
-	auto handle = heap_dbv->GetCPUDescriptorHandleForHeapStart();
-
-	auto increment = device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_DSV);
 
 	desc_depth.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2D;
 
@@ -571,9 +666,7 @@ bool DXRenderSystem::CreateDBV()
 	desc_depth.Format = DXGI_FORMAT_D32_FLOAT;
 	desc_depth.Texture2D.MipSlice = 0;
 
-	device->CreateDepthStencilView(depth_buffer.Get(), &desc_depth, handle);
-
-	dbv_handle = handle;
+	device->CreateDepthStencilView(depth_buffer.Get(), &desc_depth, DSVHandle->cpuHandle);
 
 	return true;
 }

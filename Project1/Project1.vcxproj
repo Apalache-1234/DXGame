@@ -77,6 +77,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>C:\Users\yuichiro\source\repos\Project1\packages\IMGUI</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -93,6 +94,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>C:\Users\yuichiro\source\repos\Project1\packages\IMGUI</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -109,6 +111,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>C:\Users\yuichiro\source\repos\Project1\packages\IMGUI;D:\Users\2312031\Documents\DXGame\packages\IMGUI</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -125,6 +128,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>C:\Users\yuichiro\source\repos\Project1\packages\IMGUI</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -147,6 +151,7 @@
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="ColliderDetection.cpp" />
     <ClCompile Include="Component.cpp" />
+    <ClCompile Include="DebugOrigin.cpp" />
     <ClCompile Include="DebugCollider.cpp" />
     <ClCompile Include="DebugRayCast.cpp" />
     <ClCompile Include="DebugRenderer.cpp" />
@@ -155,6 +160,7 @@
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="Flags.cpp" />
     <ClCompile Include="GameManager.cpp" />
+    <ClCompile Include="KeyInput.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MeshLoader.cpp" />
     <ClCompile Include="MyIMGUI.cpp" />
@@ -253,6 +259,7 @@
     <ClInclude Include="Collider.h" />
     <ClInclude Include="ColliderDetection.h" />
     <ClInclude Include="Component.h" />
+    <ClInclude Include="DebugOrigin.h" />
     <ClInclude Include="DebugCollider.h" />
     <ClInclude Include="DebugRayCast.h" />
     <ClInclude Include="DebugRenderer.h" />
@@ -261,6 +268,7 @@
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Flags.h" />
     <ClInclude Include="GameManager.h" />
+    <ClInclude Include="KeyInput.h" />
     <ClInclude Include="RayCast.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="TextureLoader.h" />

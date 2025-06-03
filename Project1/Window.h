@@ -29,10 +29,10 @@ public:
 	static Window& GetInstance();
 
 	//‰æ–Ê‚Ìc•
-	const static int height = 1080 / 2;
+	const static int height = 1080;
 
 	//‰æ–Ê‚Ì‰¡•
-	const static int width = 1980 / 2;
+	const static int width = 1980;
 
 private:
    	/// <summary>

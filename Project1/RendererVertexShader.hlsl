@@ -4,9 +4,11 @@ struct input
 
 	float2 TexCoord : TEXCOORD;
 
-	float3 tangent : TANGENT;
-
 	float3 normal : NORMAL;
+
+	float4 color : COLOR;
+
+	float3 tangent : TANGENT;
 
 	float4 boneID  : BONEID;
 

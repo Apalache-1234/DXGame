@@ -40,7 +40,6 @@ protected:
 	};
 
 	std::vector<Instance> instances;
-	std::vector<std::shared_ptr<Collider>> cols;
 
 	bool MapDVB();
 private:

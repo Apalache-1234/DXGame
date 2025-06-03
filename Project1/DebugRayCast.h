@@ -13,11 +13,16 @@ public:
 	DebugRayCast(std::shared_ptr<Entity> ent);
 
 	~DebugRayCast();
+
+	void AddRayCast(RayCast ray);
 protected:
 
 	void Update() override;
 private:
 	void InitDebugRenderer() override;
+
+	std::vector<RayCast> rays;
+
 };
 
 #endif

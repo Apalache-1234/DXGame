@@ -20,6 +20,8 @@ public:
 	DescriptorHeapManager();
 	DescriptorHeapManager(UINT num);
 
+	DescriptorHeapManager(UINT num, D3D12_DESCRIPTOR_HEAP_TYPE type, D3D12_DESCRIPTOR_HEAP_FLAGS flag);
+
 	DescriptorHeapManager(const DescriptorHeapManager&) = delete;
 	DescriptorHeapManager& operator=(const DescriptorHeapManager&) = delete;
 
@@ -56,14 +58,14 @@ public:
 
 	bool IsDestroyed();
 private:
+	bool InitDescHeap(D3D12_DESCRIPTOR_HEAP_TYPE type, D3D12_DESCRIPTOR_HEAP_FLAGS flag);
+
 	/// <summary>
     /// デスクリプタヒープ
     /// </summary>
 	ComPtr<ID3D12DescriptorHeap> heap;
 
 	std::vector<std::unique_ptr<PtrHandles>> free;
-
-	bool InitDescHeap();
 
 	bool InitList();
 

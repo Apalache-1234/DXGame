@@ -17,6 +17,10 @@ public:
 	~RayCast();
 
 	bool GetIsHit();
+	DirectX::XMVECTOR GetStartPoint();
+	DirectX::XMVECTOR GetDirection();
+	float GetDistance();
+	DirectX::XMVECTOR GetHitPoint();
 	void ParseRayInteract(DirectX::XMVECTOR p1, DirectX::XMVECTOR p2, DirectX::XMVECTOR p3);
 private:
 	void CheckHit();

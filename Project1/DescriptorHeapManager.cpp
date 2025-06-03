@@ -5,7 +5,11 @@ DescriptorHeapManager::DescriptorHeapManager() : DescriptorHeapManager(100)
 {
 }
 
-DescriptorHeapManager::DescriptorHeapManager(UINT num)
+DescriptorHeapManager::DescriptorHeapManager(UINT num) : DescriptorHeapManager(num , D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV , D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE)
+{
+}
+
+DescriptorHeapManager::DescriptorHeapManager(UINT num , D3D12_DESCRIPTOR_HEAP_TYPE type, D3D12_DESCRIPTOR_HEAP_FLAGS flag)
 {
 	assert(num != 0);
 
@@ -13,10 +17,11 @@ DescriptorHeapManager::DescriptorHeapManager(UINT num)
 
 	bool isSucceed = true;
 
-	isSucceed &= InitDescHeap();
+	isSucceed &= InitDescHeap(type, flag);
 
 	isSucceed &= InitList();
 }
+
 
 DescriptorHeapManager::~DescriptorHeapManager()
 {
@@ -55,17 +60,17 @@ bool DescriptorHeapManager::IsDestroyed()
 	return isDestroyed;
 }
 
-bool DescriptorHeapManager::InitDescHeap()
+bool DescriptorHeapManager::InitDescHeap(D3D12_DESCRIPTOR_HEAP_TYPE type , D3D12_DESCRIPTOR_HEAP_FLAGS flag)
 {
 	D3D12_DESCRIPTOR_HEAP_DESC desc = {};
 
-	desc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
+	desc.Flags = flag;
 
 	desc.NodeMask = 0;
 
 	desc.NumDescriptors = capacity;
 
-	desc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
+	desc.Type = type;
 
 	HRESULT hr = DXRenderSystem::GetInstance().GetDevice()->CreateDescriptorHeap(&desc, IID_PPV_ARGS(heap.GetAddressOf()));
 

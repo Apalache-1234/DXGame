@@ -66,7 +66,7 @@ void ColliderDetection::MainLoop()
 {
 	auto list = GameManager::GetInstance().GetComponentList<Collider>();
 
-	for (int i = 0; i < list.size() - 1; i++)
+	for (int i = 0; i < list.size(); i++)
 	{
 		list[i]->isColliding = false;
 	}
@@ -93,8 +93,6 @@ void ColliderDetection::MainLoop()
 					ndB = DirectX::XMVectorScale(ndB, 0.5);
 				}
 			}
-
-
 
 			if (colA->attachFrom->GetComponent<Rigidbody>())
 				UpdateVelocity(colA, ndA);

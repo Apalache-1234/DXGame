@@ -35,7 +35,9 @@ public:
 		SPARTAN,
 		BOX,
 		PLANE,
-		SPHERE
+		SPHERE,
+		DEBUG_ORIGIN,
+		DEBUG_RAY
 	};
 
 	struct VertexData
@@ -45,6 +47,8 @@ public:
 		XMFLOAT2 texCoord;
 
 		XMFLOAT3 normal;
+
+		XMFLOAT4 color;
 
 		XMFLOAT3 tangent;
 

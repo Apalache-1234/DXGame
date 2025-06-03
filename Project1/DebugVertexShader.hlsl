@@ -4,9 +4,11 @@ struct input
 
 	float2 TexCoord : TEXCOORD;
 
-	float3 tangent : TANGENT;
-
 	float3 normal : NORMAL;
+
+	float4 color : COLOR;
+
+	float3 tangent : TANGENT;
 
 	float4 boneID  : BONEID;
 
@@ -51,7 +53,10 @@ output main(input vertexIn)
 
 	float4 proj = mul(proj_mat, view);
 
-	vertexOut.color = vertexIn.colors;
+	if (length(vertexIn.colors) != 0)
+		vertexOut.color = vertexIn.colors;
+	else
+		vertexOut.color = vertexIn.color;
 
 	vertexOut.position = proj;
 

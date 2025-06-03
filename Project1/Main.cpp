@@ -16,6 +16,9 @@
 #include "MeshLoader.h"
 #include "SkinnedRenderer.h"
 #include "DebugCollider.h"
+#include "DebugOrigin.h"
+#include "KeyInput.h"
+#include "DebugRayCast.h"
 
 float hoge = 0;
 
@@ -31,6 +34,7 @@ int main()
 	auto myImGui = &MyIMGUI::GetInstance();
 	auto gameManager = &GameManager::GetInstance();
 	auto physicSystem = &PhysicSystem::GetInstance();
+	auto keySystem = &KeyInput::GetInstance();
 
 
 	window->Init();
@@ -48,6 +52,8 @@ int main()
 	auto Skybox = gameManager->CreateEntity("Skybox");
 	auto debugColCube = gameManager->CreateEntity("DebugCube");
 	auto debugColSphere = gameManager->CreateEntity("DebugSphere");
+	auto debugOrigin = gameManager->CreateEntity("DebugOrigin");
+	auto debugRay = gameManager->CreateEntity("DebugRay");
 
 	player2->AddComponent<Collider>();
 	player2->AddComponent<Rigidbody>();
@@ -67,10 +73,16 @@ int main()
 	Skybox->AddComponent<SkyBox>();
 
 	debugColCube->RemoveComponent<SkinnedRenderer>();
-	debugColCube->AddComponent<DebugColider>();
+	debugColCube->AddComponent<DebugCollider>();
 
 	debugColSphere->RemoveComponent<SkinnedRenderer>();
-	debugColSphere->AddComponent<DebugColider>(Collider::ColliderType::Sphere);
+	debugColSphere->AddComponent<DebugCollider>(Collider::ColliderType::Sphere);
+
+	debugOrigin->RemoveComponent<SkinnedRenderer>();
+	debugOrigin->AddComponent<DebugOrigin>();
+
+	debugRay->RemoveComponent<SkinnedRenderer>();
+	debugRay->AddComponent<DebugRayCast>();
 
 	bool show_demo_window = true;
 
@@ -82,44 +94,42 @@ int main()
 	{
 		gameManager->MainLoop();
 		physicSystem->MainLoop();
+		keySystem->Update();
 
 		hoge += 10;
 
 		DirectX::XMVECTOR velocity = DirectX::XMVectorSet(0,0,0,0);
 
-		if (GetAsyncKeyState(VK_LEFT) & 0x8000)
+		if (keySystem->GetKeyDown(A))
 		{
 			velocity = DirectX::XMVectorAdd(velocity , Utility::left);
 		}
 
-		if (GetAsyncKeyState(VK_RIGHT) & 0x8000)
+		if (keySystem->GetKeyDown(D))
 		{
 			velocity = DirectX::XMVectorAdd(velocity, Utility::right);
 		}
 
-		if (GetAsyncKeyState(VK_UP) & 0x8000)
-		{
-			velocity = DirectX::XMVectorAdd(velocity, Utility::up);
-		}
-
-		if (GetAsyncKeyState(VK_DOWN) & 0x8000)
-		{
-			velocity = DirectX::XMVectorAdd(velocity, Utility::down);
-		}
-
-		if (GetAsyncKeyState(VK_NUMPAD4) & 0x8000)
+		if (keySystem->GetKeyDown(W))
 		{
 			velocity = DirectX::XMVectorAdd(velocity, Utility::forward);
 		}
 
-		if (GetAsyncKeyState(VK_NUMPAD6) & 0x8000)
+		if (keySystem->GetKeyDown(S))
 		{
 			velocity = DirectX::XMVectorAdd(velocity, Utility::backward);
 		}
 
-		if (GetAsyncKeyState(VK_SPACE) & 0x8000)
+		if (keySystem->GetKey(SPACE))
 		{
-			player2->GetComponent<Rigidbody>()->SetVelocity(DirectX::XMVectorScale(Utility::up , 6));
+			player2->GetComponent<Rigidbody>()->SetVelocity(DirectX::XMVectorScale(Utility::up , 20));
+		}
+
+		RayCast ray = RayCast(player4->GetWorldPosition() , player4->GetForward() , 10 );
+
+		if (keySystem->GetKey(Z))
+		{
+			player4->AddWorldPosition(DirectX::XMVectorScale(player4->GetForward(), 0.1));
 		}
 
 		velocity = DirectX::XMVectorScale(velocity , 0.07);
@@ -131,6 +141,15 @@ int main()
 		auto hoge3 = DirectX::XMVectorScale(player2->GetForward(),4);
 
 		auto vec = player2->GetWorldPosition();
+
+		auto axis = DirectX::XMVectorSet(0.5, 0.5, 0.5, 0);
+
+		axis = DirectX::XMVector3Normalize(axis);
+
+		if (keySystem->GetKey(T))
+		{
+			player4->SetQuaternion(DirectX::XMQuaternionRotationAxis(axis, 0.01));
+		}
 
 		hoge1 = DirectX::XMVectorAdd(hoge1 , vec);
 		hoge2 = DirectX::XMVectorAdd(hoge2 , vec);

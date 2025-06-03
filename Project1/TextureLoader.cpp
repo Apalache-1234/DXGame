@@ -54,6 +54,8 @@ ComPtr<ID3D12Resource> TextureLoader::LoadTexture(const std::string filePath)
 
 	textures[fileName] = resource;
 
+	std::cout << resource->GetDesc().MipLevels << std::endl;
+
 	return textures[fileName];
 }
 

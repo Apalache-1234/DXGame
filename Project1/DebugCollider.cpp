@@ -1,21 +1,19 @@
 #include "DebugCollider.h"
 
-DebugColider::DebugColider(std::shared_ptr<Entity> ent) : DebugRenderer(ent)
+DebugCollider::DebugCollider(std::shared_ptr<Entity> ent) : DebugRenderer(ent)
 {
 }
 
-DebugColider::DebugColider(std::shared_ptr<Entity> ent , Collider::ColliderType type) : DebugRenderer(ent)
+DebugCollider::DebugCollider(std::shared_ptr<Entity> ent , Collider::ColliderType type) : DebugRenderer(ent)
 {
 	debugForType = type;
-
-	std::cout << "adaafaw" << std::endl;
 }
 
-DebugColider::~DebugColider()
+DebugCollider::~DebugCollider()
 {
 }
 
-void DebugColider::Update()
+void DebugCollider::Update()
 {
 	auto colList = GameManager::GetInstance().GetComponentList<Collider>();
 
@@ -50,9 +48,10 @@ void DebugColider::Update()
 	MapDVB();
 }
 
-void DebugColider::InitDebugRenderer()
+void DebugCollider::InitDebugRenderer()
 {
 	primitiveType = D3D10_PRIMITIVE_TOPOLOGY_LINESTRIP;
+
 
 	switch (debugForType)
 	{
@@ -67,6 +66,7 @@ void DebugColider::InitDebugRenderer()
 	auto colList = GameManager::GetInstance().GetComponentList<Collider>();
 
 	instances.clear();
+	cols.clear();
 
 	for (int i = 0; i < colList.size(); i++)
 	{

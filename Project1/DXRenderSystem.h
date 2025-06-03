@@ -14,6 +14,8 @@
 #include <DDSTextureLoader.h>
 #include <VertexTypes.h>
 #include "wrl.h"
+#include "DescriptorHeapManager.h"
+#include <optional>
 
 using namespace DirectX;
 using namespace Microsoft::WRL;
@@ -36,9 +38,14 @@ public:
 
 	bool Init();
 
+	const static UINT msaaCount = 8;
+	UINT msaaQuality = 0;
+
 	ComPtr<ID3D12CommandQueue>& GetCommandQueue();
 
 	ComPtr<ID3D12GraphicsCommandList>& GetCommandList();
+
+	bool CreateMSAAView();
 
 	void WaitForRender();
 
@@ -100,6 +107,8 @@ private:
 	/// <returns>正常に終了したらtrueを返す</returns>
 	bool CreateCommandList();
 
+	bool CheckMSAASupport();
+
 	/// <summary>
 	/// レンダーターゲットビュー用のデスクリプタヒープを作成する
 	/// </summary>
@@ -111,6 +120,8 @@ private:
 	/// </summary>
 	/// <returns>正常に終了したらtrueを返す</returns>
 	bool CreateRTV();
+
+	bool CreateMSAAResource();
 
 	/// <summary>
 	/// 描画コマンドを実行して次に行くまでの待機に必要なフェンスを作成する
@@ -164,21 +175,28 @@ private:
 	ComPtr<ID3D12CommandAllocator> cmd_allocator[frameBuffer];
 	ComPtr<ID3D12Resource> depth_buffer;
 	ComPtr<ID3D12GraphicsCommandList> cmd_list;
-	ComPtr<ID3D12DescriptorHeap> heap_rtv;
-	ComPtr<ID3D12DescriptorHeap> heap_dbv;
+	std::optional<DescriptorHeapManager> heapRT;
+	std::optional<DescriptorHeapManager> heapDS;
 	ComPtr<ID3D12Resource> rtv;
 	ComPtr<ID3D12Resource> color_buffer[frameBuffer];
 	ComPtr<ID3D12Fence> fence;
 	UINT16 fence_counter = 1;
+
+	D3D12_CLEAR_VALUE clearDepth = {};
+
+	ComPtr<ID3D12Resource> msaaRT;
+	ComPtr<ID3D12Resource> msaaDS;
 
 	D3D12_VIEWPORT viewport;
 	D3D12_RECT scissor;
 
 	HANDLE fence_event;
 
-	D3D12_CPU_DESCRIPTOR_HANDLE rtv_handle[frameBuffer] = {};
+	std::unique_ptr<DescriptorHeapManager::PtrHandles> RTVHandle[frameBuffer];
+	std::unique_ptr<DescriptorHeapManager::PtrHandles> msaaRTVHandle;
 
-	D3D12_CPU_DESCRIPTOR_HANDLE dbv_handle = {};
+	std::unique_ptr < DescriptorHeapManager::PtrHandles> DSVHandle;
+	std::unique_ptr < DescriptorHeapManager::PtrHandles> msaaDSVHandle;
 
 	int backbuffer_index = 0;
 };

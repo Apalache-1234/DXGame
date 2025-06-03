@@ -199,19 +199,41 @@ void Entity::SetWorldPosition(DirectX::XMVECTOR position)
 
 }
 
+DirectX::XMVECTOR QuaternionToEulerYXZ(DirectX::XMVECTOR q)
+{
+	float qx = DirectX::XMVectorGetX(q);
+	float qy = DirectX::XMVectorGetY(q);
+	float qz = DirectX::XMVectorGetZ(q);
+	float qw = DirectX::XMVectorGetW(q);
+
+	float sinr_cosp = 2.0f * (qw * qx + qy * qz);
+	float cosr_cosp = 1.0f - 2.0f * (qx * qx + qy * qy);
+	float x = std::atan2(sinr_cosp, cosr_cosp); 
+
+	float sinp = 2.0f * (qw * qy - qz * qx);
+	float y;
+	if (std::abs(sinp) >= 1)
+		y = std::copysign(DirectX::XM_PI / 2.0f, sinp); 
+	else
+		y = std::asin(sinp);
+
+	float siny_cosp = 2.0f * (qw * qz + qx * qy);
+	float cosy_cosp = 1.0f - 2.0f * (qy * qy + qz * qz);
+	float z = std::atan2(siny_cosp, cosy_cosp); 
+
+	return DirectX::XMVectorSet(
+		DirectX::XMConvertToDegrees(x), 
+		DirectX::XMConvertToDegrees(y), 
+		DirectX::XMConvertToDegrees(z), 
+		0.0f
+	);
+}
+
 void Entity::SetQuaternion(DirectX::XMVECTOR q)
 {
-	auto matrix = DirectX::XMMatrixRotationQuaternion(q);
+	auto result = DirectX::XMQuaternionMultiply(GetWorldQuaternion(), q);
 
-	auto x =  atan(matrix.r[1].m128_f32[2]);
-	auto y = atan2(matrix.r[2].m128_f32[0], matrix.r[0].m128_f32[0]);
-	auto z = atan2(matrix.r[1].m128_f32[0], matrix.r[1].m128_f32[1]);
-
-	x = DirectX::XMConvertToDegrees(x);
-	y = DirectX::XMConvertToDegrees(y);
-	z = DirectX::XMConvertToDegrees(z);
-
-	SetWorldRotation(DirectX::XMVectorSet(x,y,z,0));
+	SetWorldRotation(QuaternionToEulerYXZ(result));
 }
 
 void Entity::SetLocalPosition(DirectX::XMVECTOR position)
@@ -422,22 +444,13 @@ void Entity::AddLocalScale(DirectX::XMVECTOR scale)
 
 void Entity::AdjustDirectionVector()
 {
-	auto mat1 = DirectX::XMMatrixRotationQuaternion(GetWorldQuaternion());
+	// ワールドクォータニオンとローカルクォータニオンを合成
+	XMVECTOR combinedRotation = XMQuaternionMultiply(GetLocalQuaternion(), GetWorldQuaternion());
 
-
-	auto rotationMat = mat1;
-
-	right = XMVector3TransformNormal(DirectX::XMVectorSet(1, 0, 0, 0), rotationMat);
-	up = XMVector3TransformNormal(DirectX::XMVectorSet(0, 1, 0, 0), rotationMat);
-	forward = XMVector3TransformNormal(DirectX::XMVectorSet(0, 0, 1, 0), rotationMat);
-
-	auto mat2 = DirectX::XMMatrixRotationQuaternion(GetLocalQuaternion());
-
-	rotationMat = mat2;
-
-	right = XMVector3TransformNormal(right, rotationMat);
-	up = XMVector3TransformNormal(up, rotationMat);
-	forward = XMVector3TransformNormal(forward, rotationMat);
+	// ローカル方向を回転（親+自分の回転）
+	right = XMVector3Rotate(XMVectorSet(1, 0, 0, 0), combinedRotation);
+	up = XMVector3Rotate(XMVectorSet(0, 1, 0, 0), combinedRotation);
+	forward = XMVector3Rotate(XMVectorSet(0, 0, 1, 0), combinedRotation);
 
 	if (!HasChild())
 		return;

@@ -1,6 +1,7 @@
 #include "RayCast.h"
 #include "GameManager.h"
 #include "Utility.h"
+#include "DebugRayCast.h"
 
 RayCast::RayCast(DirectX::XMVECTOR startPoint , DirectX::XMVECTOR dir, float distance)
 {
@@ -9,6 +10,13 @@ RayCast::RayCast(DirectX::XMVECTOR startPoint , DirectX::XMVECTOR dir, float dis
 	this->distance = distance;
 
 	CheckHit();
+
+	auto DebugRay = GameManager::GetInstance().GetComponentList<DebugRayCast>();
+
+	for (int i = 0; i < DebugRay.size(); i++)
+	{
+		DebugRay[i]->AddRayCast(*this);
+	}
 }
 
 RayCast::~RayCast()
@@ -18,6 +26,26 @@ RayCast::~RayCast()
 bool RayCast::GetIsHit()
 {
 	return isHit;
+}
+
+DirectX::XMVECTOR RayCast::GetStartPoint()
+{
+	return startPoint;
+}
+
+DirectX::XMVECTOR RayCast::GetDirection()
+{
+	return direction;
+}
+
+float RayCast::GetDistance()
+{
+	return distance;
+}
+
+DirectX::XMVECTOR RayCast::GetHitPoint()
+{
+	return hitPoint;
 }
 
 void RayCast::ParseRayInteract(DirectX::XMVECTOR p1, DirectX::XMVECTOR p2, DirectX::XMVECTOR p3)
@@ -56,12 +84,14 @@ void RayCast::ParseRayInteract(DirectX::XMVECTOR p1, DirectX::XMVECTOR p2, Direc
 	{
 		isHit = false;
 
+		std::cout << u << " | " << v << std::endl;
+
 		return;
 	}
 
 	auto t = denom * DirectX::XMVectorGetX(DirectX::XMVector3Dot(edge2, p));
 
-	if (t < distance)
+	if (t > distance)
 	{
 		isHit = false;
 
@@ -87,13 +117,14 @@ void RayCast::CheckHit()
 	{
 		auto pair = colList[i]->GetTriangles();
 
-		for (int i = 0; i < pair.first->size(); i++)
-		{
-			auto vertices = *pair.second;
+		auto vertices = *pair.second;
+		auto index = *pair.first;
 
-			auto p1 = DirectX::XMLoadFloat3(&vertices[i].vertex);
-			auto p2 = DirectX::XMLoadFloat3(&vertices[i + 1].vertex);
-			auto p3 = DirectX::XMLoadFloat3(&vertices[i + 2].vertex);
+		for (int i = 0; i < pair.first->size() / 3; i += 3)
+		{
+			auto p1 = DirectX::XMLoadFloat3(&vertices[index[i]].vertex);
+			auto p2 = DirectX::XMLoadFloat3(&vertices[index[i + 1]].vertex);
+			auto p3 = DirectX::XMLoadFloat3(&vertices[index[i + 2]].vertex);
 
 			ParseRayInteract(p1, p2, p3);
 		}

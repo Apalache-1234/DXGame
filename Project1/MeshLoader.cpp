@@ -18,6 +18,8 @@ void MeshLoader::Init()
 	LoadMesh("Models/Box.fbx", BOX);
 	LoadMesh("Models/Box.fbx", PLANE);
 	LoadMesh("Models/Sphere.fbx", SPHERE);
+	LoadMesh("Models/OriginMarker.fbx", DEBUG_ORIGIN);
+	LoadMesh("Models/RayDebug.fbx", DEBUG_RAY);
 }
 
 std::unique_ptr<MeshLoader> MeshLoader::instance = nullptr;
@@ -166,6 +168,7 @@ void MeshLoader::Init(MESHTYPE type)
 void MeshLoader::StoreVertices(const std::string filePath, std::vector<Mesh>& meshes , MeshData& meshData)
 {
 	aiVector3D zero = aiVector3D(0, 0, 0);
+	aiColor4D one = aiColor4D(1, 1, 1, 1);
 
 	UINT baseVertexNum = 0;
 	UINT baseIndexNum = 0;
@@ -189,10 +192,13 @@ void MeshLoader::StoreVertices(const std::string filePath, std::vector<Mesh>& me
 
 			auto coord = mesh->HasTextureCoords(0) ? mesh->mTextureCoords[0][j] : zero;
 
+			auto col = mesh->HasVertexColors(0) ? mesh->mColors[0][j] : one;
+
 			data->vertex = XMFLOAT3(pos.x, pos.y, pos.z);
 			data->normal = XMFLOAT3(nor.x, nor.y, nor.z);
 			data->tangent = XMFLOAT3(tan.x, tan.y, tan.z);
 			data->texCoord = XMFLOAT2(coord.x, coord.y);
+			data->color = XMFLOAT4(col.r, col.g, col.b, col.a);
 		}
 
 		meshes[i].indices.resize(mesh->mNumFaces * 3);
@@ -628,6 +634,7 @@ bool MeshLoader::IBUploadToDefultHeap(MeshLoader::Mesh& mesh, ComPtr<ID3D12Resou
 		D3D12_RESOURCE_STATE_COPY_DEST,
 		D3D12_RESOURCE_STATE_INDEX_BUFFER
 	);
+
 	DXRenderSystem::GetInstance().GetCommandList()->ResourceBarrier(1, &barrier);
 
 	mesh.ibView.BufferLocation = mesh.indexBuffer->GetGPUVirtualAddress();
