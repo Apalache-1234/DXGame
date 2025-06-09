@@ -28,11 +28,9 @@ DirectX::XMMATRIX Collider::GetTRSMatrix()
 {
 	auto positionMat = DirectX::XMMatrixTranslationFromVector(attachFrom->GetWorldPosition()) * DirectX::XMMatrixTranslationFromVector(position);
 
-	auto qWorld = attachFrom->GetWorldQuaternion();
-	auto qLocal = attachFrom->GetLocalQuaternion();
 	auto qCol = GetRotQuaternion();
 
-	auto resultQ = DirectX::XMQuaternionMultiply(qLocal, qWorld);
+	auto resultQ = attachFrom->GetRotation();
 	resultQ = DirectX::XMQuaternionMultiply(resultQ, qCol);
 
 	auto rotationMat = DirectX::XMMatrixRotationQuaternion(resultQ);

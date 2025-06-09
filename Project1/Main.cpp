@@ -146,7 +146,7 @@ int main()
 
 		axis = DirectX::XMVector3Normalize(axis);
 
-		if (keySystem->GetKey(T))
+		if (keySystem->GetKeyDown(T))
 		{
 			player4->SetQuaternion(DirectX::XMQuaternionRotationAxis(axis, 0.01));
 		}

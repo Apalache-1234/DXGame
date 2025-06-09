@@ -33,6 +33,8 @@ void Entity::Init()
 	SetWorldRotation(DirectX::XMVectorZero());
 	SetLocalRotation(DirectX::XMVectorZero());
 
+	rotation = XMVectorZero();
+
 	components.clear();
 
 	AddComponent<SkinnedRenderer>();
@@ -103,7 +105,7 @@ DirectX::XMVECTOR Entity::GetWorldQuaternion()
 	auto YQuaternion = DirectX::XMQuaternionRotationAxis(DirectX::XMVectorSet(0, 1, 0, 0), rotY);
 	auto ZQuaternion = DirectX::XMQuaternionRotationAxis(DirectX::XMVectorSet(0, 0, 1, 0), rotZ);
 
-	resultQ = Utility::GetZYXMultiplyQuaternion(XQuaternion , YQuaternion , ZQuaternion);
+	resultQ = Utility::GetZYXMultiplyQuaternion(XQuaternion, YQuaternion, ZQuaternion);
 
 	return resultQ;
 }
@@ -199,7 +201,7 @@ void Entity::SetWorldPosition(DirectX::XMVECTOR position)
 
 }
 
-DirectX::XMVECTOR QuaternionToEulerYXZ(DirectX::XMVECTOR q)
+DirectX::XMVECTOR QuaternionToEulerZYX(DirectX::XMVECTOR q)
 {
 	float qx = DirectX::XMVectorGetX(q);
 	float qy = DirectX::XMVectorGetY(q);
@@ -231,9 +233,26 @@ DirectX::XMVECTOR QuaternionToEulerYXZ(DirectX::XMVECTOR q)
 
 void Entity::SetQuaternion(DirectX::XMVECTOR q)
 {
-	auto result = DirectX::XMQuaternionMultiply(GetWorldQuaternion(), q);
+	auto result = DirectX::XMQuaternionMultiply(GetRotation(), q);
 
-	SetWorldRotation(QuaternionToEulerYXZ(result));
+	rotation = QuaternionToEulerZYX(result);
+}
+
+DirectX::XMVECTOR Entity::GetRotation()
+{
+	DirectX::XMVECTOR resultQ = DirectX::XMVectorSet(0, 0, 0, 0);
+
+	float rotX = XMConvertToRadians(DirectX::XMVectorGetX(rotation));
+	float rotY = XMConvertToRadians(DirectX::XMVectorGetY(rotation));
+	float rotZ = XMConvertToRadians(DirectX::XMVectorGetZ(rotation));
+
+	auto XQuaternion = DirectX::XMQuaternionRotationAxis(DirectX::XMVectorSet(1, 0, 0, 0), rotX);
+	auto YQuaternion = DirectX::XMQuaternionRotationAxis(DirectX::XMVectorSet(0, 1, 0, 0), rotY);
+	auto ZQuaternion = DirectX::XMQuaternionRotationAxis(DirectX::XMVectorSet(0, 0, 1, 0), rotZ);
+
+	resultQ = Utility::GetZYXMultiplyQuaternion(XQuaternion, YQuaternion, ZQuaternion);
+
+	return resultQ;
 }
 
 void Entity::SetLocalPosition(DirectX::XMVECTOR position)
@@ -340,9 +359,21 @@ void Entity::SetLocalScale(DirectX::XMVECTOR scale)
 	localScale = scale;
 }
 
+DirectX::XMVECTOR prevWorldRotation = DirectX::g_XMZero;
+
 void Entity::SetWorldRotation(DirectX::XMVECTOR rotation)
 {
 	worldRotation = rotation;
+
+	auto subRot = DirectX::XMVectorSubtract(worldRotation , prevWorldRotation);
+
+	auto rotX = DirectX::XMConvertToRadians(DirectX::XMVectorGetX(subRot));
+	auto rotY = DirectX::XMConvertToRadians(DirectX::XMVectorGetY(subRot));
+	auto rotZ = DirectX::XMConvertToRadians(DirectX::XMVectorGetZ(subRot));
+
+	SetQuaternion(DirectX::XMQuaternionRotationAxis(Utility::right, rotX));
+	SetQuaternion(DirectX::XMQuaternionRotationAxis(Utility::up, rotY));
+	SetQuaternion(DirectX::XMQuaternionRotationAxis(Utility::forward, rotZ));
 
 	if (HasChild())
 	{
@@ -359,11 +390,25 @@ void Entity::SetWorldRotation(DirectX::XMVECTOR rotation)
 	}
 
 	AdjustDirectionVector();
+
+	prevWorldRotation = worldRotation;
 }
+
+DirectX::XMVECTOR prevLocalRotation = DirectX::g_XMZero;
 
 void Entity::SetLocalRotation(DirectX::XMVECTOR rotation)
 {
 	localRotation = rotation;
+
+	auto subRot = DirectX::XMVectorSubtract(localRotation, prevLocalRotation);
+
+	auto rotX = DirectX::XMConvertToRadians(DirectX::XMVectorGetX(subRot));
+	auto rotY = DirectX::XMConvertToRadians(DirectX::XMVectorGetY(subRot));
+	auto rotZ = DirectX::XMConvertToRadians(DirectX::XMVectorGetZ(subRot));
+
+	SetQuaternion(DirectX::XMQuaternionRotationAxis(right, rotX));
+	SetQuaternion(DirectX::XMQuaternionRotationAxis(up, rotY));
+	SetQuaternion(DirectX::XMQuaternionRotationAxis(forward, rotZ));
 
 	if (HasChild())
 	{
@@ -379,6 +424,8 @@ void Entity::SetLocalRotation(DirectX::XMVECTOR rotation)
 	}
 
 	AdjustDirectionVector();
+
+	prevLocalRotation = localRotation;
 }
 
 void Entity::AddWorldPosition(DirectX::XMVECTOR position)
@@ -444,13 +491,11 @@ void Entity::AddLocalScale(DirectX::XMVECTOR scale)
 
 void Entity::AdjustDirectionVector()
 {
-	// ワールドクォータニオンとローカルクォータニオンを合成
-	XMVECTOR combinedRotation = XMQuaternionMultiply(GetLocalQuaternion(), GetWorldQuaternion());
+	XMVECTOR rotation = GetRotation();
 
-	// ローカル方向を回転（親+自分の回転）
-	right = XMVector3Rotate(XMVectorSet(1, 0, 0, 0), combinedRotation);
-	up = XMVector3Rotate(XMVectorSet(0, 1, 0, 0), combinedRotation);
-	forward = XMVector3Rotate(XMVectorSet(0, 0, 1, 0), combinedRotation);
+	right = XMVector3Rotate(XMVectorSet(1, 0, 0, 0), rotation);
+	up = XMVector3Rotate(XMVectorSet(0, 1, 0, 0), rotation);
+	forward = XMVector3Rotate(XMVectorSet(0, 0, 1, 0), rotation);
 
 	if (!HasChild())
 		return;

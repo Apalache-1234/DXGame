@@ -3,6 +3,7 @@
 #include "UIRenderer.h"
 #include <tchar.h> 
 #include "Camera.h"
+#include "DebugOrigin.h"
 
 std::unique_ptr<MyIMGUI> MyIMGUI::instance = nullptr;
 
@@ -476,7 +477,7 @@ void ShowEntityInfo()
 
 		currentEntity->SetLocalRotation(ShowAndSetVecInfo("LocalRotation : ", currentEntity->GetLocalRotation()));
 
-
+		ShowAndSetVecInfo("Rotation : ", currentEntity->GetRotation());
 
 		if (ImGui::TreeNode("SkinnedRenderComponent")) {
 
@@ -644,6 +645,26 @@ void ShowDebugTrees()
 	}
 }
 
+void DebugMenu()
+{
+	ImGui::Indent(1);
+
+	auto debugOrigin = GameManager::GetInstance().GetComponentList<DebugOrigin>();
+
+	const char* typeNames[] = {"WORLD","LOCAL"};
+
+	auto currentType = debugOrigin[0]->type;
+
+	int currentIndex = static_cast<int>(currentType);
+	if (ImGui::Combo("Type", &currentIndex, typeNames, IM_ARRAYSIZE(typeNames))) {
+		currentType = static_cast<DebugOrigin::TYPE>(currentIndex);
+
+		debugOrigin[0]->type = currentType;
+	}
+
+	ImGui::Unindent();
+}
+
 void MyIMGUI::MainLoop()
 {
 	// Start the Dear ImGui frame
@@ -671,6 +692,10 @@ void MyIMGUI::MainLoop()
 		if (ImGui::TreeNode("Flags")) {
 
 			ImGui::Checkbox("Debug", flagIns.isDebug.get());
+
+			if (*flagIns.isDebug)
+				DebugMenu();
+
 			ImGui::Checkbox("Time", flagIns.isTimeStop.get());
 
 			ImGui::TreePop();

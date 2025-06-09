@@ -26,9 +26,17 @@ using namespace std;
 class DebugOrigin : public DebugRenderer
 {
 public:
+	enum TYPE
+	{
+		WORLD,
+		LOCAL
+	};
+
 	DebugOrigin(std::shared_ptr<Entity> ent);
 
 	~DebugOrigin();
+
+	TYPE type = LOCAL;
 protected:
 
 	void Update() override;

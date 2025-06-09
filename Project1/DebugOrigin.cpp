@@ -22,12 +22,12 @@ void DebugOrigin::Update()
 
 	for (int i = 0; i < instanceCount; i++)
 	{
-		auto qWorld = ents[i]->GetWorldQuaternion();
-		auto qLocal = ents[i]->GetLocalQuaternion();
+		auto rotation_mat = DirectX::XMMatrixRotationQuaternion(ents[i]->GetRotation());
 
-		auto rotation_mat = DirectX::XMMatrixRotationQuaternion(DirectX::XMQuaternionMultiply(qLocal, qWorld));
-
-		instances[i].world = DirectX::XMMatrixTranspose(rotation_mat * DirectX::XMMatrixTranslationFromVector(ents[i]->GetWorldPosition()));
+		if (type == LOCAL)
+			instances[i].world = DirectX::XMMatrixTranspose(rotation_mat * DirectX::XMMatrixTranslationFromVector(ents[i]->GetWorldPosition()));
+		else if (type == WORLD)
+			instances[i].world = DirectX::XMMatrixTranspose(DirectX::XMMatrixTranslationFromVector(ents[i]->GetWorldPosition()));
 	}
 
 	MapDVB();
@@ -58,10 +58,7 @@ void DebugOrigin::InitDebugRenderer()
 	{
 		Instance inst;
 
-		auto qWorld = entList[i]->GetWorldQuaternion();
-		auto qLocal = entList[i]->GetLocalQuaternion();
-
-		auto rotation_mat = DirectX::XMMatrixRotationQuaternion(DirectX::XMQuaternionMultiply(qLocal, qWorld));
+		auto rotation_mat = DirectX::XMMatrixRotationQuaternion(entList[i]->GetRotation());
 
 		inst.world = DirectX::XMMatrixTranspose(rotation_mat * DirectX::XMMatrixTranslationFromVector(entList[i]->GetWorldPosition()));
 		inst.color = DirectX::XMFLOAT4(0, 0, 0, 0);

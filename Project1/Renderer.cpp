@@ -172,10 +172,7 @@ void Renderer::ConvertValues()
 {
 	auto position_mat = XMMatrixTranslationFromVector(attachFrom->GetWorldPosition());
 
-	auto qWorld = attachFrom->GetWorldQuaternion();
-	auto qLocal = attachFrom->GetLocalQuaternion();
-
-	auto rotation_mat = DirectX::XMMatrixRotationQuaternion(DirectX::XMQuaternionMultiply(qLocal, qWorld));
+	auto rotation_mat = DirectX::XMMatrixRotationQuaternion(attachFrom->GetRotation());
 
 	auto scale_mat = XMMatrixScalingFromVector(attachFrom->GetScale());
 

@@ -108,6 +108,8 @@ public:
 	/// <param name="q">セットするクォータニオン</param>
 	void SetQuaternion(DirectX::XMVECTOR q);
 
+	DirectX::XMVECTOR GetRotation();
+
 	/// <summary>
 	/// ローカル座標をセットする
 	/// </summary>
@@ -273,6 +275,8 @@ private:
 	/// ワールドの回転をEulerで表したベクトル
 	/// </summary>
 	DirectX::XMVECTOR worldRotation;
+
+	DirectX::XMVECTOR rotation = DirectX::g_XMZero;
 
 	/// <summary>
 	/// コンポーネントの辞書型配列
