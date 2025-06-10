@@ -10,7 +10,8 @@ D:\Users\2312031\Documents\DXGame\Project1\CameraComponent.cpp;D:\Users\2312031\
 D:\Users\2312031\Documents\DXGame\Project1\Collider.cpp;D:\Users\2312031\Documents\DXGame\Project1\x64\Debug\Collider.obj
 D:\Users\2312031\Documents\DXGame\Project1\ColliderDetection.cpp;D:\Users\2312031\Documents\DXGame\Project1\x64\Debug\ColliderDetection.obj
 D:\Users\2312031\Documents\DXGame\Project1\Component.cpp;D:\Users\2312031\Documents\DXGame\Project1\x64\Debug\Component.obj
-D:\Users\2312031\Documents\DXGame\Project1\DebugColliderCube.cpp;D:\Users\2312031\Documents\DXGame\Project1\x64\Debug\DebugColliderCube.obj
+D:\Users\2312031\Documents\DXGame\Project1\DebugOrigin.cpp;D:\Users\2312031\Documents\DXGame\Project1\x64\Debug\DebugOrigin.obj
+D:\Users\2312031\Documents\DXGame\Project1\DebugCollider.cpp;D:\Users\2312031\Documents\DXGame\Project1\x64\Debug\DebugCollider.obj
 D:\Users\2312031\Documents\DXGame\Project1\DebugRayCast.cpp;D:\Users\2312031\Documents\DXGame\Project1\x64\Debug\DebugRayCast.obj
 D:\Users\2312031\Documents\DXGame\Project1\DebugRenderer.cpp;D:\Users\2312031\Documents\DXGame\Project1\x64\Debug\DebugRenderer.obj
 D:\Users\2312031\Documents\DXGame\Project1\DescriptorHeapManager.cpp;D:\Users\2312031\Documents\DXGame\Project1\x64\Debug\DescriptorHeapManager.obj
@@ -18,6 +19,7 @@ D:\Users\2312031\Documents\DXGame\Project1\DXRenderSystem.cpp;D:\Users\2312031\D
 D:\Users\2312031\Documents\DXGame\Project1\Entity.cpp;D:\Users\2312031\Documents\DXGame\Project1\x64\Debug\Entity.obj
 D:\Users\2312031\Documents\DXGame\Project1\Flags.cpp;D:\Users\2312031\Documents\DXGame\Project1\x64\Debug\Flags.obj
 D:\Users\2312031\Documents\DXGame\Project1\GameManager.cpp;D:\Users\2312031\Documents\DXGame\Project1\x64\Debug\GameManager.obj
+D:\Users\2312031\Documents\DXGame\Project1\KeyInput.cpp;D:\Users\2312031\Documents\DXGame\Project1\x64\Debug\KeyInput.obj
 D:\Users\2312031\Documents\DXGame\Project1\Main.cpp;D:\Users\2312031\Documents\DXGame\Project1\x64\Debug\Main.obj
 D:\Users\2312031\Documents\DXGame\Project1\MeshLoader.cpp;D:\Users\2312031\Documents\DXGame\Project1\x64\Debug\MeshLoader.obj
 D:\Users\2312031\Documents\DXGame\Project1\MyIMGUI.cpp;D:\Users\2312031\Documents\DXGame\Project1\x64\Debug\MyIMGUI.obj

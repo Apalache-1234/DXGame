@@ -30,7 +30,7 @@ DirectX::XMMATRIX Collider::GetTRSMatrix()
 
 	auto qCol = GetRotQuaternion();
 
-	auto resultQ = attachFrom->GetRotation();
+	auto resultQ = attachFrom->GetRotationAsQuaternion();
 	resultQ = DirectX::XMQuaternionMultiply(resultQ, qCol);
 
 	auto rotationMat = DirectX::XMMatrixRotationQuaternion(resultQ);

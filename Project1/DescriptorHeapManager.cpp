@@ -90,15 +90,20 @@ bool DescriptorHeapManager::InitList()
 
 	free.reserve(capacity);
 
-	auto increment = DXRenderSystem::GetInstance().GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+	auto increment = DXRenderSystem::GetInstance().GetDevice()->GetDescriptorHandleIncrementSize(heap->GetDesc().Type);
 
 	for (int i = 0;i < capacity;i++)
 	{
 		auto cpuHandle = heap->GetCPUDescriptorHandleForHeapStart();
-		auto gpuHandle = heap->GetGPUDescriptorHandleForHeapStart();
-
 		cpuHandle.ptr += increment * i;
-		gpuHandle.ptr += increment * i;
+
+		D3D12_GPU_DESCRIPTOR_HANDLE gpuHandle = {};
+
+		if (heap->GetDesc().Flags != D3D12_DESCRIPTOR_HEAP_FLAG_NONE)
+		{
+			gpuHandle = heap->GetGPUDescriptorHandleForHeapStart();
+			gpuHandle.ptr += increment * i;
+		}
 
 		auto handle = std::make_unique<PtrHandles>(cpuHandle, gpuHandle, this);
 

@@ -34,9 +34,19 @@ void DebugRayCast::InitDebugRenderer()
 		auto dir = rays[i].GetDirection();
 		auto yRot = DirectX::XMMatrixRotationY(-atan2(DirectX::XMVectorGetZ(dir), DirectX::XMVectorGetX(dir)));
 		auto xAxis = DirectX::XMVector3Cross(dir , Utility::up);
+
+		if (DirectX::XMVector3Equal(xAxis, DirectX::XMVectorZero()))
+		{
+			xAxis = Utility::forward;
+		}
+
+		xAxis = DirectX::XMVector3Normalize(xAxis);
+
 		auto length = DirectX::XMVector2Length(DirectX::XMVectorSet(DirectX::XMVectorGetX(dir) , DirectX::XMVectorGetZ(dir) , 0 , 0));
-		auto xQ = DirectX::XMQuaternionRotationAxis(xAxis, atan2(DirectX::XMVectorGetY(dir), DirectX::XMVectorGetX(length) ) );
+
+		auto xQ = DirectX::XMQuaternionRotationAxis(xAxis, atan2(DirectX::XMVectorGetY(dir), DirectX::XMVectorGetX(length)));
 		auto r = yRot * DirectX::XMMatrixRotationQuaternion(xQ);
+
 		auto s = DirectX::XMMatrixScalingFromVector(DirectX::XMVectorSet(rays[i].GetDistance(), 0, 0, 0));
 
 		inst.world = DirectX::XMMatrixTranspose(s*r*t);

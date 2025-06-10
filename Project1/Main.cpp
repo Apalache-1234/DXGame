@@ -125,7 +125,7 @@ int main()
 			player2->GetComponent<Rigidbody>()->SetVelocity(DirectX::XMVectorScale(Utility::up , 20));
 		}
 
-		RayCast ray = RayCast(player4->GetWorldPosition() , player4->GetForward() , 10 );
+		RayCast ray = RayCast(player4->GetWorldPosition() , Utility::down , 10);
 
 		if (keySystem->GetKey(Z))
 		{

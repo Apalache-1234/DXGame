@@ -110,6 +110,8 @@ public:
 
 	DirectX::XMVECTOR GetRotation();
 
+	DirectX::XMVECTOR GetRotationAsQuaternion();
+
 	/// <summary>
 	/// ローカル座標をセットする
 	/// </summary>
@@ -139,6 +141,8 @@ public:
 	/// </summary>
 	/// <param name="rotation">セットするローカル回転</param>
 	void SetLocalRotation(DirectX::XMVECTOR rotation);
+
+	void SetRotation(DirectX::XMVECTOR rot);
 
 	/// <summary>
 	/// ワールド座標を足す

@@ -22,7 +22,7 @@ void DebugOrigin::Update()
 
 	for (int i = 0; i < instanceCount; i++)
 	{
-		auto rotation_mat = DirectX::XMMatrixRotationQuaternion(ents[i]->GetRotation());
+		auto rotation_mat = DirectX::XMMatrixRotationQuaternion(ents[i]->GetRotationAsQuaternion());
 
 		if (type == LOCAL)
 			instances[i].world = DirectX::XMMatrixTranspose(rotation_mat * DirectX::XMMatrixTranslationFromVector(ents[i]->GetWorldPosition()));
@@ -58,7 +58,7 @@ void DebugOrigin::InitDebugRenderer()
 	{
 		Instance inst;
 
-		auto rotation_mat = DirectX::XMMatrixRotationQuaternion(entList[i]->GetRotation());
+		auto rotation_mat = DirectX::XMMatrixRotationQuaternion(entList[i]->GetRotationAsQuaternion());
 
 		inst.world = DirectX::XMMatrixTranspose(rotation_mat * DirectX::XMMatrixTranslationFromVector(entList[i]->GetWorldPosition()));
 		inst.color = DirectX::XMFLOAT4(0, 0, 0, 0);

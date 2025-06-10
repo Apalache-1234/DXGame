@@ -473,11 +473,11 @@ void ShowEntityInfo()
 
 		ShowAndSetVecInfo("FinalScale : ", currentEntity->GetScale());
 
+		currentEntity->SetRotation(ShowAndSetVecInfo("Rotation : ", currentEntity->GetRotation()));
+
 		currentEntity->SetWorldRotation(ShowAndSetVecInfo("WorldRotation : ", currentEntity->GetWorldRotation()));
 
 		currentEntity->SetLocalRotation(ShowAndSetVecInfo("LocalRotation : ", currentEntity->GetLocalRotation()));
-
-		ShowAndSetVecInfo("Rotation : ", currentEntity->GetRotation());
 
 		if (ImGui::TreeNode("SkinnedRenderComponent")) {
 

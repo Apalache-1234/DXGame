@@ -233,12 +233,17 @@ DirectX::XMVECTOR QuaternionToEulerZYX(DirectX::XMVECTOR q)
 
 void Entity::SetQuaternion(DirectX::XMVECTOR q)
 {
-	auto result = DirectX::XMQuaternionMultiply(GetRotation(), q);
+	auto result = DirectX::XMQuaternionMultiply(GetRotationAsQuaternion(), q);
 
 	rotation = QuaternionToEulerZYX(result);
 }
 
 DirectX::XMVECTOR Entity::GetRotation()
+{
+	return rotation;
+}
+
+DirectX::XMVECTOR Entity::GetRotationAsQuaternion()
 {
 	DirectX::XMVECTOR resultQ = DirectX::XMVectorSet(0, 0, 0, 0);
 
@@ -428,6 +433,11 @@ void Entity::SetLocalRotation(DirectX::XMVECTOR rotation)
 	prevLocalRotation = localRotation;
 }
 
+void Entity::SetRotation(DirectX::XMVECTOR rot)
+{
+	rotation = rot;
+}
+
 void Entity::AddWorldPosition(DirectX::XMVECTOR position)
 {
 	auto pos = GetWorldPosition();
@@ -491,7 +501,7 @@ void Entity::AddLocalScale(DirectX::XMVECTOR scale)
 
 void Entity::AdjustDirectionVector()
 {
-	XMVECTOR rotation = GetRotation();
+	XMVECTOR rotation = GetRotationAsQuaternion();
 
 	right = XMVector3Rotate(XMVectorSet(1, 0, 0, 0), rotation);
 	up = XMVector3Rotate(XMVectorSet(0, 1, 0, 0), rotation);
