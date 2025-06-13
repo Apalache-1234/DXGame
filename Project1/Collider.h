@@ -36,7 +36,7 @@ public:
 
 	DirectX::XMVECTOR GetRotQuaternion();
 
-	std::pair < std::vector<int>*, std::vector <MeshLoader::VertexData>*> GetTriangles();
+	std::pair < std::vector<int>, std::vector <DirectX::XMVECTOR>> GetTriangles();
 
 	/// <summary>
 	/// コライダーの位置

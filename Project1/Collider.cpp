@@ -91,9 +91,15 @@ DirectX::XMVECTOR Collider::GetRotQuaternion()
 	return resultQ;
 }
 
-std::pair < std::vector<int>*, std::vector <MeshLoader::VertexData>*> Collider::GetTriangles()
+std::pair < std::vector<int>, std::vector < DirectX::XMVECTOR > > Collider::GetTriangles()
 {
 	std::pair < std::vector<int>*, std::vector <MeshLoader::VertexData>*> triangles;
+
+	for (int i = 0; i < mesh->meshes[0].vertexDatas.size(); i++)
+	{
+		auto vertex = 
+
+	}
 
 	triangles.first = &mesh->meshes[0].indices;
 	triangles.second = &mesh->meshes[0].vertexDatas;

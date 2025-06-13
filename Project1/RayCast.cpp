@@ -54,14 +54,12 @@ void RayCast::ParseRayInteract(DirectX::XMVECTOR p1, DirectX::XMVECTOR p2, Direc
 
 	auto edge2 = DirectX::XMVectorSubtract(p1, p3);
 
-	auto cross = DirectX::XMVector3Cross(direction, edge2);
+	auto cross = DirectX::XMVector3Cross(edge2 ,direction);
 
 	auto detM = DirectX::XMVectorGetX(DirectX::XMVector3Dot(edge1, cross));
 
 	if (abs(detM) < Utility::ep)
 	{
-		isHit = false;
-
 		return;
 	}
 
@@ -73,21 +71,17 @@ void RayCast::ParseRayInteract(DirectX::XMVECTOR p1, DirectX::XMVECTOR p2, Direc
 
 	if (u < 0 || u > 1)
 	{
-		isHit = false;
-
 		std::cout << u << " | " << std::endl;
 
 		return;
 	}
 
-	auto p = DirectX::XMVector3Cross(edge1, o);
+	auto p = DirectX::XMVector3Cross(o , edge1);
 
 	auto v = denom * DirectX::XMVectorGetX(DirectX::XMVector3Dot(direction, p));
 
 	if (u + v < 0 || u + v > 1)
 	{
-		isHit = false;
-
 		std::cout << u << " | " << v << std::endl;
 
 		return;
@@ -97,8 +91,6 @@ void RayCast::ParseRayInteract(DirectX::XMVECTOR p1, DirectX::XMVECTOR p2, Direc
 
 	if (t > distance)
 	{
-		isHit = false;
-
 		return;
 	}
 
@@ -126,7 +118,7 @@ void RayCast::CheckHit()
 		auto vertices = *pair.second;
 		auto index = *pair.first;
 
-		for (int i = 0; i < index.size() / 3; i += 3)
+		for (int i = 0; i < index.size(); i += 3)
 		{
 			auto p1 = DirectX::XMLoadFloat3(&vertices[index[i]].vertex);
 			auto p2 = DirectX::XMLoadFloat3(&vertices[index[i + 1]].vertex);
