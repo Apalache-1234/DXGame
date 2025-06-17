@@ -57,6 +57,10 @@ public:
 	/// </summary>
 	/// <param name="rotation">Euler回転</param>
 	void SetCameraRotation(DirectX::XMVECTOR rotation);
+
+	DirectX::XMVECTOR GetPosWorldToScreen(DirectX::XMVECTOR pos);
+
+	DirectX::XMVECTOR GetPosScreenToWorld(DirectX::XMVECTOR pos);
 private:
 	/// <summary>
 	/// カメラの座標位置
@@ -68,7 +72,6 @@ private:
 	/// </summary>
 	DirectX::XMVECTOR camRotation = DirectX::XMVectorSet(0, 0, 10, 0);
 protected:
-
 
 	/// <summary>
 	/// カメラの回転を四元数で表したもの

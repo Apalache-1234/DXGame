@@ -9,7 +9,7 @@
 #include <assimp/postprocess.h>
 #include "DXRenderSystem.h"
 #include "TextureLoader.h"
-
+#include "DirectionalLight.h"
 
 Renderer::Renderer(std::shared_ptr<Entity> ent) : Component::Component(ent)
 {
@@ -27,11 +27,19 @@ void Renderer::AddRenderCommand(ComPtr<ID3D12GraphicsCommandList>& cmdList, int 
 
 	MapCB();
 
+	MapLLICB();
+
+	MapDLB();
+
 	cmdList->SetGraphicsRootSignature(rootSig.Get());
 
 	cmdList->SetDescriptorHeaps(1, heapManager.GetHeap().GetAddressOf());
 
 	cmdList->SetGraphicsRootConstantBufferView(0, cbView[backbufferIndex].BufferLocation);
+
+	cmdList->SetGraphicsRootConstantBufferView(2, lightInfoCBView.BufferLocation);
+
+	cmdList->SetGraphicsRootShaderResourceView(3, DLBuffer->GetGPUVirtualAddress());
 
 	cmdList->SetPipelineState(pipeline.Get());
 
@@ -71,6 +79,18 @@ void Renderer::Init()
     ConvertValues();
 
 	isSuccess &= MapCB();
+
+	isSuccess &= InitLightInfoCB();
+
+	isSuccess &= LinkLightInfoCBVToDescHeap();
+
+	isSuccess &= MapLLICB();
+
+	isSuccess &= InitDirectionalLightBResource();
+
+	isSuccess &= InitDLBV();
+
+	isSuccess &= MapDLB();
 
 	isSuccess &= CreateMesh(MeshLoader::BOX);
 
@@ -170,13 +190,7 @@ bool Renderer::LinkCBVResourceToDescHeap()
 
 void Renderer::ConvertValues()
 {
-	auto position_mat = XMMatrixTranslationFromVector(attachFrom->GetWorldPosition());
-
-	auto rotation_mat = DirectX::XMMatrixRotationQuaternion(attachFrom->GetRotationAsQuaternion());
-
-	auto scale_mat = XMMatrixScalingFromVector(attachFrom->GetScale());
-
-	trans.world = scale_mat * rotation_mat * position_mat;
+	trans.world = attachFrom->GetTRS();
 
 	float colR = DirectX::XMVectorGetX(color);
 	float colG = DirectX::XMVectorGetY(color);
@@ -214,6 +228,101 @@ bool Renderer::MapCB()
 
 		constantBuffer[i]->Unmap(0, nullptr);
 	}
+
+	return true;
+}
+
+
+bool Renderer::InitLightInfoCB()
+{
+	D3D12_HEAP_PROPERTIES prop = {};
+
+	prop.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_UNKNOWN;
+
+	prop.Type = D3D12_HEAP_TYPE_UPLOAD;
+
+	prop.CreationNodeMask = 1;
+
+	prop.VisibleNodeMask = 1;
+
+	prop.MemoryPoolPreference = D3D12_MEMORY_POOL_UNKNOWN;
+
+	D3D12_RESOURCE_DESC desc = {  };
+
+	desc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
+
+	desc.Alignment = 0;
+
+	desc.Height = 1;
+
+	desc.Width = sizeof(LightInfo);
+
+	desc.Flags = D3D12_RESOURCE_FLAG_NONE;
+
+	desc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
+
+	desc.SampleDesc.Count = 1;
+
+	desc.SampleDesc.Quality = 0;
+
+	desc.DepthOrArraySize = 1;
+
+	desc.MipLevels = 1;
+
+	desc.Format = DXGI_FORMAT_UNKNOWN;
+
+	hr = DXRenderSystem::GetInstance().GetDevice()->CreateCommittedResource(
+		&prop,
+		D3D12_HEAP_FLAG_NONE,
+		&desc,
+		D3D12_RESOURCE_STATE_GENERIC_READ,
+		nullptr,
+		IID_PPV_ARGS(lightInfoCB.GetAddressOf())
+
+	);
+
+	if (FAILED(hr))
+	{
+		std::cerr << "CBVのリソース作成失敗" << std::endl;
+
+		return false;
+	}
+
+	return true;
+}
+
+bool Renderer::LinkLightInfoCBVToDescHeap()
+{
+	lightInfoCBHandle = std::move(heapManager.GetHandle());
+
+	lightInfoCBView.BufferLocation = lightInfoCB->GetGPUVirtualAddress();
+
+	lightInfoCBView.SizeInBytes = sizeof(LightInfo);
+
+	DXRenderSystem::GetInstance().GetDevice()->CreateConstantBufferView(&lightInfoCBView, lightInfoCBHandle->cpuHandle);
+
+	return true;
+}
+
+bool Renderer::MapLLICB()
+{
+	lightInfo.ambientLightColor = GameManager::GetInstance().GetAmbientColor();
+	lightInfo.DirectionalLightNum = GameManager::GetInstance().GetComponentList<DirectionalLight>().size();
+
+	void* ptr = nullptr;
+
+	hr =  lightInfoCB->Map(0, nullptr, &ptr);
+
+	if (FAILED(hr))
+	{
+		std::cerr << "座標行列が収納されたCBのマッピング失敗" << std::endl;
+
+		return false;
+	}
+
+	memcpy(ptr, &lightInfo, sizeof(LightInfo));
+
+    lightInfoCB->Unmap(0, nullptr);
 
 	return true;
 }
@@ -276,6 +385,11 @@ void Renderer::AddRootParam(D3D12_ROOT_PARAMETER param)
 	this->param.emplace_back(param);
 }
 
+int Renderer::GetRootParamNum()
+{
+	return param.size();
+}
+
 void Renderer::AddInputElementDesc(D3D12_INPUT_ELEMENT_DESC desc)
 {
 	descElement.emplace_back(desc);
@@ -327,9 +441,9 @@ void Renderer::SetDepthStencilDesc(D3D12_DEPTH_STENCIL_DESC desc)
 
 void Renderer::PrepareForRootSignature()
 {
-	param.resize(2);
+	param.resize(4);
 
-	param[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;
+	param[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
 
 	param[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
 
@@ -337,17 +451,17 @@ void Renderer::PrepareForRootSignature()
 
 	param[0].Descriptor.RegisterSpace = 0;
 
-	range = {};
+	rangeSRV = {};
 
-	range.NumDescriptors = 1;
+	rangeSRV.NumDescriptors = 1;
 
-	range.BaseShaderRegister = 0;
+	rangeSRV.BaseShaderRegister = 0;
 
-	range.RegisterSpace = 0;
+	rangeSRV.RegisterSpace = 0;
 
-	range.OffsetInDescriptorsFromTableStart = 0;
+	rangeSRV.OffsetInDescriptorsFromTableStart = 0;
 
-	range.RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
+	rangeSRV.RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
 
 	param[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
 
@@ -355,7 +469,23 @@ void Renderer::PrepareForRootSignature()
 
 	param[1].DescriptorTable.NumDescriptorRanges = 1;
 
-	param[1].DescriptorTable.pDescriptorRanges = &range;
+	param[1].DescriptorTable.pDescriptorRanges = &rangeSRV;
+
+	param[2].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
+
+	param[2].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
+
+	param[2].Descriptor.ShaderRegister = 1;
+
+	param[2].Descriptor.RegisterSpace = 0;
+
+	param[3].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
+
+	param[3].ParameterType = D3D12_ROOT_PARAMETER_TYPE_SRV;
+
+	param[3].Descriptor.ShaderRegister = 10;
+
+	param[3].Descriptor.RegisterSpace = 0;
 
 	descSampler = {};
 
@@ -551,4 +681,116 @@ bool Renderer::CreateRenderPipeline()
 MeshLoader::MESHTYPE  Renderer::GetCurrentMeshType()
 {
 	return currentMeshType;
+}
+
+bool Renderer::InitDirectionalLightBResource()
+{
+	DirLights.resize(100);
+
+	UINT bufferSize = sizeof(DirLight) * DirLights.size();
+
+	D3D12_HEAP_PROPERTIES prop = {};
+
+	prop.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_UNKNOWN;
+
+	prop.Type = D3D12_HEAP_TYPE_UPLOAD;
+
+	prop.CreationNodeMask = 1;
+
+	prop.VisibleNodeMask = 1;
+
+	prop.MemoryPoolPreference = D3D12_MEMORY_POOL_UNKNOWN;
+
+	D3D12_RESOURCE_DESC desc = {  };
+
+	desc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
+
+	desc.Alignment = 0;
+
+	desc.Height = 1;
+
+	desc.Width = bufferSize;
+
+	desc.Flags = D3D12_RESOURCE_FLAG_NONE;
+
+	desc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
+
+	desc.SampleDesc.Count = 1;
+
+	desc.SampleDesc.Quality = 0;
+
+	desc.DepthOrArraySize = 1;
+
+	desc.MipLevels = 1;
+
+	desc.Format = DXGI_FORMAT_UNKNOWN;
+
+	hr = DXRenderSystem::GetInstance().GetDevice()->CreateCommittedResource(
+		&prop,
+		D3D12_HEAP_FLAG_NONE,
+		&desc,
+		D3D12_RESOURCE_STATE_GENERIC_READ,
+		nullptr,
+		IID_PPV_ARGS(DLBuffer.GetAddressOf())
+	);
+
+	if (FAILED(hr))
+	{
+		std::cerr << "ボーンバッファのリソースの作成失敗" << std::endl;
+
+		return false;
+	}
+
+	return true;
+}
+
+bool Renderer::MapDLB()
+{
+	auto list = GameManager::GetInstance().GetComponentList<DirectionalLight>();
+
+	for (int i = 0; i< list.size() ; i++)
+	{
+		DirLight l;
+		DirectX::XMStoreFloat3(&l.color , list[i]->GetColor());
+		DirectX::XMStoreFloat3(&l.direct, list[i]->GetLightDir());
+		l.reflection = list[i]->GetReflection();
+
+		DirLights[i] = l;
+	}
+
+
+
+	void* ptr = nullptr;
+
+	hr = DLBuffer->Map(0, nullptr, &ptr);
+
+	if (FAILED(hr))
+	{
+		std::cerr << "ダイレクショナルライトのDLBのマッピング失敗" << std::endl;
+
+		return false;
+	}
+
+	memcpy(ptr, DirLights.data(), sizeof(DirLight) * DirLights.size());
+
+	DLBuffer->Unmap(0, nullptr);
+
+	return true;
+}
+
+bool Renderer::InitDLBV()
+{
+	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
+	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_BUFFER;
+	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+	srvDesc.Buffer.FirstElement = 0;
+	srvDesc.Buffer.NumElements = DirLights.size();
+	srvDesc.Buffer.StructureByteStride = sizeof(DirLight);
+	srvDesc.Buffer.Flags = D3D12_BUFFER_SRV_FLAG_NONE;
+
+	DLBHandle = std::move(heapManager.GetHandle());
+
+	DXRenderSystem::GetInstance().GetDevice()->CreateShaderResourceView(DLBuffer.Get(), &srvDesc, DLBHandle->cpuHandle);
+
+	return true;
 }

@@ -40,6 +40,18 @@ void Entity::Init()
 	AddComponent<SkinnedRenderer>();
 }
 
+DirectX::XMMATRIX Entity::GetTRS()
+{
+	auto position_mat = XMMatrixTranslationFromVector(GetWorldPosition());
+
+	auto rotation_mat = DirectX::XMMatrixRotationQuaternion(GetRotationAsQuaternion());
+
+	auto scale_mat = XMMatrixScalingFromVector(GetScale());
+
+	return scale_mat * rotation_mat * position_mat;
+
+}
+
 DirectX::XMVECTOR Entity::GetWorldPosition()
 {
 	return worldPosition;

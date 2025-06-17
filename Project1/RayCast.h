@@ -15,14 +15,22 @@ public:
 	RayCast(DirectX::XMVECTOR startPoint, DirectX::XMVECTOR dir, float distance);
 
 	~RayCast();
-
-	bool GetIsHit();
 	DirectX::XMVECTOR GetStartPoint();
 	DirectX::XMVECTOR GetDirection();
 	float GetDistance();
-	DirectX::XMVECTOR GetHitPoint();
-	void ParseRayInteract(DirectX::XMVECTOR p1, DirectX::XMVECTOR p2, DirectX::XMVECTOR p3);
+	bool GetIsHit();
+	void ParseRayInteract(DirectX::XMVECTOR p1, DirectX::XMVECTOR p2, DirectX::XMVECTOR p3 , std::shared_ptr<Collider> col);
+
+	struct Info {
+		std::shared_ptr<Collider> colliders;
+
+		DirectX::XMVECTOR hitPoint;
+	};
+
+	std::vector<Info> GetInfo();
 private:
+	std::vector<Info> infos;
+
 	void CheckHit();
 
 	std::vector<Collider> cols;

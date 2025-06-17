@@ -1,4 +1,5 @@
 ﻿#include <memory>
+#include <DirectXMath.h>
 
 #ifndef KEY_INPUT_H
 #define KEY_INPUT_H
@@ -122,6 +123,8 @@ public:
     bool GetKeyUp(Key key);
 
     bool GetKey(Key key);
+
+    DirectX::XMFLOAT2 GetMousePos();
 
 	void Update();
 private:

@@ -19,6 +19,7 @@
 #include "DebugOrigin.h"
 #include "KeyInput.h"
 #include "DebugRayCast.h"
+#include "DirectionalLight.h"
 
 float hoge = 0;
 
@@ -48,7 +49,9 @@ int main()
 
 	auto player = gameManager->CreateEntity("Player");
 	auto player4 = gameManager->CreateEntity("Player4");
+	auto player5 = gameManager->CreateEntity("Player5");
 	auto player2 = gameManager->CreateEntity("Player2");
+	auto UI = gameManager->CreateEntity("UI");
 	auto Skybox = gameManager->CreateEntity("Skybox");
 	auto debugColCube = gameManager->CreateEntity("DebugCube");
 	auto debugColSphere = gameManager->CreateEntity("DebugSphere");
@@ -57,6 +60,8 @@ int main()
 
 	player2->AddComponent<Collider>();
 	player2->AddComponent<Rigidbody>();
+
+	player5->AddComponent<DirectionalLight>();
 
 	player->AddComponent<Collider>();
 	player->AddComponent<Rigidbody>();
@@ -83,6 +88,9 @@ int main()
 
 	debugRay->RemoveComponent<SkinnedRenderer>();
 	debugRay->AddComponent<DebugRayCast>();
+
+	UI->RemoveComponent<SkinnedRenderer>();
+	UI->AddComponent<UIRenderer>();
 
 	bool show_demo_window = true;
 
@@ -125,7 +133,7 @@ int main()
 			player2->GetComponent<Rigidbody>()->SetVelocity(DirectX::XMVectorScale(Utility::up , 20));
 		}
 
-		RayCast ray = RayCast(player4->GetWorldPosition() , Utility::down , 10);
+		RayCast ray = RayCast(player4->GetWorldPosition() , player4->GetForward(), 3);
 
 		if (keySystem->GetKey(Z))
 		{
@@ -145,6 +153,14 @@ int main()
 		auto axis = DirectX::XMVectorSet(0.5, 0.5, 0.5, 0);
 
 		axis = DirectX::XMVector3Normalize(axis);
+
+		UI->SetWorldPosition(Camera::GetInstance().GetPosWorldToScreen(player4->GetWorldPosition()));
+
+		auto mousePos = keySystem->GetMousePos();
+
+		auto norVec = DirectX::XMVectorSubtract(Camera::GetInstance().GetPosScreenToWorld(DirectX::XMLoadFloat2(&mousePos)), Camera::GetInstance().GetPosition());
+
+		RayCast(Camera::GetInstance().GetPosition(), DirectX::XMVector3Normalize(norVec), 100.0f);
 
 		if (keySystem->GetKeyDown(T))
 		{

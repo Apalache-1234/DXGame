@@ -647,8 +647,6 @@ void ShowDebugTrees()
 
 void DebugMenu()
 {
-	ImGui::Indent(1);
-
 	auto debugOrigin = GameManager::GetInstance().GetComponentList<DebugOrigin>();
 
 	const char* typeNames[] = {"WORLD","LOCAL"};
@@ -661,8 +659,6 @@ void DebugMenu()
 
 		debugOrigin[0]->type = currentType;
 	}
-
-	ImGui::Unindent();
 }
 
 void MyIMGUI::MainLoop()
@@ -688,6 +684,25 @@ void MyIMGUI::MainLoop()
 		}
 
 		ShowDebugTrees();
+
+		if (ImGui::TreeNode("AmbientLight")) {
+
+			auto hoge = GameManager::GetInstance().GetAmbientColor();
+
+			auto ambientCol = DirectX::XMLoadFloat3(&hoge);
+
+			ambientCol = DirectX::XMVectorSetW(ambientCol, 1);
+
+			EditColor(&ambientCol);
+
+			DirectX::XMFLOAT3 col;
+
+			DirectX::XMStoreFloat3(&col, ambientCol);
+
+			GameManager::GetInstance().SetAmbientColor(col);
+
+			ImGui::TreePop();
+		}
 
 		if (ImGui::TreeNode("Flags")) {
 

@@ -13,7 +13,7 @@ SkinnedRenderer::~SkinnedRenderer()
 
 void SkinnedRenderer::AddCommand(ComPtr<ID3D12GraphicsCommandList> cmdList)
 {
-	cmdList->SetGraphicsRootShaderResourceView(2, boneBuffer->GetGPUVirtualAddress());
+	cmdList->SetGraphicsRootShaderResourceView(4, boneBuffer->GetGPUVirtualAddress());
 }
 
 bool SkinnedRenderer::InitBoneResource()
@@ -419,11 +419,13 @@ void SkinnedRenderer::InitRenderer()
 
 	param.ParameterType = D3D12_ROOT_PARAMETER_TYPE_SRV;
 
-	param.Descriptor.ShaderRegister = 1;
+	param.Descriptor.ShaderRegister = 20;
 
 	param.Descriptor.RegisterSpace = 0;
 
 	AddRootParam(param);
+
+	boneBufferParamNum = GetRootParamNum();
 }
 
 void SkinnedRenderer::Update()

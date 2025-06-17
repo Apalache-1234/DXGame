@@ -35,17 +35,17 @@ struct Bones
 	float4x4 boneFinalMat;
 };
 
-StructuredBuffer<float4x4> boneFinalMats : register(t1);
+StructuredBuffer<float4x4> boneFinalMats : register(t20);
 
 output main(input vertexIn)
 {
 	output vertexOut = (output)0;
 
-	uint id0 = vertexIn.boneID.x ; // •‰”–h~
-		uint id1 = vertexIn.boneID.y;
-		uint id2 = vertexIn.boneID.z;
-		uint id3 = vertexIn.boneID.w;
-		uint id4 = vertexIn.parent;
+	int id0 = vertexIn.boneID.x ; // •‰”–h~
+		int id1 = vertexIn.boneID.y;
+		int id2 = vertexIn.boneID.z;
+		int id3 = vertexIn.boneID.w;
+		int id4 = vertexIn.parent;
 
 float4x4 boneTransform =
     boneFinalMats[id0] * vertexIn.weight.x +

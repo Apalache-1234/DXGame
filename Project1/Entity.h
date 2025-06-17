@@ -24,6 +24,8 @@ public:
 
 	void Init();
 
+	DirectX::XMMATRIX GetTRS();
+
 	/// <summary>
 	/// ワールド座標をXMVECTOR形式で返す
 	/// </summary>

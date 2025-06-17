@@ -52,4 +52,13 @@ struct alignas(256) Transform
     DirectX::XMFLOAT4 color;
 };
 
+struct alignas(256) LightInfo
+{
+    DirectX::XMFLOAT3 ambientLightColor;
+
+    float padding;
+
+    float DirectionalLightNum;
+};
+
 #endif

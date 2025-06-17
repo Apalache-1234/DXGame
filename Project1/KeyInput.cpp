@@ -1,6 +1,7 @@
 #include "KeyInput.h"
-#include <Windows.h>
+#include "Window.h"
 #include <bitset>
+#include <algorithm>
 
 std::bitset<256> keyInputsCur;
 std::bitset<256> keyInputsPrev;
@@ -26,6 +27,19 @@ KeyInput& KeyInput::GetInstance()
 bool KeyInput::GetKey(Key key)
 {
     return keyInputsCur[key] && !keyInputsPrev[key];
+}
+
+DirectX::XMFLOAT2 KeyInput::GetMousePos()
+{
+    POINT ptScreen;
+    ::GetCursorPos(&ptScreen);
+    POINT ptClient = ptScreen;
+    ::ScreenToClient(Window::GetInstance().GetWH(), &ptClient);
+
+    auto x = std::clamp(static_cast<int>(ptClient.x) , 0 , Window::width);
+    auto y = std::clamp(static_cast<int>(ptClient.y) , 0 , Window::height);
+
+    return DirectX::XMFLOAT2(x, Window::height - y);
 }
 
 bool KeyInput::GetKeyDown(Key key)

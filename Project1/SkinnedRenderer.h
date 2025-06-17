@@ -45,6 +45,8 @@ private:
 
 	ComPtr<ID3D12Resource> boneBuffer;
 
+	int boneBufferParamNum = 0;
+
 	std::vector<XMMATRIX> finalBoneMats;
 
 	float animTimeCur = 0;

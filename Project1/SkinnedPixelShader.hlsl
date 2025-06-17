@@ -16,6 +16,8 @@ struct pixelOp
 	float4 color: SV_TARGET0;
 };
 
+#include <Header.hlsli> 
+
 Texture2D tex : register(t0);
 
 SamplerState tex_sampler : register(s0);
@@ -27,6 +29,8 @@ pixelOp main(output vertexOp)
 	float2 uv = vertexOp.TexCoord;
 
 	output_pixel.color = tex.Sample(tex_sampler , uv ) * vertexOp.color;
+
+	output_pixel.color = ApplyLightShading(output_pixel.color, vertexOp.normal);
 
 	if (output_pixel.color.a == 0.0f) discard;
 

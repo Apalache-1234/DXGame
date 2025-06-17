@@ -1,4 +1,5 @@
 #include "GameManager.h"
+#include "Flags.h"
 
 GameManager::GameManager()
 {
@@ -73,6 +74,15 @@ std::shared_ptr<Entity> GameManager::CreateEntity(std::string name)
 
 void GameManager::MainLoop()
 {
+	if (*Flags::GetInstance().isTimeStop && !pause)
+	{
+		PauseTime();
+	}
+	else if(!*Flags::GetInstance().isTimeStop && pause)
+	{
+		UnpauseTime();
+	}
+
 	LARGE_INTEGER curr;
 	QueryPerformanceCounter(&curr);
 
@@ -111,4 +121,16 @@ void GameManager::UnpauseTime()
 	base.QuadPart += sumClocksWhilePause;
 
 	std::cout << "ƒ|[ƒY‰ðœ" << std::endl;
+}
+
+DirectX::XMFLOAT3 GameManager::GetAmbientColor()
+{
+	return ambientColor;
+}
+
+void GameManager::SetAmbientColor(DirectX::XMFLOAT3 col)
+{
+	auto xmvec = DirectX::XMVectorClamp(DirectX::XMLoadFloat3(&col), DirectX::XMVectorZero(), DirectX::XMVectorSplatOne());
+
+	DirectX::XMStoreFloat3(&ambientColor , xmvec);
 }

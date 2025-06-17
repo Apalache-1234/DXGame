@@ -14,10 +14,10 @@ MeshLoader::~MeshLoader()
 void MeshLoader::Init()
 {
 	LoadMesh("Models/SpartanWarrior/Spartan_Warrior.fbx", SPARTAN);
-	LoadMesh("Models/Knight01/Animated_Low_Poly_Dark_Knight_BAKED.fbx", KNIGHT);
+	LoadMesh("Models/Box.fbx", KNIGHT);
 	LoadMesh("Models/Box.fbx", BOX);
 	LoadMesh("Models/Box.fbx", PLANE);
-	LoadMesh("Models/Box.fbx", SPHERE);
+	LoadMesh("Models/Sphere.fbx", SPHERE);
 	LoadMesh("Models/OriginMarker.fbx", DEBUG_ORIGIN);
 	LoadMesh("Models/RayDebug.fbx", DEBUG_RAY);
 }

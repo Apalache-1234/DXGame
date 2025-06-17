@@ -45,6 +45,12 @@ public:
 
 	MeshLoader::MESHTYPE GetCurrentMeshType();
 
+	bool InitDirectionalLightBResource();
+
+	bool MapDLB();
+
+	bool InitDLBV();
+
 	bool CreateMesh(const MeshLoader::MESHTYPE type);
 
 	D3D12_PRIMITIVE_TOPOLOGY primitiveType = D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
@@ -56,6 +62,8 @@ protected:
 	void virtual InitInCreateMesh();
 
 	void AddRootParam(D3D12_ROOT_PARAMETER param);
+
+	int GetRootParamNum();
 
 	void AddInputElementDesc(D3D12_INPUT_ELEMENT_DESC desc);
 
@@ -93,14 +101,19 @@ protected:
 	/// </summary>
 	ComPtr<ID3D12Resource> constantBuffer[DXRenderSystem::frameBuffer];
 
+	ComPtr<ID3D12Resource> lightInfoCB;
+
 	DescriptorHeapManager heapManager;
 
 	/// <summary>
 	/// バックバッファ込みのコンスタントバッファビュー
 	/// </summary>
 	D3D12_CONSTANT_BUFFER_VIEW_DESC cbView[DXRenderSystem::frameBuffer];
+	D3D12_CONSTANT_BUFFER_VIEW_DESC lightInfoCBView;
 
 	std::unique_ptr<DescriptorHeapManager::PtrHandles> cbHandle[DXRenderSystem::frameBuffer];
+
+	std::unique_ptr<DescriptorHeapManager::PtrHandles> lightInfoCBHandle;
 
 	std::vector<std::unique_ptr<DescriptorHeapManager::PtrHandles>> texHandles;
 
@@ -118,12 +131,28 @@ protected:
 	/// 変換行列とカラーを格納するTransform変数
 	/// </summary>
 	Transform trans;
+
+	LightInfo lightInfo;
 private:
+	struct DirLight
+	{
+		DirectX::XMFLOAT3 direct;
+
+		DirectX::XMFLOAT3 color;
+
+		float reflection;
+	};
+
+	std::vector<DirLight> DirLights;
+
+	std::unique_ptr<DescriptorHeapManager::PtrHandles> DLBHandle;
+
 	D3D12_STATIC_SAMPLER_DESC descSampler;
 
 	std::vector<D3D12_ROOT_PARAMETER> param;
 
-	D3D12_DESCRIPTOR_RANGE range;
+	D3D12_DESCRIPTOR_RANGE rangeCB;
+	D3D12_DESCRIPTOR_RANGE rangeSRV;
 
 	std::vector<D3D12_INPUT_ELEMENT_DESC> descElement;
 
@@ -137,6 +166,8 @@ private:
 
 	D3D12_BLEND_DESC descBlend;
 
+	ComPtr<ID3D12Resource> DLBuffer;
+
 	D3D12_DEPTH_STENCIL_DESC dsDesc;
 
 	/// <summary>
@@ -144,6 +175,12 @@ private:
 	/// </summary>
 	/// <returns>正常に終了したらtrueを返す</returns>
 	bool InitCBVResource();
+
+	bool InitLightInfoCB();
+
+	bool LinkLightInfoCBVToDescHeap();
+
+	bool MapLLICB();
 
 	/// <summary>
 	/// コンスタントバッファのリソースをビューを通じてデスクリプタヒープに登録する
