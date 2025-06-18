@@ -33,6 +33,8 @@ pixelOp main(output vertexOp)
 	output_pixel.color = ApplyLightShading(output_pixel.color, vertexOp.normal);
 
 	if (output_pixel.color.a == 0.0f) discard;
+	
+	
 
 	return output_pixel;
 }

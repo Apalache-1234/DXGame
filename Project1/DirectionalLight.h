@@ -26,15 +26,20 @@ public:
 
 	DirectX::XMVECTOR GetColor();
 
+	DirectX::XMVECTOR GetRotation();
+
 	void SetReflection(float ref);
 
 	void SetColor(DirectX::XMVECTOR col);
+	void SetRotation(DirectX::XMVECTOR rot);
 private:
 	DirectX::XMVECTOR lightDir = Utility::forward;
 
 	float reflection = 1;
 
 	DirectX::XMVECTOR color = DirectX::XMVectorSet(0.3 , 0 , 0 , 1);
+
+	DirectX::XMVECTOR rotation = DirectX::XMVectorZero();
 };
 
 #endif

@@ -32,22 +32,35 @@ StructuredBuffer<DirectionalLight> DirectionalLights : register(t10);
 
 float4 DirectionalLightShading(float4 col, float3 normal)
 {
+    float4 sumCol = 0;
+	
 	for (int i = 0;i < directionalLightNum.x;i++)
 	{
 		float3 lightDir = normalize(DirectionalLights[i].direct);
-		float3 ref = normalize(DirectionalLights[i].reflection);
+		float ref = DirectionalLights[i].reflection;
+		
+        float4 light = float4(DirectionalLights[i].color * max(dot(-lightDir, normal), 0), 1);
+		
+        light *= ref;
 
-		col = col + float4(ref * DirectionalLights[i].color * clamp(dot(-lightDir, normal), 0, 1), 1);
-	}
+        sumCol += col * light;
+    }
 
-	return col;
+	return sumCol;
 }
 
 float4 ApplyLightShading(float4 col , float3 normal)
 {
-	col = col * float4(ambientLight.xyz , 1);
+	float4 ambientCol = col * float4(ambientLight.xyz , 1);
 
 	col = DirectionalLightShading(col, normal);
 
-	return col;
+	return col + ambientCol;
+}
+
+float4 normalizeColor(float4 col)
+{
+    float max = max(col.x, max(col.y, col.z));
+
+	
 }

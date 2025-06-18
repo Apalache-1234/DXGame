@@ -4,7 +4,7 @@
 #include <tchar.h> 
 #include "Camera.h"
 #include "DebugOrigin.h"
-
+#include "DirectionalLight.h"
 std::unique_ptr<MyIMGUI> MyIMGUI::instance = nullptr;
 
 MyIMGUI::MyIMGUI()
@@ -398,6 +398,23 @@ void ShowAnimationInfo(std::shared_ptr<SkinnedRenderer> rend)
 
 }
 
+void ShowDirectionalLightInfo(std::shared_ptr<DirectionalLight> DLight)
+{
+	auto color = DLight->GetColor();
+
+	EditColor(&color);
+
+	DLight->SetColor(color);
+	
+	auto ref = DLight->GetReflection();
+
+	ImGui::DragFloat("Y ", &ref, 0.1);
+
+	DLight->SetReflection(ref);
+
+	DLight->SetRotation(ShowAndSetVecInfo("Rotation", DLight->GetRotation()));
+}
+
 void ShowUIRendererInfo(std::shared_ptr<UIRenderer> uiRend)
 {
 	if (!uiRend)
@@ -540,6 +557,23 @@ void ShowEntityInfo()
 			{
 				if (ImGui::Button("Add", ButtonRect)) {
 					currentEntity->AddComponent<UIRenderer>();
+				}
+			}
+
+
+			ImGui::TreePop();
+		}
+
+		if (ImGui::TreeNode("DirectionalLIghtComponent")) {
+
+			if (currentEntity->GetComponent<DirectionalLight>()) {
+
+				ShowDirectionalLightInfo(currentEntity->GetComponent<DirectionalLight>());
+			}
+			else
+			{
+				if (ImGui::Button("Add", ButtonRect)) {
+					currentEntity->AddComponent<DirectionalLight>();
 				}
 			}
 

@@ -17,7 +17,7 @@ void MeshLoader::Init()
 	LoadMesh("Models/Box.fbx", KNIGHT);
 	LoadMesh("Models/Box.fbx", BOX);
 	LoadMesh("Models/Box.fbx", PLANE);
-	LoadMesh("Models/Sphere.fbx", SPHERE);
+	LoadMesh("Models/Box.fbx", SPHERE);
 	LoadMesh("Models/OriginMarker.fbx", DEBUG_ORIGIN);
 	LoadMesh("Models/RayDebug.fbx", DEBUG_RAY);
 }
