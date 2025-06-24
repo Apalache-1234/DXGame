@@ -288,6 +288,10 @@ private:
 	/// コンポーネントの辞書型配列
 	/// </summary>
 	std::unordered_map<std::type_index, std::shared_ptr<Component>> components;
+
+	DirectX::XMVECTOR prevWorldRotation = DirectX::g_XMZero;
+
+	DirectX::XMVECTOR prevLocalRotation = DirectX::g_XMZero;
 };
 
 #endif

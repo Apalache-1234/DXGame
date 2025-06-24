@@ -37,37 +37,44 @@ struct Bones
 
 StructuredBuffer<float4x4> boneFinalMats : register(t20);
 
-output main(input vertexIn)
+float4 PlayAnimation(float3 value , input vertexIn)
 {
-	output vertexOut = (output)0;
+	int id0 = vertexIn.boneID.x;
+	int id1 = vertexIn.boneID.y;
+	int id2 = vertexIn.boneID.z;
+	int id3 = vertexIn.boneID.w;
+	int id4 = vertexIn.parent;
 
-	int id0 = vertexIn.boneID.x ; // ïâêîñhé~
-		int id1 = vertexIn.boneID.y;
-		int id2 = vertexIn.boneID.z;
-		int id3 = vertexIn.boneID.w;
-		int id4 = vertexIn.parent;
+	float4x4 boneTransform =
+		boneFinalMats[id0] * vertexIn.weight.x +
+		boneFinalMats[id1] * vertexIn.weight.y +
+		boneFinalMats[id2] * vertexIn.weight.z +
+		boneFinalMats[id3] * vertexIn.weight.w;
 
-float4x4 boneTransform =
-    boneFinalMats[id0] * vertexIn.weight.x +
-    boneFinalMats[id1] * vertexIn.weight.y +
-    boneFinalMats[id2] * vertexIn.weight.z +
-    boneFinalMats[id3] * vertexIn.weight.w;
+	float4 pos;
 
-	float4 local_pos;
+	pos = mul(boneTransform, float4(value, 1.0f));
 
-	local_pos = mul(boneTransform, float4(vertexIn.position, 1.0f));
-
-	if (length(local_pos) == 0)
+	if (length(pos) == 0)
 	{
-		local_pos = float4(vertexIn.position, 1.0f);
+		pos = float4(value, 1.0f);
 	}
 
 	if (id4 != 0)
 	{
-		local_pos = mul(boneFinalMats[id4], local_pos);
+		pos = mul(boneFinalMats[id4], pos);
 	}
 
-	float4 world = mul(world_mat, local_pos);
+	return pos;
+}
+
+output main(input vertexIn)
+{
+	output vertexOut = (output)0;
+
+	float4 local = PlayAnimation(vertexIn.position , vertexIn);
+
+	float4 world = mul(world_mat, local);
 
 	float4 view = mul(view_mat, world);
 
@@ -81,7 +88,7 @@ float4x4 boneTransform =
 
 	vertexOut.tangent = vertexIn.tangent;
 
-	vertexOut.normal = vertexIn.normal;
+	vertexOut.normal = (float3)normalize(PlayAnimation(vertexIn.normal, vertexIn));
 
 	return vertexOut;
 }

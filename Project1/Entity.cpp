@@ -376,8 +376,6 @@ void Entity::SetLocalScale(DirectX::XMVECTOR scale)
 	localScale = scale;
 }
 
-DirectX::XMVECTOR prevWorldRotation = DirectX::g_XMZero;
-
 void Entity::SetWorldRotation(DirectX::XMVECTOR rotation)
 {
 	worldRotation = rotation;
@@ -410,8 +408,6 @@ void Entity::SetWorldRotation(DirectX::XMVECTOR rotation)
 
 	prevWorldRotation = worldRotation;
 }
-
-DirectX::XMVECTOR prevLocalRotation = DirectX::g_XMZero;
 
 void Entity::SetLocalRotation(DirectX::XMVECTOR rotation)
 {
