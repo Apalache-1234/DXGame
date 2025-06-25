@@ -6,6 +6,7 @@
 #include "DebugCollider.h"
 #include "DebugOrigin.h"
 #include "DebugRayCast.h"
+#include "DebugDL.h"
 
 DXRenderSystem::DXRenderSystem()
 {
@@ -184,6 +185,16 @@ void DXRenderSystem::RenderDebugRenderer()
 		cmd_list->RSSetViewports(1, &viewport);
 
 		DebugRay[i]->AddRenderCommand(cmd_list, backbuffer_index);
+	}
+
+	auto DebugDL = GameManager::GetInstance().GetComponentList<DebugDirectionalLight>();
+
+	for (int i = 0; i < DebugDL.size(); i++)
+	{
+		cmd_list->RSSetScissorRects(1, &scissor);
+		cmd_list->RSSetViewports(1, &viewport);
+
+		DebugDL[i]->AddRenderCommand(cmd_list, backbuffer_index);
 	}
 }
 

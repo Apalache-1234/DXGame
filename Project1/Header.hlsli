@@ -55,7 +55,7 @@ float4 DirectionalLightShading(float4 col, float3 normal)
 		float3 lightDir = normalize(DirectionalLights[i].direct);
 		float ref = DirectionalLights[i].reflection;
 		
-        float4 light = float4((DirectionalLights[i].color + col) * max(dot(-lightDir, normal), 0), 1);
+        float4 light = float4((DirectionalLights[i].color + DirectionalLights[i].color * col) * max(dot(-lightDir, normal), 0), 1);
 
 		sumCol += light * ref;
 
@@ -71,6 +71,17 @@ float4 ApplyLightShading(float4 col , float3 normal)
 
 	float4 lightCol = DirectionalLightShading(col, normal);
 
-	return lightCol + ambientCol;
+    float4 resultCol = lightCol + ambientCol;
+	
+	if(resultCol.x < 0)
+        resultCol.x = 0;
+	
+    if (resultCol.y < 0)
+        resultCol.y = 0;
+	
+    if (resultCol.z < 0)
+        resultCol.z = 0;
+	
+	return resultCol;
 }
 

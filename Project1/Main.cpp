@@ -20,6 +20,7 @@
 #include "KeyInput.h"
 #include "DebugRayCast.h"
 #include "DirectionalLight.h"
+#include "DebugDL.h"
 
 float hoge = 0;
 
@@ -51,12 +52,12 @@ int main()
 	auto player4 = gameManager->CreateEntity("Player4");
 	auto player5 = gameManager->CreateEntity("Player5");
 	auto player2 = gameManager->CreateEntity("Player2");
-	auto UI = gameManager->CreateEntity("UI");
 	auto Skybox = gameManager->CreateEntity("Skybox");
 	auto debugColCube = gameManager->CreateEntity("DebugCube");
 	auto debugColSphere = gameManager->CreateEntity("DebugSphere");
 	auto debugOrigin = gameManager->CreateEntity("DebugOrigin");
 	auto debugRay = gameManager->CreateEntity("DebugRay");
+	auto debugDL = gameManager->CreateEntity("DebugDirectionalLight");
 
 	player2->AddComponent<Collider>();
 	player2->AddComponent<Rigidbody>();
@@ -89,8 +90,8 @@ int main()
 	debugRay->RemoveComponent<SkinnedRenderer>();
 	debugRay->AddComponent<DebugRayCast>();
 
-	UI->RemoveComponent<SkinnedRenderer>();
-	UI->AddComponent<UIRenderer>();
+	debugDL->RemoveComponent<SkinnedRenderer>();
+	debugDL->AddComponent<DebugDirectionalLight>();
 
 	bool show_demo_window = true;
 
@@ -153,8 +154,6 @@ int main()
 		auto axis = DirectX::XMVectorSet(0.5, 0.5, 0.5, 0);
 
 		axis = DirectX::XMVector3Normalize(axis);
-
-		UI->SetWorldPosition(Camera::GetInstance().GetPosWorldToScreen(player4->GetWorldPosition()));
 
 		auto mousePos = keySystem->GetMousePos();
 

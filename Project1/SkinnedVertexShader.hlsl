@@ -86,9 +86,11 @@ output main(input vertexIn)
 
 	vertexOut.TexCoord = vertexIn.TexCoord;
 
-	vertexOut.tangent = vertexIn.tangent;
+	vertexOut.tangent = vertexIn.tangent; 
+	
+    float3 nor = (float3) PlayAnimation(vertexIn.normal, vertexIn);
 
-	vertexOut.normal = (float3)normalize(PlayAnimation(vertexIn.normal, vertexIn));
+    vertexOut.normal = normalize(nor);
 
 	return vertexOut;
 }
