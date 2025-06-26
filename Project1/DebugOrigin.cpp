@@ -30,6 +30,8 @@ void DebugOrigin::Update()
 			instances[i].world = DirectX::XMMatrixTranspose(DirectX::XMMatrixTranslationFromVector(ents[i]->GetWorldPosition()));
 	}
 
+
+
 	MapDVB();
 }
 

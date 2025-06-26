@@ -37,7 +37,7 @@ struct Bones
 
 StructuredBuffer<float4x4> boneFinalMats : register(t20);
 
-float4 PlayAnimation(float3 value , input vertexIn)
+float4 ReturnAnimatedVerteces(input vertexIn)
 {
 	int id0 = vertexIn.boneID.x;
 	int id1 = vertexIn.boneID.y;
@@ -52,13 +52,13 @@ float4 PlayAnimation(float3 value , input vertexIn)
 		boneFinalMats[id3] * vertexIn.weight.w;
 
 	float4 pos;
-
-	pos = mul(boneTransform, float4(value, 1.0f));
+	
+    pos = mul(boneTransform, float4(vertexIn.position, 1.0f));
 
 	if (length(pos) == 0)
 	{
-		pos = float4(value, 1.0f);
-	}
+        pos = float4(vertexIn.position, 1.0f);
+    }
 
 	if (id4 != 0)
 	{
@@ -68,14 +68,47 @@ float4 PlayAnimation(float3 value , input vertexIn)
 	return pos;
 }
 
+float3 ReturnAnimatedNormal(input vertexIn)
+{
+    int id0 = vertexIn.boneID.x;
+    int id1 = vertexIn.boneID.y;
+    int id2 = vertexIn.boneID.z;
+    int id3 = vertexIn.boneID.w;
+    int id4 = vertexIn.parent;
+
+    float4x4 boneTransform =
+		boneFinalMats[id0] * vertexIn.weight.x +
+		boneFinalMats[id1] * vertexIn.weight.y +
+		boneFinalMats[id2] * vertexIn.weight.z +
+		boneFinalMats[id3] * vertexIn.weight.w;
+
+    float4 pos;
+	
+
+    boneTransform._14 = 0;
+    boneTransform._24 = 0;
+    boneTransform._34 = 0;
+
+    pos = mul(boneTransform, float4(vertexIn.normal, 1.0f));
+
+    if (length(pos) == 0)
+    {
+        pos = float4(vertexIn.normal, 1.0f);
+    }
+	
+    float3 pos3 = (float3) pos;
+
+    return normalize(pos3);
+}
+
 output main(input vertexIn)
 {
 	output vertexOut = (output)0;
 
-	float4 local = PlayAnimation(vertexIn.position , vertexIn);
+    float4 local = ReturnAnimatedVerteces(vertexIn);
 
 	float4 world = mul(world_mat, local);
-
+ 
 	float4 view = mul(view_mat, world);
 
 	float4 proj = mul(proj_mat, view);
@@ -88,9 +121,7 @@ output main(input vertexIn)
 
 	vertexOut.tangent = vertexIn.tangent; 
 	
-    float3 nor = (float3) PlayAnimation(vertexIn.normal, vertexIn);
-
-    vertexOut.normal = normalize(nor);
+    vertexOut.normal = ReturnAnimatedNormal(vertexIn);
 
 	return vertexOut;
 }
