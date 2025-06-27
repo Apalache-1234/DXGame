@@ -68,7 +68,7 @@ float4 ReturnAnimatedVerteces(input vertexIn)
 	return pos;
 }
 
-float3 ReturnAnimatedNormal(input vertexIn)
+float3 ReturnAnimatedNormal(input vertexIn , float4 vertexPos)
 {
     int id0 = vertexIn.boneID.x;
     int id1 = vertexIn.boneID.y;
@@ -84,19 +84,21 @@ float3 ReturnAnimatedNormal(input vertexIn)
 
     float4 pos;
 	
+	float3 norPos = vertexIn.normal + vertexIn.position;
 
-    boneTransform._14 = 0;
-    boneTransform._24 = 0;
-    boneTransform._34 = 0;
-
-    pos = mul(boneTransform, float4(vertexIn.normal, 1.0f));
+    pos = mul(boneTransform, float4(norPos, 1.0f));
 
     if (length(pos) == 0)
     {
-        pos = float4(vertexIn.normal, 1.0f);
+        pos = float4(norPos, 1.0f);
     }
+
+	if (id4 != 0)
+	{
+		pos = mul(boneFinalMats[id4], pos);
+	}
 	
-    float3 pos3 = (float3) pos;
+    float3 pos3 = (float3) (pos - vertexPos);
 
     return normalize(pos3);
 }
@@ -121,7 +123,7 @@ output main(input vertexIn)
 
 	vertexOut.tangent = vertexIn.tangent; 
 	
-    vertexOut.normal = ReturnAnimatedNormal(vertexIn);
+    vertexOut.normal = ReturnAnimatedNormal(vertexIn , ReturnAnimatedVerteces(vertexIn));
 
 	return vertexOut;
 }
