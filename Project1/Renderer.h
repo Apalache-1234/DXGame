@@ -45,12 +45,6 @@ public:
 
 	MeshLoader::MESHTYPE GetCurrentMeshType();
 
-	bool InitDirectionalLightBResource();
-
-	bool MapDLB();
-
-	bool InitDLBV();
-
 	bool CreateMesh(const MeshLoader::MESHTYPE type);
 
 	D3D12_PRIMITIVE_TOPOLOGY primitiveType = D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
@@ -122,10 +116,7 @@ protected:
 	/// </summary>
 	ComPtr<ID3D12RootSignature> rootSig;
 
-	/// <summary>
-	/// レンダーパイプラインのCOM
-	/// </summary>
-	ComPtr<ID3D12PipelineState> pipeline;
+
 
 	/// <summary>
 	/// 変換行列とカラーを格納するTransform変数
@@ -140,19 +131,64 @@ private:
 
 		DirectX::XMFLOAT3 color;
 
-		float reflection;
+		float power;
 	};
+
+	struct PLight
+	{
+		float radius;
+
+		DirectX::XMFLOAT3 color;
+
+		DirectX::XMFLOAT3 pos;
+
+		float power;
+	};
+
+	struct SLight
+	{
+		float angular;
+
+		DirectX::XMFLOAT3 direct;
+
+		DirectX::XMFLOAT3 color;
+
+		DirectX::XMFLOAT3 pos;
+
+		float power;
+
+		float length;
+	};
+
+	/// <summary>
+    /// レンダーパイプラインのCOM
+    /// </summary>
+	ComPtr<ID3D12PipelineState> pipeline;
 
 	std::vector<DirLight> DirLights;
 
+	ComPtr<ID3D12Resource> DLBuffer;
+
 	std::unique_ptr<DescriptorHeapManager::PtrHandles> DLBHandle;
+
+	std::vector<PLight> PLights;
+
+	ComPtr<ID3D12Resource> PLBuffer;
+
+	std::unique_ptr<DescriptorHeapManager::PtrHandles> PLBHandle;
+
+	std::vector<SLight> SLights;
+
+	ComPtr<ID3D12Resource> SLBuffer;
+
+	std::unique_ptr<DescriptorHeapManager::PtrHandles> SLBHandle;
 
 	D3D12_STATIC_SAMPLER_DESC descSampler;
 
 	std::vector<D3D12_ROOT_PARAMETER> param;
 
 	D3D12_DESCRIPTOR_RANGE rangeCB;
-	D3D12_DESCRIPTOR_RANGE rangeSRV;
+	D3D12_DESCRIPTOR_RANGE rangeSRV[2];
 
 	std::vector<D3D12_INPUT_ELEMENT_DESC> descElement;
 
@@ -165,8 +201,6 @@ private:
 	ComPtr<ID3DBlob> psBlob;
 
 	D3D12_BLEND_DESC descBlend;
-
-	ComPtr<ID3D12Resource> DLBuffer;
 
 	D3D12_DEPTH_STENCIL_DESC dsDesc;
 
@@ -200,6 +234,8 @@ private:
 	/// <returns>正常に終了したらtrueを返す</returns>
 	bool CreateRenderPipeline();
 
+	void CreateSRV(ComPtr<ID3D12Resource> texResource);
+
 	void RegisterTextureSRV();
 
 	/// <summary>
@@ -212,6 +248,24 @@ private:
 	/// </summary>
 	///<returns>正常に終了したらtrueを返す</returns>
 	bool MapCB();
+
+	bool InitDirectionalLightBResource();
+
+	bool MapDLB();
+
+	bool InitDLBV();
+
+	bool InitPointLightBResource();
+
+	bool MapPLB();
+
+	bool InitPLBV();
+
+	bool InitSpotLightBResource();
+
+	bool MapSLB();
+
+	bool InitSLBV();
 };
 
 #endif

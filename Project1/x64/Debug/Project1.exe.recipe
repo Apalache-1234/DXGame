@@ -7,7 +7,19 @@
   </ProjectOutputs>
   <ContentFiles>
     <ContentFile>
+      <FullPath>E:\DXGame\x64\Debug\DebugColBoxPixelShader.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>E:\DXGame\x64\Debug\DebugGridsPixelShader.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
       <FullPath>E:\DXGame\x64\Debug\DebugPixelShader.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>E:\DXGame\x64\Debug\DebugPointLightPixelShader.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>E:\DXGame\x64\Debug\DebugPointLightVertexShader.cso</FullPath>
     </ContentFile>
     <ContentFile>
       <FullPath>E:\DXGame\x64\Debug\DebugVertexShader.cso</FullPath>

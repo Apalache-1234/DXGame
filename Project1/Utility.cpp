@@ -38,6 +38,16 @@ namespace Utility
         std::cout << "X : " << x << " || Y : " << y << " || Z : " << z << " || W : " << w << std::endl;
     }
 
+    void Debug(const DirectX::XMFLOAT3 xm)
+    {
+        float x = xm.x;
+        float y = xm.y;
+        float z = xm.z;
+
+
+        std::cout << "X : " << x << " || Y : " << y << " || Z : " << z << std::endl;
+    }
+
 
     void Debug(const DirectX::FXMMATRIX xm)
     {

@@ -16,6 +16,7 @@
 #include "wrl.h"
 #include "DescriptorHeapManager.h"
 #include <optional>
+#include "GameManager.h"
 
 using namespace DirectX;
 using namespace Microsoft::WRL;
@@ -25,7 +26,7 @@ using namespace std;
 #ifndef DXRENDERSYSTEM_H
 #define DXRENDERSYSTEM_H
 
-class SkinnedRenderer;
+class Renderer;
 
 class DXRenderSystem
 {
@@ -48,6 +49,22 @@ public:
 	bool CreateMSAAView();
 
 	void WaitForRender();
+
+	template <typename T>
+	void RenderComponent()
+	{
+		auto rendL = GameManager::GetInstance().GetComponentList<T>();
+
+		for (int i = 0; i < rendL.size(); i++)
+		{
+			cmd_list->RSSetScissorRects(1, &scissor);
+			cmd_list->RSSetViewports(1, &viewport);
+
+			auto rend = dynamic_cast<Renderer*>(rendL[i].get());
+
+			rend->AddRenderCommand(cmd_list, backbuffer_index);
+		}
+	}
 
 	void RenderSkyBox();
 

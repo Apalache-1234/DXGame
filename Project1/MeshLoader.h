@@ -85,6 +85,8 @@ public:
 
 		ComPtr<ID3D12Resource> texResource;
 
+		ComPtr<ID3D12Resource> normalTexResource;
+
 		ComPtr<ID3D12Resource> vertexBuffer;
 
 		D3D12_VERTEX_BUFFER_VIEW vbView;

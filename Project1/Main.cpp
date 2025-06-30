@@ -20,7 +20,12 @@
 #include "KeyInput.h"
 #include "DebugRayCast.h"
 #include "DirectionalLight.h"
+#include "PointLight.h"
+#include "SpotLight.h"
+#include "DebugPointLight.h"
 #include "DebugDL.h"
+#include "DebugSpotLight.h"
+#include "DebugGrids.h"
 
 float hoge = 0;
 
@@ -50,7 +55,7 @@ int main()
 
 	auto player = gameManager->CreateEntity("Player");
 	auto player4 = gameManager->CreateEntity("Player4");
-	auto player5 = gameManager->CreateEntity("Player5");
+	auto player5 = gameManager->CreateEntity("PointLight");
 	auto player2 = gameManager->CreateEntity("Player2");
 	auto Skybox = gameManager->CreateEntity("Skybox");
 	auto debugColCube = gameManager->CreateEntity("DebugCube");
@@ -58,11 +63,11 @@ int main()
 	auto debugOrigin = gameManager->CreateEntity("DebugOrigin");
 	auto debugRay = gameManager->CreateEntity("DebugRay");
 	auto debugDL = gameManager->CreateEntity("DebugDirectionalLight");
+	auto debugPL = gameManager->CreateEntity("DebugPointLight");
+	auto debugSL = gameManager->CreateEntity("DebugSpotLight");
+	auto debugGrids = gameManager->CreateEntity("DebugGrids");
 
-	player2->AddComponent<Collider>();
-	player2->AddComponent<Rigidbody>();
-
-	player5->AddComponent<DirectionalLight>();
+	player5->AddComponent<SpotLight>();
 
 	player->AddComponent<Collider>();
 	player->AddComponent<Rigidbody>();
@@ -93,6 +98,15 @@ int main()
 	debugDL->RemoveComponent<SkinnedRenderer>();
 	debugDL->AddComponent<DebugDirectionalLight>();
 
+	debugPL->RemoveComponent<SkinnedRenderer>();
+	debugPL->AddComponent<DebugPointLight>();
+
+	debugSL->RemoveComponent<SkinnedRenderer>();
+	debugSL->AddComponent<DebugSpotLight>();
+
+	debugGrids->RemoveComponent<SkinnedRenderer>();
+	debugGrids->AddComponent<DebugGrids>();
+
 	bool show_demo_window = true;
 
 	UINT fpsCounter = 0;
@@ -105,7 +119,9 @@ int main()
 		physicSystem->MainLoop();
 		keySystem->Update();
 
-		hoge += 10;
+		player5->SetWorldRotation(DirectX::XMVectorSet(0,hoge,0,0 ));
+
+		hoge += 360 * gameManager->DeltaTime;
 
 		DirectX::XMVECTOR velocity = DirectX::XMVectorSet(0,0,0,0);
 
@@ -142,8 +158,6 @@ int main()
 		}
 
 		velocity = DirectX::XMVectorScale(velocity , 0.07);
-
-		player2->GetComponent<Rigidbody>()->AddForce(velocity);
 
 		auto hoge1 = DirectX::XMVectorScale(player2->GetRight(),4);
 		auto hoge2 = DirectX::XMVectorScale(player2->GetUp(),4);

@@ -10,6 +10,8 @@
 #include "DXRenderSystem.h"
 #include "TextureLoader.h"
 #include "DirectionalLight.h"
+#include "PointLight.h"
+#include "SpotLight.h"
 
 Renderer::Renderer(std::shared_ptr<Entity> ent) : Component::Component(ent)
 {
@@ -31,6 +33,10 @@ void Renderer::AddRenderCommand(ComPtr<ID3D12GraphicsCommandList>& cmdList, int 
 
 	MapDLB();
 
+	MapPLB();
+
+	MapSLB();
+
 	cmdList->SetGraphicsRootSignature(rootSig.Get());
 
 	cmdList->SetDescriptorHeaps(1, heapManager.GetHeap().GetAddressOf());
@@ -41,6 +47,10 @@ void Renderer::AddRenderCommand(ComPtr<ID3D12GraphicsCommandList>& cmdList, int 
 
 	cmdList->SetGraphicsRootShaderResourceView(3, DLBuffer->GetGPUVirtualAddress());
 
+	cmdList->SetGraphicsRootShaderResourceView(4, PLBuffer->GetGPUVirtualAddress());
+
+	cmdList->SetGraphicsRootShaderResourceView(5, SLBuffer->GetGPUVirtualAddress());
+
 	cmdList->SetPipelineState(pipeline.Get());
 
 	cmdList->IASetPrimitiveTopology(primitiveType);
@@ -49,7 +59,7 @@ void Renderer::AddRenderCommand(ComPtr<ID3D12GraphicsCommandList>& cmdList, int 
 	{
 		auto& mesh = meshData->meshes[i];
 
-		int texHandlesIndex = i % texHandles.size();
+		int texHandlesIndex = (i * 2) % texHandles.size();
 
 		cmdList->SetGraphicsRootDescriptorTable(1, texHandles[texHandlesIndex]->gpuHandle);
 
@@ -91,6 +101,18 @@ void Renderer::Init()
 	isSuccess &= InitDLBV();
 
 	isSuccess &= MapDLB();
+
+	isSuccess &= InitPointLightBResource();
+
+	isSuccess &= InitPLBV();
+
+	isSuccess &= MapPLB();
+
+	isSuccess &= InitSpotLightBResource();
+
+	isSuccess &= InitSLBV();
+
+	isSuccess &= MapSLB();
 
 	isSuccess &= CreateMesh(MeshLoader::BOX);
 
@@ -307,7 +329,20 @@ bool Renderer::LinkLightInfoCBVToDescHeap()
 bool Renderer::MapLLICB()
 {
 	lightInfo.ambientLightColor = GameManager::GetInstance().GetAmbientColor();
-	lightInfo.DirectionalLightNum = GameManager::GetInstance().GetComponentList<DirectionalLight>().size();
+
+	auto dirLNum = GameManager::GetInstance().GetComponentList<DirectionalLight>().size();
+
+	lightInfo.DirectionalLightNum = DirectX::XMFLOAT4(dirLNum, dirLNum, dirLNum, dirLNum);
+
+	auto pLNum = GameManager::GetInstance().GetComponentList<PointLight>().size();
+
+	lightInfo.PointLightNum = DirectX::XMFLOAT4(pLNum, pLNum, pLNum, pLNum);
+
+	auto sLNum = GameManager::GetInstance().GetComponentList<SpotLight>().size();
+
+	lightInfo.SpotLightNum = DirectX::XMFLOAT4(sLNum, sLNum, sLNum, sLNum);
+
+	lightInfo.cameraPos = Camera::GetInstance().GetPosition();
 
 	void* ptr = nullptr;
 
@@ -327,30 +362,36 @@ bool Renderer::MapLLICB()
 	return true;
 }
 
+void Renderer::CreateSRV(ComPtr<ID3D12Resource> texResource)
+{
+	texHandles.push_back(std::move(heapManager.GetHandle()));
+
+	auto texture_desc = texResource->GetDesc();
+
+	D3D12_SHADER_RESOURCE_VIEW_DESC desc = {};
+
+	desc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
+
+	desc.Format = texture_desc.Format;
+
+	desc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+
+	desc.Texture2D.MipLevels = texture_desc.MipLevels;
+	desc.Texture2D.MostDetailedMip = 0;
+	desc.Texture2D.ResourceMinLODClamp = 0;
+	desc.Texture2D.PlaneSlice = 0;
+
+	DXRenderSystem::GetInstance().GetDevice()->CreateShaderResourceView(texResource.Get(), &desc, texHandles[texHandles.size() - 1]->cpuHandle);
+}
+
 void Renderer::RegisterTextureSRV()
 {
 	texHandles.clear();
 
 	for (int i = 0;i < meshData->meshes.size();i++)
 	{
-		texHandles.push_back(std::move(heapManager.GetHandle()));
-
-		auto texture_desc = meshData->meshes[i].texResource->GetDesc();
-
-		D3D12_SHADER_RESOURCE_VIEW_DESC desc = {};
-
-		desc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
-
-		desc.Format = texture_desc.Format;
-
-		desc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
-
-		desc.Texture2D.MipLevels = texture_desc.MipLevels;
-		desc.Texture2D.MostDetailedMip = 0;
-		desc.Texture2D.ResourceMinLODClamp = 0;
-		desc.Texture2D.PlaneSlice = 0;
-
-		DXRenderSystem::GetInstance().GetDevice()->CreateShaderResourceView(meshData->meshes[i].texResource.Get(), &desc, texHandles[i]->cpuHandle);
+		CreateSRV(meshData->meshes[i].texResource);
+		CreateSRV(meshData->meshes[i].normalTexResource);
 	}
 }
 
@@ -441,7 +482,7 @@ void Renderer::SetDepthStencilDesc(D3D12_DEPTH_STENCIL_DESC desc)
 
 void Renderer::PrepareForRootSignature()
 {
-	param.resize(4);
+	param.resize(6);
 
 	param[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
 
@@ -451,25 +492,33 @@ void Renderer::PrepareForRootSignature()
 
 	param[0].Descriptor.RegisterSpace = 0;
 
-	rangeSRV = {};
+	rangeSRV[0].NumDescriptors = 1;
 
-	rangeSRV.NumDescriptors = 1;
+	rangeSRV[0].BaseShaderRegister = 0;
 
-	rangeSRV.BaseShaderRegister = 0;
+	rangeSRV[0].RegisterSpace = 0;
 
-	rangeSRV.RegisterSpace = 0;
+	rangeSRV[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
 
-	rangeSRV.OffsetInDescriptorsFromTableStart = 0;
+	rangeSRV[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
 
-	rangeSRV.RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
+	rangeSRV[1].NumDescriptors = 1;
+
+	rangeSRV[1].BaseShaderRegister = 1;
+
+	rangeSRV[1].RegisterSpace = 0;
+
+	rangeSRV[1].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
+
+	rangeSRV[1].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
 
 	param[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
 
-	param[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+	param[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
 
-	param[1].DescriptorTable.NumDescriptorRanges = 1;
+	param[1].DescriptorTable.NumDescriptorRanges = 2;
 
-	param[1].DescriptorTable.pDescriptorRanges = &rangeSRV;
+	param[1].DescriptorTable.pDescriptorRanges = rangeSRV;
 
 	param[2].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
 
@@ -486,6 +535,22 @@ void Renderer::PrepareForRootSignature()
 	param[3].Descriptor.ShaderRegister = 10;
 
 	param[3].Descriptor.RegisterSpace = 0;
+
+	param[4].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
+
+	param[4].ParameterType = D3D12_ROOT_PARAMETER_TYPE_SRV;
+
+	param[4].Descriptor.ShaderRegister = 11;
+
+	param[4].Descriptor.RegisterSpace = 0;
+
+	param[5].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
+
+	param[5].ParameterType = D3D12_ROOT_PARAMETER_TYPE_SRV;
+
+	param[5].Descriptor.ShaderRegister = 12;
+
+	param[5].Descriptor.RegisterSpace = 0;
 
 	descSampler = {};
 
@@ -753,12 +818,10 @@ bool Renderer::MapDLB()
 		DirLight l;
 		DirectX::XMStoreFloat3(&l.color , list[i]->GetColor());
 		DirectX::XMStoreFloat3(&l.direct, list[i]->GetLightDir());
-		l.reflection = list[i]->GetReflection();
+		l.power = list[i]->GetPower();
 
 		DirLights[i] = l;
 	}
-
-
 
 	void* ptr = nullptr;
 
@@ -794,3 +857,229 @@ bool Renderer::InitDLBV()
 
 	return true;
 }
+
+
+bool Renderer::InitPointLightBResource()
+{
+	PLights.resize(100);
+
+	UINT bufferSize = sizeof(PLight) * PLights.size();
+
+	D3D12_HEAP_PROPERTIES prop = {};
+
+	prop.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_UNKNOWN;
+
+	prop.Type = D3D12_HEAP_TYPE_UPLOAD;
+
+	prop.CreationNodeMask = 1;
+
+	prop.VisibleNodeMask = 1;
+
+	prop.MemoryPoolPreference = D3D12_MEMORY_POOL_UNKNOWN;
+
+	D3D12_RESOURCE_DESC desc = {  };
+
+	desc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
+
+	desc.Alignment = 0;
+
+	desc.Height = 1;
+
+	desc.Width = bufferSize;
+
+	desc.Flags = D3D12_RESOURCE_FLAG_NONE;
+
+	desc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
+
+	desc.SampleDesc.Count = 1;
+
+	desc.SampleDesc.Quality = 0;
+
+	desc.DepthOrArraySize = 1;
+
+	desc.MipLevels = 1;
+
+	desc.Format = DXGI_FORMAT_UNKNOWN;
+
+	hr = DXRenderSystem::GetInstance().GetDevice()->CreateCommittedResource(
+		&prop,
+		D3D12_HEAP_FLAG_NONE,
+		&desc,
+		D3D12_RESOURCE_STATE_GENERIC_READ,
+		nullptr,
+		IID_PPV_ARGS(PLBuffer.GetAddressOf())
+	);
+
+	if (FAILED(hr))
+	{
+		std::cerr << "ボーンバッファのリソースの作成失敗" << std::endl;
+
+		return false;
+	}
+
+	return true;
+}
+
+bool Renderer::MapPLB()
+{
+	auto list = GameManager::GetInstance().GetComponentList<PointLight>();
+
+	for (int i = 0; i < list.size(); i++)
+	{
+		PLight l;
+		DirectX::XMStoreFloat3(&l.color, list[i]->GetColor());
+		DirectX::XMStoreFloat3(&l.pos, list[i]->GetPosition());
+		l.power = list[i]->GetPower();
+		l.radius = list[i]->GetRadius();
+
+	    PLights[i] = l;
+	}
+
+	void* ptr = nullptr;
+
+	hr = PLBuffer->Map(0, nullptr, &ptr);
+
+	if (FAILED(hr))
+	{
+		std::cerr << "ポイントライトのPLBのマッピング失敗" << std::endl;
+
+		return false;
+	}
+
+	memcpy(ptr, PLights.data(), sizeof(PLight) * PLights.size());
+
+	PLBuffer->Unmap(0, nullptr);
+
+	return true;
+}
+
+bool Renderer::InitPLBV()
+{
+	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
+	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_BUFFER;
+	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+	srvDesc.Buffer.FirstElement = 0;
+	srvDesc.Buffer.NumElements = PLights.size();
+	srvDesc.Buffer.StructureByteStride = sizeof(PLight);
+	srvDesc.Buffer.Flags = D3D12_BUFFER_SRV_FLAG_NONE;
+
+	PLBHandle = std::move(heapManager.GetHandle());
+
+	DXRenderSystem::GetInstance().GetDevice()->CreateShaderResourceView(PLBuffer.Get(), &srvDesc, PLBHandle->cpuHandle);
+
+	return true;
+}
+
+bool Renderer::InitSpotLightBResource()
+{
+	SLights.resize(100);
+
+	UINT bufferSize = sizeof(SLight) * SLights.size();
+
+	D3D12_HEAP_PROPERTIES prop = {};
+
+	prop.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_UNKNOWN;
+
+	prop.Type = D3D12_HEAP_TYPE_UPLOAD;
+
+	prop.CreationNodeMask = 1;
+
+	prop.VisibleNodeMask = 1;
+
+	prop.MemoryPoolPreference = D3D12_MEMORY_POOL_UNKNOWN;
+
+	D3D12_RESOURCE_DESC desc = {  };
+
+	desc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
+
+	desc.Alignment = 0;
+
+	desc.Height = 1;
+
+	desc.Width = bufferSize;
+
+	desc.Flags = D3D12_RESOURCE_FLAG_NONE;
+
+	desc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
+
+	desc.SampleDesc.Count = 1;
+
+	desc.SampleDesc.Quality = 0;
+
+	desc.DepthOrArraySize = 1;
+
+	desc.MipLevels = 1;
+
+	desc.Format = DXGI_FORMAT_UNKNOWN;
+
+	hr = DXRenderSystem::GetInstance().GetDevice()->CreateCommittedResource(
+		&prop,
+		D3D12_HEAP_FLAG_NONE,
+		&desc,
+		D3D12_RESOURCE_STATE_GENERIC_READ,
+		nullptr,
+		IID_PPV_ARGS(SLBuffer.GetAddressOf())
+	);
+
+	if (FAILED(hr))
+	{
+		std::cerr << "ボーンバッファのリソースの作成失敗" << std::endl;
+
+		return false;
+	}
+
+	return true;
+}
+
+bool Renderer::MapSLB()
+{
+	auto list = GameManager::GetInstance().GetComponentList<SpotLight>();
+
+	for (int i = 0; i < list.size(); i++)
+	{
+		SLight l;
+		DirectX::XMStoreFloat3(&l.color, list[i]->GetColor());
+		DirectX::XMStoreFloat3(&l.pos, list[i]->GetPosition());
+		DirectX::XMStoreFloat3(&l.direct, list[i]->GetLightDir());
+		l.length = list[i]->GetLength();
+		l.angular = list[i]->GetAngular();
+		l.power = list[i]->GetPower();
+
+		SLights[i] = l;
+	}
+
+	void* ptr = nullptr;
+
+	hr = SLBuffer->Map(0, nullptr, &ptr);
+
+	if (FAILED(hr))
+	{
+		std::cerr << "ポイントライトのPLBのマッピング失敗" << std::endl;
+
+		return false;
+	}
+
+	memcpy(ptr, SLights.data(), sizeof(PLight) * SLights.size());
+
+	SLBuffer->Unmap(0, nullptr);
+
+	return true;
+}
+
+bool Renderer::InitSLBV()
+{
+	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
+	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_BUFFER;
+	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+	srvDesc.Buffer.FirstElement = 0;
+	srvDesc.Buffer.NumElements = SLights.size();
+	srvDesc.Buffer.StructureByteStride = sizeof(SLight);
+	srvDesc.Buffer.Flags = D3D12_BUFFER_SRV_FLAG_NONE;
+
+	SLBHandle = std::move(heapManager.GetHandle());
+
+	DXRenderSystem::GetInstance().GetDevice()->CreateShaderResourceView(SLBuffer.Get(), &srvDesc, SLBHandle->cpuHandle);
+
+	return true;
+}
+

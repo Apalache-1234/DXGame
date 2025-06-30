@@ -7,6 +7,9 @@
 #include "DebugOrigin.h"
 #include "DebugRayCast.h"
 #include "DebugDL.h"
+#include "DebugPointLight.h"
+#include "DebugSpotLight.h"
+#include "DebugGrids.h"
 
 DXRenderSystem::DXRenderSystem()
 {
@@ -129,88 +132,6 @@ void DXRenderSystem::WaitForRender()
 
 std::unique_ptr<DXRenderSystem> DXRenderSystem::instance = nullptr;
 
-void DXRenderSystem::RenderSkyBox()
-{
-	auto Skybox = GameManager::GetInstance().GetComponentList<SkyBox>();
-
-	for (int i = 0; i < Skybox.size(); i++)
-	{
-		cmd_list->RSSetScissorRects(1, &scissor);
-		cmd_list->RSSetViewports(1, &viewport);
-
-		Skybox[i]->AddRenderCommand(cmd_list, backbuffer_index);
-	}
-}
-
-void DXRenderSystem::RenderSkinnedRenderer()
-{
-	auto skinnedRendererComponents = GameManager::GetInstance().GetComponentList<SkinnedRenderer>();
-
-	for (int i = 0; i < skinnedRendererComponents.size(); i++)
-	{
-		cmd_list->RSSetScissorRects(1, &scissor);
-		cmd_list->RSSetViewports(1, &viewport);
-
-		skinnedRendererComponents[i]->AddRenderCommand(cmd_list, backbuffer_index);
-	}
-}
-
-void DXRenderSystem::RenderDebugRenderer()
-{
-	auto DebugCol = GameManager::GetInstance().GetComponentList<DebugCollider>();
-
-	for (int i = 0; i < DebugCol.size(); i++)
-	{
-		cmd_list->RSSetScissorRects(1, &scissor);
-		cmd_list->RSSetViewports(1, &viewport);
-
-		DebugCol[i]->AddRenderCommand(cmd_list, backbuffer_index);
-	}
-
-	auto DebugO = GameManager::GetInstance().GetComponentList<DebugOrigin>();
-
-	for (int i = 0; i < DebugO.size(); i++)
-	{
-		cmd_list->RSSetScissorRects(1, &scissor);
-		cmd_list->RSSetViewports(1, &viewport);
-
-		DebugO[i]->AddRenderCommand(cmd_list, backbuffer_index);
-	}
-
-	auto DebugRay = GameManager::GetInstance().GetComponentList<DebugRayCast>();
-
-	for (int i = 0; i < DebugRay.size(); i++)
-	{
-		cmd_list->RSSetScissorRects(1, &scissor);
-		cmd_list->RSSetViewports(1, &viewport);
-
-		DebugRay[i]->AddRenderCommand(cmd_list, backbuffer_index);
-	}
-
-	auto DebugDL = GameManager::GetInstance().GetComponentList<DebugDirectionalLight>();
-
-	for (int i = 0; i < DebugDL.size(); i++)
-	{
-		cmd_list->RSSetScissorRects(1, &scissor);
-		cmd_list->RSSetViewports(1, &viewport);
-
-		DebugDL[i]->AddRenderCommand(cmd_list, backbuffer_index);
-	}
-}
-
-void DXRenderSystem::RenderUIRenderer()
-{
-	auto UIRendererComponents = GameManager::GetInstance().GetComponentList<UIRenderer>();
-
-	for (int i = 0; i < UIRendererComponents.size(); i++)
-	{
-		cmd_list->RSSetScissorRects(1, &scissor);
-		cmd_list->RSSetViewports(1, &viewport);
-
-		UIRendererComponents[i]->AddRenderCommand(cmd_list, backbuffer_index);
-	}
-}
-
 void DXRenderSystem::RenderIMGUI()
 {
 	auto myIMGUIIns = MyIMGUI::GetInstance();
@@ -236,11 +157,20 @@ void DXRenderSystem::Draw()
 
 	barrier.Transition.StateBefore = D3D12_RESOURCE_STATE_PRESENT;
 
-	barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_RENDER_TARGET;
+	barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_RESOLVE_DEST;
 
 	vector<ID3D12CommandList*> lists;
 
 	cmd_list->ResourceBarrier(1, &barrier);
+
+	barrier.Transition.pResource = msaaRT.Get();
+
+	barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_RENDER_TARGET;
+
+	barrier.Transition.StateBefore = D3D12_RESOURCE_STATE_RESOLVE_SOURCE;
+
+	cmd_list->ResourceBarrier(1, &barrier);
+
 
 	cmd_list->OMSetRenderTargets(1, &msaaRTVHandle->cpuHandle, false, &msaaDSVHandle->cpuHandle);
 
@@ -248,16 +178,22 @@ void DXRenderSystem::Draw()
 
 	cmd_list->ClearDepthStencilView(msaaDSVHandle->cpuHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
 
-	RenderSkyBox();
+	RenderComponent<SkyBox>();
 
-	RenderSkinnedRenderer();
+	RenderComponent<SkinnedRenderer>();
 
 	if (*Flags::GetInstance().isDebug)
 	{
-		RenderDebugRenderer();
+		RenderComponent<DebugCollider>();
+		RenderComponent<DebugOrigin>();
+		RenderComponent<DebugRayCast>();
+		RenderComponent<DebugDirectionalLight>();
+		RenderComponent<DebugPointLight>();
+		RenderComponent<DebugSpotLight>();
+		RenderComponent<DebugGrids>();
 	}
 
-	RenderUIRenderer();
+	RenderComponent<UIRenderer>();
 	
 	RenderIMGUI();
 
@@ -269,14 +205,6 @@ void DXRenderSystem::Draw()
 
 	cmd_list->ResourceBarrier(1, &barrier);
 
-	barrier.Transition.pResource = color_buffer[backbuffer_index].Get();
-
-	barrier.Transition.StateBefore = D3D12_RESOURCE_STATE_RENDER_TARGET;
-
-	barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_RESOLVE_DEST;
-
-	cmd_list->ResourceBarrier(1, &barrier);
-
 	cmd_list->ResolveSubresource(
 		color_buffer[backbuffer_index].Get(),         // ‰ð‘œæ
 		0,                  // MipLevel
@@ -284,6 +212,8 @@ void DXRenderSystem::Draw()
 		0,                  // MipLevel
 		DXGI_FORMAT_R8G8B8A8_UNORM
 	);
+
+	barrier.Transition.pResource = color_buffer[backbuffer_index].Get();
 
 	barrier.Transition.StateBefore = D3D12_RESOURCE_STATE_RESOLVE_DEST;
 
@@ -511,6 +441,10 @@ bool DXRenderSystem::CreateRTV()
 		desc.Texture2D.MipSlice = 0;
 
 		desc.Texture2D.PlaneSlice = 0;
+
+		desc.ViewDimension = D3D12_RTV_DIMENSION_TEXTURE2DMS;  // MSAA‚Ìê‡
+
+		desc.Texture2DMS.UnusedField_NothingToDefine = 0;  // MSAA—p‚ÌÝ’è
 
 		RTVHandle[i] = heapRT->GetHandle();
 

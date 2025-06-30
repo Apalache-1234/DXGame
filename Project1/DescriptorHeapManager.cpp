@@ -43,9 +43,9 @@ std::unique_ptr<DescriptorHeapManager::PtrHandles> DescriptorHeapManager::GetHan
 {
 	assert(free.size() >= 0);
 
-	auto handles = std::move(free.back());
+	auto handles = std::move(free.front());
 
-	free.pop_back();
+	free.erase(free.begin());
 
 	return handles;
 }

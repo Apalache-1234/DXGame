@@ -45,9 +45,7 @@ output main(input vertexIn)
 
 	float4x4 worldMat = float4x4(vertexIn.world0, vertexIn.world1, vertexIn.world2, vertexIn.world3);
 
-	float4 local_pos = float4(vertexIn.position, 1.0f);
-
-	float4 world = mul(worldMat, local_pos);
+	float4 world = mul(transpose(worldMat), float4(vertexIn.position , 1));
 
 	float4 view = mul(view_mat, world);
 

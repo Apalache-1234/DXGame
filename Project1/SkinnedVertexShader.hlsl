@@ -19,6 +19,8 @@ struct output
 {
 	float4 position : SV_POSITION;
 
+	float3 worldPos : POSITION;
+
 	float2 TexCoord : TEXCOORD;
 
 	float3 tangent : TANGENT;
@@ -68,7 +70,7 @@ float4 ReturnAnimatedVerteces(input vertexIn)
 	return pos;
 }
 
-float3 ReturnAnimatedNormal(input vertexIn , float4 vertexPos)
+float3 ReturnAnimatedNormal(float3 nor , input vertexIn , float4 vertexPos)
 {
     int id0 = vertexIn.boneID.x;
     int id1 = vertexIn.boneID.y;
@@ -84,13 +86,13 @@ float3 ReturnAnimatedNormal(input vertexIn , float4 vertexPos)
 
     float4 pos;
 	
-	float3 norPos = vertexIn.normal + vertexIn.position;
+	float3 norPos = nor + vertexIn.position;
 
-    pos = mul(boneTransform, float4(norPos, 1.0f));
+    pos = mul(boneTransform, float4(norPos, 1));
 
     if (length(pos) == 0)
     {
-        pos = float4(norPos, 1.0f);
+        pos = float4(norPos, 1);
     }
 
 	if (id4 != 0)
@@ -109,21 +111,19 @@ output main(input vertexIn)
 
     float4 local = ReturnAnimatedVerteces(vertexIn);
 
-	float4 world = mul(world_mat, local);
- 
-	float4 view = mul(view_mat, world);
-
-	float4 proj = mul(proj_mat, view);
+	float4 proj = TransLocalToProj(local);
 
 	vertexOut.color = color;
 
 	vertexOut.position = proj;
 
+	vertexOut.worldPos = mul(world_mat , local);
+
 	vertexOut.TexCoord = vertexIn.TexCoord;
 
-	vertexOut.tangent = vertexIn.tangent; 
+	vertexOut.tangent = ReturnAnimatedNormal(vertexIn.tangent, vertexIn, local);
 	
-    vertexOut.normal = ReturnAnimatedNormal(vertexIn , ReturnAnimatedVerteces(vertexIn));
+    vertexOut.normal = ReturnAnimatedNormal(vertexIn.normal, vertexIn , local);
 
 	return vertexOut;
 }

@@ -9,7 +9,7 @@ struct pixelOp
 	float4 color: SV_TARGET0;
 };
 
-TextureCube tex : register(t0);
+Texture2D tex : register(t0);
 
 SamplerState tex_sampler : register(s0);
 

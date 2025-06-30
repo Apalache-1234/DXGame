@@ -5,6 +5,9 @@
 #include "Camera.h"
 #include "DebugOrigin.h"
 #include "DirectionalLight.h"
+#include "PointLight.h"
+#include "SpotLight.h"
+
 std::unique_ptr<MyIMGUI> MyIMGUI::instance = nullptr;
 
 MyIMGUI::MyIMGUI()
@@ -406,11 +409,11 @@ void ShowDirectionalLightInfo(std::shared_ptr<DirectionalLight> DLight)
 
 	DLight->SetColor(color);
 	
-	auto ref = DLight->GetReflection();
+	auto pow = DLight->GetPower();
 
-	ImGui::DragFloat("Y ", &ref, 0.1);
+	ImGui::DragFloat("Power ", &pow, 0.1);
 
-	DLight->SetReflection(ref);
+	DLight->SetPower(pow);
 
 	DLight->SetRotation(ShowAndSetVecInfo("Rotation", DLight->GetRotation()));
 }
@@ -453,13 +456,67 @@ void ShowUIRendererInfo(std::shared_ptr<UIRenderer> uiRend)
 	}
 }
 
+void ShowPointLightInfo(std::shared_ptr<PointLight> pl)
+{
+	auto color = pl->GetColor();
+
+	EditColor(&color);
+
+	pl->SetColor(color);
+
+	auto pow = pl->GetPower();
+
+	ImGui::DragFloat("Power ", &pow, 0.1);
+
+	pl->SetPower(pow);
+
+	auto rad = pl->GetRadius();
+
+	ImGui::DragFloat("Radius ", &rad, 0.1);
+
+	pl->SetRadius(rad);
+
+	pl->position = ShowAndSetVecInfo("Position", pl->position);
+}
+
+void ShowSpotLightInfo(std::shared_ptr<SpotLight> sl)
+{
+	auto color = sl->GetColor();
+
+	EditColor(&color);
+
+	sl->SetColor(color);
+
+	auto pow = sl->GetPower();
+
+	ImGui::DragFloat("Power ", &pow, 0.1);
+
+	sl->SetPower(pow);
+
+	auto ang = sl->GetAngular();
+
+	ImGui::DragFloat("Angular ", &ang, 0.1);
+
+	sl->SetAngular(ang);
+
+	auto len = sl->GetLength();
+
+	ImGui::DragFloat("Length ", &len, 0.1);
+
+	sl->SetLength(len);
+
+	sl->SetRotation(ShowAndSetVecInfo("Rotation", sl->GetRotation()));
+
+	sl->position = ShowAndSetVecInfo("Position", sl->position);
+}
+
 #pragma warning(disable: 4996)  // strcpy に関する警告を無効化
 
 void ShowEntityInfo()
 {
 	string label = "EntityInfo : " + currentEntity->GetName();
 
-	if (ImGui::Begin(label.c_str(), &showEntityWindow))  // ウィンドウ名を指定
+	if (ImGui::Begin(label.c_str(), &showEntityWindow)) 
 	{
 		if (ImGui::Button("CreateChild", ImVec2(110, 22))) {
 			auto child = GameManager::GetInstance().CreateEntity("GameObject");
@@ -490,11 +547,20 @@ void ShowEntityInfo()
 
 		ShowAndSetVecInfo("FinalScale : ", currentEntity->GetScale());
 
-		currentEntity->SetRotation(ShowAndSetVecInfo("Rotation : ", currentEntity->GetRotation()));
+		auto vec = ShowAndSetVecInfo("Rotation : ", currentEntity->GetRotation());
 
-		currentEntity->SetWorldRotation(ShowAndSetVecInfo("WorldRotation : ", currentEntity->GetWorldRotation()));
+		if (!DirectX::XMVector3Equal(vec, currentEntity->GetRotation()))
+			currentEntity->SetRotation(vec);
 
-		currentEntity->SetLocalRotation(ShowAndSetVecInfo("LocalRotation : ", currentEntity->GetLocalRotation()));
+		vec = ShowAndSetVecInfo("WorldRotation : ", currentEntity->GetWorldRotation());
+
+		if (!DirectX::XMVector3Equal(vec, currentEntity->GetWorldRotation()))
+			currentEntity->SetWorldRotation(vec);
+
+		vec = ShowAndSetVecInfo("LocalRotation : ", currentEntity->GetLocalRotation());
+
+		if (!DirectX::XMVector3Equal(vec, currentEntity->GetLocalRotation()))
+			currentEntity->SetLocalRotation(vec);
 
 		if (ImGui::TreeNode("SkinnedRenderComponent")) {
 
@@ -508,7 +574,6 @@ void ShowEntityInfo()
 					currentEntity->AddComponent<SkinnedRenderer>();
 				}
 			}
-
 
 			ImGui::TreePop();
 		}
@@ -526,7 +591,6 @@ void ShowEntityInfo()
 				}
 			}
 
-
 			ImGui::TreePop();
 		}
 
@@ -542,7 +606,6 @@ void ShowEntityInfo()
 					currentEntity->AddComponent<Rigidbody>();
 				}
 			}
-
 
 			ImGui::TreePop();
 		}
@@ -560,7 +623,6 @@ void ShowEntityInfo()
 				}
 			}
 
-
 			ImGui::TreePop();
 		}
 
@@ -577,6 +639,37 @@ void ShowEntityInfo()
 				}
 			}
 
+			ImGui::TreePop();
+		}
+
+		if (ImGui::TreeNode("PointLIghtComponent")) {
+
+			if (currentEntity->GetComponent<PointLight>()) {
+
+				ShowPointLightInfo(currentEntity->GetComponent<PointLight>());
+			}
+			else
+			{
+				if (ImGui::Button("Add", ButtonRect)) {
+					currentEntity->AddComponent<PointLight>();
+				}
+			}
+
+			ImGui::TreePop();
+		}
+
+		if (ImGui::TreeNode("SpotLIghtComponent")) {
+
+			if (currentEntity->GetComponent<SpotLight>()) {
+
+				ShowSpotLightInfo(currentEntity->GetComponent<SpotLight>());
+			}
+			else
+			{
+				if (ImGui::Button("Add", ButtonRect)) {
+					currentEntity->AddComponent<SpotLight>();
+				}
+			}
 
 			ImGui::TreePop();
 		}

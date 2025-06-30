@@ -23,6 +23,8 @@ namespace Utility
 
     static const float ep = 1e-3f;
 
+    static const float PI = 3.14;
+
     DirectX::XMMATRIX ConvertAiMatrix4x4ToXMMATRIX(aiMatrix4x4 mat);
 
     int GetRandomInt(int min, int max);
@@ -30,6 +32,8 @@ namespace Utility
     void Debug(const std::string text);
 
     void Debug(const DirectX::XMVECTOR xm);
+
+    void Debug(const DirectX::XMFLOAT3 xm);
 
     void Debug(const DirectX::XMMATRIX xm);
 
@@ -58,7 +62,13 @@ struct alignas(256) LightInfo
 
     float padding;
 
-    float DirectionalLightNum;
+    XMFLOAT4 DirectionalLightNum;
+
+    XMFLOAT4 PointLightNum;
+
+    XMFLOAT4 SpotLightNum;
+
+    XMVECTOR cameraPos;
 };
 
 #endif

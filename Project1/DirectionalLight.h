@@ -10,10 +10,11 @@
 #include "Component.h"
 #include "MeshLoader.h"
 #include "Utility.h"
+#include "Light.h"
 
 class Entity;
 
-class DirectionalLight : public Component
+class DirectionalLight : public Light
 {
 public:
 	DirectionalLight(std::shared_ptr<Entity> ent);
@@ -22,22 +23,11 @@ public:
 
 	DirectX::XMVECTOR GetLightDir();
 
-	float GetReflection();
-
-	DirectX::XMVECTOR GetColor();
-
 	DirectX::XMVECTOR GetRotation();
 
-	void SetReflection(float ref);
-
-	void SetColor(DirectX::XMVECTOR col);
 	void SetRotation(DirectX::XMVECTOR rot);
 private:
 	DirectX::XMVECTOR lightDir = Utility::forward;
-
-	float reflection = 1;
-
-	DirectX::XMVECTOR color = DirectX::XMVectorSet(0.3 , 0 , 0 , 1);
 
 	DirectX::XMVECTOR rotation = DirectX::XMVectorZero();
 };

@@ -125,12 +125,6 @@ void DebugRenderer::InitDebugRenderer()
 
 void DebugRenderer::InitRenderer()
 {
-	InitDebugRenderer();
-
-	InitIVB();
-
-
-
 	LoadVertexShader(L"DebugVertexShader.cso");
 	LoadPixelShader(L"DebugPixelShader.cso");
 
@@ -148,4 +142,8 @@ void DebugRenderer::InitRenderer()
 
 	param = { "COLORS", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 1, 64, D3D12_INPUT_CLASSIFICATION_PER_INSTANCE_DATA, 1 };
 	AddInputElementDesc(param);
+
+	InitDebugRenderer();
+
+	InitIVB();
 }

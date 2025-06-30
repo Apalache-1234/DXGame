@@ -93,7 +93,7 @@ bool Window::Init()
 		// 登録しているウィンドウクラス構造体の名前
 		_T("CreateWindow"),
 		// ウィンドウ名(タイトルバーに表示される)
-		_T("ウィンドウ生成サンプル"),
+		_T("DXGAME"),
 		// ウィンドウスタイル
 		(WS_OVERLAPPEDWINDOW ^ WS_THICKFRAME),
 		// 表示位置

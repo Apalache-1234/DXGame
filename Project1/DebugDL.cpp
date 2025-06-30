@@ -23,7 +23,7 @@ void DebugDirectionalLight::InitDebugRenderer()
 {
 	primitiveType = D3D10_PRIMITIVE_TOPOLOGY_LINESTRIP;
 
-	CreateMesh(MeshLoader::SPHERE);
+	CreateMesh(MeshLoader::BOX);
 
 	auto DLList = GameManager::GetInstance().GetComponentList<DirectionalLight>();
 
@@ -55,7 +55,7 @@ void DebugDirectionalLight::InitDebugRenderer()
 
 		auto s = DirectX::XMMatrixScalingFromVector(DirectX::XMVectorSet(2, 0.1, 0.1, 0));
 
-		inst.world = DirectX::XMMatrixTranspose(s * r * t);
+		inst.world = s * r * t;
 		DirectX::XMStoreFloat4(&inst.color , DLList[i]->GetColor());
 
 		instances.push_back(inst);

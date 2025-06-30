@@ -12,9 +12,7 @@ struct pixelOp
 	float4 color: SV_TARGET0;
 };
 
-Texture2D tex : register(t0);
-
-SamplerState tex_sampler : register(s0);
+#include <Header.hlsli> 
 
 pixelOp main(output vertexOp)
 {

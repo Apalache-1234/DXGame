@@ -37,7 +37,7 @@ void DebugCollider::Update()
 
 	for (int i = 0; i < instanceCount; i++)
 	{
-		instances[i].world = DirectX::XMMatrixTranspose(cols[i]->GetTRSMatrix());
+		instances[i].world = cols[i]->GetTRSMatrix();
 		if (cols[i]->isColliding)
 			instances[i].color = XMFLOAT4(1, 0, 0, 1);
 		else
@@ -57,6 +57,7 @@ void DebugCollider::InitDebugRenderer()
 	{
 	case Collider::Cube:
 		CreateMesh(MeshLoader::BOX);
+		LoadPixelShader(L"DebugColBoxPixelShader.cso");
 		break;
 	case Collider::Sphere:
 		CreateMesh(MeshLoader::SPHERE);
@@ -73,7 +74,7 @@ void DebugCollider::InitDebugRenderer()
 		if (colList[i]->GetColliderType() == debugForType)
 		{
 			Instance inst;
-			inst.world = DirectX::XMMatrixTranspose(colList[i]->GetTRSMatrix());
+			inst.world = colList[i]->GetTRSMatrix();
 			cols.emplace_back(colList[i]);
 			if (colList[i]->isColliding)
 				inst.color = XMFLOAT4(1, 0, 0, 1);

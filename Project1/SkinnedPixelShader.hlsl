@@ -2,6 +2,8 @@ struct output
 {
 	float4 position : SV_POSITION;
 
+	float3 worldPos : POSITION;
+
 	float2 TexCoord : TEXCOORD;
 
 	float3 tangent : TANGENT;
@@ -18,23 +20,20 @@ struct pixelOp
 
 #include <Header.hlsli> 
 
-Texture2D tex : register(t0);
-
-SamplerState tex_sampler : register(s0);
-
 pixelOp main(output vertexOp)
 {
 	pixelOp output_pixel = (pixelOp)0;
 
-	float2 uv = vertexOp.TexCoord;
+	float2 uv = vertexOp.TexCoord * 40;
 
-	output_pixel.color = tex.Sample(tex_sampler , uv ) * vertexOp.color;
+	output_pixel.color = tex.Sample(tex_sampler , uv) * vertexOp.color;
 
-	output_pixel.color = ApplyLightShading(output_pixel.color, vertexOp.normal);
+	vertexOp.normal = ApplyNormalMap(uv, vertexOp.normal, vertexOp.tangent);
+
+	output_pixel.color = ApplyLightShading(output_pixel.color, vertexOp.worldPos ,vertexOp.normal);
 
 	if (output_pixel.color.a == 0.0f) discard;
-	
-	
+
 
 	return output_pixel;
 }

@@ -1,4 +1,4 @@
-
+#include "Utility.h"
 #include "MeshLoader.h"
 #include "DXRenderSystem.h"
 
@@ -14,10 +14,9 @@ MeshLoader::~MeshLoader()
 void MeshLoader::Init()
 {
 	LoadMesh("Models/SpartanWarrior/Spartan_Warrior.fbx", SPARTAN);
-	LoadMesh("Models/Box.fbx", KNIGHT);
 	LoadMesh("Models/Box.fbx", BOX);
-	LoadMesh("Models/Box.fbx", PLANE);
-	LoadMesh("Models/Box.fbx", SPHERE);
+	LoadMesh("Models/Plane.fbx", PLANE);
+	LoadMesh("Models/Sphere.fbx", SPHERE);
 	LoadMesh("Models/OriginMarker.fbx", DEBUG_ORIGIN);
 	LoadMesh("Models/RayDebug.fbx", DEBUG_RAY);
 }
@@ -52,6 +51,8 @@ bool MeshLoader::LoadMesh(const std::string filePath , MESHTYPE type)
 	flag |= aiProcess_GenSmoothNormals;
 
 	flag |= aiProcess_ConvertToLeftHanded;
+
+	flag |= aiProcess_CalcTangentSpace;
 
 	meshData[type].scene = *meshData[type].import.ReadFile(filePath, flag);
 
@@ -295,6 +296,11 @@ void MeshLoader::InitBone(const aiMesh& aiMesh, Mesh& mesh , MeshData& meshData)
 	}
 }
 
+void ParseTexture(aiTextureType type)
+{
+
+}
+
 void MeshLoader::InitMaterial(const std::string filePath, const aiMesh& mesh, Mesh& data)
 {
 	auto index = filePath.find_last_of("/");
@@ -322,6 +328,25 @@ void MeshLoader::InitMaterial(const std::string filePath, const aiMesh& mesh, Me
 	else
 	{
 		data.texResource = TextureLoader::GetInstance().LoadTexture("Textures/error.dds");
+	}
+
+	if (mat->GetTextureCount(aiTextureType_NORMALS) > 0)
+	{
+		mat->GetTexture(aiTextureType_NORMALS, 0, &path);
+
+		std::string str = path.data;
+
+		std::replace(str.begin(), str.end(), '\\', '/');
+
+		auto indexPeriod = str.find_last_of(".");
+
+		str = str.substr(0, indexPeriod) + ".dds";
+
+		data.normalTexResource = TextureLoader::GetInstance().LoadTexture(dir + "/" + str);
+	}
+	else
+	{
+		data.normalTexResource = TextureLoader::GetInstance().LoadTexture("Textures/normal.dds");
 	}
 }
 

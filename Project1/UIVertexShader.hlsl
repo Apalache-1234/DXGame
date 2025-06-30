@@ -17,13 +17,7 @@ output main(input vertexIn)
 {
 	output vertexOut = (output)0;
 
-	float4 local_pos = float4(vertexIn.position, 1.0f);
-
-	float4 world = mul(world_mat, local_pos);
-
-	float4 view = mul(view_mat, world);
-
-	float4 proj = mul(proj_mat, view);
+	float4 proj = TransLocalToProj(vertexIn.position);
 
 	vertexOut.position = proj;
 	vertexOut.texCoord = vertexIn.texCoord;

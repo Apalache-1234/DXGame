@@ -23,7 +23,7 @@
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{dfafc8fd-36c7-44a4-8d17-a2b525c7c6a8}</ProjectGuid>
     <RootNamespace>Project1</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.22000.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -152,10 +152,13 @@
     <ClCompile Include="ColliderDetection.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="DebugDL.cpp" />
+    <ClCompile Include="DebugGrids.cpp" />
     <ClCompile Include="DebugOrigin.cpp" />
     <ClCompile Include="DebugCollider.cpp" />
+    <ClCompile Include="DebugPointLight.cpp" />
     <ClCompile Include="DebugRayCast.cpp" />
     <ClCompile Include="DebugRenderer.cpp" />
+    <ClCompile Include="DebugSpotLight.cpp" />
     <ClCompile Include="DescriptorHeapManager.cpp" />
     <ClCompile Include="DirectionalLight.cpp" />
     <ClCompile Include="DXRenderSystem.cpp" />
@@ -163,22 +166,37 @@
     <ClCompile Include="Flags.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="KeyInput.cpp" />
+    <ClCompile Include="Light.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MeshLoader.cpp" />
     <ClCompile Include="MyIMGUI.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="PhysicSystem.cpp" />
+    <ClCompile Include="PointLight.cpp" />
     <ClCompile Include="RayCast.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="SkinnedRenderer.cpp" />
     <ClCompile Include="Rigidbody.cpp" />
     <ClCompile Include="SkyBox.cpp" />
+    <ClCompile Include="SpotLight.cpp" />
     <ClCompile Include="TextureLoader.cpp" />
     <ClCompile Include="UIRenderer.cpp" />
     <ClCompile Include="Utility.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="DebugColBoxPixelShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="DebugGridsPixelShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
     <FxCompile Include="DebugPixelShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
@@ -188,6 +206,18 @@
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.1</ShaderModel>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.1</ShaderModel>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.1</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="DebugPointLightPixelShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="DebugPointLightVertexShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
     </FxCompile>
     <FxCompile Include="DebugVertexShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
@@ -292,10 +322,13 @@
     <ClInclude Include="ColliderDetection.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="DebugDL.h" />
+    <ClInclude Include="DebugGrids.h" />
     <ClInclude Include="DebugOrigin.h" />
     <ClInclude Include="DebugCollider.h" />
+    <ClInclude Include="DebugPointLight.h" />
     <ClInclude Include="DebugRayCast.h" />
     <ClInclude Include="DebugRenderer.h" />
+    <ClInclude Include="DebugSpotLight.h" />
     <ClInclude Include="DescriptorHeapManager.h" />
     <ClInclude Include="DirectionalLight.h" />
     <ClInclude Include="DXRenderSystem.h" />
@@ -303,8 +336,11 @@
     <ClInclude Include="Flags.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="KeyInput.h" />
+    <ClInclude Include="Light.h" />
+    <ClInclude Include="PointLight.h" />
     <ClInclude Include="RayCast.h" />
     <ClInclude Include="Renderer.h" />
+    <ClInclude Include="SpotLight.h" />
     <ClInclude Include="TextureLoader.h" />
     <ClInclude Include="MeshLoader.h" />
     <ClInclude Include="MyIMGUI.h" />

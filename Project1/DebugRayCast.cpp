@@ -53,7 +53,7 @@ void DebugRayCast::InitDebugRenderer()
 
 		auto s = DirectX::XMMatrixScalingFromVector(DirectX::XMVectorSet(rays[i].GetDistance() / 2, 0, 0, 0));
 
-		inst.world = DirectX::XMMatrixTranspose(s*r*t);
+		inst.world = s*r*t;
 		if (rays[i].GetIsHit())
 			inst.color = XMFLOAT4(1, 0, 0, 1);
 		else
@@ -69,7 +69,7 @@ void DebugRayCast::InitDebugRenderer()
 
 			for (auto point : points)
 			{
-				instHit.world = DirectX::XMMatrixTranspose(DirectX::XMMatrixScalingFromVector(DirectX::XMVectorSet(0.05, 0.05, 0.05, 0)) * DirectX::XMMatrixTranslationFromVector(point.hitPoint));
+				instHit.world = DirectX::XMMatrixScalingFromVector(DirectX::XMVectorSet(0.05, 0.05, 0.05, 0)) * DirectX::XMMatrixTranslationFromVector(point.hitPoint);
 				instHit.color = DirectX::XMFLOAT4(0, 0, 1, 1);
 
 				instances.push_back(instHit);
