@@ -18,11 +18,14 @@ void DebugSpotLight::Update()
 	MapDVB();
 }
 
+void DebugSpotLight::AddCommand(ComPtr<ID3D12GraphicsCommandList> cmdList)
+{
+	cmdList->IASetVertexBuffers(1, 1, &IVBV);
+}
+
 void DebugSpotLight::InitDebugRenderer()
 {
-	primitiveType = D3D10_PRIMITIVE_TOPOLOGY_LINESTRIP;
-
-	CreateMesh(MeshLoader::BOX);
+	CreateMesh(MeshLoader::SPHERE);
 
 	auto DLList = GameManager::GetInstance().GetComponentList<SpotLight>();
 
@@ -52,12 +55,22 @@ void DebugSpotLight::InitDebugRenderer()
 
 		auto t = DirectX::XMMatrixTranslationFromVector(adjustPos);
 
-		auto s = DirectX::XMMatrixScalingFromVector(DirectX::XMVectorSet(DLList[i]->GetLength(), 0.01, 0.01, 0));
+		auto s = DirectX::XMMatrixScalingFromVector(DirectX::XMVectorSet(DLList[i]->GetLength(), 0.1, 0.1, 0));
 
 		inst.world = s * r * t;
 		DirectX::XMStoreFloat4(&inst.color, DLList[i]->GetColor());
 
 		instances.push_back(inst);
+
+		inst.world = DirectX::XMMatrixScalingFromVector(DirectX::XMVectorScale(DirectX::XMVectorSplatOne(), DLList[i]->GetLength() * 2)) * DirectX::XMMatrixTranslationFromVector(DLList[i]->attachFrom->GetWorldPosition());;
+
+		instances.push_back(inst);
 	}
 	instanceCount = instances.size();
+
+	LoadVertexShader(L"DebugPointLightVertexShader.cso");
+	LoadPixelShader(L"DebugSpotLightPixelShader.cso");
+	
+	D3D12_INPUT_ELEMENT_DESC param = { "LIGHT_INDEX", 0, DXGI_FORMAT_R32_FLOAT, 2, 0, D3D12_INPUT_CLASSIFICATION_PER_INSTANCE_DATA, 1 };
+	AddInputElementDesc(param);
 }

@@ -70,12 +70,16 @@ void DebugGrids::Update()
 			trans = DirectX::XMVectorSetX(trans, camPosX);
 			if (z == 0)
 				instances[i].color = DirectX::XMFLOAT4(1,0,0,1);
+			else
+				instances[i].color = DirectX::XMFLOAT4(1, 1, 1, 1);
 		}
 		else
 		{
 			trans = DirectX::XMVectorSetZ(trans, camPosZ);
 			if (x == 0)
-				instances[i].color = DirectX::XMFLOAT4(0, 0, 1, 1);
+				instances[i].color = DirectX::XMFLOAT4(0, 1, 0, 1);
+			else
+				instances[i].color = DirectX::XMFLOAT4(1, 1, 1, 1);
 		}
 
 		instances[i].world = DirectX::XMMatrixScalingFromVector(scale) * DirectX::XMMatrixTranslationFromVector(trans);

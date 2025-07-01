@@ -33,6 +33,14 @@ public:
 protected:
 	void Update() override;
 private:
+	void AddCommand(ComPtr<ID3D12GraphicsCommandList> cmdList) override;
+
+	void InitRenderer() override;
+
+	bool InitDebugVertexBuffer();
+
+	bool InitDBV();
+
 	void InitDebugRenderer() override;
 };
 

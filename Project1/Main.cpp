@@ -119,8 +119,6 @@ int main()
 		physicSystem->MainLoop();
 		keySystem->Update();
 
-		player5->SetWorldRotation(DirectX::XMVectorSet(0,hoge,0,0 ));
-
 		hoge += 360 * gameManager->DeltaTime;
 
 		DirectX::XMVECTOR velocity = DirectX::XMVectorSet(0,0,0,0);
