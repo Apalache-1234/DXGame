@@ -122,4 +122,12 @@ void DebugGrids::InitDebugRenderer()
 	VerticalNum = instances.size();
 
 	instanceCount = instances.size();
+
+	D3D12_DEPTH_STENCIL_DESC dsDesc;
+
+	dsDesc.DepthEnable = TRUE;
+	dsDesc.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ZERO;
+	dsDesc.DepthFunc = D3D12_COMPARISON_FUNC_LESS_EQUAL;
+	dsDesc.StencilWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;
+	dsDesc.StencilEnable = false;
 }

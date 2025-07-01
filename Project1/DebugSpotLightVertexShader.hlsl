@@ -1,0 +1,82 @@
+struct input
+{
+	float3 position : POSITION;
+
+	float2 TexCoord : TEXCOORD;
+
+	float3 normal : NORMAL;
+
+	float4 color : COLOR;
+
+	float3 tangent : TANGENT;
+
+	float4 boneID  : BONEID;
+
+	float4 weight  : WEIGHT;
+
+	float parent : PARENT;
+
+	float4 world0 : COLLIDER_WORLD0;
+	float4 world1 : COLLIDER_WORLD1;
+	float4 world2 : COLLIDER_WORLD2;
+	float4 world3 : COLLIDER_WORLD3;
+
+    float lightIndex : LIGHT_INDEX0;
+
+	float4 colors : COLORS;
+};
+
+struct output
+{
+	float4 position : SV_POSITION;
+
+	float3 localPos : POSITION;
+	
+    float4x4 worldMat : WORLD_MATRIX;
+
+	float lightIndex : LIGHT_INDEX0;
+
+	float2 TexCoord : TEXCOORD;
+
+	float3 tangent : TANGENT;
+
+	float3 normal : NORMAL;
+
+	float4 color : COLOR0;
+};
+
+#include <Header.hlsli> 
+
+output main(input vertexIn)
+{
+	output vertexOut = (output)0;
+
+	float4x4 worldMat = float4x4(vertexIn.world0, vertexIn.world1, vertexIn.world2, vertexIn.world3);
+
+	float4 world = mul(transpose(worldMat), float4(vertexIn.position, 1));
+
+	float4 view = mul(view_mat, world);
+
+	float4 proj = mul(proj_mat, view);
+
+	if (length(vertexIn.colors) != 0)
+		vertexOut.color = vertexIn.colors;
+	else
+		vertexOut.color = vertexIn.color;
+
+	vertexOut.position = proj;
+
+	vertexOut.TexCoord = vertexIn.TexCoord;
+
+	vertexOut.localPos = vertexIn.position;
+
+	vertexOut.lightIndex = vertexIn.lightIndex;
+	
+    vertexOut.worldMat = transpose(worldMat);
+
+	vertexOut.tangent = vertexIn.tangent;
+
+	vertexOut.normal = vertexIn.normal;
+
+	return vertexOut;
+}

@@ -42,6 +42,8 @@ protected:
 	std::vector<Instance> instances;
 
 	bool MapDVB();
+
+	D3D12_VERTEX_BUFFER_VIEW IVBV;
 private:
 	void AddCommand(ComPtr<ID3D12GraphicsCommandList> cmdList) override;
 
@@ -52,8 +54,6 @@ private:
 	bool InitDBV();
 
 	ComPtr<ID3D12Resource> IVB;
-
-	D3D12_VERTEX_BUFFER_VIEW IVBV;
 };
 
 #endif

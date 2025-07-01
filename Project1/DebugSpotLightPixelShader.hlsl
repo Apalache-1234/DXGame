@@ -1,8 +1,12 @@
 struct output
 {
     float4 position : SV_POSITION;
-    
-    float3 worldPos : POSITION;
+
+    float3 localPos : POSITION;
+	
+    float4x4 worldMat : WORLD_MATRIX;
+
+    float lightIndex : LIGHT_INDEX0;
 
     float2 TexCoord : TEXCOORD;
 
@@ -26,13 +30,19 @@ pixelOp main(output vertexOp)
     
     float4 dir = float4(1, 0, 0 , 0);
     
-    float3 localPos = mul(transpose(world_mat), float4(vertexOp.worldPos, 1));
+    float3 localPos = vertexOp.localPos;
     
-    dir = normalize(mul(world_mat, dir));
+    dir = normalize(mul(vertexOp.worldMat, dir));
 
-    output_pixel.color = vertexOp.color * saturate(dot(dir, normalize(localPos)));
+    output_pixel.color = vertexOp.color;
+    output_pixel.color.a = 0.4f;
+    
+    float cosAng = cos(SpotLights[vertexOp.lightIndex].angular);
+    float dirDot = dot(SpotLights[vertexOp.lightIndex].direct, normalize(localPos));
+    
+    bool isInside = vertexOp.lightIndex > -0.01f && cosAng > dirDot;
 
-    if (output_pixel.color.a == 0.0f)
+    if (output_pixel.color.a == 0.0f ||  isInside)
         discard;
 
     return output_pixel;

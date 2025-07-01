@@ -35,13 +35,19 @@ protected:
 private:
 	void AddCommand(ComPtr<ID3D12GraphicsCommandList> cmdList) override;
 
-	void InitRenderer() override;
+	bool InitLightIndexBuffer();
 
-	bool InitDebugVertexBuffer();
+	bool MapLIB();
 
-	bool InitDBV();
+	bool InitLIBV();
 
 	void InitDebugRenderer() override;
+
+	ComPtr<ID3D12Resource> LIB;
+
+	D3D12_VERTEX_BUFFER_VIEW LIBV;
+
+	std::vector<float> lightIndex;
 };
 
 #endif
