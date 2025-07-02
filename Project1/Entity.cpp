@@ -156,6 +156,21 @@ DirectX::XMVECTOR Entity::GetUp()
 	return up;
 }
 
+void Entity::OnMousePointerIn()
+{
+	std::cout << "a";
+}
+
+void Entity::OnMouseClick()
+{
+	std::cout << "A" << std::endl;
+}
+
+void Entity::OnMousePointerOut()
+{
+	std::cout << "a";
+}
+
 DirectX::XMVECTOR Entity::GetForward()
 {
 	return forward;

@@ -1,4 +1,5 @@
 #include "DebugOrigin.h"
+#include "UIRenderer.h"
 
 DebugOrigin::DebugOrigin(std::shared_ptr<Entity> ent) : DebugRenderer(ent)
 {
@@ -37,30 +38,15 @@ void DebugOrigin::Update()
 
 void DebugOrigin::InitDebugRenderer()
 {
-	D3D12_DEPTH_STENCIL_DESC dsDesc;
+	auto entList = GameManager::GetInstance().GetComponentList<UIRenderer>();
 
-	dsDesc.DepthEnable = FALSE;
-	dsDesc.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;
-	dsDesc.DepthFunc = D3D12_COMPARISON_FUNC_ALWAYS;
-	dsDesc.StencilEnable = FALSE;
-	dsDesc.StencilReadMask = D3D12_DEFAULT_STENCIL_READ_MASK;
-	dsDesc.StencilWriteMask = D3D12_DEFAULT_STENCIL_WRITE_MASK;
-	dsDesc.FrontFace = {};
-	dsDesc.BackFace = {};
-
-	SetDepthStencilDesc(dsDesc);
-
-	auto entList = GameManager::GetInstance().GetEntityList();
-
-	CreateMesh(MeshLoader::DEBUG_ORIGIN);
+	CreateMesh(MeshLoader::BOX);
 
 	instances.clear();
 
 	for (int i = 0; i < entList.size(); i++)
 	{
 		Instance inst;
-
-		auto rotation_mat = DirectX::XMMatrixRotationQuaternion(entList[i]->GetRotationAsQuaternion());
 
 		inst.world = rotation_mat * DirectX::XMMatrixTranslationFromVector(entList[i]->GetWorldPosition());
 		inst.color = DirectX::XMFLOAT4(0, 0, 0, 0);

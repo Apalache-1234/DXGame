@@ -79,6 +79,7 @@ int main()
 	player2->SetWorldScale(DirectX::XMVectorSet(1, 1, 1,0));
 	player2->SetWorldPosition(DirectX::XMVectorSet(0,10,0,0));
 	player2->SetWorldRotation(DirectX::XMVectorSet(0,0,0,0));
+	player2->AddComponent<UIRenderer>();
 
 	Skybox->RemoveComponent<SkinnedRenderer>();
 	Skybox->AddComponent<SkyBox>();

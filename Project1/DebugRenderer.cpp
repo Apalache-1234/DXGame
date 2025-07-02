@@ -100,6 +100,8 @@ bool DebugRenderer::InitDBV()
 
 void DebugRenderer::AddCommand(ComPtr<ID3D12GraphicsCommandList> cmdList)
 {
+	instanceCount = instances.size();
+
 	cmdList->IASetVertexBuffers(1, 1, &IVBV);
 }
 

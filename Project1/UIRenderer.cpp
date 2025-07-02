@@ -1,7 +1,7 @@
 #include "UIRenderer.h"
 #include "Utility.h"
 #include "Camera.h"
-
+#include "KeyInput.h"
 UINT UIRenderer::GetImageWidth()
 {
 	return imageWidth;
@@ -36,6 +36,40 @@ void UIRenderer::InitRenderer()
 }
 
 void UIRenderer::Update()
+{
+	MakeWorldMat();
+
+	CheckPointerInbound();
+}
+
+DirectX::XMMATRIX UIRenderer::GetWorldMat()
+{
+	auto worldPos = attachFrom->GetWorldPosition();
+
+	float posX = DirectX::XMVectorGetX(worldPos);
+	float posY = DirectX::XMVectorGetY(worldPos);
+
+	auto position_mat = XMMatrixTranslation(posX, posY, 0);
+
+	auto worldZ = DirectX::XMVectorGetZ(attachFrom->GetWorldRotation());
+	auto localZ = DirectX::XMVectorGetZ(attachFrom->GetLocalRotation());
+
+	worldZ = DirectX::XMConvertToRadians(worldZ);
+	localZ = DirectX::XMConvertToRadians(localZ);
+
+	auto rotation_mat = DirectX::XMMatrixRotationZ(worldZ + localZ);
+
+	auto scale = attachFrom->GetScale();
+
+	float scaleX = DirectX::XMVectorGetX(scale) * imageWidth;
+	float scaleY = DirectX::XMVectorGetY(scale) * imageHeight;
+
+	auto scale_mat = XMMatrixScaling(scaleX, scaleY, 1);
+
+	return scale_mat * rotation_mat * position_mat;
+}
+
+void UIRenderer::MakeWorldMat()
 {
 	auto worldPos = attachFrom->GetWorldPosition();
 
@@ -73,6 +107,54 @@ void UIRenderer::Update()
 	trans.projection = DirectX::XMMatrixOrthographicLH(Window::width, Window::height, Camera::nearZ, Camera::farZ);
 
 	trans.color = color_normalized;
+}
+
+XMFLOAT2 UIRenderer::GetResultScale()
+{
+	auto scale = attachFrom->GetWorldScale();
+
+	return XMFLOAT2(imageWidth * DirectX::XMVectorGetX(scale) , imageHeight * DirectX::XMVectorGetY(scale));
+}
+
+void UIRenderer::CheckPointerInbound()
+{
+	auto input = KeyInput::GetInstance();
+
+	auto pointer = input.GetMousePos();
+
+	auto pos = DirectX::XMVectorAdd(attachFrom->GetWorldPosition() , colPosition);
+
+	auto scale = GetResultScale();
+
+	scale.x *= DirectX::XMVectorGetX(colScale);
+	scale.y *= DirectX::XMVectorGetY(colScale);
+
+	auto x = scale.x / 2 + Window::width / 2 + DirectX::XMVectorGetX(pos);
+	auto xM = -scale.x / 2 + Window::width / 2 + DirectX::XMVectorGetX(pos);
+	auto y = scale.y / 2 + Window::height / 2 + DirectX::XMVectorGetY(pos);
+	auto yM = -scale.y / 2 + Window::height / 2 + DirectX::XMVectorGetY(pos);
+
+	auto pointX = pointer.x;
+	auto pointY = pointer.y;
+
+	if (x >= pointX && xM <= pointX && y >= pointY && yM <= pointY)
+	{
+		isOnMousePointer = true;
+
+		if (input.GetKey(Key::MOUSE_LEFT))
+		{
+			attachFrom->OnMouseClick();
+		}
+	}
+	else
+	{
+		if (isOnMousePointer == true)
+		{
+			attachFrom->OnMousePointerOut();
+		}
+
+		isOnMousePointer = false;
+	}
 }
 
 UIRenderer::UIRenderer(std::shared_ptr<Entity> ent) : Renderer::Renderer(ent)

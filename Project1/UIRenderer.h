@@ -15,16 +15,30 @@ public:
 	UINT GetImageWidth();
 
 	UINT GetImageHeight();
+
+	XMFLOAT2 GetResultScale();
+
+	DirectX::XMVECTOR colPosition = DirectX::XMVectorZero();
+
+	DirectX::XMVECTOR colScale = DirectX::XMVectorSplatOne();
+
+	DirectX::XMMATRIX GetWorldMat();
 protected:
 	void InitRenderer() override;
 
 	void Update() override;
+
+	void MakeWorldMat();
+
+	void CheckPointerInbound();
 private:
 	std::unique_ptr<DescriptorHeapManager::PtrHandles> texHandle;
 
 	float imageWidth = 1;
 
 	float imageHeight = 1;
+
+	float isOnMousePointer = false;
 };
 
 #endif
