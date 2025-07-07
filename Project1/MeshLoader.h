@@ -12,6 +12,7 @@
 #include <assimp/postprocess.h>
 #include "TextureLoader.h"
 #include "wrl.h"
+#include "Utility.h"
 
 using namespace DirectX;
 using namespace Microsoft::WRL;
@@ -57,6 +58,8 @@ public:
 		XMFLOAT4 weight;
 
 		float parentBone = 0;
+
+		float index = 0;
 	};
 
 	struct VertexBoneData {
@@ -67,6 +70,8 @@ public:
 
 	struct Mesh
 	{
+		std::string meshName;
+
 		/// <summary>
 		/// デフォルトは立方体
 		/// </summary>
@@ -94,6 +99,10 @@ public:
 		ComPtr<ID3D12Resource> indexBuffer;
 
 		D3D12_INDEX_BUFFER_VIEW ibView;
+
+		Material mat;
+
+		Mesh() = default;
 	};
 
 	struct MeshData
@@ -107,6 +116,10 @@ public:
 		aiScene scene;
 
 		Assimp::Importer import;
+
+		MeshData(const MeshData&) = delete;
+
+		MeshData& operator=(const MeshData&) = delete;
 
 		MeshData() = default;
 	};

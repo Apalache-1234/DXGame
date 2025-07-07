@@ -21,7 +21,7 @@ void DebugDirectionalLight::Update()
 
 void DebugDirectionalLight::InitDebugRenderer()
 {
-	primitiveType = D3D10_PRIMITIVE_TOPOLOGY_LINESTRIP;
+	SetPrimitiveType(D3D10_PRIMITIVE_TOPOLOGY_LINESTRIP);
 
 	CreateMesh(MeshLoader::BOX);
 

@@ -12,6 +12,16 @@ UINT UIRenderer::GetImageHeight()
 	return imageHeight;
 }
 
+void UIRenderer::SetImageWidth(UINT size)
+{
+	imageWidth = size;
+}
+
+void UIRenderer::SetImageHeight(UINT size)
+{
+	imageHeight = size;
+}
+
 void UIRenderer::InitRenderer()
 {
 	CreateTexture("Textures/error.dds");
@@ -37,13 +47,15 @@ void UIRenderer::InitRenderer()
 
 void UIRenderer::Update()
 {
-	MakeWorldMat();
+	trans = GetTransform();
 
 	CheckPointerInbound();
 }
 
-DirectX::XMMATRIX UIRenderer::GetWorldMat()
+Transform UIRenderer::GetTransform()
 {
+	Transform transform;
+
 	auto worldPos = attachFrom->GetWorldPosition();
 
 	float posX = DirectX::XMVectorGetX(worldPos);
@@ -66,34 +78,7 @@ DirectX::XMMATRIX UIRenderer::GetWorldMat()
 
 	auto scale_mat = XMMatrixScaling(scaleX, scaleY, 1);
 
-	return scale_mat * rotation_mat * position_mat;
-}
-
-void UIRenderer::MakeWorldMat()
-{
-	auto worldPos = attachFrom->GetWorldPosition();
-
-	float posX = DirectX::XMVectorGetX(worldPos);
-	float posY = DirectX::XMVectorGetY(worldPos);
-
-	auto position_mat = XMMatrixTranslation(posX, posY, 0);
-
-	auto worldZ = DirectX::XMVectorGetZ(attachFrom->GetWorldRotation());
-	auto localZ = DirectX::XMVectorGetZ(attachFrom->GetLocalRotation());
-
-	worldZ = DirectX::XMConvertToRadians(worldZ);
-	localZ = DirectX::XMConvertToRadians(localZ);
-
-	auto rotation_mat = DirectX::XMMatrixRotationZ(worldZ + localZ);
-
-	auto scale = attachFrom->GetScale();
-
-	float scaleX = DirectX::XMVectorGetX(scale) * imageWidth;
-	float scaleY = DirectX::XMVectorGetY(scale) * imageHeight;
-
-	auto scale_mat = XMMatrixScaling(scaleX, scaleY, 1);
-
-	trans.world = scale_mat * rotation_mat * position_mat;
+	transform.world = scale_mat * rotation_mat * position_mat;
 
 	float colR = DirectX::XMVectorGetX(color);
 	float colG = DirectX::XMVectorGetY(color);
@@ -102,11 +87,13 @@ void UIRenderer::MakeWorldMat()
 
 	auto color_normalized = XMFLOAT4(colR, colG, colB, colA);
 
-	trans.view = XMMatrixLookAtLH(Utility::zero3D, Utility::forward, DirectX::XMVectorSet(0, 1, 0, 0));
+	transform.view = XMMatrixLookAtLH(Utility::zero3D, Utility::forward, DirectX::XMVectorSet(0, 1, 0, 0));
 
-	trans.projection = DirectX::XMMatrixOrthographicLH(Window::width, Window::height, Camera::nearZ, Camera::farZ);
+	transform.projection = DirectX::XMMatrixOrthographicLH(Window::width, Window::height, Camera::GetInstance().GetNearZ(), Camera::GetInstance().GetFarZ());
 
-	trans.color = color_normalized;
+	transform.color = color_normalized;
+
+	return transform;
 }
 
 XMFLOAT2 UIRenderer::GetResultScale()
@@ -130,20 +117,21 @@ void UIRenderer::CheckPointerInbound()
 	scale.y *= DirectX::XMVectorGetY(colScale);
 
 	auto x = scale.x / 2 + Window::width / 2 + DirectX::XMVectorGetX(pos);
-	auto xM = -scale.x / 2 + Window::width / 2 + DirectX::XMVectorGetX(pos);
+	auto xN = -scale.x / 2 + Window::width / 2 + DirectX::XMVectorGetX(pos);
 	auto y = scale.y / 2 + Window::height / 2 + DirectX::XMVectorGetY(pos);
-	auto yM = -scale.y / 2 + Window::height / 2 + DirectX::XMVectorGetY(pos);
+	auto yN = -scale.y / 2 + Window::height / 2 + DirectX::XMVectorGetY(pos);
 
 	auto pointX = pointer.x;
 	auto pointY = pointer.y;
 
-	if (x >= pointX && xM <= pointX && y >= pointY && yM <= pointY)
+	if (x >= pointX && xN <= pointX && y >= pointY && yN <= pointY)
 	{
 		isOnMousePointer = true;
 
 		if (input.GetKey(Key::MOUSE_LEFT))
 		{
 			attachFrom->OnMouseClick();
+
 		}
 	}
 	else
@@ -165,37 +153,24 @@ UIRenderer::~UIRenderer()
 {
 }
 
+D3D12_CPU_DESCRIPTOR_HANDLE UIRenderer::GetTextureCPUHandle()
+{
+	return texHandles[0]->cpuHandle;
+}
+
+D3D12_GPU_DESCRIPTOR_HANDLE UIRenderer::GetTextureGPUHandle()
+{
+	return texHandles[0]->gpuHandle;
+}
+
 bool UIRenderer::CreateTexture(const std::string fileName)
 {
-	texHandle = heapManager.GetHandle();
-
 	auto resource = TextureLoader::GetInstance().LoadTexture(fileName);
 
-	auto textureDesc = resource->GetDesc(); 
+	imageWidth = resource->GetDesc().Width;
+	imageHeight = resource->GetDesc().Height;
 
-	imageWidth = textureDesc.Width;
-	imageHeight = textureDesc.Height;
-
-	D3D12_SHADER_RESOURCE_VIEW_DESC desc = {};
-
-	desc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
-
-	desc.Format = textureDesc.Format;
-
-	desc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
-
-	desc.Texture2D.MipLevels = textureDesc.MipLevels;
-	desc.Texture2D.PlaneSlice = 0;
-	desc.Texture2D.MostDetailedMip = 0;
-	desc.Texture2D.ResourceMinLODClamp = 0;
-
-	DXRenderSystem::GetInstance().GetDevice()->CreateShaderResourceView(resource.Get(), &desc, texHandle->cpuHandle);
-
-	DXRenderSystem::GetInstance().GetDevice()->CreateShaderResourceView(resource.Get(), &desc, texHandle->cpuHandle);
-
-	texHandles.clear();
-
-	texHandles.emplace_back(std::move(texHandle));
+	ApplyTextureOnMesh(0, Renderer::DIFFUSE, resource);
 
 	return true;
 }

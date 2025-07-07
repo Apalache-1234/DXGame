@@ -26,7 +26,9 @@ void SkyBox::Update()
 
 	trans.view.r[3] = DirectX::XMVectorSet(0, 0, 0, 0);
 
-	trans.projection = XMMatrixPerspectiveFovLH(Camera::GetInstance().fov, Camera::GetInstance().aspect, 1, 1000);
+	trans.projection = XMMatrixPerspectiveFovLH(Camera::GetInstance().GetFov(), Camera::GetInstance().GetAspect(), Camera::GetInstance().GetNearZ(), Camera::GetInstance().GetFarZ());
+
+	DirectX::XMStoreFloat4(&trans.color , color) ;
 }
 
 void SkyBox::InitRenderer()
@@ -54,8 +56,6 @@ void SkyBox::InitRenderer()
 
 bool SkyBox::CreateTexture()
 {
-	texHandle = heapManager.GetHandle();
-
 	auto resource = TextureLoader::GetInstance().LoadTexture("Textures/SkyBox.dds");
 
 	auto textureDesc = resource->GetDesc();
@@ -72,11 +72,7 @@ bool SkyBox::CreateTexture()
 	desc.TextureCube.MostDetailedMip = 0;
 	desc.TextureCube.ResourceMinLODClamp = 0;
 
-	DXRenderSystem::GetInstance().GetDevice()->CreateShaderResourceView(resource.Get(), &desc, texHandle->cpuHandle);
-
-	texHandles.clear();
-
-	texHandles.emplace_back(std::move(texHandle));
+	ApplyTextureOnMesh(0, Renderer::DIFFUSE, resource , desc);
 
 	return true;
 }

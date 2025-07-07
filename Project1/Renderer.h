@@ -16,6 +16,8 @@
 #include "DXRenderSystem.h"
 #include "Utility.h"
 
+#define PtrHandle std::unique_ptr<DescriptorHeapManager::PtrHandles>
+
 using namespace DirectX;
 using namespace Microsoft::WRL;
 using namespace std;
@@ -24,6 +26,13 @@ class Renderer : public Component , public enable_shared_from_this<Renderer>
 {
 public:
 	struct MeshData;
+
+	enum TEXTURE_TYPE
+	{
+		DIFFUSE,
+		NORMAL,
+		CountLast
+	};
 
 	Renderer(std::shared_ptr<Entity> ent);
 
@@ -38,6 +47,12 @@ public:
 	/// <param name="backBufferIndex">現在のバックバッファのインデックス</param>
 	void virtual AddRenderCommand(ComPtr<ID3D12GraphicsCommandList>& cmdList, int backBufferIndex);
 
+	std::vector<std::string> GetMeshNameList();
+
+	Material& GetMaterial(int idx);
+
+	void SetMaterial(int idx, const Material& mat);
+
 	/// <summary>
 	/// そのメッシュのカラーを決める
 	/// </summary>
@@ -45,9 +60,14 @@ public:
 
 	MeshLoader::MESHTYPE GetCurrentMeshType();
 
+	D3D12_GPU_DESCRIPTOR_HANDLE GetTextureGPUHandle(int idx, Renderer::TEXTURE_TYPE type);
+	D3D12_CPU_DESCRIPTOR_HANDLE GetTextureCPUHandle(int idx, Renderer::TEXTURE_TYPE type);
+
 	bool CreateMesh(const MeshLoader::MESHTYPE type);
 
-	D3D12_PRIMITIVE_TOPOLOGY primitiveType = D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+	void ApplyTextureOnMesh(int idx, Renderer::TEXTURE_TYPE type, ComPtr<ID3D12Resource> texResource);
+
+	void ApplyTextureOnMesh(int idx, Renderer::TEXTURE_TYPE type, ComPtr<ID3D12Resource> texResource, D3D12_SHADER_RESOURCE_VIEW_DESC desc);
 protected:
 	void virtual Update();
 
@@ -59,6 +79,10 @@ protected:
 
 	int GetRootParamNum();
 
+	void SetPrimitiveType(D3D12_PRIMITIVE_TOPOLOGY type);
+
+	D3D12_PRIMITIVE_TOPOLOGY GetPrimitiveType();
+
 	void AddInputElementDesc(D3D12_INPUT_ELEMENT_DESC desc);
 
 	void virtual AddCommand(ComPtr<ID3D12GraphicsCommandList> cmdList);
@@ -68,6 +92,18 @@ protected:
 	void PrepareForRootSignature();
 
 	void PrepareForRenderPipeline();
+
+	/// <summary>
+    /// ルートシグネチャを作成する
+    /// </summary>
+    ///  <returns>正常に終了したらtrueを返す</returns>
+	bool CreateRootSignature();
+
+	/// <summary>
+	/// レンダーパイプラインを作成する
+	/// </summary>
+	/// <returns>正常に終了したらtrueを返す</returns>
+	bool CreateRenderPipeline();
 
 	void SetRasterizerDesc(D3D12_RASTERIZER_DESC desc);
 
@@ -97,6 +133,8 @@ protected:
 
 	ComPtr<ID3D12Resource> lightInfoCB;
 
+	ComPtr<ID3D12Resource> timeInfoCB;
+
 	DescriptorHeapManager heapManager;
 
 	/// <summary>
@@ -104,12 +142,18 @@ protected:
 	/// </summary>
 	D3D12_CONSTANT_BUFFER_VIEW_DESC cbView[DXRenderSystem::frameBuffer];
 	D3D12_CONSTANT_BUFFER_VIEW_DESC lightInfoCBView;
+	D3D12_CONSTANT_BUFFER_VIEW_DESC timeInfoCBView;
 
 	std::unique_ptr<DescriptorHeapManager::PtrHandles> cbHandle[DXRenderSystem::frameBuffer];
 
 	std::unique_ptr<DescriptorHeapManager::PtrHandles> lightInfoCBHandle;
 
-	std::vector<std::unique_ptr<DescriptorHeapManager::PtrHandles>> texHandles;
+	std::unique_ptr<DescriptorHeapManager::PtrHandles> timeInfoCBHandle;
+
+	std::unique_ptr<DescriptorHeapManager::PtrHandles> materialHandle;
+	ComPtr<ID3D12Resource> materialResource;
+
+	std::vector<PtrHandle> texHandles;
 
 	/// <summary>
 	/// ルートシグネチャのCOM
@@ -124,6 +168,10 @@ protected:
 	Transform trans;
 
 	LightInfo lightInfo;
+
+	TimeInfo timeInfo;
+
+	std::vector<Material> mats;
 private:
 	struct DirLight
 	{
@@ -159,6 +207,8 @@ private:
 
 		float length;
 	};
+
+	D3D12_PRIMITIVE_TOPOLOGY primitiveType = D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
 
 	/// <summary>
     /// レンダーパイプラインのCOM
@@ -216,25 +266,25 @@ private:
 
 	bool MapLLICB();
 
+	bool InitTimeInfoCB();
+
+	bool LinkTimeInfoCBVToDescHeap();
+
+	bool MapTICB();
+
+	bool InitMaterialResource();
+
+	bool MapMB();
+
+	bool InitSRVForMaterialResource();
+
 	/// <summary>
 	/// コンスタントバッファのリソースをビューを通じてデスクリプタヒープに登録する
 	/// </summary>
 	/// <returns>正常に終了したらtrueを返す</returns>
 	bool LinkCBVResourceToDescHeap();
 
-	/// <summary>
-	/// ルートシグネチャを作成する
-	/// </summary>
-	///  <returns>正常に終了したらtrueを返す</returns>
-	bool CreateRootSignature();
-
-	/// <summary>
-	/// レンダーパイプラインを作成する
-	/// </summary>
-	/// <returns>正常に終了したらtrueを返す</returns>
-	bool CreateRenderPipeline();
-
-	void CreateSRV(ComPtr<ID3D12Resource> texResource);
+	void CreateSRV(ComPtr<ID3D12Resource> texResource, D3D12_CPU_DESCRIPTOR_HANDLE handle);
 
 	void RegisterTextureSRV();
 

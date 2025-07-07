@@ -7,6 +7,7 @@ struct output
 {
 	float4 position : SV_POSITION;
 	float3 TexCoord : TEXCOORD;
+    float4 color : COLOR0;
 };
 
 #include <Header.hlsli> 
@@ -19,6 +20,7 @@ output main(input vertexIn)
 
 	vertexOut.position = proj;
 	vertexOut.TexCoord = vertexIn.position;
-
+    vertexOut.color = color;
+	
 	return vertexOut;
 }

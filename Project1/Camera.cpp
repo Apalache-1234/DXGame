@@ -3,14 +3,8 @@
 #include <iostream>
 #include "Entity.h"
 #include <vector>
-#include "Window.h"
 #include "KeyInput.h"
 #include <list>
-
-const float Camera::nearZ = 1.0f;
-const float Camera::farZ = 1000.0f;
-const float Camera::aspect = (float)16 / (float)9;
-const float Camera::fov = DirectX::XMConvertToRadians(70);
 
 Camera::Camera()
 {
@@ -68,6 +62,52 @@ DirectX::XMVECTOR Camera::GetPosScreenToWorld(DirectX::XMVECTOR pos)
     DirectX::XMVECTOR rayDir = XMVector3Normalize(XMVectorSubtract(worldPos, cameraPos));
 
     return DirectX::XMVectorAdd(cameraPos, DirectX::XMVectorScale(rayDir , z));
+}
+
+float Camera::GetFov()
+{
+    return fov;
+}
+
+float Camera::GetNearZ()
+{
+    return nearZ;
+}
+
+float Camera::GetFarZ()
+{
+    return farZ;
+}
+
+float Camera::GetAspect()
+{
+    return aspect;
+}
+
+void Camera::SetFov(float v)
+{
+    v = fmin(fmax(v, 0.01f), Utility::PI);
+
+    fov = v;
+}
+
+void Camera::SetNearZ(float v)
+{
+    v = max(v, 0.001);
+
+    nearZ = v;
+}
+
+void Camera::SetFarZ(float v)
+{
+    v = max(v, nearZ + 0.1);
+
+    farZ = v;
+}
+
+void Camera::SetAspect(float v)
+{
+    aspect = fabs(v);
 }
 
 DirectX::XMVECTOR Camera::GetPosition()

@@ -13,6 +13,8 @@ struct input
 	float4 weight  : WEIGHT;
 
 	float parent  : PARENT;
+	
+    float index : INDEX;
 };
 
 struct output
@@ -119,11 +121,13 @@ output main(input vertexIn)
 
 	vertexOut.worldPos = mul(world_mat , local);
 
-	vertexOut.TexCoord = vertexIn.TexCoord;
-
+    vertexOut.TexCoord = TransformUV(vertexIn.TexCoord , vertexIn.index);
+	
 	vertexOut.tangent = ReturnAnimatedNormal(vertexIn.tangent, vertexIn, local);
+    vertexOut.tangent = normalize(mul(world_mat, vertexOut.tangent));
 	
     vertexOut.normal = ReturnAnimatedNormal(vertexIn.normal, vertexIn , local);
+    vertexOut.normal = normalize(mul(world_mat, vertexOut.normal));
 
 	return vertexOut;
 }

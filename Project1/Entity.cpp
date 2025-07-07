@@ -36,8 +36,6 @@ void Entity::Init()
 	rotation = XMVectorZero();
 
 	components.clear();
-
-	AddComponent<SkinnedRenderer>();
 }
 
 DirectX::XMMATRIX Entity::GetTRS()

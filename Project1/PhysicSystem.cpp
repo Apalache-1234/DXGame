@@ -10,12 +10,17 @@ PhysicSystem::~PhysicSystem()
 
 void PhysicSystem::SetGravityVec(DirectX::XMVECTOR vec)
 {
-    gravityVec = DirectX::XMVector3Normalize(vec);
+    gravityVec = vec;
+}
+
+DirectX::XMVECTOR PhysicSystem::GetGravityVec()
+{
+    return  gravityVec;
 }
 
 DirectX::XMVECTOR PhysicSystem::GetGravity()
 {
-    return DirectX::XMVectorScale(gravityVec , gravityPow);
+    return DirectX::XMVectorScale(DirectX::XMVector3Normalize(gravityVec) , gravityPow);
 }
 
 void PhysicSystem::MainLoop()
@@ -27,9 +32,9 @@ void PhysicSystem::MainLoop()
         if (comp->isStatic)
             continue;
 
-        comp->AddForce(DirectX::XMVectorScale(GetGravity() , comp->GetMass()));
+        comp->AddForce(DirectX::XMVectorScale(GetGravity() , comp->GetMass() * GameManager::GetInstance().GetGameDeltaTime()));
 
-        comp->attachFrom->AddWorldPosition(DirectX::XMVectorScale(comp->GetVelocity(), GameManager::GetInstance().DeltaTime));
+        comp->attachFrom->AddWorldPosition(DirectX::XMVectorScale(comp->GetVelocity(), GameManager::GetInstance().GetGameDeltaTime()));
     }
 }
 

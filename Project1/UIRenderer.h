@@ -10,33 +10,39 @@ public:
 
 	~UIRenderer();
 
+	D3D12_CPU_DESCRIPTOR_HANDLE GetTextureCPUHandle();
+
+	D3D12_GPU_DESCRIPTOR_HANDLE GetTextureGPUHandle();
+
 	bool CreateTexture(const std::string fileName);
 
 	UINT GetImageWidth();
 
 	UINT GetImageHeight();
 
+	void SetImageWidth(UINT size);
+
+	void SetImageHeight(UINT size);
+
 	XMFLOAT2 GetResultScale();
 
 	DirectX::XMVECTOR colPosition = DirectX::XMVectorZero();
 
 	DirectX::XMVECTOR colScale = DirectX::XMVectorSplatOne();
-
-	DirectX::XMMATRIX GetWorldMat();
 protected:
 	void InitRenderer() override;
 
 	void Update() override;
 
-	void MakeWorldMat();
+	Transform GetTransform();
 
 	void CheckPointerInbound();
 private:
 	std::unique_ptr<DescriptorHeapManager::PtrHandles> texHandle;
 
-	float imageWidth = 1;
+	UINT imageWidth = 1;
 
-	float imageHeight = 1;
+	UINT imageHeight = 1;
 
 	float isOnMousePointer = false;
 };

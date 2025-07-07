@@ -11,7 +11,7 @@ DebugPointLight::~DebugPointLight()
 
 void DebugPointLight::Update()
 {
-	InitDebugRenderer();
+	InitDebugPointLightRender();
 
 	if (!InitIVB())
 		std::cerr << "DebugDL‚Ì‰Šú‰»Ž¸”s" << std::endl;
@@ -19,13 +19,8 @@ void DebugPointLight::Update()
 	MapDVB();
 }
 
-void DebugPointLight::InitDebugRenderer()
+void DebugPointLight::InitDebugPointLightRender()
 {
-	LoadVertexShader(L"DebugPointLightVertexShader.cso");
-	LoadPixelShader(L"DebugPointLightPixelShader.cso");
-
-	CreateMesh(MeshLoader::SPHERE);
-
 	auto PLList = GameManager::GetInstance().GetComponentList<PointLight>();
 
 	instances.clear();
@@ -44,4 +39,17 @@ void DebugPointLight::InitDebugRenderer()
 		instances.push_back(inst);
 	}
 	instanceCount = instances.size();
+}
+
+void DebugPointLight::InitDebugRenderer()
+{
+	LoadVertexShader(L"DebugPointLightVertexShader.cso");
+	LoadPixelShader(L"DebugPointLightPixelShader.cso");
+
+	CreateRootSignature();
+	CreateRenderPipeline();
+
+	CreateMesh(MeshLoader::SPHERE);
+
+	InitDebugPointLightRender();
 }

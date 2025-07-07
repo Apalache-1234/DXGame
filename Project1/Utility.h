@@ -7,6 +7,7 @@
 #include <random>
 #include <Windows.h>
 #include "DescriptorHeapManager.h"
+#undef TRANSPARENT
 
 using namespace Microsoft::WRL;
 
@@ -36,6 +37,8 @@ namespace Utility
     void Debug(const DirectX::XMFLOAT3 xm);
 
     void Debug(const DirectX::XMMATRIX xm);
+
+    UINT Align256(UINT size);
 
     DirectX::XMMATRIX CreateTransMat(const DirectX::XMVECTOR xm1, const DirectX::XMVECTOR xm2, const DirectX::XMVECTOR xm3);
 
@@ -69,6 +72,37 @@ struct alignas(256) LightInfo
     XMFLOAT4 SpotLightNum;
 
     XMVECTOR cameraPos;
+};
+
+struct alignas(256) TimeInfo
+{
+    float GameTime = 0;
+
+    DirectX::XMFLOAT3 padding1;
+
+    float GameDeltaTime = 0;
+
+    DirectX::XMFLOAT3 padding2;
+
+    float RealTime = 0;
+
+    DirectX::XMFLOAT3 padding3;
+
+    float RealDeltaTime = 0;
+
+    DirectX::XMFLOAT3 padding4;
+};
+
+struct Material
+{
+    DirectX::XMFLOAT3 DIFFUSE = DirectX::XMFLOAT3(1,1,1);
+    DirectX::XMFLOAT3 SPECULAR = DirectX::XMFLOAT3(1, 1, 1);
+    DirectX::XMFLOAT3 AMBIENT = DirectX::XMFLOAT3(1, 1, 1);
+    DirectX::XMFLOAT3 REFLECTIVE = DirectX::XMFLOAT3(1, 1, 1);
+    DirectX::XMFLOAT3 TRANSPARENT = DirectX::XMFLOAT3(1, 1, 1);
+    DirectX::XMFLOAT3 EMISSIVE = DirectX::XMFLOAT3(1, 1, 1);
+    DirectX::XMFLOAT2 UVPOS = XMFLOAT2(0,0);
+    DirectX::XMFLOAT2 UVSCALE = XMFLOAT2(1, 1);
 };
 
 #endif

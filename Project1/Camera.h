@@ -3,6 +3,7 @@
 
 #include <DirectXMath.h>
 #include <memory>
+#include "Window.h"
 
 class Camera
 {
@@ -34,19 +35,6 @@ public:
 	DirectX::XMVECTOR GetTargetPos();
 
 	/// <summary>
-    /// カメラのアスペクト比
-    /// </summary>
-	const float static aspect;
-
-	/// <summary>
-	/// カメラのFOV
-	/// </summary>
-	const float static fov;
-
-	const static float nearZ;
-	const static float farZ;
-
-	/// <summary>
     /// カメラの座標を設定する
     /// </summary>
     /// <param name="position">カメラ位置</param>
@@ -61,7 +49,31 @@ public:
 	DirectX::XMVECTOR GetPosWorldToScreen(DirectX::XMVECTOR pos);
 
 	DirectX::XMVECTOR GetPosScreenToWorld(DirectX::XMVECTOR pos);
+
+	float GetFov();
+
+	float GetNearZ();
+
+	float GetFarZ();
+
+	float GetAspect();
+
+	void SetFov(float v);
+
+	void SetNearZ(float v);
+
+	void SetFarZ(float v);
+
+	void SetAspect(float v);
 private:
+	float fov = DirectX::XMConvertToRadians(70);
+
+	float nearZ = 1.0f;
+
+	float farZ = 1000.0f;
+
+	float aspect = (float)Window::width / (float)Window::height;
+
 	/// <summary>
 	/// カメラの座標位置
 	/// </summary>

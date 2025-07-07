@@ -26,6 +26,16 @@ public:
 
 	std::shared_ptr<Entity> CreateEntity(std::string name);
 
+	template <typename T, std::enable_if_t<std::is_base_of_v<Component, T>>* = nullptr>
+	std::shared_ptr<Entity> CreateEntity(std::string name)
+	{
+		auto ent = CreateEntity(name);
+
+		ent->AddComponent<T>();
+
+		return ent;
+	}
+
 	void MainLoop();
 
 	void PauseTime();
@@ -60,19 +70,34 @@ public:
 		return componentList;
 	}
 
+	UINT fps = 0;
+
+	float GetGameTime();
+	float GetGameDeltaTime();
+	float GetRealTime();
+	float GetRealDeltaTime();
+
+private:
 	/// <summary>
-    /// 起動してからの総時間
+    /// 起動してからの総時間、ポーズの影響を受ける
     /// </summary>
 	float GameTime = 0;
 
 	/// <summary>
-	/// 前回の処理と次の処理の間の秒数
+	/// 前回の処理と次の処理の間の秒数、ポーズの影響を受ける
 	/// </summary>
-	float DeltaTime = 0;
+	float GameDeltaTime = 0;
 
-	UINT fps = 0;
+	/// <summary>
+	/// 起動してからの総時間、ポーズの影響を受けない
+	/// </summary>
+	float RealTime = 0;
 
-private:
+	/// <summary>
+	/// 前回の処理と次の処理の間の秒数、ポーズの影響を受けない
+	/// </summary>
+	float RealDeltaTime = 0;
+
 	bool pause = false;
 
 	/// <summary>
@@ -95,6 +120,8 @@ private:
     /// </summary>
 	LARGE_INTEGER base;
 
+	LARGE_INTEGER baseReal;
+
 	LARGE_INTEGER pauseClocks;
 
 	LARGE_INTEGER unpauseClocks;
@@ -104,7 +131,9 @@ private:
 	/// <summary>
 	/// 前回のGameTime
 	/// </summary>
-	float prevTime = 0;
+	float prevGameTime = 0;
+
+	float prevRealTime = 0;
 };
 
 #endif

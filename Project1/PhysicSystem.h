@@ -25,6 +25,8 @@ public:
 
 	void SetGravityVec(DirectX::XMVECTOR vec);
 
+	DirectX::XMVECTOR GetGravityVec();
+
 	DirectX::XMVECTOR GetGravity();
 
 	void MainLoop();

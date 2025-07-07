@@ -41,6 +41,8 @@ private:
 
 	bool InitLIBV();
 
+	void InitDebugSpotLightRenderer();
+
 	void InitDebugRenderer() override;
 
 	ComPtr<ID3D12Resource> LIB;

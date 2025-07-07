@@ -55,8 +55,6 @@ private:
 
 	UINT animIndex = 0;
 
-	void RegisterTextureSRV();
-
 	bool InitBoneResource();
 
 	bool MapBB();

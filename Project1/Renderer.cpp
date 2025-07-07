@@ -37,6 +37,10 @@ void Renderer::AddRenderCommand(ComPtr<ID3D12GraphicsCommandList>& cmdList, int 
 
 	MapSLB();
 
+	MapMB();
+
+	MapTICB();
+
 	cmdList->SetGraphicsRootSignature(rootSig.Get());
 
 	cmdList->SetDescriptorHeaps(1, heapManager.GetHeap().GetAddressOf());
@@ -50,6 +54,10 @@ void Renderer::AddRenderCommand(ComPtr<ID3D12GraphicsCommandList>& cmdList, int 
 	cmdList->SetGraphicsRootShaderResourceView(4, PLBuffer->GetGPUVirtualAddress());
 
 	cmdList->SetGraphicsRootShaderResourceView(5, SLBuffer->GetGPUVirtualAddress());
+
+	cmdList->SetGraphicsRootShaderResourceView(6, materialResource->GetGPUVirtualAddress());
+
+	cmdList->SetGraphicsRootConstantBufferView(7, timeInfoCBView.BufferLocation);
 
 	cmdList->SetPipelineState(pipeline.Get());
 
@@ -95,6 +103,12 @@ void Renderer::Init()
 	isSuccess &= LinkLightInfoCBVToDescHeap();
 
 	isSuccess &= MapLLICB();
+
+	isSuccess &= InitTimeInfoCB();
+
+	isSuccess &= LinkTimeInfoCBVToDescHeap();
+
+	isSuccess &= MapTICB();
 
 	isSuccess &= InitDirectionalLightBResource();
 
@@ -221,7 +235,7 @@ void Renderer::ConvertValues()
 
 	trans.view = XMMatrixLookAtLH(Camera::GetInstance().GetPosition(), Camera::GetInstance().GetTargetPos(), DirectX::XMVectorSet(0, 1, 0, 0));
 
-	trans.projection = XMMatrixPerspectiveFovLH(Camera::fov, Camera::GetInstance().aspect, Camera::nearZ, Camera::farZ);
+	trans.projection = XMMatrixPerspectiveFovLH(Camera::GetInstance().GetFov(), Camera::GetInstance().GetAspect(), Camera::GetInstance().GetNearZ(), Camera::GetInstance().GetFarZ());
 
 	auto color_normalized = XMFLOAT4(colR, colG, colB, colA);
 
@@ -362,10 +376,202 @@ bool Renderer::MapLLICB()
 	return true;
 }
 
-void Renderer::CreateSRV(ComPtr<ID3D12Resource> texResource)
+bool Renderer::InitTimeInfoCB()
 {
-	texHandles.push_back(std::move(heapManager.GetHandle()));
+	D3D12_HEAP_PROPERTIES prop = {};
 
+	prop.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_UNKNOWN;
+
+	prop.Type = D3D12_HEAP_TYPE_UPLOAD;
+
+	prop.CreationNodeMask = 1;
+
+	prop.VisibleNodeMask = 1;
+
+	prop.MemoryPoolPreference = D3D12_MEMORY_POOL_UNKNOWN;
+
+	D3D12_RESOURCE_DESC desc = {  };
+
+	desc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
+
+	desc.Alignment = 0;
+
+	desc.Height = 1;
+
+	desc.Width = sizeof(TimeInfo);
+
+	desc.Flags = D3D12_RESOURCE_FLAG_NONE;
+
+	desc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
+
+	desc.SampleDesc.Count = 1;
+
+	desc.SampleDesc.Quality = 0;
+
+	desc.DepthOrArraySize = 1;
+
+	desc.MipLevels = 1;
+
+	desc.Format = DXGI_FORMAT_UNKNOWN;
+
+	hr = DXRenderSystem::GetInstance().GetDevice()->CreateCommittedResource(
+		&prop,
+		D3D12_HEAP_FLAG_NONE,
+		&desc,
+		D3D12_RESOURCE_STATE_GENERIC_READ,
+		nullptr,
+		IID_PPV_ARGS(timeInfoCB.GetAddressOf())
+
+	);
+
+	if (FAILED(hr))
+	{
+		std::cerr << "時間の情報を持ったTIBVのリソース作成失敗" << std::endl;
+
+		return false;
+	}
+
+	return true;
+}
+
+bool Renderer::LinkTimeInfoCBVToDescHeap()
+{
+	timeInfoCBHandle = std::move(heapManager.GetHandle());
+
+	timeInfoCBView.BufferLocation = timeInfoCB->GetGPUVirtualAddress();
+
+	timeInfoCBView.SizeInBytes = sizeof(TimeInfo);
+
+	DXRenderSystem::GetInstance().GetDevice()->CreateConstantBufferView(&timeInfoCBView, timeInfoCBHandle->cpuHandle);
+
+	return true;
+}
+
+bool Renderer::MapTICB()
+{
+	auto system = GameManager::GetInstance();
+
+	timeInfo.GameTime = system.GetGameTime();
+	timeInfo.GameDeltaTime = system.GetGameDeltaTime();
+	timeInfo.RealTime = system.GetRealTime();
+	timeInfo.RealDeltaTime = system.GetRealDeltaTime();
+
+	void* ptr = nullptr;
+
+	hr = timeInfoCB->Map(0, nullptr, &ptr);
+
+	if (FAILED(hr))
+	{
+		std::cerr << "時間の情報が収納されたCBのマッピング失敗" << std::endl;
+
+		return false;
+	}
+
+	memcpy(ptr, &timeInfo, sizeof(TimeInfo));
+
+	timeInfoCB->Unmap(0, nullptr);
+
+	return true;
+}
+
+bool Renderer::InitMaterialResource()
+{
+	UINT bufferSize = sizeof(Material) * mats.size();
+
+	D3D12_HEAP_PROPERTIES prop = {};
+
+	prop.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_UNKNOWN;
+
+	prop.Type = D3D12_HEAP_TYPE_UPLOAD;
+
+	prop.CreationNodeMask = 1;
+
+	prop.VisibleNodeMask = 1;
+
+	prop.MemoryPoolPreference = D3D12_MEMORY_POOL_UNKNOWN;
+
+	D3D12_RESOURCE_DESC desc = {  };
+
+	desc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
+
+	desc.Alignment = 0;
+
+	desc.Height = 1;
+
+	desc.Width = bufferSize;
+
+	desc.Flags = D3D12_RESOURCE_FLAG_NONE;
+
+	desc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
+
+	desc.SampleDesc.Count = 1;
+
+	desc.SampleDesc.Quality = 0;
+
+	desc.DepthOrArraySize = 1;
+
+	desc.MipLevels = 1;
+
+	desc.Format = DXGI_FORMAT_UNKNOWN;
+
+	hr = DXRenderSystem::GetInstance().GetDevice()->CreateCommittedResource(
+		&prop,
+		D3D12_HEAP_FLAG_NONE,
+		&desc,
+		D3D12_RESOURCE_STATE_GENERIC_READ,
+		nullptr,
+		IID_PPV_ARGS(materialResource.GetAddressOf())
+	);
+
+	if (FAILED(hr))
+	{
+		std::cerr << "マテリアルのリソースの作成失敗" << std::endl;
+
+		return false;
+	}
+
+	return true;
+}
+
+bool Renderer::MapMB()
+{
+	void* ptr = nullptr;
+
+	hr = materialResource->Map(0, nullptr, &ptr);
+
+	if (FAILED(hr))
+	{
+		std::cerr << "マテリアルの情報が収納されたMBのマッピング失敗" << std::endl;
+
+		return false;
+	}
+
+	memcpy(ptr, mats.data(), sizeof(Material) * mats.size());
+
+	materialResource->Unmap(0, nullptr);
+
+	return true;
+}
+
+bool Renderer::InitSRVForMaterialResource()
+{
+	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
+	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_BUFFER;
+	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+	srvDesc.Buffer.FirstElement = 0;
+	srvDesc.Buffer.NumElements = mats.size();
+	srvDesc.Buffer.StructureByteStride = sizeof(Material);
+	srvDesc.Buffer.Flags = D3D12_BUFFER_SRV_FLAG_NONE;
+
+	materialHandle = std::move(heapManager.GetHandle());
+
+	DXRenderSystem::GetInstance().GetDevice()->CreateShaderResourceView(materialResource.Get(), &srvDesc, materialHandle->cpuHandle);
+
+	return true;
+}
+
+void Renderer::CreateSRV(ComPtr<ID3D12Resource> texResource , D3D12_CPU_DESCRIPTOR_HANDLE handle)
+{
 	auto texture_desc = texResource->GetDesc();
 
 	D3D12_SHADER_RESOURCE_VIEW_DESC desc = {};
@@ -381,7 +587,7 @@ void Renderer::CreateSRV(ComPtr<ID3D12Resource> texResource)
 	desc.Texture2D.ResourceMinLODClamp = 0;
 	desc.Texture2D.PlaneSlice = 0;
 
-	DXRenderSystem::GetInstance().GetDevice()->CreateShaderResourceView(texResource.Get(), &desc, texHandles[texHandles.size() - 1]->cpuHandle);
+	DXRenderSystem::GetInstance().GetDevice()->CreateShaderResourceView(texResource.Get(), &desc, handle);
 }
 
 void Renderer::RegisterTextureSRV()
@@ -390,9 +596,47 @@ void Renderer::RegisterTextureSRV()
 
 	for (int i = 0;i < meshData->meshes.size();i++)
 	{
-		CreateSRV(meshData->meshes[i].texResource);
-		CreateSRV(meshData->meshes[i].normalTexResource);
+		auto list = heapManager.GetSerialHandle(2);
+
+		CreateSRV(meshData->meshes[i].texResource , list[0]->cpuHandle);
+		CreateSRV(meshData->meshes[i].normalTexResource , list[1]->cpuHandle);
+
+		for (int i = 0;i < list.size();i++)
+		{
+			texHandles.push_back(std::move(list[i]));
+		}
 	}
+}
+
+void Renderer::ApplyTextureOnMesh(int idx , Renderer::TEXTURE_TYPE type , ComPtr<ID3D12Resource> texResource)
+{
+	auto texture_desc = texResource->GetDesc();
+
+	D3D12_SHADER_RESOURCE_VIEW_DESC desc = {};
+
+	desc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
+
+	desc.Format = texture_desc.Format;
+
+	desc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+
+	desc.Texture2D.MipLevels = texture_desc.MipLevels;
+	desc.Texture2D.MostDetailedMip = 0;
+	desc.Texture2D.ResourceMinLODClamp = 0;
+	desc.Texture2D.PlaneSlice = 0;
+
+	int index = idx * TEXTURE_TYPE::CountLast + (int)type;
+
+	DXRenderSystem::GetInstance().GetDevice()->CreateShaderResourceView(texResource.Get(), &desc, texHandles[index]->cpuHandle);
+}
+
+void Renderer::ApplyTextureOnMesh(int idx, Renderer::TEXTURE_TYPE type, ComPtr<ID3D12Resource> texResource , D3D12_SHADER_RESOURCE_VIEW_DESC desc)
+{
+	auto texture_desc = texResource->GetDesc();
+
+	int index = idx * TEXTURE_TYPE::CountLast + (int)type;
+
+	DXRenderSystem::GetInstance().GetDevice()->CreateShaderResourceView(texResource.Get(), &desc, texHandles[index]->cpuHandle);
 }
 
 bool Renderer::CreateMesh(const MeshLoader::MESHTYPE type)
@@ -401,9 +645,22 @@ bool Renderer::CreateMesh(const MeshLoader::MESHTYPE type)
 
 	meshData = MeshLoader::GetInstance().GetMesh(type);
 
+	mats.clear();
+
+	for (int i = 0;i < meshData->meshes.size();i++)
+	{
+		mats.push_back(meshData->meshes[i].mat);
+	}
+
 	RegisterTextureSRV();
 
 	InitInCreateMesh();
+
+	InitMaterialResource();
+
+	MapMB();
+
+	InitSRVForMaterialResource();
 
 	return true;
 }
@@ -431,6 +688,20 @@ int Renderer::GetRootParamNum()
 	return param.size();
 }
 
+void Renderer::SetPrimitiveType(D3D12_PRIMITIVE_TOPOLOGY type)
+{
+	primitiveType = type;
+
+	CreateRootSignature();
+
+	CreateRenderPipeline();
+}
+
+D3D12_PRIMITIVE_TOPOLOGY Renderer::GetPrimitiveType()
+{
+	return primitiveType;
+}
+
 void Renderer::AddInputElementDesc(D3D12_INPUT_ELEMENT_DESC desc)
 {
 	descElement.emplace_back(desc);
@@ -449,6 +720,18 @@ void Renderer::SetRasterizerDesc(D3D12_RASTERIZER_DESC desc)
 void Renderer::SetRTBDesc(D3D12_RENDER_TARGET_BLEND_DESC desc)
 {
 	descRtBlend = desc;
+}
+
+std::vector<std::string> Renderer::GetMeshNameList()
+{
+	std::vector<std::string> list;
+
+	for (auto& mesh : meshData->meshes)
+	{
+		list.push_back(mesh.meshName);
+	}
+
+	return list;
 }
 
 void Renderer::LoadVertexShader(LPCWSTR vsName)
@@ -475,6 +758,26 @@ void Renderer::LoadPixelShader(LPCWSTR psName)
 	}
 }
 
+Material& Renderer::GetMaterial(int idx)
+{
+	return mats[idx];
+}
+
+void Renderer::SetMaterial(int idx , const Material& mat)
+{
+	mats[idx] = mat;
+}
+
+D3D12_GPU_DESCRIPTOR_HANDLE Renderer::GetTextureGPUHandle(int idx, Renderer::TEXTURE_TYPE type)
+{
+	return texHandles[idx * TEXTURE_TYPE::CountLast + (int)type]->gpuHandle;
+}
+
+D3D12_CPU_DESCRIPTOR_HANDLE Renderer::GetTextureCPUHandle(int idx, Renderer::TEXTURE_TYPE type)
+{
+	return texHandles[idx * TEXTURE_TYPE::CountLast + (int)type]->cpuHandle;
+}
+
 void Renderer::SetDepthStencilDesc(D3D12_DEPTH_STENCIL_DESC desc)
 {
 	dsDesc = desc;
@@ -482,7 +785,7 @@ void Renderer::SetDepthStencilDesc(D3D12_DEPTH_STENCIL_DESC desc)
 
 void Renderer::PrepareForRootSignature()
 {
-	param.resize(6);
+	param.resize(8);
 
 	param[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
 
@@ -552,6 +855,22 @@ void Renderer::PrepareForRootSignature()
 
 	param[5].Descriptor.RegisterSpace = 0;
 
+	param[6].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
+
+	param[6].ParameterType = D3D12_ROOT_PARAMETER_TYPE_SRV;
+
+	param[6].Descriptor.ShaderRegister = 30;
+
+	param[6].Descriptor.RegisterSpace = 0;
+
+	param[7].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
+
+	param[7].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
+
+	param[7].Descriptor.ShaderRegister = 2;
+
+	param[7].Descriptor.RegisterSpace = 0;
+
 	descSampler = {};
 
 	descSampler.Filter = D3D12_FILTER_ANISOTROPIC;
@@ -572,7 +891,7 @@ void Renderer::PrepareForRootSignature()
 
 void Renderer::PrepareForRenderPipeline()
 {
-	D3D12_INPUT_ELEMENT_DESC desc_element[8] = {
+	D3D12_INPUT_ELEMENT_DESC desc_element[9] = {
 	{ "POSITION",  0, DXGI_FORMAT_R32G32B32_FLOAT,     0,  0,  D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
 	{ "TEXCOORD",  0, DXGI_FORMAT_R32G32_FLOAT,        0, 12,  D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
 	{ "NORMAL",    0, DXGI_FORMAT_R32G32B32_FLOAT,     0, 20,  D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 }, 
@@ -580,7 +899,8 @@ void Renderer::PrepareForRenderPipeline()
 	{ "TANGENT",   0, DXGI_FORMAT_R32G32B32_FLOAT,     0, 48,  D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 }, 
 	{ "BONEID",    0, DXGI_FORMAT_R32G32B32A32_FLOAT,  0, 60,  D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
 	{ "WEIGHT",    0, DXGI_FORMAT_R32G32B32A32_FLOAT,  0, 76,  D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 }, 
-	{ "PARENT",    0, DXGI_FORMAT_R32_FLOAT,           0, 92,  D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 } 
+	{ "PARENT",    0, DXGI_FORMAT_R32_FLOAT,           0, 92,  D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+	{ "INDEX",    0, DXGI_FORMAT_R32_FLOAT,           0, 96,  D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
 	};
 
 	descElement.assign(std::begin(desc_element), std::end(desc_element));
@@ -696,6 +1016,65 @@ bool Renderer::CreateRootSignature()
 	return true;
 }
 
+D3D12_PRIMITIVE_TOPOLOGY_TYPE GetTopologyType(D3D_PRIMITIVE_TOPOLOGY topology)
+{
+	switch (topology)
+	{
+	case D3D_PRIMITIVE_TOPOLOGY_POINTLIST:
+		return D3D12_PRIMITIVE_TOPOLOGY_TYPE_POINT;
+
+	case D3D_PRIMITIVE_TOPOLOGY_LINELIST:
+	case D3D_PRIMITIVE_TOPOLOGY_LINESTRIP:
+	case D3D_PRIMITIVE_TOPOLOGY_LINELIST_ADJ:
+	case D3D_PRIMITIVE_TOPOLOGY_LINESTRIP_ADJ:
+		return D3D12_PRIMITIVE_TOPOLOGY_TYPE_LINE;
+
+	case D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST:
+	case D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP:
+	case D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST_ADJ:
+	case D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP_ADJ:
+		return D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+
+		// テッセレーション用（patch）
+	case D3D_PRIMITIVE_TOPOLOGY_1_CONTROL_POINT_PATCHLIST:
+	case D3D_PRIMITIVE_TOPOLOGY_2_CONTROL_POINT_PATCHLIST:
+	case D3D_PRIMITIVE_TOPOLOGY_3_CONTROL_POINT_PATCHLIST:
+	case D3D_PRIMITIVE_TOPOLOGY_4_CONTROL_POINT_PATCHLIST:
+	case D3D_PRIMITIVE_TOPOLOGY_5_CONTROL_POINT_PATCHLIST:
+	case D3D_PRIMITIVE_TOPOLOGY_6_CONTROL_POINT_PATCHLIST:
+	case D3D_PRIMITIVE_TOPOLOGY_7_CONTROL_POINT_PATCHLIST:
+	case D3D_PRIMITIVE_TOPOLOGY_8_CONTROL_POINT_PATCHLIST:
+	case D3D_PRIMITIVE_TOPOLOGY_9_CONTROL_POINT_PATCHLIST:
+	case D3D_PRIMITIVE_TOPOLOGY_10_CONTROL_POINT_PATCHLIST:
+	case D3D_PRIMITIVE_TOPOLOGY_11_CONTROL_POINT_PATCHLIST:
+	case D3D_PRIMITIVE_TOPOLOGY_12_CONTROL_POINT_PATCHLIST:
+	case D3D_PRIMITIVE_TOPOLOGY_13_CONTROL_POINT_PATCHLIST:
+	case D3D_PRIMITIVE_TOPOLOGY_14_CONTROL_POINT_PATCHLIST:
+	case D3D_PRIMITIVE_TOPOLOGY_15_CONTROL_POINT_PATCHLIST:
+	case D3D_PRIMITIVE_TOPOLOGY_16_CONTROL_POINT_PATCHLIST:
+	case D3D_PRIMITIVE_TOPOLOGY_17_CONTROL_POINT_PATCHLIST:
+	case D3D_PRIMITIVE_TOPOLOGY_18_CONTROL_POINT_PATCHLIST:
+	case D3D_PRIMITIVE_TOPOLOGY_19_CONTROL_POINT_PATCHLIST:
+	case D3D_PRIMITIVE_TOPOLOGY_20_CONTROL_POINT_PATCHLIST:
+	case D3D_PRIMITIVE_TOPOLOGY_21_CONTROL_POINT_PATCHLIST:
+	case D3D_PRIMITIVE_TOPOLOGY_22_CONTROL_POINT_PATCHLIST:
+	case D3D_PRIMITIVE_TOPOLOGY_23_CONTROL_POINT_PATCHLIST:
+	case D3D_PRIMITIVE_TOPOLOGY_24_CONTROL_POINT_PATCHLIST:
+	case D3D_PRIMITIVE_TOPOLOGY_25_CONTROL_POINT_PATCHLIST:
+	case D3D_PRIMITIVE_TOPOLOGY_26_CONTROL_POINT_PATCHLIST:
+	case D3D_PRIMITIVE_TOPOLOGY_27_CONTROL_POINT_PATCHLIST:
+	case D3D_PRIMITIVE_TOPOLOGY_28_CONTROL_POINT_PATCHLIST:
+	case D3D_PRIMITIVE_TOPOLOGY_29_CONTROL_POINT_PATCHLIST:
+	case D3D_PRIMITIVE_TOPOLOGY_30_CONTROL_POINT_PATCHLIST:
+	case D3D_PRIMITIVE_TOPOLOGY_31_CONTROL_POINT_PATCHLIST:
+	case D3D_PRIMITIVE_TOPOLOGY_32_CONTROL_POINT_PATCHLIST:
+		return D3D12_PRIMITIVE_TOPOLOGY_TYPE_PATCH;
+
+	default:
+		return D3D12_PRIMITIVE_TOPOLOGY_TYPE_UNDEFINED;
+	}
+}
+
 bool Renderer::CreateRenderPipeline()
 {
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC desc_pipe = {};
@@ -716,7 +1095,7 @@ bool Renderer::CreateRenderPipeline()
 
 	desc_pipe.SampleMask = UINT_MAX;
 
-	desc_pipe.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+	desc_pipe.PrimitiveTopologyType = GetTopologyType(primitiveType);
 
 	desc_pipe.NumRenderTargets = 1;
 
@@ -801,7 +1180,7 @@ bool Renderer::InitDirectionalLightBResource()
 
 	if (FAILED(hr))
 	{
-		std::cerr << "ボーンバッファのリソースの作成失敗" << std::endl;
+		std::cerr << "ダイレクショナルライトのリソースの作成失敗" << std::endl;
 
 		return false;
 	}

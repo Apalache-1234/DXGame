@@ -10,7 +10,7 @@ DebugSpotLight::~DebugSpotLight()
 
 void DebugSpotLight::Update()
 {
-	InitDebugRenderer();
+	InitDebugSpotLightRenderer();
 
 	if (!InitIVB())
 		std::cerr << "DebugSpotLight‚Ì‰Šú‰»Ž¸”s" << std::endl;
@@ -112,10 +112,8 @@ bool DebugSpotLight::InitLIBV()
 	return true;
 }
 
-void DebugSpotLight::InitDebugRenderer()
+void DebugSpotLight::InitDebugSpotLightRenderer()
 {
-	CreateMesh(MeshLoader::SPHERE);
-
 	auto DLList = GameManager::GetInstance().GetComponentList<SpotLight>();
 
 	instances.clear();
@@ -141,7 +139,7 @@ void DebugSpotLight::InitDebugRenderer()
 		auto xQ = DirectX::XMQuaternionRotationAxis(xAxis, atan2(DirectX::XMVectorGetY(dir), DirectX::XMVectorGetX(length)));
 		auto r = yRot * DirectX::XMMatrixRotationQuaternion(xQ);
 
-		auto adjustPos = DirectX::XMVectorAdd(DLList[i]->attachFrom->GetWorldPosition(), DirectX::XMVector3Transform(DirectX::XMVectorScale(Utility::right, DLList[i]->GetLength()/2), r));
+		auto adjustPos = DirectX::XMVectorAdd(DLList[i]->attachFrom->GetWorldPosition(), DirectX::XMVector3Transform(DirectX::XMVectorScale(Utility::right, DLList[i]->GetLength() / 2), r));
 
 		auto t = DirectX::XMMatrixTranslationFromVector(adjustPos);
 
@@ -159,10 +157,15 @@ void DebugSpotLight::InitDebugRenderer()
 		lightIndex.emplace_back(i);
 	}
 	instanceCount = instances.size();
+}
 
+void DebugSpotLight::InitDebugRenderer()
+{
 	LoadVertexShader(L"DebugSpotLightVertexShader.cso");
 	LoadPixelShader(L"DebugSpotLightPixelShader.cso");
-	
+
+	CreateMesh(MeshLoader::SPHERE);
+
 	D3D12_INPUT_ELEMENT_DESC param = { "LIGHT_INDEX", 0, DXGI_FORMAT_R32_FLOAT, 2, 0, D3D12_INPUT_CLASSIFICATION_PER_INSTANCE_DATA, 1 };
 	AddInputElementDesc(param);
 
@@ -179,4 +182,6 @@ void DebugSpotLight::InitDebugRenderer()
 	dsDesc.StencilEnable = false;
 
 	SetDepthStencilDesc(dsDesc);
+
+	InitDebugSpotLightRenderer();
 }

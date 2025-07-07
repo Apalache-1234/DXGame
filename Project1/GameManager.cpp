@@ -4,6 +4,7 @@
 GameManager::GameManager()
 {
 	QueryPerformanceCounter(&base);
+	QueryPerformanceCounter(&baseReal);
 	QueryPerformanceFrequency(&freq);
 }
 
@@ -86,11 +87,23 @@ void GameManager::MainLoop()
 	LARGE_INTEGER curr;
 	QueryPerformanceCounter(&curr);
 
+	RealTime = (float)(curr.QuadPart - baseReal.QuadPart) / freq.QuadPart;
+
+	RealDeltaTime = RealTime - prevRealTime;
+
+	prevRealTime = RealTime;
+
+	if (pause)
+	{
+		GameDeltaTime = 0;
+		return;
+	}
+		
 	GameTime = (float)(curr.QuadPart - base.QuadPart) / freq.QuadPart;
 
-	DeltaTime = GameTime - prevTime;
+	GameDeltaTime = GameTime - prevGameTime;
 
-	prevTime = GameTime;
+	prevGameTime = GameTime;
 
 	for (int i = 0;i<entities.size();i++)
 	{
@@ -133,4 +146,24 @@ void GameManager::SetAmbientColor(DirectX::XMFLOAT3 col)
 	auto xmvec = DirectX::XMVectorClamp(DirectX::XMLoadFloat3(&col), DirectX::XMVectorZero(), DirectX::XMVectorSplatOne());
 
 	DirectX::XMStoreFloat3(&ambientColor , xmvec);
+}
+
+float GameManager::GetGameTime()
+{
+	return GameTime;
+}
+
+float GameManager::GetGameDeltaTime()
+{
+	return GameDeltaTime;
+}
+
+float GameManager::GetRealTime()
+{
+	return RealTime;
+}
+
+float GameManager::GetRealDeltaTime()
+{
+	return RealDeltaTime;
 }

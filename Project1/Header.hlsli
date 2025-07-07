@@ -1,5 +1,3 @@
-#pragma once
-
 cbuffer transform : register(b0)
 {
 	float4x4 world_mat : packoffset(c0);
@@ -19,6 +17,17 @@ cbuffer LightInfo : register(b1)
 	float4 spotLightNum : packoffset(c3);
 	float4 cameraPos : packoffset(c4);
 }
+
+cbuffer TimeInfo: register(b2)
+{
+    float GameTime : packoffset(c0);
+
+    float GameDeltaTime : packoffset(c1);
+
+    float RealTime : packoffset(c2);
+
+    float RealDeltaTime : packoffset(c3);
+};
 
 Texture2D tex : register(t0);
 Texture2D normal : register(t1);
@@ -60,12 +69,25 @@ struct SpotLight
 	float length;
 };
 
+struct Material
+{
+    float3 DIFFUSE;
+    float3 SPECULAR;
+    float3 AMBIENT;
+    float3 REFLECTIVE;
+    float3 TRANSPARENT;
+    float3 EMISSIVE;
+    float2 UVPOS;
+    float2 UVSCALE;
+};
 
 StructuredBuffer<DirectionalLight> DirectionalLights : register(t10);
 
 StructuredBuffer<PointLight> PointLights : register(t11);
 
 StructuredBuffer<SpotLight> SpotLights : register(t12);
+
+StructuredBuffer<Material> Materials : register(t30);
 
 float4 normalizeColor(float4 col)
 {
@@ -81,6 +103,12 @@ float4 normalizeColor(float4 col)
 	}
 
 	return col;
+}
+
+float2 TransformUV(float2 uv , int matIdx)
+{
+    return (uv + Materials[matIdx].UVPOS) * Materials[matIdx].UVSCALE;
+
 }
 
 float4 ReturnPhongLighting(float3 lightCol , float4 col, float3 pos,  float3 lightDir , float3 normal)

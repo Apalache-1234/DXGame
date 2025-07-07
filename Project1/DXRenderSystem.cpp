@@ -10,6 +10,7 @@
 #include "DebugPointLight.h"
 #include "DebugSpotLight.h"
 #include "DebugGrids.h"
+#include "DebugUIRenderer.h"
 
 DXRenderSystem::DXRenderSystem()
 {
@@ -182,6 +183,8 @@ void DXRenderSystem::Draw()
 
 	RenderComponent<SkinnedRenderer>();
 
+
+
 	if (*Flags::GetInstance().isDebug)
 	{
 		RenderComponent<DebugCollider>();
@@ -194,6 +197,11 @@ void DXRenderSystem::Draw()
 	}
 
 	RenderComponent<UIRenderer>();
+
+	if (*Flags::GetInstance().isDebug)
+	{
+		RenderComponent<DebugUIRenderer>();
+	}
 	
 	RenderIMGUI();
 

@@ -29,7 +29,7 @@ void DebugCollider::Update()
 
 	if (sameCol != instanceCount)
 	{
-		InitDebugRenderer();
+		InitDebugColliderRenderer();
 
 		if (!InitIVB())
 			std::cerr << "DebugRenderer‚Ì‰Šú‰»Ž¸”s" << std::endl;
@@ -48,22 +48,8 @@ void DebugCollider::Update()
 	MapDVB();
 }
 
-void DebugCollider::InitDebugRenderer()
+void DebugCollider::InitDebugColliderRenderer()
 {
-	primitiveType = D3D10_PRIMITIVE_TOPOLOGY_LINESTRIP;
-
-
-	switch (debugForType)
-	{
-	case Collider::Cube:
-		CreateMesh(MeshLoader::BOX);
-		LoadPixelShader(L"DebugColBoxPixelShader.cso");
-		break;
-	case Collider::Sphere:
-		CreateMesh(MeshLoader::SPHERE);
-		break;
-	}
-
 	auto colList = GameManager::GetInstance().GetComponentList<Collider>();
 
 	instances.clear();
@@ -86,4 +72,22 @@ void DebugCollider::InitDebugRenderer()
 	}
 
 	instanceCount = instances.size();
+}
+
+void DebugCollider::InitDebugRenderer()
+{
+	SetPrimitiveType(D3D10_PRIMITIVE_TOPOLOGY_LINESTRIP);
+
+	switch (debugForType)
+	{
+	case Collider::Cube:
+		CreateMesh(MeshLoader::BOX);
+		LoadPixelShader(L"DebugColBoxPixelShader.cso");
+		break;
+	case Collider::Sphere:
+		CreateMesh(MeshLoader::SPHERE);
+		break;
+	}
+
+	InitDebugColliderRenderer();
 }

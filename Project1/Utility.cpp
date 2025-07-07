@@ -59,6 +59,10 @@ namespace Utility
         std::cout << std::endl;
     }
 
+    UINT Align256(UINT size)
+    {
+        return (size + 255) & ~255;
+    }
 
     DirectX::XMMATRIX CreateTransMat(const DirectX::FXMVECTOR xm1 , const DirectX::GXMVECTOR xm2 , const DirectX::HXMVECTOR xm3)
     {

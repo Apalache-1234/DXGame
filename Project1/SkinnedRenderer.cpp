@@ -432,7 +432,7 @@ void SkinnedRenderer::Update()
 {
 	if (isAnimPlaying)
 	{
-		animTimeCur += GameManager::GetInstance().DeltaTime * animSpeed;
+		animTimeCur += GameManager::GetInstance().GetGameDeltaTime() * animSpeed;
 
 		if (animTimeCur >= animTime)
 		{

@@ -30,24 +30,83 @@ DescriptorHeapManager::~DescriptorHeapManager()
 	free.clear();
 }
 
-void DescriptorHeapManager::BackHandles(D3D12_CPU_DESCRIPTOR_HANDLE cpuHandle , D3D12_GPU_DESCRIPTOR_HANDLE gpuHandle)
+void DescriptorHeapManager::BackHandles(D3D12_CPU_DESCRIPTOR_HANDLE cpuHandle , D3D12_GPU_DESCRIPTOR_HANDLE gpuHandle , int idx)
 {
-	assert(free.size() < capacity );
+	HandleStatus status = {};
 
-	auto handle = std::make_unique<PtrHandles>(cpuHandle, gpuHandle, this);
+	free[idx]->handle = std::make_unique<PtrHandles>(cpuHandle, gpuHandle, this);
+	free[idx]->handle->idx = idx;
 
-	free.push_back(std::move(handle));
+	free[idx]->isEmpty = false;
 }
 
 std::unique_ptr<DescriptorHeapManager::PtrHandles> DescriptorHeapManager::GetHandle()
 {
-	assert(free.size() >= 0);
+	int temp = nextIndex;
 
-	auto handles = std::move(free.front());
+	while (free[nextIndex]->isEmpty)
+	{
+		nextIndex = (nextIndex + 1) % free.size();
 
-	free.erase(free.begin());
+		if (temp == nextIndex)
+			assert(true);
+	}
+
+	auto handles = std::move(free[nextIndex]->handle);
+	free[nextIndex]->isEmpty = true;
+	nextIndex = (nextIndex + 1) % free.size();
 
 	return handles;
+}
+
+std::vector<std::unique_ptr<DescriptorHeapManager::PtrHandles>> DescriptorHeapManager::GetSerialHandle(UINT num)
+{
+	int temp = nextIndex;
+
+	bool isFound = false;
+
+	std::vector<std::unique_ptr<DescriptorHeapManager::PtrHandles>> list;
+
+	while (!isFound)
+	{
+		while (free[nextIndex]->isEmpty)
+		{
+			nextIndex = (nextIndex + 1) % free.size();
+
+			if (temp == nextIndex)
+				assert(true);
+		}
+
+		for (int i = 1;i < num;i++)
+		{
+			if (nextIndex + i == free.size())
+			{
+				nextIndex = 0;
+				break;
+			}
+
+			if (free[nextIndex + i]->isEmpty)
+			{
+				nextIndex = (nextIndex + i + 1) % free.size();
+				break;
+			}
+			else if (i == num - 1)
+			{
+				isFound = true;
+			}
+		}
+	}
+
+	for (int i = 0;i < num;i++)
+	{
+		list.push_back(std::move(free[nextIndex + i]->handle));
+
+		free[nextIndex + i]->isEmpty = true;
+	}
+
+	nextIndex = (nextIndex + num ) % free.size();
+
+	return list;
 }
 
 ComPtr<ID3D12DescriptorHeap> DescriptorHeapManager::GetHeap()
@@ -94,6 +153,8 @@ bool DescriptorHeapManager::InitList()
 
 	for (int i = 0;i < capacity;i++)
 	{
+		free.push_back(std::make_unique<HandleStatus>());
+
 		auto cpuHandle = heap->GetCPUDescriptorHandleForHeapStart();
 		cpuHandle.ptr += increment * i;
 
@@ -105,9 +166,8 @@ bool DescriptorHeapManager::InitList()
 			gpuHandle.ptr += increment * i;
 		}
 
-		auto handle = std::make_unique<PtrHandles>(cpuHandle, gpuHandle, this);
-
-		free.push_back(std::move(handle));
+		free.back()->handle = std::make_unique<PtrHandles>(cpuHandle, gpuHandle, this);
+		free.back()->handle->idx = i;
 	}
 
 	return true;

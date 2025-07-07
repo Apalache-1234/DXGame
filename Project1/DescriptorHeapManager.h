@@ -14,6 +14,8 @@ using namespace std;
 #ifndef DESCRIPTORHEAPMANAGER_H
 #define DESCRIPTORHEAPMANAGER_H
 
+struct HandleStatus;
+
 class DescriptorHeapManager
 {
 public:
@@ -27,7 +29,7 @@ public:
 
 	~DescriptorHeapManager();
 
-	void BackHandles(D3D12_CPU_DESCRIPTOR_HANDLE cpuHandle, D3D12_GPU_DESCRIPTOR_HANDLE gpuHandle);
+	void BackHandles(D3D12_CPU_DESCRIPTOR_HANDLE cpuHandle, D3D12_GPU_DESCRIPTOR_HANDLE gpuHandle , int idx);
 
 	struct PtrHandles
 	{
@@ -36,12 +38,14 @@ public:
 
 		D3D12_GPU_DESCRIPTOR_HANDLE gpuHandle;
 
+		int idx = 0;
+
 		PtrHandles(D3D12_CPU_DESCRIPTOR_HANDLE cpuPtr, D3D12_GPU_DESCRIPTOR_HANDLE gpuPtr, DescriptorHeapManager* heap) : cpuHandle(cpuPtr), gpuHandle(gpuPtr), descHeap(heap) {}
 
 		void ReturnHandle()
 		{
 			if (!descHeap->IsDestroyed())
-				descHeap->BackHandles(cpuHandle, gpuHandle);
+				descHeap->BackHandles(cpuHandle, gpuHandle , idx);
 		}
 
 		~PtrHandles()
@@ -54,6 +58,8 @@ public:
 
 	std::unique_ptr<DescriptorHeapManager::PtrHandles> GetHandle();
 
+	std::vector<std::unique_ptr<DescriptorHeapManager::PtrHandles>> GetSerialHandle(UINT num);
+
 	ComPtr<ID3D12DescriptorHeap> GetHeap();
 
 	bool IsDestroyed();
@@ -65,13 +71,15 @@ private:
     /// </summary>
 	ComPtr<ID3D12DescriptorHeap> heap;
 
-	std::vector<std::unique_ptr<PtrHandles>> free;
+	std::vector<std::unique_ptr<HandleStatus>> free;
 
 	bool InitList();
 
 	UINT capacity = 0;
 
 	bool isDestroyed = false;
+
+	UINT nextIndex = 0;
 };
 
 namespace std
@@ -86,6 +94,13 @@ namespace std
 			delete handle;
 		}
 	};
+};
+
+struct HandleStatus
+{
+	std::unique_ptr<DescriptorHeapManager::PtrHandles> handle;
+
+	bool isEmpty = false;
 };
 
 #endif

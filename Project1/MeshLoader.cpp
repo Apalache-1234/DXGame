@@ -75,7 +75,7 @@ bool MeshLoader::LoadMesh(const std::string filePath , MESHTYPE type)
 
 		GameManager::GetInstance().UnpauseTime();
 
-		meshData[type].meshes = meshes;
+		meshData[type].meshes = std::move(meshes);
 
 		RelateMeshWithBone(meshData[type], *meshData[type].scene.mRootNode);
 
@@ -163,7 +163,6 @@ void MeshLoader::Init(MESHTYPE type)
 
 		IBUploadToDefultHeap(meshData[type].meshes[i], uploadIndexBuffer);
 	}
-
 }
 
 void MeshLoader::StoreVertices(const std::string filePath, std::vector<Mesh>& meshes , MeshData& meshData)
@@ -180,6 +179,8 @@ void MeshLoader::StoreVertices(const std::string filePath, std::vector<Mesh>& me
 
 		meshes[i].vertexDatas.resize(mesh->mNumVertices);
 		meshes[i].vertexBoneDatas.resize(mesh->mNumVertices);
+
+		meshes[i].meshName = mesh->mName.C_Str();
 
 		for (int j = 0; j < mesh->mNumVertices; j++)
 		{
@@ -200,6 +201,7 @@ void MeshLoader::StoreVertices(const std::string filePath, std::vector<Mesh>& me
 			data->tangent = XMFLOAT3(tan.x, tan.y, tan.z);
 			data->texCoord = XMFLOAT2(coord.x, coord.y);
 			data->color = XMFLOAT4(col.r, col.g, col.b, col.a);
+			data->index = i;
 		}
 
 		meshes[i].indices.resize(mesh->mNumFaces * 3);
@@ -348,6 +350,20 @@ void MeshLoader::InitMaterial(const std::string filePath, const aiMesh& mesh, Me
 	{
 		data.normalTexResource = TextureLoader::GetInstance().LoadTexture("Textures/normal.dds");
 	}
+
+	aiColor3D col = {};
+	mat->Get(AI_MATKEY_COLOR_DIFFUSE , col);
+	data.mat.DIFFUSE = DirectX::XMFLOAT3(col.r, col.g, col.b);
+	mat->Get(AI_MATKEY_COLOR_SPECULAR , col);
+	data.mat.SPECULAR = DirectX::XMFLOAT3(col.r, col.g, col.b);
+	mat->Get(AI_MATKEY_COLOR_AMBIENT , col);
+	data.mat.AMBIENT = DirectX::XMFLOAT3(col.r, col.g, col.b);
+	mat->Get(AI_MATKEY_COLOR_REFLECTIVE , col);
+	data.mat.REFLECTIVE = DirectX::XMFLOAT3(col.r, col.g, col.b);
+	mat->Get(AI_MATKEY_COLOR_TRANSPARENT , col);
+	data.mat.TRANSPARENT = DirectX::XMFLOAT3(col.r, col.g, col.b);
+	mat->Get(AI_MATKEY_COLOR_EMISSIVE , col);
+	data.mat.EMISSIVE = DirectX::XMFLOAT3(col.r, col.g, col.b);
 }
 
 bool MeshLoader::InitVBVResource(MeshLoader::Mesh& mesh, ComPtr<ID3D12Resource>& uploadVertexBuffer)

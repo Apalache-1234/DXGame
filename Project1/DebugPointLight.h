@@ -32,6 +32,7 @@ public:
 	~DebugPointLight();
 protected:
 	void Update() override;
+	void InitDebugPointLightRender();
 private:
 	void InitDebugRenderer() override;
 };

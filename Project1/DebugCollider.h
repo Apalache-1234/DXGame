@@ -34,6 +34,7 @@ public:
 protected:
 
 	void Update() override;
+	void InitDebugColliderRenderer();
 private:
 	void InitDebugRenderer() override;
 

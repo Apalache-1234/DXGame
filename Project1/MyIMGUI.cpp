@@ -7,6 +7,8 @@
 #include "DirectionalLight.h"
 #include "PointLight.h"
 #include "SpotLight.h"
+#include "SkyBox.h"
+#include "PhysicSystem.h"
 
 std::unique_ptr<MyIMGUI> MyIMGUI::instance = nullptr;
 
@@ -115,19 +117,31 @@ void ShowInfo()
 
 	ImGui::Text(str.c_str());
 
-	str = "GameTime : " + std::to_string(GameManager::GetInstance().GameTime);
+	str = "GameTime : " + std::to_string(GameManager::GetInstance().GetGameTime());
 
 	ImGui::Text(str.c_str());
 
-	str = "DeltaTime : " + std::to_string(GameManager::GetInstance().DeltaTime);
+	str = "GameDeltaTime : " + std::to_string(GameManager::GetInstance().GetGameDeltaTime());
+
+	ImGui::Text(str.c_str());
+
+	str = "RealTime : " + std::to_string(GameManager::GetInstance().GetRealTime());
+
+	ImGui::Text(str.c_str());
+
+	str = "RealDeltaTime : " + std::to_string(GameManager::GetInstance().GetRealDeltaTime());
 
 	ImGui::Text(str.c_str());
 }
 
 bool showEntityWindow = false;
 bool showAnimationWindow = false;
+bool showMaterialWindow = false;
 
 shared_ptr<Entity> currentEntity = 0;
+shared_ptr<Renderer> currentRend = 0;
+
+ImVec2 imageSize = ImVec2(64, 64);
 
 std::vector < std::shared_ptr<Entity>> entityList;
 
@@ -159,9 +173,34 @@ DirectX::XMVECTOR ShowAndSetVecInfo(string label , DirectX::XMVECTOR pos, float 
 	return DirectX::XMVectorSet(x, y, z, 0);
 }
 
+DirectX::XMFLOAT2 ShowAndSetVecInfo(string label, DirectX::XMFLOAT2 pos, float speed = 0.05)
+{
+	string str = label;
+
+	float x = pos.x;
+	float y = pos.y;
+
+	ImGui::Text(str.c_str());
+
+	ImGui::PushID(label.c_str());
+
+	ImGui::SetNextItemWidth(60);
+	ImGui::DragFloat("X ", &x, speed);
+	ImGui::SameLine();
+	ImGui::SetNextItemWidth(60);
+	ImGui::DragFloat("Y ", &y, speed);
+	ImGui::SameLine();
+	ImGui::SetNextItemWidth(60);
+	ImGui::NewLine();
+
+	ImGui::PopID();
+
+	return DirectX::XMFLOAT2(x,y);
+}
+
 ImVec2 ButtonRect = ImVec2(50, 20);
 
-void EditColor(DirectX::XMVECTOR* color)
+void EditColor(DirectX::XMVECTOR* color , string name)
 {
 	float col[4];
 
@@ -170,14 +209,27 @@ void EditColor(DirectX::XMVECTOR* color)
 	col[2] = DirectX::XMVectorGetZ(*color);
 	col[3] = DirectX::XMVectorGetW(*color);
 
-	ImGui::ColorEdit4(" : Color", col);
+	ImGui::ColorEdit4(name.c_str(), col);
 
 	*color = DirectX::XMVectorSet(col[0], col[1], col[2], col[3]);
 }
 
-void ShowRendererInfo(std::shared_ptr<SkinnedRenderer> rend)
+void EditColor(DirectX::XMFLOAT3* color, string name)
 {
-	EditColor(&rend->color);
+	float col[3];
+
+	col[0] = color->x;
+	col[1] = color->y;
+	col[2] = color->z;
+
+	ImGui::ColorEdit3(name.c_str(), col);
+
+	*color = DirectX::XMFLOAT3(col[0], col[1], col[2]);
+}
+
+void ShowComponentInfo(std::shared_ptr<SkinnedRenderer> rend)
+{
+	EditColor(&rend->color , " : Color");
 
 	if (ImGui::TreeNode("Animations")) {
 
@@ -219,7 +271,7 @@ void ShowRendererInfo(std::shared_ptr<SkinnedRenderer> rend)
 	}
 }
 
-void ShowRigidbodyInfo(std::shared_ptr<Rigidbody> rigid)
+void ShowComponentInfo(std::shared_ptr<Rigidbody> rigid)
 {
 	ImGui::Checkbox("IsStatic" , &rigid->isStatic);
 
@@ -252,7 +304,7 @@ void ShowRigidbodyInfo(std::shared_ptr<Rigidbody> rigid)
 	rigid->SetMass(mass);
 }
 
-void ShowColliderInfo(std::shared_ptr<Collider> col)
+void ShowComponentInfo(std::shared_ptr<Collider> col)
 {
 	auto pos = col->position;
 
@@ -348,6 +400,12 @@ void ShowAnimationInfo(std::shared_ptr<SkinnedRenderer> rend)
 	if (!rend)
 		return;
 
+	if (rend->GetAnimationNameList().size() == 0)
+	{
+		showAnimationWindow = false;
+		return;
+	}
+		
 	if (ImGui::Begin("AnimationWindow", &showAnimationWindow))  // ウィンドウ名を指定
 	{
 		string str = "Time : ";
@@ -401,11 +459,101 @@ void ShowAnimationInfo(std::shared_ptr<SkinnedRenderer> rend)
 
 }
 
-void ShowDirectionalLightInfo(std::shared_ptr<DirectionalLight> DLight)
+ComPtr<ID3D12Resource> LoadImageResource()
+{
+	OPENFILENAME ofn = {};
+
+	const UINT MAXLENGTH = 200;
+
+	TCHAR filePath[MAXLENGTH] = _T("");
+
+	ofn.lStructSize = sizeof(OPENFILENAME);
+	ofn.lpstrFile = filePath;
+	ofn.nMaxFile = MAXLENGTH;
+	ofn.lpstrFilter = "画像ファイル (*.dds) \0*.dds\0";
+	ofn.nFilterIndex = 1;
+	ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
+
+	if (GetOpenFileName(&ofn))
+	{
+		string path(filePath);
+
+		return TextureLoader::GetInstance().LoadTexture(path);
+	}
+
+	return nullptr;
+}
+
+int currentMatIndex = 0;
+
+void ShowMaterialInfo(std::shared_ptr<Renderer> rend)
+{
+	if (!rend)
+		return;
+
+	auto list = rend->GetMeshNameList(); 
+	std::vector<const char*> cstrList;
+	cstrList.reserve(list.size());
+
+	for (const auto& s : list)
+		cstrList.push_back(s.c_str());
+
+	if (ImGui::Begin("MaterialWindow", &showMaterialWindow))
+	{
+		ImGui::Combo("SubMesh", &currentMatIndex, cstrList.data(), cstrList.size());
+
+		auto cpuH = rend->GetTextureGPUHandle(currentMatIndex, Renderer::DIFFUSE);
+
+		if (ImGui::ImageButton("Diffuse", (ImTextureID)cpuH.ptr, imageSize))
+		{
+			auto resource = LoadImageResource();
+
+			if (resource)
+			{
+				rend->ApplyTextureOnMesh(currentMatIndex, Renderer::DIFFUSE , resource);
+			}
+		}
+
+		ImGui::Text("Diffuse");
+
+		cpuH = rend->GetTextureGPUHandle(currentMatIndex, Renderer::NORMAL);
+
+		if (ImGui::ImageButton("Normal", (ImTextureID)cpuH.ptr, imageSize))
+		{
+			auto resource = LoadImageResource();
+
+			if (resource)
+			{
+				rend->ApplyTextureOnMesh(currentMatIndex, Renderer::NORMAL, resource);
+			}
+		}
+
+		ImGui::Text("Normal");
+
+		auto mat = rend->GetMaterial(currentMatIndex);
+
+		EditColor(&mat.DIFFUSE , " : DiffuseColor");
+		EditColor(&mat.SPECULAR , " : SpecularColor");
+		EditColor(&mat.AMBIENT , " : AmbientColor");
+		EditColor(&mat.EMISSIVE , " : EmissiveColor");
+		EditColor(&mat.REFLECTIVE , " : ReflectiveColor");
+		EditColor(&mat.TRANSPARENT , " : TransparentColor");
+
+		mat.UVPOS = ShowAndSetVecInfo("UVPosition" , mat.UVPOS , 0.001);
+		mat.UVSCALE = ShowAndSetVecInfo("UVScale" , mat.UVSCALE);
+
+		rend->SetMaterial(currentMatIndex , mat);
+
+		ImGui::End();
+	}
+
+}
+
+void ShowComponentInfo(std::shared_ptr<DirectionalLight> DLight)
 {
 	auto color = DLight->GetColor();
 
-	EditColor(&color);
+	EditColor(&color , " : LightColor");
 
 	DLight->SetColor(color);
 	
@@ -418,21 +566,27 @@ void ShowDirectionalLightInfo(std::shared_ptr<DirectionalLight> DLight)
 	DLight->SetRotation(ShowAndSetVecInfo("Rotation", DLight->GetRotation()));
 }
 
-void ShowUIRendererInfo(std::shared_ptr<UIRenderer> uiRend)
+void ShowComponentInfo(std::shared_ptr<UIRenderer> uiRend)
 {
 	if (!uiRend)
 		return;
 
-	string str = "Width : ";
-	str += std::to_string(uiRend->GetImageWidth());
-	str += " Height : ";
-	str += std::to_string(uiRend->GetImageHeight());
+	int width = uiRend->GetImageWidth();
+	ImGui::DragInt("Width : ", &width);
+	uiRend->SetImageWidth(width);
 
-	ImGui::Text(str.c_str());
+	int height = uiRend->GetImageHeight();
+	ImGui::DragInt("Height : ", &height);
+	uiRend->SetImageHeight(height);
 
-	EditColor(&uiRend->color);
+	uiRend->colPosition = ShowAndSetVecInfo("ColliderPos" , uiRend->colPosition);
+	uiRend->colScale = ShowAndSetVecInfo("ColliderScale" , uiRend->colScale);
 
-	if (ImGui::Button("Open Image File", ImVec2(140, 20)))
+	EditColor(&uiRend->color , " : Color");
+
+	auto cpuH = uiRend->GetTextureGPUHandle();
+
+	if (ImGui::ImageButton("UIImage", (ImTextureID)cpuH.ptr, imageSize))
 	{
 		OPENFILENAME ofn = {};
 
@@ -456,11 +610,11 @@ void ShowUIRendererInfo(std::shared_ptr<UIRenderer> uiRend)
 	}
 }
 
-void ShowPointLightInfo(std::shared_ptr<PointLight> pl)
+void ShowComponentInfo(std::shared_ptr<PointLight> pl)
 {
 	auto color = pl->GetColor();
 
-	EditColor(&color);
+	EditColor(&color , " : LightColor");
 
 	pl->SetColor(color);
 
@@ -479,11 +633,11 @@ void ShowPointLightInfo(std::shared_ptr<PointLight> pl)
 	pl->position = ShowAndSetVecInfo("Position", pl->position);
 }
 
-void ShowSpotLightInfo(std::shared_ptr<SpotLight> sl)
+void ShowComponentInfo(std::shared_ptr<SpotLight> sl)
 {
 	auto color = sl->GetColor();
 
-	EditColor(&color);
+	EditColor(&color , " : LightColor");
 
 	sl->SetColor(color);
 
@@ -493,11 +647,11 @@ void ShowSpotLightInfo(std::shared_ptr<SpotLight> sl)
 
 	sl->SetPower(pow);
 
-	auto ang = sl->GetAngular();
+	auto ang = DirectX::XMConvertToDegrees(sl->GetAngular());
 
 	ImGui::DragFloat("Angular ", &ang, 0.1);
 
-	sl->SetAngular(ang);
+	sl->SetAngular(DirectX::XMConvertToRadians(ang));
 
 	auto len = sl->GetLength();
 
@@ -508,6 +662,56 @@ void ShowSpotLightInfo(std::shared_ptr<SpotLight> sl)
 	sl->SetRotation(ShowAndSetVecInfo("Rotation", sl->GetRotation()));
 
 	sl->position = ShowAndSetVecInfo("Position", sl->position);
+}
+
+
+void ShowComponentInfo(std::shared_ptr<SkyBox> sky)
+{
+	auto color = sky->color;
+
+	EditColor(&color , " : Color");
+
+	sky->color = color;
+}
+
+template <typename T>
+void AddComponentInfo(std::string name)
+{
+	auto comp = currentEntity->GetComponent<T>();
+
+	if (ImGui::TreeNode(name.c_str())) 
+	{
+		if (comp) 
+		{
+			auto rend = std::dynamic_pointer_cast<Renderer>(comp);
+
+			if (rend)
+			{
+				if (ImGui::IsItemClicked())
+				{
+					showMaterialWindow = true;
+
+					currentRend = rend;
+				}
+			}
+
+			ShowComponentInfo(comp);
+
+			if (ImGui::Button("Remove", ButtonRect)) 
+			{
+				currentEntity->RemoveComponent<T>();
+			}
+		}
+		else
+		{
+			if (ImGui::Button("Add", ButtonRect))
+			{
+				currentEntity->AddComponent<T>();
+			}
+		}
+
+		ImGui::TreePop();
+	}
 }
 
 #pragma warning(disable: 4996)  // strcpy に関する警告を無効化
@@ -562,117 +766,14 @@ void ShowEntityInfo()
 		if (!DirectX::XMVector3Equal(vec, currentEntity->GetLocalRotation()))
 			currentEntity->SetLocalRotation(vec);
 
-		if (ImGui::TreeNode("SkinnedRenderComponent")) {
-
-			if (currentEntity->GetComponent<SkinnedRenderer>()) {
-
-				ShowRendererInfo(currentEntity->GetComponent<SkinnedRenderer>());
-			}
-			else
-			{
-				if (ImGui::Button("Add", ButtonRect)) {
-					currentEntity->AddComponent<SkinnedRenderer>();
-				}
-			}
-
-			ImGui::TreePop();
-		}
-
-		if (ImGui::TreeNode("ColliderComponent")) {
-
-			if (currentEntity->GetComponent<Collider>()) {
-
-				ShowColliderInfo(currentEntity->GetComponent<Collider>());
-			}
-			else
-			{
-				if (ImGui::Button("Add", ButtonRect)) {
-					currentEntity->AddComponent<Collider>();
-				}
-			}
-
-			ImGui::TreePop();
-		}
-
-		if (ImGui::TreeNode("RigidbodyComponent")) {
-
-			if (currentEntity->GetComponent<Rigidbody>()) {
-
-				ShowRigidbodyInfo(currentEntity->GetComponent<Rigidbody>());
-			}
-			else
-			{
-				if (ImGui::Button("Add", ButtonRect)) {
-					currentEntity->AddComponent<Rigidbody>();
-				}
-			}
-
-			ImGui::TreePop();
-		}
-
-		if (ImGui::TreeNode("UIRenderComponent")) {
-
-			if (currentEntity->GetComponent<UIRenderer>()) {
-
-				ShowUIRendererInfo(currentEntity->GetComponent<UIRenderer>());
-			}
-			else
-			{
-				if (ImGui::Button("Add", ButtonRect)) {
-					currentEntity->AddComponent<UIRenderer>();
-				}
-			}
-
-			ImGui::TreePop();
-		}
-
-		if (ImGui::TreeNode("DirectionalLIghtComponent")) {
-
-			if (currentEntity->GetComponent<DirectionalLight>()) {
-
-				ShowDirectionalLightInfo(currentEntity->GetComponent<DirectionalLight>());
-			}
-			else
-			{
-				if (ImGui::Button("Add", ButtonRect)) {
-					currentEntity->AddComponent<DirectionalLight>();
-				}
-			}
-
-			ImGui::TreePop();
-		}
-
-		if (ImGui::TreeNode("PointLIghtComponent")) {
-
-			if (currentEntity->GetComponent<PointLight>()) {
-
-				ShowPointLightInfo(currentEntity->GetComponent<PointLight>());
-			}
-			else
-			{
-				if (ImGui::Button("Add", ButtonRect)) {
-					currentEntity->AddComponent<PointLight>();
-				}
-			}
-
-			ImGui::TreePop();
-		}
-
-		if (ImGui::TreeNode("SpotLIghtComponent")) {
-
-			if (currentEntity->GetComponent<SpotLight>()) {
-
-				ShowSpotLightInfo(currentEntity->GetComponent<SpotLight>());
-			}
-			else
-			{
-				if (ImGui::Button("Add", ButtonRect)) {
-					currentEntity->AddComponent<SpotLight>();
-				}
-			}
-
-			ImGui::TreePop();
-		}
+		AddComponentInfo<SkinnedRenderer>("SkinnedRendererComponent");
+		AddComponentInfo<SkyBox>("SkyBox");
+		AddComponentInfo<Collider>("ColliderComponent");
+		AddComponentInfo<Rigidbody>("RigidbodyComponent");
+		AddComponentInfo<UIRenderer>("UIRendererComponent");
+		AddComponentInfo<DirectionalLight>("DirectionalLIghtComponent");
+		AddComponentInfo<PointLight>("PointLIghtComponent");
+		AddComponentInfo<SpotLight>("SpotLIghtComponent");
 
 		ImGui::PushStyleColor(ImGuiCol_::ImGuiCol_Button , ImVec4(0.3,0,0,1));
 		if (ImGui::Button("Destroy", ImVec2(110, 22))) {
@@ -688,6 +789,11 @@ void ShowEntityInfo()
 	if (showAnimationWindow)
 	{
 		ShowAnimationInfo(currentEntity->GetComponent<SkinnedRenderer>());
+	}
+
+	if (showMaterialWindow)
+	{
+		ShowMaterialInfo(currentRend);
 	}
 }
 
@@ -716,33 +822,74 @@ bool IsSelectedChild(shared_ptr<Entity> ent , bool isSelected = false)
 
 void ShowEntityTree(shared_ptr<Entity> ent)
 {
-	if (ImGui::TreeNode(ent->GetName().c_str()))
+	if (currentEntity == ent)
 	{
-		if (ImGui::IsItemClicked())
+		bool isPop = false;
+
+		ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 0.4f, 0.4f, 1.0f));
+
+		if (ImGui::TreeNode(ent->GetName().c_str()))
 		{
-			showEntityWindow = true;
+			ImGui::PopStyleColor();
 
-			currentEntity = ent;
-		}
+			isPop = true;
 
-		if (ent->HasChild())
-		{
-			auto childs = ent->GetChild();
-
-			for (auto child : childs)
+			if (ImGui::IsItemClicked())
 			{
-				auto childEnt = std::dynamic_pointer_cast<Entity>(child);
+				showEntityWindow = true;
 
-				if (childEnt)
-					ShowEntityTree(childEnt);
+				currentEntity = ent;
 			}
+
+			if (ent->HasChild())
+			{
+				auto childs = ent->GetChild();
+
+				for (auto child : childs)
+				{
+					auto childEnt = std::dynamic_pointer_cast<Entity>(child);
+
+					if (childEnt)
+						ShowEntityTree(childEnt);
+				}
+			}
+
+			ImGui::TreePop();
 		}
 
-		ImGui::TreePop();
+		if(!isPop)
+			ImGui::PopStyleColor();
+	}
+	else
+	{
+		if (ImGui::TreeNode(ent->GetName().c_str()))
+		{
+			if (ImGui::IsItemClicked())
+			{
+				showEntityWindow = true;
+
+				currentEntity = ent;
+			}
+
+			if (ent->HasChild())
+			{
+				auto childs = ent->GetChild();
+
+				for (auto child : childs)
+				{
+					auto childEnt = std::dynamic_pointer_cast<Entity>(child);
+
+					if (childEnt)
+						ShowEntityTree(childEnt);
+				}
+			}
+
+			ImGui::TreePop();
+		}
 	}
 }
 
-void ShowDebugTrees()
+void ShowTrees()
 {
 	if (ImGui::TreeNode("Entites")) {
 
@@ -767,6 +914,24 @@ void ShowDebugTrees()
 
 		Camera::GetInstance().SetCameraPosition(ShowAndSetVecInfo("Position", Camera::GetInstance().GetPosition()));
 		Camera::GetInstance().SetCameraRotation(ShowAndSetVecInfo("Rotation", Camera::GetInstance().GetRotation()));
+
+		auto fov = DirectX::XMConvertToDegrees(Camera::GetInstance().GetFov());
+
+		ImGui::DragFloat("Fov" , &fov);
+
+		Camera::GetInstance().SetFov(DirectX::XMConvertToRadians(fov));
+
+		auto nearZ = Camera::GetInstance().GetNearZ();
+
+		ImGui::DragFloat("NearZ", &nearZ);
+
+		Camera::GetInstance().SetNearZ(nearZ);
+
+		auto farZ = Camera::GetInstance().GetFarZ();
+
+		ImGui::DragFloat("farZ", &farZ);
+
+		Camera::GetInstance().SetFarZ(farZ);
 
 		ImGui::TreePop();
 	}
@@ -810,7 +975,7 @@ void MyIMGUI::MainLoop()
 			ImGui::TreePop();
 		}
 
-		ShowDebugTrees();
+		ShowTrees();
 
 		if (ImGui::TreeNode("AmbientLight")) {
 
@@ -820,13 +985,30 @@ void MyIMGUI::MainLoop()
 
 			ambientCol = DirectX::XMVectorSetW(ambientCol, 1);
 
-			EditColor(&ambientCol);
+			EditColor(&ambientCol , " : AmbientLightColor");
 
 			DirectX::XMFLOAT3 col;
 
 			DirectX::XMStoreFloat3(&col, ambientCol);
 
 			GameManager::GetInstance().SetAmbientColor(col);
+
+			ImGui::TreePop();
+		}
+
+		if (ImGui::TreeNode("Physics")) {
+
+			auto& physics = PhysicSystem::GetInstance();
+
+			auto pow = physics.gravityPow;
+
+			ImGui::PushItemWidth(80);
+			ImGui::DragFloat("GravityPower" , &pow);
+			ImGui::PopItemWidth();
+
+			physics.gravityPow = pow;
+
+			physics.SetGravityVec(ShowAndSetVecInfo("GravityVec", physics.GetGravityVec()));
 
 			ImGui::TreePop();
 		}
