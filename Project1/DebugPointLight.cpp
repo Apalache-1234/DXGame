@@ -21,7 +21,7 @@ void DebugPointLight::Update()
 
 void DebugPointLight::InitDebugPointLightRender()
 {
-	auto PLList = GameManager::GetInstance().GetComponentList<PointLight>();
+	auto PLList = SystemManager::GetInstance().GetComponentList<PointLight>();
 
 	instances.clear();
 

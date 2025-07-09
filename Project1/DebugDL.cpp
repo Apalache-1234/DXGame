@@ -25,7 +25,7 @@ void DebugDirectionalLight::InitDebugRenderer()
 
 	CreateMesh(MeshLoader::BOX);
 
-	auto DLList = GameManager::GetInstance().GetComponentList<DirectionalLight>();
+	auto DLList = SystemManager::GetInstance().GetComponentList<DirectionalLight>();
 
 	instances.clear();
 

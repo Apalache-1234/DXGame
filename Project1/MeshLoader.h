@@ -6,7 +6,7 @@
 #undef min
 #undef max
 #include "DirectXMath.h"
-#include "GameManager.h"
+#include "SystemManager.h"
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>

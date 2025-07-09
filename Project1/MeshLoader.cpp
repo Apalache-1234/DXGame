@@ -40,7 +40,7 @@ MeshLoader::MeshData* MeshLoader::GetMesh(MESHTYPE type)
 
 bool MeshLoader::LoadMesh(const std::string filePath , MESHTYPE type)
 {
-	GameManager::GetInstance().PauseTime();
+	SystemManager::GetInstance().PauseTime();
 
 	std::vector<Mesh> meshes;
 
@@ -73,7 +73,7 @@ bool MeshLoader::LoadMesh(const std::string filePath , MESHTYPE type)
 			return false;
 		}
 
-		GameManager::GetInstance().UnpauseTime();
+		SystemManager::GetInstance().UnpauseTime();
 
 		meshData[type].meshes = std::move(meshes);
 
@@ -87,7 +87,7 @@ bool MeshLoader::LoadMesh(const std::string filePath , MESHTYPE type)
 	{
 		std::cout << "ƒƒbƒVƒ…‚ðŽ‚Á‚Ä‚¢‚È‚¢" << std::endl;
 
-		GameManager::GetInstance().UnpauseTime();
+		SystemManager::GetInstance().UnpauseTime();
 
 		return false;
 	}

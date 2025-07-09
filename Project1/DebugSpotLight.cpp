@@ -114,7 +114,7 @@ bool DebugSpotLight::InitLIBV()
 
 void DebugSpotLight::InitDebugSpotLightRenderer()
 {
-	auto DLList = GameManager::GetInstance().GetComponentList<SpotLight>();
+	auto DLList = SystemManager::GetInstance().GetComponentList<SpotLight>();
 
 	instances.clear();
 	lightIndex.clear();

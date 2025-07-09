@@ -8,7 +8,7 @@
 #include "PointLight.h"
 #include "SpotLight.h"
 #include "SkyBox.h"
-#include "PhysicSystem.h"
+#include "PhysicsSystem.h"
 
 std::unique_ptr<MyIMGUI> MyIMGUI::instance = nullptr;
 
@@ -85,7 +85,7 @@ void MyIMGUI::Term()
 void ShowInfo()
 {
 	string str = "FPS : ";
-	str += to_string(GameManager::GetInstance().fps);
+	str += to_string(SystemManager::GetInstance().fps);
 
 	ImGui::Text(str.c_str());
 
@@ -117,19 +117,19 @@ void ShowInfo()
 
 	ImGui::Text(str.c_str());
 
-	str = "GameTime : " + std::to_string(GameManager::GetInstance().GetGameTime());
+	str = "GameTime : " + std::to_string(SystemManager::GetInstance().GetGameTime());
 
 	ImGui::Text(str.c_str());
 
-	str = "GameDeltaTime : " + std::to_string(GameManager::GetInstance().GetGameDeltaTime());
+	str = "GameDeltaTime : " + std::to_string(SystemManager::GetInstance().GetGameDeltaTime());
 
 	ImGui::Text(str.c_str());
 
-	str = "RealTime : " + std::to_string(GameManager::GetInstance().GetRealTime());
+	str = "RealTime : " + std::to_string(SystemManager::GetInstance().GetRealTime());
 
 	ImGui::Text(str.c_str());
 
-	str = "RealDeltaTime : " + std::to_string(GameManager::GetInstance().GetRealDeltaTime());
+	str = "RealDeltaTime : " + std::to_string(SystemManager::GetInstance().GetRealDeltaTime());
 
 	ImGui::Text(str.c_str());
 }
@@ -723,7 +723,7 @@ void ShowEntityInfo()
 	if (ImGui::Begin(label.c_str(), &showEntityWindow)) 
 	{
 		if (ImGui::Button("CreateChild", ImVec2(110, 22))) {
-			auto child = GameManager::GetInstance().CreateEntity("GameObject");
+			auto child = SystemManager::GetInstance().CreateEntity("GameObject");
 
 			currentEntity->AddChild(child);
 		}
@@ -894,10 +894,10 @@ void ShowTrees()
 	if (ImGui::TreeNode("Entites")) {
 
 		if (ImGui::Button("CreateObject", ImVec2(150, 22))) {
-			GameManager::GetInstance().CreateEntity("GameObject");
+			SystemManager::GetInstance().CreateEntity("GameObject");
 		}
 
-		entityList = GameManager::GetInstance().GetInstance().GetEntityList();
+		entityList = SystemManager::GetInstance().GetInstance().GetEntityList();
 
 		for (int i = 0; i < entityList.size(); i++)
 		{
@@ -939,7 +939,7 @@ void ShowTrees()
 
 void DebugMenu()
 {
-	auto debugOrigin = GameManager::GetInstance().GetComponentList<DebugOrigin>();
+	auto debugOrigin = SystemManager::GetInstance().GetComponentList<DebugOrigin>();
 
 	const char* typeNames[] = {"WORLD","LOCAL"};
 
@@ -979,7 +979,7 @@ void MyIMGUI::MainLoop()
 
 		if (ImGui::TreeNode("AmbientLight")) {
 
-			auto hoge = GameManager::GetInstance().GetAmbientColor();
+			auto hoge = SystemManager::GetInstance().GetAmbientColor();
 
 			auto ambientCol = DirectX::XMLoadFloat3(&hoge);
 
@@ -991,14 +991,14 @@ void MyIMGUI::MainLoop()
 
 			DirectX::XMStoreFloat3(&col, ambientCol);
 
-			GameManager::GetInstance().SetAmbientColor(col);
+			SystemManager::GetInstance().SetAmbientColor(col);
 
 			ImGui::TreePop();
 		}
 
 		if (ImGui::TreeNode("Physics")) {
 
-			auto& physics = PhysicSystem::GetInstance();
+			auto& physics = PhysicsSystem::GetInstance();
 
 			auto pow = physics.gravityPow;
 

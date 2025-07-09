@@ -9,7 +9,7 @@
 #include "ColliderDetection.h"
 #include "Collider.h"
 #include "Camera.h"
-#include "PhysicSystem.h"
+#include "PhysicsSystem.h"
 #include "Rigidbody.h"
 #include "SkyBox.h"
 #include "UIRenderer.h"
@@ -40,8 +40,8 @@ int main()
 	auto window = &Window::GetInstance();
 	auto renSys = &DXRenderSystem::GetInstance();
 	auto myImGui = &MyIMGUI::GetInstance();
-	auto gameManager = &GameManager::GetInstance();
-	auto physicSystem = &PhysicSystem::GetInstance();
+	auto SystemManager = &SystemManager::GetInstance();
+	auto PhysicsSystem = &PhysicsSystem::GetInstance();
 	auto keySystem = &KeyInput::GetInstance();
 
 
@@ -54,20 +54,20 @@ int main()
 
 	meshLoader->Init();
 
-	auto player = gameManager->CreateEntity<SkinnedRenderer>("Player");
-	auto player4 = gameManager->CreateEntity<SkinnedRenderer>("Player4");
-	auto player5 = gameManager->CreateEntity<SpotLight>("PointLight");
-	auto player2 = gameManager->CreateEntity<SkinnedRenderer>("Player2");
-	auto Skybox = gameManager->CreateEntity<SkyBox>("Skybox");
-	auto debugColCube = gameManager->CreateEntity<DebugCollider>("DebugCube");
-	auto debugColSphere = gameManager->CreateEntity("DebugSphere");
-	auto debugOrigin = gameManager->CreateEntity<DebugOrigin>("DebugOrigin");
-	auto debugRay = gameManager->CreateEntity<DebugRayCast>("DebugRay");
-	auto debugDL = gameManager->CreateEntity<DebugDirectionalLight>("DebugDirectionalLight");
-	auto debugPL = gameManager->CreateEntity<DebugPointLight>("DebugPointLight");
-	auto debugSL = gameManager->CreateEntity<DebugSpotLight>("DebugSpotLight");
-	auto debugGrids = gameManager->CreateEntity<DebugGrids>("DebugGrids");
-	auto debugUI = gameManager->CreateEntity<DebugUIRenderer>("DebugUIRenderer");
+	auto player = SystemManager->CreateEntity<SkinnedRenderer>("Player");
+	auto player4 = SystemManager->CreateEntity<SkinnedRenderer>("Player4");
+	auto player5 = SystemManager->CreateEntity<SpotLight>("PointLight");
+	auto player2 = SystemManager->CreateEntity<SkinnedRenderer>("Player2");
+	auto Skybox = SystemManager->CreateEntity<SkyBox>("Skybox");
+	auto debugColCube = SystemManager->CreateEntity<DebugCollider>("DebugCube");
+	auto debugColSphere = SystemManager->CreateEntity("DebugSphere");
+	auto debugOrigin = SystemManager->CreateEntity<DebugOrigin>("DebugOrigin");
+	auto debugRay = SystemManager->CreateEntity<DebugRayCast>("DebugRay");
+	auto debugDL = SystemManager->CreateEntity<DebugDirectionalLight>("DebugDirectionalLight");
+	auto debugPL = SystemManager->CreateEntity<DebugPointLight>("DebugPointLight");
+	auto debugSL = SystemManager->CreateEntity<DebugSpotLight>("DebugSpotLight");
+	auto debugGrids = SystemManager->CreateEntity<DebugGrids>("DebugGrids");
+	auto debugUI = SystemManager->CreateEntity<DebugUIRenderer>("DebugUIRenderer");
 
 	player->AddComponent<Collider>();
 	player->AddComponent<Rigidbody>();
@@ -90,11 +90,11 @@ int main()
 
 	while (window->MainLoop())
 	{
-		gameManager->MainLoop();
-		physicSystem->MainLoop();
+		SystemManager->MainLoop();
+		PhysicsSystem->MainLoop();
 		keySystem->Update();
 
-		hoge += 360 * gameManager->GetGameDeltaTime();
+		hoge += 360 * SystemManager->GetGameDeltaTime();
 
 		DirectX::XMVECTOR velocity = DirectX::XMVectorSet(0,0,0,0);
 
@@ -161,13 +161,13 @@ int main()
 
 		renSys->Draw();
 
-		timeForFpsCounter += gameManager->GetGameDeltaTime();
+		timeForFpsCounter += SystemManager->GetGameDeltaTime();
 
 		fpsCounter++;
 
 		if (timeForFpsCounter >= 1)
 		{
-			gameManager->GetInstance().fps = fpsCounter;
+			SystemManager->GetInstance().fps = fpsCounter;
 
 			fpsCounter = 0;
 

@@ -342,17 +342,17 @@ bool Renderer::LinkLightInfoCBVToDescHeap()
 
 bool Renderer::MapLLICB()
 {
-	lightInfo.ambientLightColor = GameManager::GetInstance().GetAmbientColor();
+	lightInfo.ambientLightColor = SystemManager::GetInstance().GetAmbientColor();
 
-	auto dirLNum = GameManager::GetInstance().GetComponentList<DirectionalLight>().size();
+	auto dirLNum = SystemManager::GetInstance().GetComponentList<DirectionalLight>().size();
 
 	lightInfo.DirectionalLightNum = DirectX::XMFLOAT4(dirLNum, dirLNum, dirLNum, dirLNum);
 
-	auto pLNum = GameManager::GetInstance().GetComponentList<PointLight>().size();
+	auto pLNum = SystemManager::GetInstance().GetComponentList<PointLight>().size();
 
 	lightInfo.PointLightNum = DirectX::XMFLOAT4(pLNum, pLNum, pLNum, pLNum);
 
-	auto sLNum = GameManager::GetInstance().GetComponentList<SpotLight>().size();
+	auto sLNum = SystemManager::GetInstance().GetComponentList<SpotLight>().size();
 
 	lightInfo.SpotLightNum = DirectX::XMFLOAT4(sLNum, sLNum, sLNum, sLNum);
 
@@ -449,7 +449,7 @@ bool Renderer::LinkTimeInfoCBVToDescHeap()
 
 bool Renderer::MapTICB()
 {
-	auto system = GameManager::GetInstance();
+	auto system = SystemManager::GetInstance();
 
 	timeInfo.GameTime = system.GetGameTime();
 	timeInfo.GameDeltaTime = system.GetGameDeltaTime();
@@ -1190,7 +1190,7 @@ bool Renderer::InitDirectionalLightBResource()
 
 bool Renderer::MapDLB()
 {
-	auto list = GameManager::GetInstance().GetComponentList<DirectionalLight>();
+	auto list = SystemManager::GetInstance().GetComponentList<DirectionalLight>();
 
 	for (int i = 0; i< list.size() ; i++)
 	{
@@ -1301,7 +1301,7 @@ bool Renderer::InitPointLightBResource()
 
 bool Renderer::MapPLB()
 {
-	auto list = GameManager::GetInstance().GetComponentList<PointLight>();
+	auto list = SystemManager::GetInstance().GetComponentList<PointLight>();
 
 	for (int i = 0; i < list.size(); i++)
 	{
@@ -1412,7 +1412,7 @@ bool Renderer::InitSpotLightBResource()
 
 bool Renderer::MapSLB()
 {
-	auto list = GameManager::GetInstance().GetComponentList<SpotLight>();
+	auto list = SystemManager::GetInstance().GetComponentList<SpotLight>();
 
 	for (int i = 0; i < list.size(); i++)
 	{

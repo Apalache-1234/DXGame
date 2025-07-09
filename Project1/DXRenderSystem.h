@@ -16,7 +16,7 @@
 #include "wrl.h"
 #include "DescriptorHeapManager.h"
 #include <optional>
-#include "GameManager.h"
+#include "SystemManager.h"
 
 using namespace DirectX;
 using namespace Microsoft::WRL;
@@ -53,7 +53,7 @@ public:
 	template <typename T>
 	void RenderComponent()
 	{
-		auto rendL = GameManager::GetInstance().GetComponentList<T>();
+		auto rendL = SystemManager::GetInstance().GetComponentList<T>();
 
 		for (int i = 0; i < rendL.size(); i++)
 		{

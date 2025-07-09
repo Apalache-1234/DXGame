@@ -64,7 +64,7 @@ void UpdateVelocity(std::shared_ptr<Collider> col , DirectX::XMVECTOR nd)
 
 void ColliderDetection::MainLoop()
 {
-	auto list = GameManager::GetInstance().GetComponentList<Collider>();
+	auto list = SystemManager::GetInstance().GetComponentList<Collider>();
 
 	for (int i = 0; i < list.size(); i++)
 	{

@@ -75,7 +75,7 @@
     <ClCompile Include="Flags.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="GameManager.cpp">
+    <ClCompile Include="SystemManager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Collider.cpp">
@@ -87,7 +87,7 @@
     <ClCompile Include="Rigidbody.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="PhysicSystem.cpp">
+    <ClCompile Include="PhysicsSystem.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="SkyBox.cpp">
@@ -244,7 +244,7 @@
     <ClInclude Include="Flags.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="GameManager.h">
+    <ClInclude Include="SystemManager.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Collider.h">
@@ -256,7 +256,7 @@
     <ClInclude Include="Rigidbody.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="PhysicSystem.h">
+    <ClInclude Include="PhysicsSystem.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="SkyBox.h">

@@ -10,7 +10,7 @@ DebugOrigin::~DebugOrigin()
 
 void DebugOrigin::Update()
 {
-	auto ents = GameManager::GetInstance().GetEntityList();
+	auto ents = SystemManager::GetInstance().GetEntityList();
 
 	if (ents.size() != instanceCount)
 	{
@@ -50,7 +50,7 @@ void DebugOrigin::InitDebugRenderer()
 
 	SetDepthStencilDesc(dsDesc);
 
-	auto entList = GameManager::GetInstance().GetEntityList();
+	auto entList = SystemManager::GetInstance().GetEntityList();
 
 	CreateMesh(MeshLoader::DEBUG_ORIGIN);
 

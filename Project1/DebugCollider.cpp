@@ -15,7 +15,7 @@ DebugCollider::~DebugCollider()
 
 void DebugCollider::Update()
 {
-	auto colList = GameManager::GetInstance().GetComponentList<Collider>();
+	auto colList = SystemManager::GetInstance().GetComponentList<Collider>();
 
 	int sameCol = 0;
 
@@ -50,7 +50,7 @@ void DebugCollider::Update()
 
 void DebugCollider::InitDebugColliderRenderer()
 {
-	auto colList = GameManager::GetInstance().GetComponentList<Collider>();
+	auto colList = SystemManager::GetInstance().GetComponentList<Collider>();
 
 	instances.clear();
 	cols.clear();

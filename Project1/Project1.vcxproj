@@ -23,7 +23,7 @@
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{dfafc8fd-36c7-44a4-8d17-a2b525c7c6a8}</ProjectGuid>
     <RootNamespace>Project1</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.22000.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.20348.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -165,14 +165,14 @@
     <ClCompile Include="DXRenderSystem.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="Flags.cpp" />
-    <ClCompile Include="GameManager.cpp" />
+    <ClCompile Include="SystemManager.cpp" />
     <ClCompile Include="KeyInput.cpp" />
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MeshLoader.cpp" />
     <ClCompile Include="MyIMGUI.cpp" />
     <ClCompile Include="Object.cpp" />
-    <ClCompile Include="PhysicSystem.cpp" />
+    <ClCompile Include="PhysicsSystem.cpp" />
     <ClCompile Include="PointLight.cpp" />
     <ClCompile Include="RayCast.cpp" />
     <ClCompile Include="Renderer.cpp" />
@@ -356,7 +356,7 @@
     <ClInclude Include="DXRenderSystem.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Flags.h" />
-    <ClInclude Include="GameManager.h" />
+    <ClInclude Include="SystemManager.h" />
     <ClInclude Include="KeyInput.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="PointLight.h" />
@@ -366,7 +366,7 @@
     <ClInclude Include="TextureLoader.h" />
     <ClInclude Include="MeshLoader.h" />
     <ClInclude Include="MyIMGUI.h" />
-    <ClInclude Include="PhysicSystem.h" />
+    <ClInclude Include="PhysicsSystem.h" />
     <ClInclude Include="SkinnedRenderer.h" />
     <ClInclude Include="Rigidbody.h" />
     <ClInclude Include="SkyBox.h" />

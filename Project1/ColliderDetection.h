@@ -8,7 +8,7 @@
 #include <unordered_map>
 #include <DirectXMath.h>
 #include "Component.h"
-#include "GameManager.h"
+#include "SystemManager.h"
 #include "Entity.h"
 #include "Collider.h"
 #include "Utility.h"

@@ -1,5 +1,5 @@
 #include "RayCast.h"
-#include "GameManager.h"
+#include "SystemManager.h"
 #include "Utility.h"
 #include "DebugRayCast.h"
 
@@ -11,7 +11,7 @@ RayCast::RayCast(DirectX::XMVECTOR startPoint , DirectX::XMVECTOR dir, float dis
 
 	CheckHit();
 
-	auto DebugRay = GameManager::GetInstance().GetComponentList<DebugRayCast>();
+	auto DebugRay = SystemManager::GetInstance().GetComponentList<DebugRayCast>();
 
 	for (int i = 0; i < DebugRay.size(); i++)
 	{
@@ -109,7 +109,7 @@ void RayCast::ParseRayInteract(DirectX::XMVECTOR p1, DirectX::XMVECTOR p2, Direc
 
 void RayCast::CheckHit()
 {
-	auto colList = GameManager::GetInstance().GetComponentList<Collider>();
+	auto colList = SystemManager::GetInstance().GetComponentList<Collider>();
 
 	for (int i = 0; i < colList.size(); i++)
 	{

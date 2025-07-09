@@ -1,6 +1,6 @@
 #include "Object.h"
 #include "Component.h"
-#include "GameManager.h"
+#include "SystemManager.h"
 
 Object::Object(const std::string& name)
 {
@@ -131,7 +131,7 @@ void Object::ResetChild(std::string name)
 
 void Object::SetName(std::string name)
 {
-	if (GameManager::GetInstance().isExitNameEntity(name))
+	if (SystemManager::GetInstance().isExitNameEntity(name))
 	{
 		int i = 1;
 
@@ -139,7 +139,7 @@ void Object::SetName(std::string name)
 		{
 			std::string nameNum = name + std::to_string(i);
 
-			if (!GameManager::GetInstance().isExitNameEntity(nameNum))
+			if (!SystemManager::GetInstance().isExitNameEntity(nameNum))
 			{
 				name = nameNum;
 				break;

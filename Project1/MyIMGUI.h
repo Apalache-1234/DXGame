@@ -10,7 +10,7 @@
 #include "imgui_impl_win32.h"
 #include "DXRenderSystem.h"
 #include "Flags.h"
-#include "GameManager.h"
+#include "SystemManager.h"
 #include "Collider.h"
 #include "Rigidbody.h"
 #include <iomanip>

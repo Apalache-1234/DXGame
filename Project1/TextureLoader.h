@@ -1,7 +1,7 @@
 #ifndef TEXTURELOADER_H
 #define TEXTURELOADER_H
 
-#include "GameManager.h"
+#include "SystemManager.h"
 #include <windows.h>
 #include <memory>
 #include <tchar.h>

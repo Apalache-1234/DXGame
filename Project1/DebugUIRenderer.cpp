@@ -41,7 +41,7 @@ void DebugUIRenderer::InitDebugRenderer()
 
 	SetDepthStencilDesc(dsDesc);
 
-	auto comp = GameManager::GetInstance().GetComponentList<UIRenderer>();
+	auto comp = SystemManager::GetInstance().GetComponentList<UIRenderer>();
 
 	for (int i = 0; i < comp.size(); i++)
 	{
