@@ -8,7 +8,6 @@
 #include <iostream>
 #include <unordered_map>
 #include "Object.h"
-#include "Component.h"
 #include <DirectXMath.h>
 #include <type_traits>
 
@@ -205,6 +204,7 @@ public:
 
 			// コンポーネントを作成してマップに追加
 			components[typeid(T)] = std::make_shared<T>(ent , std::forward<Args>(args)...);
+			compLists.push_back(components[typeid(T)]);
 
 			// コンポーネントの初期化
 			components[typeid(T)]->Init();
@@ -233,11 +233,16 @@ public:
 	{
 		if (components.find(typeid(T)) != components.end())
 		{
+			SetDelete(std::type_index(typeid(T)));
 			components.erase(typeid(T));
 		}
 	}
 
+	void RemoveAllComponent();
+
 private:
+	void SetDelete(const std::type_index ti);
+
 	/// <summary>
 	/// 右、上、前のベクトルを現在の回転に合わせる
 	/// </summary>
@@ -294,6 +299,7 @@ private:
 	/// コンポーネントの辞書型配列
 	/// </summary>
 	std::unordered_map<std::type_index, std::shared_ptr<Component>> components;
+	std::vector<std::shared_ptr<Component>> compLists;
 
 	DirectX::XMVECTOR prevWorldRotation = DirectX::g_XMZero;
 

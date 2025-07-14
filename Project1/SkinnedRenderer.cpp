@@ -254,6 +254,27 @@ void InterpolateTranslation(aiVector3D& trans, float animationTime, const aiNode
 	trans = resultVec;
 }
 
+void SkinnedRenderer::ReadHierarchyNode(aiNode& node, const aiMatrix4x4& parentMat)
+{
+	string name(node.mName.C_Str());
+
+	aiMatrix4x4 nodeTransformation(node.mTransformation);
+
+	auto resultMat = parentMat * nodeTransformation;
+
+	if (meshData->boneMapping.find(name) != meshData->boneMapping.end())
+	{
+		auto animationMat = resultMat * meshData->boneOffset[meshData->boneMapping[name]];;
+
+		finalBoneMats[meshData->boneMapping[name]] = Utility::ConvertAiMatrix4x4ToXMMATRIX(animationMat);
+	}
+
+	for (int i = 0;i < node.mNumChildren;i++)
+	{
+		ReadHierarchyNode(*node.mChildren[i] , resultMat);
+	}
+}
+
 void SkinnedRenderer::ReadHierarchyNode(float animationTime , aiNode& node , aiMatrix4x4& parentMat
  , aiAnimation& anim)
 {
@@ -281,7 +302,7 @@ void SkinnedRenderer::ReadHierarchyNode(float animationTime , aiNode& node , aiM
 		aiMatrix4x4 transMat;
 		aiMatrix4x4::Translation(trans, transMat);
 
-		nodeTransformation = transMat * rotMat;
+		nodeTransformation = transMat * rotMat * scalingMat;
 	}
 
 	resultMat = parentMat * nodeTransformation;
@@ -388,6 +409,10 @@ void SkinnedRenderer::ResetAnimationStatue()
 
 	animLoop = false;
 
+	auto mat = aiMatrix4x4();
+
+	ReadHierarchyNode(*meshData->scene.mRootNode, aiMatrix4x4());
+
 	InitBoneResource();
 
 	MapBB();
@@ -395,21 +420,6 @@ void SkinnedRenderer::ResetAnimationStatue()
 
 void SkinnedRenderer::InitRenderer()
 {
-	bool isSuccess = true;
-
-	isSuccess &= InitBoneResource();
-
-	isSuccess &= MapBB();
-
-	isSuccess &= InitSRVForBoneBuffer();
-
-	if (!isSuccess)
-	{
-		std::cerr << "SkinnedRendererコンポーネントの初期化に失敗しました" << std::endl;
-
-		return;
-	}
-
 	LoadVertexShader(L"SkinnedVertexShader.cso");
 	LoadPixelShader(L"SkinnedPixelShader.cso");
 
@@ -426,6 +436,23 @@ void SkinnedRenderer::InitRenderer()
 	boneBufferParamNum = GetRootParamNum();
 
 	AddRootParam(param);
+
+	ReadHierarchyNode(*meshData->scene.mRootNode , aiMatrix4x4());
+
+	bool isSuccess = true;
+
+	isSuccess &= InitBoneResource();
+
+	isSuccess &= MapBB();
+
+	isSuccess &= InitSRVForBoneBuffer();
+
+	if (!isSuccess)
+	{
+		std::cerr << "SkinnedRendererコンポーネントの初期化に失敗しました" << std::endl;
+
+		return;
+	}
 }
 
 void SkinnedRenderer::Update()

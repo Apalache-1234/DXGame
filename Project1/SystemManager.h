@@ -72,6 +72,8 @@ public:
 
 	UINT fps = 0;
 
+	bool GetIsPause();
+
 	float GetGameTime();
 	float GetGameDeltaTime();
 	float GetRealTime();

@@ -111,22 +111,22 @@ float2 TransformUV(float2 uv , int matIdx)
 
 }
 
-float4 ReturnPhongLighting(float3 lightCol , float4 col, float3 pos,  float3 lightDir , float3 normal)
+float4 ReturnPhongLighting(float3 lightCol, float4 col, float3 pos, float3 lightDir, float3 normal, int matIdx)
 {
 	float3 outCol = lightCol + lightCol * col;
 
-	lightCol = outCol * saturate(dot(lightDir, normal));
+	lightCol = outCol * saturate(dot(lightDir, normal)) * Materials[matIdx].DIFFUSE;
 
 	float3 toCamera = normalize(cameraPos.xyz - pos);
 
 	float3 ref = -reflect(toCamera, normal);
 
-	lightCol += outCol * pow(saturate(dot(ref,lightDir)), 100);
+    lightCol += outCol * pow(saturate(dot(ref, lightDir)), 100) * Materials[matIdx].SPECULAR;
 
 	return float4(lightCol,1);
 }
 
-float4 DirectionalLightShading(float4 col, float3 pos ,float3 normal)
+float4 DirectionalLightShading(float4 col, float3 pos, float3 normal, int matIdx)
 {
     float4 sumCol = 0;
 	
@@ -135,7 +135,7 @@ float4 DirectionalLightShading(float4 col, float3 pos ,float3 normal)
 		float3 lightDir = -normalize(DirectionalLights[i].direct);
 		float pow = DirectionalLights[i].power;
 		
-        float4 light = ReturnPhongLighting(DirectionalLights[i].color , col , pos ,lightDir, normal);
+        float4 light = ReturnPhongLighting(DirectionalLights[i].color , col , pos ,lightDir, normal , matIdx);
 
 		sumCol += light * pow;
 
@@ -145,7 +145,7 @@ float4 DirectionalLightShading(float4 col, float3 pos ,float3 normal)
 	return sumCol;
 }
 
-float4 PointLightShading(float4 col, float3 pos , float3 normal)
+float4 PointLightShading(float4 col, float3 pos, float3 normal, int matIdx)
 {
 	float4 sumCol = 0;
 
@@ -155,7 +155,7 @@ float4 PointLightShading(float4 col, float3 pos , float3 normal)
 		float lenPow = pow(saturate((PointLights[i].radius - length(PointLights[i].pos - pos)) / PointLights[i].radius) , 3);
 		float power = PointLights[i].power;
 
-		float4 light = ReturnPhongLighting(PointLights[i].color , col, pos, lightDir, normal) * lenPow;
+        float4 light = ReturnPhongLighting(PointLights[i].color, col, pos, lightDir, normal, matIdx) * lenPow;
 
 		sumCol += light * power;
 
@@ -165,7 +165,7 @@ float4 PointLightShading(float4 col, float3 pos , float3 normal)
 	return sumCol;
 }
 
-float4 SpotLightShading(float4 col, float3 pos, float3 normal)
+float4 SpotLightShading(float4 col, float3 pos, float3 normal, int matIdx)
 {
 	float4 sumCol = 0;
 
@@ -175,7 +175,7 @@ float4 SpotLightShading(float4 col, float3 pos, float3 normal)
 		float lenPow = pow(saturate((SpotLights[i].length - length(SpotLights[i].pos - pos)) / SpotLights[i].length), 3);
 		float power = SpotLights[i].power;
 
-		float4 light = ReturnPhongLighting(SpotLights[i].color, col, pos, lightDir, normal) * lenPow;
+        float4 light = ReturnPhongLighting(SpotLights[i].color, col, pos, lightDir, normal, matIdx) * lenPow;
 
 		float d = 1 - dot(SpotLights[i].direct, -lightDir) ;
 
@@ -191,15 +191,15 @@ float4 SpotLightShading(float4 col, float3 pos, float3 normal)
 	return sumCol;
 }
 
-float4 ApplyLightShading(float4 col ,float3 pos , float3 normal)
+float4 ApplyLightShading(float4 col, float3 pos, float3 normal,  int matIdx)
 {
-	float4 ambientCol = col * float4(ambientLight.xyz , 1);
+    float4 ambientCol = float4(Materials[matIdx].AMBIENT, 1) * col * float4(ambientLight.xyz, 1);
 
-	float4 dirLightCol = DirectionalLightShading(col,pos, normal);
+	float4 dirLightCol = DirectionalLightShading(col,pos, normal , matIdx);
 
-	float4 pointLightCol = PointLightShading(col,pos, normal);
+    float4 pointLightCol = PointLightShading(col, pos, normal, matIdx);
 
-	float4 spotLightCol = SpotLightShading(col,pos, normal);
+    float4 spotLightCol = SpotLightShading(col, pos, normal, matIdx);
 
     float4 resultCol = dirLightCol + ambientCol + pointLightCol + spotLightCol;
 

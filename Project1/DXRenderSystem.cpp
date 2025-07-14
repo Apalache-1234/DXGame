@@ -1,4 +1,3 @@
-#include "DXRenderSystem.h"
 #include "MyIMGUI.h"
 #include "SkyBox.h"
 #include "UIRenderer.h"
@@ -233,6 +232,12 @@ void DXRenderSystem::Draw()
 
 	if (uploadHeaps.size() > 0)
 		uploadHeaps.clear();
+
+	if (deletingHeaps.size() > 0)
+		deletingHeaps.clear();
+
+	if (deletingComps.size() > 0)
+		deletingComps.clear();
 }
 
 void DXRenderSystem::ExecuteCommands()
@@ -629,6 +634,21 @@ ComPtr<ID3D12Resource>& DXRenderSystem::GetEmptyUploadHeap()
 	uploadHeaps.emplace_back();
 
 	return uploadHeaps.back();
+}
+
+void DXRenderSystem::SetDeletingHeap(ComPtr<ID3D12Resource> heap)
+{
+	deletingHeaps.push_back(heap);
+}
+
+void DXRenderSystem::SetDeletingComps(shared_ptr<Component> comp)
+{
+	deletingComps.push_back(comp);
+}
+
+void DXRenderSystem::SetDeletingComps(std::vector<shared_ptr<Component>> comps)
+{
+	deletingComps.insert(deletingComps.end() , comps.begin() , comps.end());
 }
 
 bool DXRenderSystem::SetScissorAndViewPort()

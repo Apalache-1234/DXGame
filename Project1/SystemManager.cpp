@@ -148,6 +148,11 @@ void SystemManager::SetAmbientColor(DirectX::XMFLOAT3 col)
 	DirectX::XMStoreFloat3(&ambientColor , xmvec);
 }
 
+bool SystemManager::GetIsPause()
+{
+	return pause;
+}
+
 float SystemManager::GetGameTime()
 {
 	return GameTime;

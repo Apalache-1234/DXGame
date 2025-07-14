@@ -19,6 +19,8 @@ Renderer::Renderer(std::shared_ptr<Entity> ent) : Component::Component(ent)
 
 Renderer::~Renderer()
 {
+	auto& dxr = DXRenderSystem::GetInstance();
+
 }
 
 void Renderer::AddRenderCommand(ComPtr<ID3D12GraphicsCommandList>& cmdList, int backbufferIndex)

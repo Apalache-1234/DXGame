@@ -27,6 +27,8 @@
 #include "DebugSpotLight.h"
 #include "DebugGrids.h"
 #include "DebugUIRenderer.h"
+#include "TweenSystem.h"
+#include "Tween.h"
 
 float hoge = 0;
 
@@ -43,6 +45,7 @@ int main()
 	auto SystemManager = &SystemManager::GetInstance();
 	auto PhysicsSystem = &PhysicsSystem::GetInstance();
 	auto keySystem = &KeyInput::GetInstance();
+	auto tweenSystem = &TweenSystem::GetInstance();
 
 
 	window->Init();
@@ -88,15 +91,37 @@ int main()
 
 	float timeForFpsCounter = 0;
 
+	shared_ptr<Tween<XMVECTOR>> tw = nullptr;
+
 	while (window->MainLoop())
 	{
 		SystemManager->MainLoop();
 		PhysicsSystem->MainLoop();
 		keySystem->Update();
+		tweenSystem->Update();
 
 		hoge += 360 * SystemManager->GetGameDeltaTime();
 
 		DirectX::XMVECTOR velocity = DirectX::XMVectorSet(0,0,0,0);
+
+		if (keySystem->GetKey(I))
+		{
+			tw = tweenSystem->DoTween<XMVECTOR>(DirectX::XMVectorSet(0,10 , 0 , 0), DirectX::XMVectorZero(), EasingType::EaseOutQuint);
+
+			tw->OnComplete([]() { std::cout << "COMP" << std::endl; return; });
+			tw->OnStart([]() { std::cout << "START" << std::endl; return; });
+			tw->OnUpdate([]() { std::cout << "UPDATE" << std::endl; return; });
+		}
+
+		if (keySystem->GetKeyDown(N))
+		{
+			tw = nullptr;
+		}
+
+		if (tw)
+		{
+			player->SetWorldPosition(tw->GetValue());
+		}
 
 		if (keySystem->GetKeyDown(A))
 		{

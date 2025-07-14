@@ -61,6 +61,8 @@ private:
 
 	bool InitSRVForBoneBuffer();
 
+	void ReadHierarchyNode(aiNode& node, const aiMatrix4x4& parentMat);
+
 	void ReadHierarchyNode(float animationTime, aiNode& node, aiMatrix4x4& parentMat, aiAnimation& anim);
 
 	void ProcessAnimation(float time);

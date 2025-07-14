@@ -13,7 +13,7 @@ MeshLoader::~MeshLoader()
 
 void MeshLoader::Init()
 {
-	LoadMesh("Models/SpartanWarrior/Spartan_Warrior.fbx", SPARTAN);
+	LoadMesh("Models/Soldier_Character_with_animations/Soldier Character.fbx", SPARTAN);
 	LoadMesh("Models/Box.fbx", BOX);
 	LoadMesh("Models/Plane.fbx", PLANE);
 	LoadMesh("Models/Sphere.fbx", SPHERE);
@@ -50,7 +50,7 @@ bool MeshLoader::LoadMesh(const std::string filePath , MESHTYPE type)
 
 	flag |= aiProcess_GenSmoothNormals;
 
-	flag |= aiProcess_ConvertToLeftHanded;
+
 
 	flag |= aiProcess_CalcTangentSpace;
 
@@ -355,14 +355,24 @@ void MeshLoader::InitMaterial(const std::string filePath, const aiMesh& mesh, Me
 	mat->Get(AI_MATKEY_COLOR_DIFFUSE , col);
 	data.mat.DIFFUSE = DirectX::XMFLOAT3(col.r, col.g, col.b);
 	mat->Get(AI_MATKEY_COLOR_SPECULAR , col);
+	if (col == aiColor3D(0,0,0))
+		col = aiColor3D(1,1,1);
 	data.mat.SPECULAR = DirectX::XMFLOAT3(col.r, col.g, col.b);
 	mat->Get(AI_MATKEY_COLOR_AMBIENT , col);
+	if (col == aiColor3D(0, 0, 0))
+		col = aiColor3D(1, 1, 1);
 	data.mat.AMBIENT = DirectX::XMFLOAT3(col.r, col.g, col.b);
 	mat->Get(AI_MATKEY_COLOR_REFLECTIVE , col);
+	if (col == aiColor3D(0, 0, 0))
+		col = aiColor3D(1, 1, 1);
 	data.mat.REFLECTIVE = DirectX::XMFLOAT3(col.r, col.g, col.b);
 	mat->Get(AI_MATKEY_COLOR_TRANSPARENT , col);
+	if (col == aiColor3D(0, 0, 0))
+		col = aiColor3D(1, 1, 1);
 	data.mat.TRANSPARENT = DirectX::XMFLOAT3(col.r, col.g, col.b);
 	mat->Get(AI_MATKEY_COLOR_EMISSIVE , col);
+	if (col == aiColor3D(0, 0, 0))
+		col = aiColor3D(1, 1, 1);
 	data.mat.EMISSIVE = DirectX::XMFLOAT3(col.r, col.g, col.b);
 }
 

@@ -1,6 +1,7 @@
 #include "Entity.h"
 #include "Utility.h"
 #include "SkinnedRenderer.h"
+#include "DXRenderSystem.h"
 
 Entity::Entity(const std::string& name) : Object::Object(name)
 {
@@ -20,6 +21,15 @@ Entity::Entity(const std::string& name) : Object::Object(name)
 Entity::~Entity()
 {
 	std::cout << GetName() << "‚ª”jŠü‚³‚ê‚½" << std::endl;
+
+	RemoveAllComponent();
+}
+
+void Entity::SetDelete(const std::type_index ti)
+{
+	auto& comp = components[ti];
+
+	DXRenderSystem::GetInstance().SetDeletingComps(comp);
 }
 
 void Entity::Init()
@@ -35,7 +45,17 @@ void Entity::Init()
 
 	rotation = XMVectorZero();
 
+	RemoveAllComponent();
+}
+
+void Entity::RemoveAllComponent()
+{
 	components.clear();
+	for (auto& comp : compLists)
+	{
+		DXRenderSystem::GetInstance().SetDeletingComps(comp);
+	}
+	compLists.clear();
 }
 
 DirectX::XMMATRIX Entity::GetTRS()
@@ -507,8 +527,6 @@ void Entity::AddWorldScale(DirectX::XMVECTOR scale)
 void Entity::Destroy()
 {
 	Object::Destroy();
-
-	components.clear();
 }
 
 void Entity::AddLocalScale(DirectX::XMVECTOR scale)

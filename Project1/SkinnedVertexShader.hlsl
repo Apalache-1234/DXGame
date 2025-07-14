@@ -30,6 +30,8 @@ struct output
 	float3 normal : NORMAL;
 
 	float4 color : COLOR0;
+	
+    float index : INDEX;
 };
 
 #include <Header.hlsli> 
@@ -128,6 +130,8 @@ output main(input vertexIn)
 	
     vertexOut.normal = ReturnAnimatedNormal(vertexIn.normal, vertexIn , local);
     vertexOut.normal = normalize(mul(world_mat, vertexOut.normal));
+	
+    vertexOut.index = vertexIn.index;
 
 	return vertexOut;
 }

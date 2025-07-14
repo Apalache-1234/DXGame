@@ -1,3 +1,6 @@
+#ifndef DXRENDERSYSTEM_H
+#define DXRENDERSYSTEM_H
+
 #include <windows.h>
 #include <memory>
 #include <tchar.h>
@@ -21,10 +24,6 @@
 using namespace DirectX;
 using namespace Microsoft::WRL;
 using namespace std;
-
-
-#ifndef DXRENDERSYSTEM_H
-#define DXRENDERSYSTEM_H
 
 class Renderer;
 
@@ -66,14 +65,6 @@ public:
 		}
 	}
 
-	void RenderSkyBox();
-
-	void RenderSkinnedRenderer();
-
-	void RenderDebugRenderer();
-
-	void RenderUIRenderer();
-
 	void RenderIMGUI();
 
 	void Draw();
@@ -84,9 +75,19 @@ public:
 
 	ComPtr<ID3D12Resource>& GetEmptyUploadHeap();
 
+	void SetDeletingHeap(ComPtr<ID3D12Resource> heap);
+
+	void SetDeletingComps(shared_ptr<Component> comp);
+
+	void SetDeletingComps(std::vector<shared_ptr<Component>> comps);
+
 	const static int frameBuffer = 2;
 private:
 	std::vector<ComPtr<ID3D12Resource>> uploadHeaps;
+
+	std::vector<ComPtr<ID3D12Resource>> deletingHeaps;
+
+	std::vector<shared_ptr<Component>> deletingComps;
 
 	/// <summary>
 	/// DirectX12のデバイスを作成する
