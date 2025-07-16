@@ -83,11 +83,15 @@ public:
 
 	const static int frameBuffer = 2;
 private:
+	ComPtr<ID3D12Resource> postEffect;
+
 	std::vector<ComPtr<ID3D12Resource>> uploadHeaps;
 
 	std::vector<ComPtr<ID3D12Resource>> deletingHeaps;
 
 	std::vector<shared_ptr<Component>> deletingComps;
+
+	shared_ptr<Entity> postEffectEntity;
 
 	/// <summary>
 	/// DirectX12のデバイスを作成する
@@ -147,6 +151,10 @@ private:
 	/// <returns>正常に終了したらtrueを返す</returns>
 	bool CreateFence();
 
+	bool CreatePostEffectResouce();
+
+	bool CreatePostEffectView();
+
 	/// <summary>
 	/// 深度バッファビューのリソースを作成する
 	/// </summary>
@@ -195,6 +203,7 @@ private:
 	ComPtr<ID3D12GraphicsCommandList> cmd_list;
 	std::optional<DescriptorHeapManager> heapRT;
 	std::optional<DescriptorHeapManager> heapDS;
+	std::optional<DescriptorHeapManager> heap;
 	ComPtr<ID3D12Resource> rtv;
 	ComPtr<ID3D12Resource> color_buffer[frameBuffer];
 	ComPtr<ID3D12Fence> fence;
@@ -215,6 +224,8 @@ private:
 
 	std::unique_ptr < DescriptorHeapManager::PtrHandles> DSVHandle;
 	std::unique_ptr < DescriptorHeapManager::PtrHandles> msaaDSVHandle;
+
+	std::unique_ptr < DescriptorHeapManager::PtrHandles> postEffectHandle;
 
 	int backbuffer_index = 0;
 };

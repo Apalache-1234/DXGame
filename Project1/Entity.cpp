@@ -234,7 +234,6 @@ void Entity::SetWorldPosition(DirectX::XMVECTOR position)
 
 			if (ent != nullptr)
 			{
-
 				localMat = Utility::CreateTransMat(this->right, this->up, this->forward);
 
 				transPosition = DirectX::XMVector3Transform(ent->GetLocalPosition(), XMMatrixInverse(nullptr, localMat));
@@ -477,6 +476,21 @@ void Entity::SetLocalRotation(DirectX::XMVECTOR rotation)
 void Entity::SetRotation(DirectX::XMVECTOR rot)
 {
 	rotation = rot;
+
+	if (HasChild())
+	{
+		for (auto obj : GetChild())
+		{
+			std::shared_ptr<Entity> ent = std::dynamic_pointer_cast<Entity>(obj);
+
+			if (ent != nullptr)
+			{
+				ent->SetRotation(GetRotation());
+			}
+		}
+	}
+
+	AdjustDirectionVector();
 }
 
 void Entity::AddWorldPosition(DirectX::XMVECTOR position)

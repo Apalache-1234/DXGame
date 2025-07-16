@@ -66,7 +66,13 @@ bool DXRenderSystem::Init()
 
 	isSuccess &= CreateFence();
 
+	isSuccess &= CreatePostEffectResouce();
+
+	isSuccess &= CreatePostEffectView();
+
 	isSuccess &= SetScissorAndViewPort();
+
+	postEffectEntity = SystemManager::GetInstance().CreateEntity<SkinnedRenderer>("postEffect");
 
 	if (!isSuccess)
 	{
@@ -171,7 +177,6 @@ void DXRenderSystem::Draw()
 
 	cmd_list->ResourceBarrier(1, &barrier);
 
-
 	cmd_list->OMSetRenderTargets(1, &msaaRTVHandle->cpuHandle, false, &msaaDSVHandle->cpuHandle);
 
 	cmd_list->ClearRenderTargetView(msaaRTVHandle->cpuHandle, colorBG, 0, nullptr);
@@ -181,8 +186,6 @@ void DXRenderSystem::Draw()
 	RenderComponent<SkyBox>();
 
 	RenderComponent<SkinnedRenderer>();
-
-
 
 	if (*Flags::GetInstance().isDebug)
 	{
@@ -227,6 +230,16 @@ void DXRenderSystem::Draw()
 	barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_PRESENT;
 
 	cmd_list->ResourceBarrier(1, &barrier);
+
+	cmd_list->ResolveSubresource(
+		postEffect.Get(),         // 解像先
+		0,                  // MipLevel
+		msaaRT.Get(),   // 解像元
+		0,                  // MipLevel
+		DXGI_FORMAT_R8G8B8A8_UNORM
+	);
+
+	postEffectEntity->GetComponent<SkinnedRenderer>()->ApplyTextureOnMesh(0 , Renderer::TEXTURE_TYPE::DIFFUSE , postEffect);
 
 	ExecuteCommands();
 
@@ -541,6 +554,70 @@ bool DXRenderSystem::CreateFence()
 
 	return true;
 }
+
+bool DXRenderSystem::CreatePostEffectResouce()
+{
+	D3D12_HEAP_PROPERTIES prop = {};
+
+	prop.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_UNKNOWN;
+
+	prop.Type = D3D12_HEAP_TYPE_DEFAULT;
+
+	prop.CreationNodeMask = 1;
+
+	prop.VisibleNodeMask = 1;
+
+	prop.MemoryPoolPreference = D3D12_MEMORY_POOL_UNKNOWN;
+
+	D3D12_RESOURCE_DESC desc = color_buffer[0]->GetDesc();
+
+	desc.Flags = D3D12_RESOURCE_FLAG_NONE;
+
+	hr = device->CreateCommittedResource(
+		&prop,
+		D3D12_HEAP_FLAG_NONE,
+		&desc,
+		D3D12_RESOURCE_STATE_RESOLVE_DEST,
+		nullptr,
+		IID_PPV_ARGS(postEffect.GetAddressOf())
+
+	);
+
+	if (FAILED(hr))
+	{
+		std::cerr << "ポストエフェクト作成失敗" << std::endl;
+
+		return false;
+	}
+
+
+	return true;
+}
+
+bool DXRenderSystem::CreatePostEffectView()
+{
+	heap.emplace(100);
+
+	postEffectHandle = heap.value().GetHandle();
+
+	D3D12_SHADER_RESOURCE_VIEW_DESC desc = {};
+
+	desc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
+
+	desc.Format = postEffect->GetDesc().Format;
+
+	desc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+
+	desc.Texture2D.MipLevels = postEffect->GetDesc().MipLevels;
+	desc.Texture2D.MostDetailedMip = 0;
+	desc.Texture2D.ResourceMinLODClamp = 0;
+	desc.Texture2D.PlaneSlice = 0;
+
+	device->CreateShaderResourceView(postEffect.Get(), &desc, postEffectHandle->cpuHandle);
+
+	return true;
+}
+
 
 bool DXRenderSystem::CreateDBVResouce()
 {
