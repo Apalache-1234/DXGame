@@ -14,3 +14,8 @@ void CameraComponent::SetCameraTransform(DirectX::XMVECTOR position, DirectX::XM
 
 	SetCameraRotation(rotation);
 }
+
+std::type_index CameraComponent::GetBaseType()
+{
+	return typeid(Component);
+}

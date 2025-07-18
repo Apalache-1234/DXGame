@@ -100,3 +100,8 @@ std::pair < std::vector<int>, std::vector < DirectX::XMVECTOR > > Collider::GetT
 
 	return triangles;
 }
+
+std::type_index Collider::GetBaseType()
+{
+	return typeid(Component);
+}

@@ -27,6 +27,8 @@ public:
 	void SetPower(float pow);
 
 	void SetColor(DirectX::XMVECTOR col);
+
+	std::type_index GetBaseType() override;
 private:
 	float power = 1;
 

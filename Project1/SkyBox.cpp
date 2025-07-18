@@ -10,6 +10,11 @@ SkyBox::~SkyBox()
 {
 }
 
+std::type_index SkyBox::GetBaseType()
+{
+	return typeid(Renderer);
+}
+
 void SkyBox::Update()
 {
 	auto position_mat = XMMatrixTranslationFromVector(DirectX::XMVectorZero());

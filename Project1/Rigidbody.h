@@ -24,6 +24,7 @@ public:
 
 	bool isStatic = false;
 
+	std::type_index GetBaseType() override;
 private:
 	DirectX::XMVECTOR velocity = DirectX::XMVectorSet(0,0,0,0);
 

@@ -9,6 +9,11 @@ DebugPointLight::~DebugPointLight()
 {
 }
 
+std::type_index DebugPointLight::GetBaseType()
+{
+	return typeid(DebugRenderer);
+}
+
 void DebugPointLight::Update()
 {
 	InitDebugPointLightRender();

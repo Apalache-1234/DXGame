@@ -22,3 +22,8 @@ void PointLight::SetRadius(float rad)
 {
     radius = rad;
 }
+
+std::type_index PointLight::GetBaseType()
+{
+    return typeid(Light);
+}

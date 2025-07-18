@@ -65,3 +65,8 @@ void SpotLight::SetRotation(DirectX::XMVECTOR rot)
 {
 	rotation = rot;
 }
+
+std::type_index SpotLight::GetBaseType()
+{
+	return typeid(Light);
+}

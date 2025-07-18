@@ -218,14 +218,33 @@ public:
 	template <typename T ,  std::enable_if_t<std::is_base_of_v<Component, T>>* = nullptr>
 	std::shared_ptr<T> GetComponent()
 	{
-		if (components.find(typeid(T)) != components.end())
+		for (auto& pair : components)
 		{
-			return  std::dynamic_pointer_cast<T>(components[typeid(T)]);
+			auto casted = std::dynamic_pointer_cast<T>(pair.second);
+			if (casted)
+				return casted;
 		}
-		else
+		return nullptr;
+	}
+
+	/// <summary>
+    /// そのクラスを継承したコンポーネントのシェアドポインタのリストを返す、存在しない場合はnullptrを返す
+    /// </summary>
+    /// <typeparam name="T">返すタイプ</typeparam>
+	template <typename T, std::enable_if_t<std::is_base_of_v<Component, T>>* = nullptr>
+	std::vector<std::shared_ptr<T>> GetComponents()
+	{
+		std::vector<std::shared_ptr<T>> list;
+
+		for (auto& pair : components)
 		{
-			return nullptr;
+			auto casted = std::dynamic_pointer_cast<T>(pair.second);
+			if (casted)
+			{
+				list.push_back(casted);
+			}
 		}
+		return list;
 	}
 
 	template <typename T , std::enable_if_t<std::is_base_of_v<Component, T>>* = nullptr>

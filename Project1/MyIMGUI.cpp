@@ -9,6 +9,9 @@
 #include "SpotLight.h"
 #include "SkyBox.h"
 #include "PhysicsSystem.h"
+#include "PEEdgeFilter.h"
+#include "PEMosaicFilter.h"
+#include "PERadicalBlur.h"
 
 std::unique_ptr<MyIMGUI> MyIMGUI::instance = nullptr;
 
@@ -953,6 +956,68 @@ void DebugMenu()
 	}
 }
 
+void ShowEdgeFilterPostEffect()
+{
+	if (ImGui::TreeNode("EdgeFilter")) {
+
+		auto edgeF = SystemManager::GetInstance().GetComponentList<PEEdgeFilter>();
+
+		ImGui::Checkbox("Flag", &edgeF.front()->flag);
+
+		auto trans = edgeF.front()->GetTransition();
+
+		ImGui::DragFloat("Transition", &trans, 0.05f, 0, 1);
+
+		edgeF.front()->SetTransition(trans);
+
+		ImGui::TreePop();
+	}
+}
+
+void ShowMosaicFilterPostEffect()
+{
+	if (ImGui::TreeNode("MosaicFilter")) {
+
+		auto mosaicF = SystemManager::GetInstance().GetComponentList<PEMosaicFilter>();
+
+		ImGui::Checkbox("Flag", &mosaicF.front()->flag);
+
+		auto intens = mosaicF.front()->GetIntensify();
+
+		ImGui::DragFloat("Intensify", &intens);
+
+		mosaicF.front()->SetIntensify(intens);
+
+		ImGui::TreePop();
+	}
+}
+
+void ShowRadicalBlurPostEffect()
+{
+	if (ImGui::TreeNode("RadicalBlur")) {
+
+		auto rad = SystemManager::GetInstance().GetComponentList<PERadicalBlur>();
+
+		ImGui::Checkbox("Flag", &rad.front()->flag);
+
+		auto samp = rad.front()->GetSample();
+
+		ImGui::DragInt("Sample", &samp);
+
+		rad.front()->SetSample(samp);
+
+		auto str = rad.front()->GetBlurStrength();
+
+		ImGui::DragFloat("Strength", &str , 0.05f);
+
+		rad.front()->SetBlurStrength(str);
+
+		rad.front()->SetScreenCenter(ShowAndSetVecInfo("CenterPos" , rad.front()->GetScreenCenter()));
+
+		ImGui::TreePop();
+	}
+}
+
 void MyIMGUI::MainLoop()
 {
 	// Start the Dear ImGui frame
@@ -1009,6 +1074,17 @@ void MyIMGUI::MainLoop()
 			physics.gravityPow = pow;
 
 			physics.SetGravityVec(ShowAndSetVecInfo("GravityVec", physics.GetGravityVec()));
+
+			ImGui::TreePop();
+		}
+
+		if (ImGui::TreeNode("PostEffect")) {
+
+			ShowEdgeFilterPostEffect();
+
+			ShowMosaicFilterPostEffect();
+
+			ShowRadicalBlurPostEffect();
 
 			ImGui::TreePop();
 		}

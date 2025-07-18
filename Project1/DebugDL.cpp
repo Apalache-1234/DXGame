@@ -9,6 +9,11 @@ DebugDirectionalLight::~DebugDirectionalLight()
 {
 }
 
+std::type_index DebugDirectionalLight::GetBaseType()
+{
+	return typeid(DebugRenderer);
+}
+
 void DebugDirectionalLight::Update()
 {
 	InitDebugRenderer();

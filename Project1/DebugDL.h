@@ -29,6 +29,8 @@ public:
 	DebugDirectionalLight(std::shared_ptr<Entity> ent);
 
 	~DebugDirectionalLight();
+
+	std::type_index GetBaseType() override;
 protected:
 	void Update() override;
 private:

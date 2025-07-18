@@ -65,6 +65,8 @@ public:
 		}
 	}
 
+	void RenderPostEffect();
+
 	void RenderIMGUI();
 
 	void Draw();

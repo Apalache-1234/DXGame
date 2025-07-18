@@ -418,6 +418,11 @@ void SkinnedRenderer::ResetAnimationStatue()
 	MapBB();
 }
 
+std::type_index SkinnedRenderer::GetBaseType()
+{
+	return typeid(Renderer);
+}
+
 void SkinnedRenderer::InitRenderer()
 {
 	LoadVertexShader(L"SkinnedVertexShader.cso");

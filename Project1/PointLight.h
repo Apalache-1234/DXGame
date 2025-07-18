@@ -28,6 +28,8 @@ public:
 	void SetRadius(float rad);
 
 	DirectX::XMVECTOR position = DirectX::XMVectorZero();
+
+	std::type_index GetBaseType() override;
 private:
 	float radius = 1;
 };

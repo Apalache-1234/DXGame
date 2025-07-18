@@ -87,3 +87,8 @@ void DebugRayCast::AddRayCast(RayCast ray)
 	rays.push_back(ray);
 }
 
+std::type_index DebugRayCast::GetBaseType()
+{
+	return typeid(DebugRenderer);
+}
+

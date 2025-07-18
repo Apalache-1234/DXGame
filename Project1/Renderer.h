@@ -68,6 +68,8 @@ public:
 	void ApplyTextureOnMesh(int idx, Renderer::TEXTURE_TYPE type, ComPtr<ID3D12Resource> texResource);
 
 	void ApplyTextureOnMesh(int idx, Renderer::TEXTURE_TYPE type, ComPtr<ID3D12Resource> texResource, D3D12_SHADER_RESOURCE_VIEW_DESC desc);
+
+	std::type_index GetBaseType() override;
 protected:
 	void virtual Update();
 

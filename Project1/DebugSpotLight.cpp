@@ -8,6 +8,11 @@ DebugSpotLight::~DebugSpotLight()
 {
 }
 
+std::type_index DebugSpotLight::GetBaseType()
+{
+	return typeid(DebugRenderer);
+}
+
 void DebugSpotLight::Update()
 {
 	InitDebugSpotLightRenderer();

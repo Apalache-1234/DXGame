@@ -10,6 +10,11 @@ DebugRenderer::~DebugRenderer()
 {
 }
 
+std::type_index DebugRenderer::GetBaseType()
+{
+	return typeid(Renderer);
+}
+
 bool DebugRenderer::InitDebugVertexBuffer()
 {
 	UINT bufferSize = sizeof(Instance) * instances.size() + 1;

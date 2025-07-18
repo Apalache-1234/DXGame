@@ -30,6 +30,8 @@ public:
 	DebugSpotLight(std::shared_ptr<Entity> ent);
 
 	~DebugSpotLight();
+
+	std::type_index GetBaseType() override;
 protected:
 	void Update() override;
 private:

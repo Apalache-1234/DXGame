@@ -37,3 +37,8 @@ void Rigidbody::SetMass(float val)
 	
 	mass = val;
 }
+
+std::type_index Rigidbody::GetBaseType()
+{
+	return typeid(Component);
+}

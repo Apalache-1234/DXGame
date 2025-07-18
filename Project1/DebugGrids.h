@@ -29,6 +29,8 @@ public:
 	DebugGrids(std::shared_ptr<Entity> ent);
 
 	~DebugGrids();
+
+	std::type_index GetBaseType() override;
 protected:
 	void Update() override;
 private:

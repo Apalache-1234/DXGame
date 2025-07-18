@@ -26,6 +26,8 @@ public:
 	DirectX::XMVECTOR GetRotation();
 
 	void SetRotation(DirectX::XMVECTOR rot);
+
+	std::type_index GetBaseType() override;
 private:
 	DirectX::XMVECTOR lightDir = Utility::forward;
 

@@ -28,6 +28,8 @@ public:
 	DebugRenderer(std::shared_ptr<Entity> ent);
 
 	virtual ~DebugRenderer();
+
+	std::type_index GetBaseType() override;
 protected:
 	bool InitIVB();
 

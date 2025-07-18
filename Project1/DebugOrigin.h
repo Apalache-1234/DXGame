@@ -36,6 +36,8 @@ public:
 
 	~DebugOrigin();
 
+	std::type_index GetBaseType() override;
+
 	TYPE type = LOCAL;
 protected:
 

@@ -29,6 +29,8 @@ public:
 	DirectX::XMVECTOR colPosition = DirectX::XMVectorZero();
 
 	DirectX::XMVECTOR colScale = DirectX::XMVectorSplatOne();
+
+	std::type_index GetBaseType() override;
 protected:
 	void InitRenderer() override;
 

@@ -13,3 +13,8 @@ Component::~Component()
 void Component::Init() {
 
 }
+
+std::type_index Component::GetBaseType()
+{
+	return typeid(void);
+}

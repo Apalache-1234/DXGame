@@ -10,6 +10,9 @@
 #include "DebugSpotLight.h"
 #include "DebugGrids.h"
 #include "DebugUIRenderer.h"
+#include "PEEdgeFilter.h"
+#include "PEMosaicFilter.h"
+#include "PERadicalBlur.h"
 
 DXRenderSystem::DXRenderSystem()
 {
@@ -72,7 +75,9 @@ bool DXRenderSystem::Init()
 
 	isSuccess &= SetScissorAndViewPort();
 
-	postEffectEntity = SystemManager::GetInstance().CreateEntity<SkinnedRenderer>("postEffect");
+	postEffectEntity = SystemManager::GetInstance().CreateEntity<PEEdgeFilter>("postEffect");
+	postEffectEntity->AddComponent<PEMosaicFilter>();
+	postEffectEntity->AddComponent<PERadicalBlur>();
 
 	if (!isSuccess)
 	{
@@ -138,6 +143,36 @@ void DXRenderSystem::WaitForRender()
 
 std::unique_ptr<DXRenderSystem> DXRenderSystem::instance = nullptr;
 
+void DXRenderSystem::RenderPostEffect()
+{
+	auto posts = SystemManager::GetInstance().GetComponentList<PostEffect>();
+
+	for (auto& post : posts)
+	{
+		if (!post->flag)
+			continue;
+
+		cmd_list->ResolveSubresource(
+			postEffect.Get(),         // ‰ð‘œæ
+			0,                  // MipLevel
+			msaaRT.Get(),   // ‰ð‘œŒ³
+			0,                  // MipLevel
+			DXGI_FORMAT_R8G8B8A8_UNORM_SRGB
+		);
+
+		cmd_list->ClearRenderTargetView(msaaRTVHandle->cpuHandle, colorBG, 0, nullptr);
+
+		cmd_list->ClearDepthStencilView(msaaDSVHandle->cpuHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
+
+		post->ApplyTextureOnMesh(0, Renderer::TEXTURE_TYPE::DIFFUSE, postEffect);
+
+		cmd_list->RSSetScissorRects(1, &scissor);
+		cmd_list->RSSetViewports(1, &viewport);
+
+		post->AddRenderCommand(cmd_list, backbuffer_index);
+	}
+}
+
 void DXRenderSystem::RenderIMGUI()
 {
 	auto myIMGUIIns = MyIMGUI::GetInstance();
@@ -198,13 +233,15 @@ void DXRenderSystem::Draw()
 		RenderComponent<DebugGrids>();
 	}
 
+	RenderPostEffect();
+
 	RenderComponent<UIRenderer>();
 
 	if (*Flags::GetInstance().isDebug)
 	{
 		RenderComponent<DebugUIRenderer>();
 	}
-	
+
 	RenderIMGUI();
 
 	barrier.Transition.pResource = msaaRT.Get();
@@ -230,16 +267,6 @@ void DXRenderSystem::Draw()
 	barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_PRESENT;
 
 	cmd_list->ResourceBarrier(1, &barrier);
-
-	cmd_list->ResolveSubresource(
-		postEffect.Get(),         // ‰ð‘œæ
-		0,                  // MipLevel
-		msaaRT.Get(),   // ‰ð‘œŒ³
-		0,                  // MipLevel
-		DXGI_FORMAT_R8G8B8A8_UNORM
-	);
-
-	postEffectEntity->GetComponent<SkinnedRenderer>()->ApplyTextureOnMesh(0 , Renderer::TEXTURE_TYPE::DIFFUSE , postEffect);
 
 	ExecuteCommands();
 
@@ -570,6 +597,8 @@ bool DXRenderSystem::CreatePostEffectResouce()
 	prop.MemoryPoolPreference = D3D12_MEMORY_POOL_UNKNOWN;
 
 	D3D12_RESOURCE_DESC desc = color_buffer[0]->GetDesc();
+
+	desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
 
 	desc.Flags = D3D12_RESOURCE_FLAG_NONE;
 

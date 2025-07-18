@@ -30,6 +30,8 @@ public:
 	DebugPointLight(std::shared_ptr<Entity> ent);
 
 	~DebugPointLight();
+
+	std::type_index GetBaseType() override;
 protected:
 	void Update() override;
 	void InitDebugPointLightRender();

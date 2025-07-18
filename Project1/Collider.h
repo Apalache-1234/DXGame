@@ -38,6 +38,8 @@ public:
 
 	std::pair < std::vector<int>, std::vector <DirectX::XMVECTOR>> GetTriangles();
 
+	std::type_index GetBaseType() override;
+
 	/// <summary>
 	/// コライダーの位置
 	/// </summary>

@@ -601,6 +601,14 @@ void Renderer::RegisterTextureSRV()
 		auto list = heapManager.GetSerialHandle(2);
 
 		CreateSRV(meshData->meshes[i].texResource , list[0]->cpuHandle);
+
+		auto desc = meshData->meshes[i].texResource->GetDesc();
+
+		mats[i].TEXELSIZE.x = 1 / (float)desc.Width;
+		mats[i].TEXELSIZE.y = 1 / (float)desc.Height;
+		mats[i].TEXELSIZE.z = desc.Width;
+		mats[i].TEXELSIZE.w = desc.Height;
+
 		CreateSRV(meshData->meshes[i].normalTexResource , list[1]->cpuHandle);
 
 		for (int i = 0;i < list.size();i++)
@@ -639,6 +647,11 @@ void Renderer::ApplyTextureOnMesh(int idx, Renderer::TEXTURE_TYPE type, ComPtr<I
 	int index = idx * TEXTURE_TYPE::CountLast + (int)type;
 
 	DXRenderSystem::GetInstance().GetDevice()->CreateShaderResourceView(texResource.Get(), &desc, texHandles[index]->cpuHandle);
+}
+
+std::type_index Renderer::GetBaseType()
+{
+	return typeid(Component);
 }
 
 bool Renderer::CreateMesh(const MeshLoader::MESHTYPE type)

@@ -36,6 +36,8 @@ public:
 	void SetRotation(DirectX::XMVECTOR rot);
 
 	DirectX::XMVECTOR position = DirectX::XMVectorZero();
+
+	std::type_index GetBaseType() override;
 private:
 	float length = 13;
 	float angular  = DirectX::XMConvertToRadians(45);

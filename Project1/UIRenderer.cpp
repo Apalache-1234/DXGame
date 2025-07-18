@@ -22,6 +22,11 @@ void UIRenderer::SetImageHeight(UINT size)
 	imageHeight = size;
 }
 
+std::type_index UIRenderer::GetBaseType()
+{
+	return typeid(Renderer);
+}
+
 void UIRenderer::InitRenderer()
 {
 	CreateTexture("Textures/error.dds");

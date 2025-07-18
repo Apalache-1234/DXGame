@@ -13,6 +13,11 @@ DebugCollider::~DebugCollider()
 {
 }
 
+std::type_index DebugCollider::GetBaseType()
+{
+	return typeid(DebugRenderer);
+}
+
 void DebugCollider::Update()
 {
 	auto colList = SystemManager::GetInstance().GetComponentList<Collider>();

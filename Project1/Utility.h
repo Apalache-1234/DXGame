@@ -103,6 +103,7 @@ struct Material
     DirectX::XMFLOAT3 EMISSIVE = DirectX::XMFLOAT3(1, 1, 1);
     DirectX::XMFLOAT2 UVPOS = XMFLOAT2(0,0);
     DirectX::XMFLOAT2 UVSCALE = XMFLOAT2(1, 1);
+    DirectX::XMFLOAT4 TEXELSIZE = XMFLOAT4(123, 123, 123, 123);
 };
 
 #endif

@@ -31,6 +31,8 @@ public:
 	DebugCollider(std::shared_ptr<Entity> ent, Collider::ColliderType type);
 
 	~DebugCollider();
+
+     std::type_index GetBaseType() override;
 protected:
 
 	void Update() override;

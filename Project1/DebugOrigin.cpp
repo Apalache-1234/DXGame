@@ -8,6 +8,11 @@ DebugOrigin::~DebugOrigin()
 {
 }
 
+std::type_index DebugOrigin::GetBaseType()
+{
+	return typeid(DebugRenderer);
+}
+
 void DebugOrigin::Update()
 {
 	auto ents = SystemManager::GetInstance().GetEntityList();

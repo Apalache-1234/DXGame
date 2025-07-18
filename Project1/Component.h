@@ -2,6 +2,7 @@
 #define COMPONENT_H
 
 #include <memory>
+#include <typeindex>
 
 class Entity;
 
@@ -15,6 +16,8 @@ public:
 	virtual void Init();
 
 	std::shared_ptr<Entity> attachFrom;
+
+	virtual std::type_index GetBaseType();
 protected:
 	//このコンポーネントを持つエンティティーのポインタ
 

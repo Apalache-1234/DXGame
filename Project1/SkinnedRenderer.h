@@ -32,6 +32,7 @@ public:
 
 	bool animLoop = false;
 
+	std::type_index GetBaseType() override;
 protected:
 	void InitRenderer() override;
 

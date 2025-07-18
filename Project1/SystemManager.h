@@ -59,12 +59,9 @@ public:
 
 		for (auto entity : list)
 		{
-			auto comp = entity->GetComponent<T>();
+			auto comp = entity->GetComponents<T>();
 
-			if (comp != nullptr)
-			{
-				componentList.emplace_back(comp);
-			}
+			componentList.insert(componentList.end() , comp.begin() , comp.end());
 		}
 
 		return componentList;

@@ -35,3 +35,8 @@ void DirectionalLight::SetRotation(DirectX::XMVECTOR rot)
 {
     rotation = rot;
 }
+
+std::type_index DirectionalLight::GetBaseType()
+{
+    return typeid(Light);
+}

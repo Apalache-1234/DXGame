@@ -30,6 +30,8 @@ public:
 	DebugUIRenderer(std::shared_ptr<Entity> ent);
 
 	~DebugUIRenderer();
+
+	std::type_index GetBaseType() override;
 protected:
 	void Update() override;
 private:

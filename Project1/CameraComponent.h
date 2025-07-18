@@ -17,6 +17,7 @@ public:
 
 	void SetCameraTransform(DirectX::XMVECTOR position , DirectX::XMVECTOR rotation);
 
+	std::type_index GetBaseType() override;
 protected:
 
 };

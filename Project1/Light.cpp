@@ -27,3 +27,8 @@ void Light::SetColor(DirectX::XMVECTOR col)
 {
     color = DirectX::XMVectorClamp(col, DirectX::XMVectorZero(), DirectX::XMVectorSplatOne());
 }
+
+std::type_index Light::GetBaseType()
+{
+    return typeid(Component);
+}

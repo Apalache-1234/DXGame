@@ -10,6 +10,11 @@ DebugUIRenderer::~DebugUIRenderer()
 {
 }
 
+std::type_index DebugUIRenderer::GetBaseType()
+{
+	return typeid(DebugRenderer);
+}
+
 void DebugUIRenderer::Update()
 {
 	InitDebugRenderer();

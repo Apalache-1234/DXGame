@@ -15,6 +15,8 @@ public:
 	~DebugRayCast();
 
 	void AddRayCast(RayCast ray);
+
+	std::type_index GetBaseType() override;
 protected:
 
 	void Update() override;

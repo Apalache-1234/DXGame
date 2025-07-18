@@ -29,6 +29,12 @@ cbuffer TimeInfo: register(b2)
     float RealDeltaTime : packoffset(c3);
 };
 
+float Hash(float2 p)
+{
+    p = frac(p * 0.3183099 + float2(0.71, 0.113));
+    return frac(43758.5453 * dot(p, float2(1.0, 57.0)));
+}
+
 Texture2D tex : register(t0);
 Texture2D normal : register(t1);
 
@@ -79,6 +85,7 @@ struct Material
     float3 EMISSIVE;
     float2 UVPOS;
     float2 UVSCALE;
+    float4 TEXELSIZE;
 };
 
 StructuredBuffer<DirectionalLight> DirectionalLights : register(t10);
