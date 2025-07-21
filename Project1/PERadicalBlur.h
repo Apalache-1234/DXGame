@@ -12,10 +12,6 @@ public:
 
     std::type_index GetBaseType() override;
 
-    void InitPostEffect() override;
-
-    bool MapPECB() override;
-
     int GetSample();
 
     void SetSample(int count);
@@ -28,6 +24,10 @@ public:
 
     void SetScreenCenter(XMFLOAT2 pos);
 private:
+    void InitPostEffect() override;
+
+    bool MapPECB() override;
+
     struct alignas(256) RadicalBlurInfo
     {
         DirectX::XMFLOAT2 screenCenter = { 0.5f, 0.5f }; 

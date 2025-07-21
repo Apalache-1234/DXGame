@@ -85,8 +85,6 @@ public:
 
 	const static int frameBuffer = 2;
 private:
-	ComPtr<ID3D12Resource> postEffect;
-
 	std::vector<ComPtr<ID3D12Resource>> uploadHeaps;
 
 	std::vector<ComPtr<ID3D12Resource>> deletingHeaps;
@@ -206,6 +204,7 @@ private:
 	std::optional<DescriptorHeapManager> heapRT;
 	std::optional<DescriptorHeapManager> heapDS;
 	std::optional<DescriptorHeapManager> heap;
+	ComPtr<ID3D12Resource> postEffect[2];
 	ComPtr<ID3D12Resource> rtv;
 	ComPtr<ID3D12Resource> color_buffer[frameBuffer];
 	ComPtr<ID3D12Fence> fence;
@@ -227,7 +226,7 @@ private:
 	std::unique_ptr < DescriptorHeapManager::PtrHandles> DSVHandle;
 	std::unique_ptr < DescriptorHeapManager::PtrHandles> msaaDSVHandle;
 
-	std::unique_ptr < DescriptorHeapManager::PtrHandles> postEffectHandle;
+	std::unique_ptr < DescriptorHeapManager::PtrHandles> postEffectHandle[2];
 
 	int backbuffer_index = 0;
 };

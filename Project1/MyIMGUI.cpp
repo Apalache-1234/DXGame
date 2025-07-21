@@ -12,6 +12,7 @@
 #include "PEEdgeFilter.h"
 #include "PEMosaicFilter.h"
 #include "PERadicalBlur.h"
+#include "PEGaussianBlur.h"
 
 std::unique_ptr<MyIMGUI> MyIMGUI::instance = nullptr;
 
@@ -1018,6 +1019,30 @@ void ShowRadicalBlurPostEffect()
 	}
 }
 
+void ShowGaussianBlurPostEffect()
+{
+	if (ImGui::TreeNode("GaussianBlur")) {
+
+		auto rad = SystemManager::GetInstance().GetComponentList<PEGaussianBlur>();
+
+		ImGui::Checkbox("Flag", &rad.front()->flag);
+
+		auto samp = rad.front()->GetKernelRadius();
+
+		ImGui::DragInt("Sample", &samp);
+
+		rad.front()->SetKernelRadius(samp);
+
+		auto str = rad.front()->GetSigma();
+
+		ImGui::DragFloat("Strength", &str, 0.05f);
+
+		rad.front()->SetSigma(str);
+
+		ImGui::TreePop();
+	}
+}
+
 void MyIMGUI::MainLoop()
 {
 	// Start the Dear ImGui frame
@@ -1085,6 +1110,8 @@ void MyIMGUI::MainLoop()
 			ShowMosaicFilterPostEffect();
 
 			ShowRadicalBlurPostEffect();
+
+			ShowGaussianBlurPostEffect();
 
 			ImGui::TreePop();
 		}

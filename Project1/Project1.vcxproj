@@ -166,6 +166,7 @@
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="Flags.cpp" />
     <ClCompile Include="PEEdgeFilter.cpp" />
+    <ClCompile Include="PEGaussianBlur.cpp" />
     <ClCompile Include="PEMosaicFilter.cpp" />
     <ClCompile Include="PERadicalBlur.cpp" />
     <ClCompile Include="PostEffect.cpp" />
@@ -264,6 +265,16 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="GaussianBlurPixelShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.1</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.1</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.1</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.1</ShaderModel>
     </FxCompile>
     <FxCompile Include="MosaicFilterPixelShader.hlsl">
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.1</ShaderModel>
@@ -413,6 +424,7 @@
     <ClInclude Include="Flags.h" />
     <ClInclude Include="ITween.h" />
     <ClInclude Include="PEEdgeFilter.h" />
+    <ClInclude Include="PEGaussianBlur.h" />
     <ClInclude Include="PostEffect.h" />
     <ClInclude Include="PEMosaicFilter.h" />
     <ClInclude Include="PERadicalBlur.h" />

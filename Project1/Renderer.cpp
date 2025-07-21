@@ -13,6 +13,65 @@
 #include "PointLight.h"
 #include "SpotLight.h"
 
+D3D12_PRIMITIVE_TOPOLOGY_TYPE GetTopologyType(D3D_PRIMITIVE_TOPOLOGY topology)
+{
+	switch (topology)
+	{
+	case D3D_PRIMITIVE_TOPOLOGY_POINTLIST:
+		return D3D12_PRIMITIVE_TOPOLOGY_TYPE_POINT;
+
+	case D3D_PRIMITIVE_TOPOLOGY_LINELIST:
+	case D3D_PRIMITIVE_TOPOLOGY_LINESTRIP:
+	case D3D_PRIMITIVE_TOPOLOGY_LINELIST_ADJ:
+	case D3D_PRIMITIVE_TOPOLOGY_LINESTRIP_ADJ:
+		return D3D12_PRIMITIVE_TOPOLOGY_TYPE_LINE;
+
+	case D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST:
+	case D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP:
+	case D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST_ADJ:
+	case D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP_ADJ:
+		return D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+
+		// テッセレーション用（patch）
+	case D3D_PRIMITIVE_TOPOLOGY_1_CONTROL_POINT_PATCHLIST:
+	case D3D_PRIMITIVE_TOPOLOGY_2_CONTROL_POINT_PATCHLIST:
+	case D3D_PRIMITIVE_TOPOLOGY_3_CONTROL_POINT_PATCHLIST:
+	case D3D_PRIMITIVE_TOPOLOGY_4_CONTROL_POINT_PATCHLIST:
+	case D3D_PRIMITIVE_TOPOLOGY_5_CONTROL_POINT_PATCHLIST:
+	case D3D_PRIMITIVE_TOPOLOGY_6_CONTROL_POINT_PATCHLIST:
+	case D3D_PRIMITIVE_TOPOLOGY_7_CONTROL_POINT_PATCHLIST:
+	case D3D_PRIMITIVE_TOPOLOGY_8_CONTROL_POINT_PATCHLIST:
+	case D3D_PRIMITIVE_TOPOLOGY_9_CONTROL_POINT_PATCHLIST:
+	case D3D_PRIMITIVE_TOPOLOGY_10_CONTROL_POINT_PATCHLIST:
+	case D3D_PRIMITIVE_TOPOLOGY_11_CONTROL_POINT_PATCHLIST:
+	case D3D_PRIMITIVE_TOPOLOGY_12_CONTROL_POINT_PATCHLIST:
+	case D3D_PRIMITIVE_TOPOLOGY_13_CONTROL_POINT_PATCHLIST:
+	case D3D_PRIMITIVE_TOPOLOGY_14_CONTROL_POINT_PATCHLIST:
+	case D3D_PRIMITIVE_TOPOLOGY_15_CONTROL_POINT_PATCHLIST:
+	case D3D_PRIMITIVE_TOPOLOGY_16_CONTROL_POINT_PATCHLIST:
+	case D3D_PRIMITIVE_TOPOLOGY_17_CONTROL_POINT_PATCHLIST:
+	case D3D_PRIMITIVE_TOPOLOGY_18_CONTROL_POINT_PATCHLIST:
+	case D3D_PRIMITIVE_TOPOLOGY_19_CONTROL_POINT_PATCHLIST:
+	case D3D_PRIMITIVE_TOPOLOGY_20_CONTROL_POINT_PATCHLIST:
+	case D3D_PRIMITIVE_TOPOLOGY_21_CONTROL_POINT_PATCHLIST:
+	case D3D_PRIMITIVE_TOPOLOGY_22_CONTROL_POINT_PATCHLIST:
+	case D3D_PRIMITIVE_TOPOLOGY_23_CONTROL_POINT_PATCHLIST:
+	case D3D_PRIMITIVE_TOPOLOGY_24_CONTROL_POINT_PATCHLIST:
+	case D3D_PRIMITIVE_TOPOLOGY_25_CONTROL_POINT_PATCHLIST:
+	case D3D_PRIMITIVE_TOPOLOGY_26_CONTROL_POINT_PATCHLIST:
+	case D3D_PRIMITIVE_TOPOLOGY_27_CONTROL_POINT_PATCHLIST:
+	case D3D_PRIMITIVE_TOPOLOGY_28_CONTROL_POINT_PATCHLIST:
+	case D3D_PRIMITIVE_TOPOLOGY_29_CONTROL_POINT_PATCHLIST:
+	case D3D_PRIMITIVE_TOPOLOGY_30_CONTROL_POINT_PATCHLIST:
+	case D3D_PRIMITIVE_TOPOLOGY_31_CONTROL_POINT_PATCHLIST:
+	case D3D_PRIMITIVE_TOPOLOGY_32_CONTROL_POINT_PATCHLIST:
+		return D3D12_PRIMITIVE_TOPOLOGY_TYPE_PATCH;
+
+	default:
+		return D3D12_PRIMITIVE_TOPOLOGY_TYPE_UNDEFINED;
+	}
+}
+
 Renderer::Renderer(std::shared_ptr<Entity> ent) : Component::Component(ent)
 {
 }
@@ -61,7 +120,7 @@ void Renderer::AddRenderCommand(ComPtr<ID3D12GraphicsCommandList>& cmdList, int 
 
 	cmdList->SetGraphicsRootConstantBufferView(7, timeInfoCBView.BufferLocation);
 
-	cmdList->SetPipelineState(pipeline.Get());
+	cmdList->SetPipelineState(currentPipeline.Get());
 
 	cmdList->IASetPrimitiveTopology(primitiveType);
 
@@ -717,6 +776,44 @@ D3D12_PRIMITIVE_TOPOLOGY Renderer::GetPrimitiveType()
 	return primitiveType;
 }
 
+D3D12_GRAPHICS_PIPELINE_STATE_DESC Renderer::GetDefaultPipelineDesc()
+{
+	D3D12_GRAPHICS_PIPELINE_STATE_DESC desc_pipe = {};
+
+	desc_pipe.InputLayout = { descElement.data() , static_cast<unsigned int>(descElement.size()) };
+
+	desc_pipe.pRootSignature = rootSig.Get();
+
+	desc_pipe.VS = { vsBlob->GetBufferPointer() , vsBlob->GetBufferSize() };
+
+	desc_pipe.PS = { psBlob->GetBufferPointer() , psBlob->GetBufferSize() };
+
+	desc_pipe.RasterizerState = descRas;
+
+	desc_pipe.BlendState = descBlend;
+
+	desc_pipe.DepthStencilState = dsDesc;
+
+	desc_pipe.SampleMask = UINT_MAX;
+
+	desc_pipe.PrimitiveTopologyType = GetTopologyType(primitiveType);
+
+	desc_pipe.NumRenderTargets = 1;
+
+	for (int i = 0; i < D3D12_SIMULTANEOUS_RENDER_TARGET_COUNT;i++)
+	{
+		desc_pipe.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+	}
+
+	desc_pipe.DSVFormat = DXGI_FORMAT_D32_FLOAT;
+
+	desc_pipe.SampleDesc.Count = DXRenderSystem::msaaCount;
+
+	desc_pipe.SampleDesc.Quality = DXRenderSystem::GetInstance().msaaQuality - 1;
+
+	return desc_pipe;
+}
+
 void Renderer::AddInputElementDesc(D3D12_INPUT_ELEMENT_DESC desc)
 {
 	descElement.emplace_back(desc);
@@ -1031,101 +1128,11 @@ bool Renderer::CreateRootSignature()
 	return true;
 }
 
-D3D12_PRIMITIVE_TOPOLOGY_TYPE GetTopologyType(D3D_PRIMITIVE_TOPOLOGY topology)
-{
-	switch (topology)
-	{
-	case D3D_PRIMITIVE_TOPOLOGY_POINTLIST:
-		return D3D12_PRIMITIVE_TOPOLOGY_TYPE_POINT;
-
-	case D3D_PRIMITIVE_TOPOLOGY_LINELIST:
-	case D3D_PRIMITIVE_TOPOLOGY_LINESTRIP:
-	case D3D_PRIMITIVE_TOPOLOGY_LINELIST_ADJ:
-	case D3D_PRIMITIVE_TOPOLOGY_LINESTRIP_ADJ:
-		return D3D12_PRIMITIVE_TOPOLOGY_TYPE_LINE;
-
-	case D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST:
-	case D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP:
-	case D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST_ADJ:
-	case D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP_ADJ:
-		return D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
-
-		// テッセレーション用（patch）
-	case D3D_PRIMITIVE_TOPOLOGY_1_CONTROL_POINT_PATCHLIST:
-	case D3D_PRIMITIVE_TOPOLOGY_2_CONTROL_POINT_PATCHLIST:
-	case D3D_PRIMITIVE_TOPOLOGY_3_CONTROL_POINT_PATCHLIST:
-	case D3D_PRIMITIVE_TOPOLOGY_4_CONTROL_POINT_PATCHLIST:
-	case D3D_PRIMITIVE_TOPOLOGY_5_CONTROL_POINT_PATCHLIST:
-	case D3D_PRIMITIVE_TOPOLOGY_6_CONTROL_POINT_PATCHLIST:
-	case D3D_PRIMITIVE_TOPOLOGY_7_CONTROL_POINT_PATCHLIST:
-	case D3D_PRIMITIVE_TOPOLOGY_8_CONTROL_POINT_PATCHLIST:
-	case D3D_PRIMITIVE_TOPOLOGY_9_CONTROL_POINT_PATCHLIST:
-	case D3D_PRIMITIVE_TOPOLOGY_10_CONTROL_POINT_PATCHLIST:
-	case D3D_PRIMITIVE_TOPOLOGY_11_CONTROL_POINT_PATCHLIST:
-	case D3D_PRIMITIVE_TOPOLOGY_12_CONTROL_POINT_PATCHLIST:
-	case D3D_PRIMITIVE_TOPOLOGY_13_CONTROL_POINT_PATCHLIST:
-	case D3D_PRIMITIVE_TOPOLOGY_14_CONTROL_POINT_PATCHLIST:
-	case D3D_PRIMITIVE_TOPOLOGY_15_CONTROL_POINT_PATCHLIST:
-	case D3D_PRIMITIVE_TOPOLOGY_16_CONTROL_POINT_PATCHLIST:
-	case D3D_PRIMITIVE_TOPOLOGY_17_CONTROL_POINT_PATCHLIST:
-	case D3D_PRIMITIVE_TOPOLOGY_18_CONTROL_POINT_PATCHLIST:
-	case D3D_PRIMITIVE_TOPOLOGY_19_CONTROL_POINT_PATCHLIST:
-	case D3D_PRIMITIVE_TOPOLOGY_20_CONTROL_POINT_PATCHLIST:
-	case D3D_PRIMITIVE_TOPOLOGY_21_CONTROL_POINT_PATCHLIST:
-	case D3D_PRIMITIVE_TOPOLOGY_22_CONTROL_POINT_PATCHLIST:
-	case D3D_PRIMITIVE_TOPOLOGY_23_CONTROL_POINT_PATCHLIST:
-	case D3D_PRIMITIVE_TOPOLOGY_24_CONTROL_POINT_PATCHLIST:
-	case D3D_PRIMITIVE_TOPOLOGY_25_CONTROL_POINT_PATCHLIST:
-	case D3D_PRIMITIVE_TOPOLOGY_26_CONTROL_POINT_PATCHLIST:
-	case D3D_PRIMITIVE_TOPOLOGY_27_CONTROL_POINT_PATCHLIST:
-	case D3D_PRIMITIVE_TOPOLOGY_28_CONTROL_POINT_PATCHLIST:
-	case D3D_PRIMITIVE_TOPOLOGY_29_CONTROL_POINT_PATCHLIST:
-	case D3D_PRIMITIVE_TOPOLOGY_30_CONTROL_POINT_PATCHLIST:
-	case D3D_PRIMITIVE_TOPOLOGY_31_CONTROL_POINT_PATCHLIST:
-	case D3D_PRIMITIVE_TOPOLOGY_32_CONTROL_POINT_PATCHLIST:
-		return D3D12_PRIMITIVE_TOPOLOGY_TYPE_PATCH;
-
-	default:
-		return D3D12_PRIMITIVE_TOPOLOGY_TYPE_UNDEFINED;
-	}
-}
-
 bool Renderer::CreateRenderPipeline()
 {
-	D3D12_GRAPHICS_PIPELINE_STATE_DESC desc_pipe = {};
+	D3D12_GRAPHICS_PIPELINE_STATE_DESC desc_pipe = GetDefaultPipelineDesc();
 
-	desc_pipe.InputLayout = { descElement.data() , static_cast<unsigned int>(descElement.size())};
-
-	desc_pipe.pRootSignature = rootSig.Get();
-
-	desc_pipe.VS = { vsBlob->GetBufferPointer() , vsBlob->GetBufferSize() };
-
-	desc_pipe.PS = { psBlob->GetBufferPointer() , psBlob->GetBufferSize() };
-
-	desc_pipe.RasterizerState = descRas;
-
-	desc_pipe.BlendState = descBlend;
-
-	desc_pipe.DepthStencilState = dsDesc;
-
-	desc_pipe.SampleMask = UINT_MAX;
-
-	desc_pipe.PrimitiveTopologyType = GetTopologyType(primitiveType);
-
-	desc_pipe.NumRenderTargets = 1;
-
-	for (int i = 0; i < D3D12_SIMULTANEOUS_RENDER_TARGET_COUNT;i++)
-	{
-		desc_pipe.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
-	}
-
-	desc_pipe.DSVFormat = DXGI_FORMAT_D32_FLOAT;
-
-	desc_pipe.SampleDesc.Count = DXRenderSystem::msaaCount;
-
-	desc_pipe.SampleDesc.Quality = DXRenderSystem::GetInstance().msaaQuality - 1;
-
-	hr = DXRenderSystem::GetInstance().GetDevice()->CreateGraphicsPipelineState(&desc_pipe, IID_PPV_ARGS(pipeline.GetAddressOf()));
+	hr = DXRenderSystem::GetInstance().GetDevice()->CreateGraphicsPipelineState(&desc_pipe, IID_PPV_ARGS(currentPipeline.GetAddressOf()));
 
 	if (FAILED(hr))
 	{
@@ -1134,7 +1141,38 @@ bool Renderer::CreateRenderPipeline()
 		return false;
 	}
 
+	pipeline.push_back(currentPipeline);
+
 	return true;
+}
+
+bool Renderer::AddRenderPipeline(D3D12_GRAPHICS_PIPELINE_STATE_DESC desc)
+{
+	ComPtr<ID3D12PipelineState> pso;
+
+	hr = DXRenderSystem::GetInstance().GetDevice()->CreateGraphicsPipelineState(&desc, IID_PPV_ARGS(pso.GetAddressOf()));
+
+	if (FAILED(hr))
+	{
+		std::cerr << "パイプラインの作成失敗" << std::endl;
+
+		return false;
+	}
+
+	pipeline.push_back(pso);
+
+	return true;
+}
+
+void Renderer::ChangeRenderPipeline(int idx)
+{
+	if (idx <= pipeline.size())
+	{
+		std::cerr << "指定したインデックスがパイプラインの配列数以上" << std::endl;
+		return;
+	}
+
+	currentPipeline = pipeline[idx];
 }
 
 MeshLoader::MESHTYPE  Renderer::GetCurrentMeshType()

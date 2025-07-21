@@ -85,6 +85,8 @@ protected:
 
 	D3D12_PRIMITIVE_TOPOLOGY GetPrimitiveType();
 
+	D3D12_GRAPHICS_PIPELINE_STATE_DESC GetDefaultPipelineDesc();
+
 	void AddInputElementDesc(D3D12_INPUT_ELEMENT_DESC desc);
 
 	void virtual AddCommand(ComPtr<ID3D12GraphicsCommandList> cmdList);
@@ -106,6 +108,10 @@ protected:
 	/// </summary>
 	/// <returns>正常に終了したらtrueを返す</returns>
 	bool CreateRenderPipeline();
+
+	bool AddRenderPipeline(D3D12_GRAPHICS_PIPELINE_STATE_DESC desc);
+
+	void ChangeRenderPipeline(int idx);
 
 	void SetRasterizerDesc(D3D12_RASTERIZER_DESC desc);
 
@@ -215,7 +221,9 @@ private:
 	/// <summary>
     /// レンダーパイプラインのCOM
     /// </summary>
-	ComPtr<ID3D12PipelineState> pipeline;
+	std::vector<ComPtr<ID3D12PipelineState>> pipeline;
+
+	ComPtr<ID3D12PipelineState> currentPipeline;
 
 	std::vector<DirLight> DirLights;
 

@@ -34,6 +34,9 @@
       <FullPath>E:\DXGame\x64\Debug\EdgeFilterPixelShader.cso</FullPath>
     </ContentFile>
     <ContentFile>
+      <FullPath>E:\DXGame\x64\Debug\GaussianBlurPixelShader.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
       <FullPath>E:\DXGame\x64\Debug\MosaicFilterPixelShader.cso</FullPath>
     </ContentFile>
     <ContentFile>

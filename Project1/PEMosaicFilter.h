@@ -12,14 +12,14 @@ public:
 
     std::type_index GetBaseType() override;
 
-    void InitPostEffect() override;
-
-    bool MapPECB() override;
-
     float GetIntensify();
 
     void SetIntensify(float val);
 private:
+    void InitPostEffect() override;
+
+    bool MapPECB() override;
+
     struct alignas(256) MosaicFilterInfo
     {
         float intensify = 1;

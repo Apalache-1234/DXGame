@@ -24,8 +24,6 @@ void PostEffect::InitRenderer()
 
 void PostEffect::AddCommand(ComPtr<ID3D12GraphicsCommandList> cmdList)
 {
-	MapPECB();
-
 	cmdList->SetGraphicsRootConstantBufferView(paramNum, postEffectCBView.BufferLocation);
 }
 
@@ -36,4 +34,14 @@ void PostEffect::InitPostEffect()
 bool PostEffect::MapPECB()
 {
 	return true;
+}
+
+void PostEffect::Update()
+{
+	MapPECB();
+}
+
+int PostEffect::GetPassNum()
+{
+	return passNum;
 }

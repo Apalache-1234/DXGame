@@ -11,14 +11,15 @@ public:
 
 	std::type_index GetBaseType() override;
 
-	void InitPostEffect() override;
-
-    bool MapPECB() override;
-
     float GetTransition();
 
     void SetTransition(float val);
+
 private:
+    void InitPostEffect() override;
+
+    bool MapPECB() override;
+
     struct alignas(256) EdgeFilterInfo
     {
         float transition = 1;

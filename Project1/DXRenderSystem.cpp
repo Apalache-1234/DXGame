@@ -13,6 +13,7 @@
 #include "PEEdgeFilter.h"
 #include "PEMosaicFilter.h"
 #include "PERadicalBlur.h"
+#include "PEGaussianBlur.h"
 
 DXRenderSystem::DXRenderSystem()
 {
@@ -78,6 +79,7 @@ bool DXRenderSystem::Init()
 	postEffectEntity = SystemManager::GetInstance().CreateEntity<PEEdgeFilter>("postEffect");
 	postEffectEntity->AddComponent<PEMosaicFilter>();
 	postEffectEntity->AddComponent<PERadicalBlur>();
+	postEffectEntity->AddComponent<PEGaussianBlur>();
 
 	if (!isSuccess)
 	{
@@ -147,30 +149,89 @@ void DXRenderSystem::RenderPostEffect()
 {
 	auto posts = SystemManager::GetInstance().GetComponentList<PostEffect>();
 
-	for (auto& post : posts)
+	posts.erase(std::remove_if(posts.begin(), posts.end(),
+		[](shared_ptr<PostEffect> x) { return !x->flag; }),
+		posts.end());
+
+	if (posts.empty())
+		return;
+
+	int in = 0;
+
+	int out = 1;
+
+	D3D12_RESOURCE_BARRIER barrier;
+
+	barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
+
+	barrier.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
+
+	barrier.Transition.pResource = msaaRT.Get();
+
+	barrier.Transition.Subresource = D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES;
+
+	barrier.Transition.StateBefore = D3D12_RESOURCE_STATE_RENDER_TARGET;
+
+	barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_RESOLVE_SOURCE;
+
+	cmd_list->ResourceBarrier(1, &barrier);
+
+	cmd_list->ResolveSubresource(
+		postEffect[out].Get(),         // 解像先
+		0,                  // MipLevel
+		msaaRT.Get(),   // 解像元
+		0,                  // MipLevel
+		DXGI_FORMAT_R8G8B8A8_UNORM_SRGB
+	);
+
+	barrier.Transition.pResource = msaaRT.Get();
+
+	barrier.Transition.StateBefore = D3D12_RESOURCE_STATE_RESOLVE_SOURCE;
+
+	barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_RENDER_TARGET;
+
+	cmd_list->ResourceBarrier(1, &barrier);
+
+	int last = posts.size();
+
+	for (int i = 0;i< last;i++)
 	{
-		if (!post->flag)
+		if (!posts[i]->flag)
 			continue;
 
-		cmd_list->ResolveSubresource(
-			postEffect.Get(),         // 解像先
-			0,                  // MipLevel
-			msaaRT.Get(),   // 解像元
-			0,                  // MipLevel
-			DXGI_FORMAT_R8G8B8A8_UNORM_SRGB
-		);
+		int passNum = posts[i]->GetPassNum() + 1;
 
-		cmd_list->ClearRenderTargetView(msaaRTVHandle->cpuHandle, colorBG, 0, nullptr);
+		for (int j = 0;j < passNum ;j++)
+		{
+			posts[i]->ApplyTextureOnMesh(0, Renderer::TEXTURE_TYPE::DIFFUSE, postEffect[out]);
 
-		cmd_list->ClearDepthStencilView(msaaDSVHandle->cpuHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
+			if ((last - 1) == i && (passNum - 1) == j)
+			{
+				break;
+			}
 
-		post->ApplyTextureOnMesh(0, Renderer::TEXTURE_TYPE::DIFFUSE, postEffect);
+			cmd_list->OMSetRenderTargets(1, &postEffectHandle[in]->cpuHandle, false, nullptr);
 
-		cmd_list->RSSetScissorRects(1, &scissor);
-		cmd_list->RSSetViewports(1, &viewport);
+			cmd_list->ClearRenderTargetView(postEffectHandle[in]->cpuHandle, colorBG, 0, nullptr);
 
-		post->AddRenderCommand(cmd_list, backbuffer_index);
+			cmd_list->RSSetScissorRects(1, &scissor);
+			cmd_list->RSSetViewports(1, &viewport);
+
+			posts[i]->AddRenderCommand(cmd_list, backbuffer_index);
+
+			std::swap(in, out);
+		}
 	}
+
+	cmd_list->OMSetRenderTargets(1, &msaaRTVHandle->cpuHandle, false, &msaaDSVHandle->cpuHandle);
+
+	cmd_list->ClearRenderTargetView(msaaRTVHandle->cpuHandle, colorBG, 0, nullptr);
+	cmd_list->ClearDepthStencilView(msaaDSVHandle->cpuHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
+
+	cmd_list->RSSetScissorRects(1, &scissor);
+	cmd_list->RSSetViewports(1, &viewport);
+
+	posts[last - 1]->AddRenderCommand(cmd_list, backbuffer_index);
 }
 
 void DXRenderSystem::RenderIMGUI()
@@ -200,9 +261,9 @@ void DXRenderSystem::Draw()
 
 	barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_RESOLVE_DEST;
 
-	vector<ID3D12CommandList*> lists;
-
 	cmd_list->ResourceBarrier(1, &barrier);
+
+	vector<ID3D12CommandList*> lists;
 
 	barrier.Transition.pResource = msaaRT.Get();
 
@@ -509,6 +570,13 @@ bool DXRenderSystem::CreateRTV()
 
 bool DXRenderSystem::CreateMSAAResource()
 {
+	D3D12_CLEAR_VALUE clearValue = {};
+	clearValue.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+	clearValue.Color[0] = 0.0f;
+	clearValue.Color[1] = 0.0f;
+	clearValue.Color[2] = 0.0f;
+	clearValue.Color[3] = 1.0f;
+
 	D3D12_RESOURCE_DESC colorDesc = {};
 	colorDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
 	colorDesc.Format =DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
@@ -527,7 +595,7 @@ bool DXRenderSystem::CreateMSAAResource()
 		D3D12_HEAP_FLAG_NONE,
 		&colorDesc,
 		D3D12_RESOURCE_STATE_RENDER_TARGET,
-		nullptr,
+		&clearValue,
 		IID_PPV_ARGS(&msaaRT));
 
 	if (FAILED(hr))
@@ -540,6 +608,7 @@ bool DXRenderSystem::CreateMSAAResource()
 	D3D12_RESOURCE_DESC depthDesc = colorDesc;
 	depthDesc.Format = DXGI_FORMAT_D32_FLOAT;
 	depthDesc.Flags = D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL;
+
 
 	hr = device->CreateCommittedResource(
 		&heapProperties,
@@ -584,41 +653,48 @@ bool DXRenderSystem::CreateFence()
 
 bool DXRenderSystem::CreatePostEffectResouce()
 {
-	D3D12_HEAP_PROPERTIES prop = {};
+	D3D12_CLEAR_VALUE clearValue = {};
+	clearValue.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+	clearValue.Color[0] = 0.0f;
+	clearValue.Color[1] = 0.0f;
+	clearValue.Color[2] = 0.0f;
+	clearValue.Color[3] = 1.0f;
 
-	prop.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_UNKNOWN;
-
-	prop.Type = D3D12_HEAP_TYPE_DEFAULT;
-
-	prop.CreationNodeMask = 1;
-
-	prop.VisibleNodeMask = 1;
-
-	prop.MemoryPoolPreference = D3D12_MEMORY_POOL_UNKNOWN;
-
-	D3D12_RESOURCE_DESC desc = color_buffer[0]->GetDesc();
-
-	desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
-
-	desc.Flags = D3D12_RESOURCE_FLAG_NONE;
-
-	hr = device->CreateCommittedResource(
-		&prop,
-		D3D12_HEAP_FLAG_NONE,
-		&desc,
-		D3D12_RESOURCE_STATE_RESOLVE_DEST,
-		nullptr,
-		IID_PPV_ARGS(postEffect.GetAddressOf())
-
-	);
-
-	if (FAILED(hr))
+	for (int i = 0;i < sizeof(postEffect) / sizeof(postEffect[0]);i++)
 	{
-		std::cerr << "ポストエフェクト作成失敗" << std::endl;
+		D3D12_HEAP_PROPERTIES prop = {};
 
-		return false;
+		prop.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_UNKNOWN;
+
+		prop.Type = D3D12_HEAP_TYPE_DEFAULT;
+
+		prop.CreationNodeMask = 1;
+
+		prop.VisibleNodeMask = 1;
+
+		prop.MemoryPoolPreference = D3D12_MEMORY_POOL_UNKNOWN;
+
+		D3D12_RESOURCE_DESC desc = color_buffer[0]->GetDesc();
+
+		desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+
+		hr = device->CreateCommittedResource(
+			&prop,
+			D3D12_HEAP_FLAG_NONE,
+			&desc,
+			D3D12_RESOURCE_STATE_RESOLVE_DEST,
+			&clearValue,
+			IID_PPV_ARGS(postEffect[i].GetAddressOf())
+
+		);
+
+		if (FAILED(hr))
+		{
+			std::cerr << "ポストエフェクト作成失敗" << std::endl;
+
+			return false;
+		}
 	}
-
 
 	return true;
 }
@@ -627,22 +703,22 @@ bool DXRenderSystem::CreatePostEffectView()
 {
 	heap.emplace(100);
 
-	postEffectHandle = heap.value().GetHandle();
+	for (int i = 0;i < sizeof(postEffect) / sizeof(postEffect[0]);i++)
+	{
+		postEffectHandle[i] = heapRT.value().GetHandle();
 
-	D3D12_SHADER_RESOURCE_VIEW_DESC desc = {};
+		D3D12_RENDER_TARGET_VIEW_DESC desc;
 
-	desc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
+		desc.ViewDimension = D3D12_RTV_DIMENSION_TEXTURE2D;
 
-	desc.Format = postEffect->GetDesc().Format;
+		desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
 
-	desc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+		desc.Texture2D.MipSlice = 0;
 
-	desc.Texture2D.MipLevels = postEffect->GetDesc().MipLevels;
-	desc.Texture2D.MostDetailedMip = 0;
-	desc.Texture2D.ResourceMinLODClamp = 0;
-	desc.Texture2D.PlaneSlice = 0;
+		desc.Texture2D.PlaneSlice = 0;
 
-	device->CreateShaderResourceView(postEffect.Get(), &desc, postEffectHandle->cpuHandle);
+		device->CreateRenderTargetView(postEffect[i].Get(), &desc, postEffectHandle[i]->cpuHandle);
+	}
 
 	return true;
 }
@@ -650,6 +726,11 @@ bool DXRenderSystem::CreatePostEffectView()
 
 bool DXRenderSystem::CreateDBVResouce()
 {
+	clearDepth = {};
+	clearDepth.Format = DXGI_FORMAT_D32_FLOAT;
+	clearDepth.DepthStencil.Depth = 1.0f;
+	clearDepth.DepthStencil.Stencil = 0;
+
 	D3D12_HEAP_PROPERTIES prop = {};
 
 	prop.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_UNKNOWN;
@@ -685,10 +766,6 @@ bool DXRenderSystem::CreateDBVResouce()
 	desc.MipLevels = 1;
 
 	desc.Format = DXGI_FORMAT_D32_FLOAT;
-
-	clearDepth.Format = DXGI_FORMAT_D32_FLOAT;
-	clearDepth.DepthStencil.Depth = 1.0f;
-	clearDepth.DepthStencil.Stencil = 0;
 
 	hr = device->CreateCommittedResource(
 		&prop,

@@ -18,7 +18,7 @@ struct pixelOp
     float4 color : SV_TARGET0;
 };
 
-cbuffer TimeInfo : register(b3)
+cbuffer MosaicFilterInfo : register(b3)
 {
     float intensify : packoffset(c0);
 };
