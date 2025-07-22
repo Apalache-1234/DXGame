@@ -13,7 +13,8 @@
 #include "PEEdgeFilter.h"
 #include "PEMosaicFilter.h"
 #include "PERadicalBlur.h"
-#include "PEGaussianBlur.h"
+#include "PEVerticalGaussianBlur.h"
+#include "PEHorizonGaussianBlur.h"
 
 DXRenderSystem::DXRenderSystem()
 {
@@ -79,7 +80,8 @@ bool DXRenderSystem::Init()
 	postEffectEntity = SystemManager::GetInstance().CreateEntity<PEEdgeFilter>("postEffect");
 	postEffectEntity->AddComponent<PEMosaicFilter>();
 	postEffectEntity->AddComponent<PERadicalBlur>();
-	postEffectEntity->AddComponent<PEGaussianBlur>();
+	postEffectEntity->AddComponent<PEHorizonGaussianBlur>();
+	postEffectEntity->AddComponent<PEVerticalGaussianBlur>();
 
 	if (!isSuccess)
 	{
@@ -199,28 +201,21 @@ void DXRenderSystem::RenderPostEffect()
 		if (!posts[i]->flag)
 			continue;
 
-		int passNum = posts[i]->GetPassNum() + 1;
+		posts[i]->ApplyTextureOnMesh(0, Renderer::TEXTURE_TYPE::DIFFUSE, postEffect[out]);
 
-		for (int j = 0;j < passNum ;j++)
-		{
-			posts[i]->ApplyTextureOnMesh(0, Renderer::TEXTURE_TYPE::DIFFUSE, postEffect[out]);
+		if (last - 1 == i)
+			break;
 
-			if ((last - 1) == i && (passNum - 1) == j)
-			{
-				break;
-			}
+		cmd_list->OMSetRenderTargets(1, &postEffectHandle[in]->cpuHandle, false, nullptr);
 
-			cmd_list->OMSetRenderTargets(1, &postEffectHandle[in]->cpuHandle, false, nullptr);
+		cmd_list->ClearRenderTargetView(postEffectHandle[in]->cpuHandle, colorBG, 0, nullptr);
 
-			cmd_list->ClearRenderTargetView(postEffectHandle[in]->cpuHandle, colorBG, 0, nullptr);
+		cmd_list->RSSetScissorRects(1, &scissor);
+		cmd_list->RSSetViewports(1, &viewport);
 
-			cmd_list->RSSetScissorRects(1, &scissor);
-			cmd_list->RSSetViewports(1, &viewport);
+		posts[i]->AddRenderCommand(cmd_list, backbuffer_index);
 
-			posts[i]->AddRenderCommand(cmd_list, backbuffer_index);
-
-			std::swap(in, out);
-		}
+		std::swap(in, out);
 	}
 
 	cmd_list->OMSetRenderTargets(1, &msaaRTVHandle->cpuHandle, false, &msaaDSVHandle->cpuHandle);

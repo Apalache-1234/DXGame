@@ -778,6 +778,9 @@ D3D12_PRIMITIVE_TOPOLOGY Renderer::GetPrimitiveType()
 
 D3D12_GRAPHICS_PIPELINE_STATE_DESC Renderer::GetDefaultPipelineDesc()
 {
+	if (rootSig == nullptr)
+		CreateRootSignature();
+
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC desc_pipe = {};
 
 	desc_pipe.InputLayout = { descElement.data() , static_cast<unsigned int>(descElement.size()) };
@@ -1166,7 +1169,7 @@ bool Renderer::AddRenderPipeline(D3D12_GRAPHICS_PIPELINE_STATE_DESC desc)
 
 void Renderer::ChangeRenderPipeline(int idx)
 {
-	if (idx <= pipeline.size())
+	if (idx >= pipeline.size())
 	{
 		std::cerr << "指定したインデックスがパイプラインの配列数以上" << std::endl;
 		return;

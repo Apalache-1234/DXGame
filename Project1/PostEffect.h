@@ -16,8 +16,6 @@ public:
 
 	void AddCommand(ComPtr<ID3D12GraphicsCommandList> cmdList) override;
 
-	int GetPassNum();
-
 	bool flag = false;
 protected:
 	virtual void InitPostEffect();
@@ -123,8 +121,6 @@ protected:
 	ComPtr<ID3D12Resource> postEffectCB;
 	std::unique_ptr<DescriptorHeapManager::PtrHandles> postEffectCBHandle;
 	D3D12_CONSTANT_BUFFER_VIEW_DESC postEffectCBView;
-
-	int passNum = 1;
 
 	int paramNum = 0;
 };

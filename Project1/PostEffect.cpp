@@ -20,6 +20,19 @@ void PostEffect::InitRenderer()
 	CreateMesh(MeshLoader::PLANE);
 
 	InitPostEffect();
+
+	D3D12_DEPTH_STENCIL_DESC dsDesc;
+
+	dsDesc.DepthEnable = FALSE;
+	dsDesc.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;
+	dsDesc.DepthFunc = D3D12_COMPARISON_FUNC_ALWAYS;
+	dsDesc.StencilEnable = FALSE;
+	dsDesc.StencilReadMask = D3D12_DEFAULT_STENCIL_READ_MASK;
+	dsDesc.StencilWriteMask = D3D12_DEFAULT_STENCIL_WRITE_MASK;
+	dsDesc.FrontFace = {};
+	dsDesc.BackFace = {};
+
+	SetDepthStencilDesc(dsDesc);
 }
 
 void PostEffect::AddCommand(ComPtr<ID3D12GraphicsCommandList> cmdList)
@@ -39,9 +52,4 @@ bool PostEffect::MapPECB()
 void PostEffect::Update()
 {
 	MapPECB();
-}
-
-int PostEffect::GetPassNum()
-{
-	return passNum;
 }

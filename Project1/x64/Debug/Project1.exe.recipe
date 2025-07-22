@@ -37,6 +37,9 @@
       <FullPath>E:\DXGame\x64\Debug\GaussianBlurPixelShader.cso</FullPath>
     </ContentFile>
     <ContentFile>
+      <FullPath>E:\DXGame\x64\Debug\HorizonGaussianBlurPixelShader.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
       <FullPath>E:\DXGame\x64\Debug\MosaicFilterPixelShader.cso</FullPath>
     </ContentFile>
     <ContentFile>
@@ -71,6 +74,9 @@
     </ContentFile>
     <ContentFile>
       <FullPath>E:\DXGame\x64\Debug\RendererVertexShader.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>E:\DXGame\x64\Debug\VerticalGaussianBlurPixelShader.cso</FullPath>
     </ContentFile>
   </ContentFiles>
   <SatelliteDlls />

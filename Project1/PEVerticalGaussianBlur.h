@@ -1,14 +1,14 @@
-#ifndef PS_GAUSSIAN_BLUR
-#define PS_GAUSSIAN_BLUR
+#ifndef PS_VERTICAL_GAUSSIAN_BLUR
+#define PS_VERTICAL_GAUSSIAN_BLUR
 
 #include "PostEffect.h"
 
-class PEGaussianBlur : public PostEffect
+class PEVerticalGaussianBlur : public PostEffect
 {
 public:
-    PEGaussianBlur(shared_ptr<Entity> ent);
+    PEVerticalGaussianBlur(shared_ptr<Entity> ent);
 
-    ~PEGaussianBlur();
+    ~PEVerticalGaussianBlur();
 
     std::type_index GetBaseType() override;
 
@@ -24,18 +24,19 @@ private:
 
     bool MapPECB() override;
 
-    ComPtr<ID3DBlob> psVerticaBlob;
-
     struct alignas(256) GaussianBlurInfo
     {
         float sigma = 1;
         XMFLOAT3 padding1;
         float kernelRadius = 4;
         XMFLOAT3 padding2;
-        float direction = 0;
-        XMFLOAT3 padding3;
     };
 
+    int currentPass = 0;
+
     GaussianBlurInfo info;
+
+    ComPtr<ID3DBlob> psBlob;
+    ComPtr<ID3DBlob> vsBlob;
 };
 #endif

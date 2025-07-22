@@ -168,7 +168,10 @@
     <ClCompile Include="PERadicalBlur.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="PEGaussianBlur.cpp">
+    <ClCompile Include="PEHorizonGaussianBlur.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="PEVerticalGaussianBlur.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -237,6 +240,12 @@
       <Filter>リソース ファイル</Filter>
     </FxCompile>
     <FxCompile Include="GaussianBlurPixelShader.hlsl">
+      <Filter>リソース ファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="VerticalGaussianBlurPixelShader.hlsl">
+      <Filter>リソース ファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="HorizonGaussianBlurPixelShader.hlsl">
       <Filter>リソース ファイル</Filter>
     </FxCompile>
   </ItemGroup>
@@ -379,7 +388,10 @@
     <ClInclude Include="PERadicalBlur.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="PEGaussianBlur.h">
+    <ClInclude Include="PEHorizonGaussianBlur.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="PEVerticalGaussianBlur.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

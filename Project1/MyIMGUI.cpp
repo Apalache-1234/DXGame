@@ -12,7 +12,8 @@
 #include "PEEdgeFilter.h"
 #include "PEMosaicFilter.h"
 #include "PERadicalBlur.h"
-#include "PEGaussianBlur.h"
+#include "PEVerticalGaussianBlur.h"
+#include "PEHorizonGaussianBlur.h"
 
 std::unique_ptr<MyIMGUI> MyIMGUI::instance = nullptr;
 
@@ -1023,21 +1024,29 @@ void ShowGaussianBlurPostEffect()
 {
 	if (ImGui::TreeNode("GaussianBlur")) {
 
-		auto rad = SystemManager::GetInstance().GetComponentList<PEGaussianBlur>();
+		auto hg = SystemManager::GetInstance().GetComponentList<PEHorizonGaussianBlur>();
 
-		ImGui::Checkbox("Flag", &rad.front()->flag);
+		ImGui::Checkbox("Flag", &hg.front()->flag);
 
-		auto samp = rad.front()->GetKernelRadius();
+		auto samp = hg.front()->GetKernelRadius();
 
 		ImGui::DragInt("Sample", &samp);
 
-		rad.front()->SetKernelRadius(samp);
+		hg.front()->SetKernelRadius(samp);
 
-		auto str = rad.front()->GetSigma();
+		auto str = hg.front()->GetSigma();
 
 		ImGui::DragFloat("Strength", &str, 0.05f);
 
-		rad.front()->SetSigma(str);
+		hg.front()->SetSigma(str);
+
+		auto vg = SystemManager::GetInstance().GetComponentList<PEVerticalGaussianBlur>();
+
+		vg.front()->flag = hg.front()->flag;
+
+		vg.front()->SetKernelRadius(samp);
+
+		vg.front()->SetSigma(str);
 
 		ImGui::TreePop();
 	}

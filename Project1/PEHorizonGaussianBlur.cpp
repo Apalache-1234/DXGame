@@ -1,29 +1,27 @@
-#include "PEGaussianBlur.h"
+#include "PEHorizonGaussianBlur.h"
 
-PEGaussianBlur::PEGaussianBlur(shared_ptr<Entity> ent) : PostEffect(ent)
+PEHorizonGaussianBlur::PEHorizonGaussianBlur(shared_ptr<Entity> ent) : PostEffect(ent)
 {
 }
 
 
-PEGaussianBlur::~PEGaussianBlur()
+PEHorizonGaussianBlur::~PEHorizonGaussianBlur()
 {
 }
 
-std::type_index PEGaussianBlur::GetBaseType()
+std::type_index PEHorizonGaussianBlur::GetBaseType()
 {
 	return typeid(PostEffect);
 }
 
-void PEGaussianBlur::InitPostEffect()
+void PEHorizonGaussianBlur::InitPostEffect()
 {
-	LoadPixelShader(L"GaussianBlurPixelShader.cso");
+	LoadPixelShader(L"HorizonGaussianBlurPixelShader.cso");
 
 	CreateConstantBuffer<GaussianBlurInfo>();
-
-	passNum = 2;
 }
 
-bool PEGaussianBlur::MapPECB()
+bool PEHorizonGaussianBlur::MapPECB()
 {
 	void* ptr = nullptr;
 
@@ -40,29 +38,27 @@ bool PEGaussianBlur::MapPECB()
 
 	postEffectCB->Unmap(0, nullptr);
 
-	info.direction = std::fmod(info.direction + 1 , 2);
-
 	return true;
 }
 
-int PEGaussianBlur::GetKernelRadius()
+int PEHorizonGaussianBlur::GetKernelRadius()
 {
 	return info.kernelRadius;
 }
 
-void PEGaussianBlur::SetKernelRadius(int count)
+void PEHorizonGaussianBlur::SetKernelRadius(int count)
 {
 	count = std::max(count , 1);
 
 	info.kernelRadius = count;
 }
 
-float PEGaussianBlur::GetSigma()
+float PEHorizonGaussianBlur::GetSigma()
 {
 	return info.sigma;
 }
 
-void PEGaussianBlur::SetSigma(float sig)
+void PEHorizonGaussianBlur::SetSigma(float sig)
 {
 	sig = std::max(sig, 0.001f);
 

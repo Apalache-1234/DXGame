@@ -168,8 +168,6 @@ protected:
 	/// </summary>
 	ComPtr<ID3D12RootSignature> rootSig;
 
-
-
 	/// <summary>
 	/// •ÏŠ·s—ñ‚ÆƒJƒ‰[‚ğŠi”[‚·‚éTransform•Ï”
 	/// </summary>
