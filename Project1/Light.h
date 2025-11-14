@@ -29,6 +29,8 @@ public:
 	void SetColor(DirectX::XMVECTOR col);
 
 	std::type_index GetBaseType() override;
+
+	bool isShadow = false;
 private:
 	float power = 1;
 

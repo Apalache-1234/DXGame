@@ -1253,6 +1253,7 @@ bool Renderer::MapDLB()
 		DirLight l;
 		DirectX::XMStoreFloat3(&l.color , list[i]->GetColor());
 		DirectX::XMStoreFloat3(&l.direct, list[i]->GetLightDir());
+	    l.shadow = list[i]->isShadow;
 		l.power = list[i]->GetPower();
 
 		DirLights[i] = l;
@@ -1366,7 +1367,7 @@ bool Renderer::MapPLB()
 		DirectX::XMStoreFloat3(&l.pos, list[i]->GetPosition());
 		l.power = list[i]->GetPower();
 		l.radius = list[i]->GetRadius();
-
+		l.shadow = list[i]->isShadow;
 	    PLights[i] = l;
 	}
 
@@ -1479,7 +1480,7 @@ bool Renderer::MapSLB()
 		l.length = list[i]->GetLength();
 		l.angular = list[i]->GetAngular();
 		l.power = list[i]->GetPower();
-
+		l.shadow = list[i]->isShadow;
 		SLights[i] = l;
 	}
 

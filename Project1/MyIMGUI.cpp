@@ -568,6 +568,12 @@ void ShowComponentInfo(std::shared_ptr<DirectionalLight> DLight)
 
 	DLight->SetPower(pow);
 
+	auto isShadow = DLight->isShadow;
+
+	ImGui::Checkbox("Shadow ", &isShadow);
+
+	DLight->isShadow = isShadow;
+
 	DLight->SetRotation(ShowAndSetVecInfo("Rotation", DLight->GetRotation()));
 }
 
@@ -635,6 +641,12 @@ void ShowComponentInfo(std::shared_ptr<PointLight> pl)
 
 	pl->SetRadius(rad);
 
+	auto isShadow = pl->isShadow;
+
+	ImGui::Checkbox("Shadow " , &isShadow);
+
+	pl->isShadow = isShadow;
+
 	pl->position = ShowAndSetVecInfo("Position", pl->position);
 }
 
@@ -663,6 +675,12 @@ void ShowComponentInfo(std::shared_ptr<SpotLight> sl)
 	ImGui::DragFloat("Length ", &len, 0.1);
 
 	sl->SetLength(len);
+
+	auto isShadow = sl->isShadow;
+
+	ImGui::Checkbox("Shadow ", &isShadow);
+
+	sl->isShadow = isShadow;
 
 	sl->SetRotation(ShowAndSetVecInfo("Rotation", sl->GetRotation()));
 

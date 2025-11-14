@@ -186,6 +186,8 @@ private:
 		DirectX::XMFLOAT3 color;
 
 		float power;
+
+		float shadow;
 	};
 
 	struct PLight
@@ -197,6 +199,8 @@ private:
 		DirectX::XMFLOAT3 pos;
 
 		float power;
+
+		float shadow;
 	};
 
 	struct SLight
@@ -212,6 +216,8 @@ private:
 		float power;
 
 		float length;
+
+		float shadow;
 	};
 
 	D3D12_PRIMITIVE_TOPOLOGY primitiveType = D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST;

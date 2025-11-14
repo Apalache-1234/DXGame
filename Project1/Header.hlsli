@@ -47,6 +47,8 @@ struct DirectionalLight
 	float3 color;
 
 	float power;
+	
+    float onShadow;
 };
 
 struct PointLight
@@ -58,6 +60,8 @@ struct PointLight
 	float3 pos;
 
 	float power;
+	
+    float onShadow;
 };
 
 struct SpotLight
@@ -73,6 +77,8 @@ struct SpotLight
 	float power;
 
 	float length;
+	
+    float onShadow;
 };
 
 struct Material
@@ -139,7 +145,10 @@ float4 DirectionalLightShading(float4 col, float3 pos, float3 normal, int matIdx
 	
 	for (int i = 0;i < directionalLightNum.x;i++)
 	{
-		float3 lightDir = -normalize(DirectionalLights[i].direct);
+        if (DirectionalLights[i].onShadow)
+            continue;
+		
+            float3 lightDir = -normalize(DirectionalLights[i].direct);
 		float pow = DirectionalLights[i].power;
 		
         float4 light = ReturnPhongLighting(DirectionalLights[i].color , col , pos ,lightDir, normal , matIdx);
@@ -158,6 +167,9 @@ float4 PointLightShading(float4 col, float3 pos, float3 normal, int matIdx)
 
 	for (int i = 0;i < pointLightNum.x;i++)
 	{
+        if (PointLights[i].onShadow)
+            continue;
+		
 		float3 lightDir = normalize(PointLights[i].pos - pos);
 		float lenPow = pow(saturate((PointLights[i].radius - length(PointLights[i].pos - pos)) / PointLights[i].radius) , 3);
 		float power = PointLights[i].power;
@@ -178,6 +190,9 @@ float4 SpotLightShading(float4 col, float3 pos, float3 normal, int matIdx)
 
 	for (int i = 0;i < spotLightNum.x;i++)
 	{
+        if (SpotLights[i].onShadow)
+            continue;
+		
 		float3 lightDir = normalize(SpotLights[i].pos - pos);
 		float lenPow = pow(saturate((SpotLights[i].length - length(SpotLights[i].pos - pos)) / SpotLights[i].length), 3);
 		float power = SpotLights[i].power;

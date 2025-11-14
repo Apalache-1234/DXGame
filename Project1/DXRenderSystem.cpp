@@ -240,6 +240,28 @@ void DXRenderSystem::RenderIMGUI()
 	}
 }
 
+void DXRenderSystem::RenderShadowMap()
+{
+	auto camPosCur = Camera::GetInstance().GetPosition();
+
+	camPosCur = DirectX::XMVectorAdd(camPosCur, DirectX::XMVectorSet(0,50,0,0));
+
+	Camera::GetInstance().SetCameraPosition(camPosCur);
+
+	Camera::GetInstance().SetCameraRotation(DirectX::XMVectorSet(0,90,0,0));
+
+	cmd_list->OMSetRenderTargets(1, &shadowMapHandle->cpuHandle, false, nullptr);
+
+	cmd_list->ClearRenderTargetView(shadowMapHandle->cpuHandle, colorBG, 0, nullptr);
+
+	cmd_list->RSSetScissorRects(1, &scissor);
+	cmd_list->RSSetViewports(1, &viewport);
+
+	posts[i]->AddRenderCommand(cmd_list, backbuffer_index);
+
+	RenderComponent<SkinnedRenderer>();
+}
+
 void DXRenderSystem::Draw()
 {
 	D3D12_RESOURCE_BARRIER barrier;
@@ -714,6 +736,72 @@ bool DXRenderSystem::CreatePostEffectView()
 
 		device->CreateRenderTargetView(postEffect[i].Get(), &desc, postEffectHandle[i]->cpuHandle);
 	}
+
+	return true;
+}
+
+bool DXRenderSystem::CreateShadowMapResource()
+{
+	D3D12_CLEAR_VALUE clearValue = {};
+	clearValue.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+	clearValue.Color[0] = 0.0f;
+	clearValue.Color[1] = 0.0f;
+	clearValue.Color[2] = 0.0f;
+	clearValue.Color[3] = 1.0f;
+
+	D3D12_HEAP_PROPERTIES prop = {};
+
+	prop.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_UNKNOWN;
+
+	prop.Type = D3D12_HEAP_TYPE_DEFAULT;
+
+	prop.CreationNodeMask = 1;
+
+	prop.VisibleNodeMask = 1;
+
+	prop.MemoryPoolPreference = D3D12_MEMORY_POOL_UNKNOWN;
+
+	D3D12_RESOURCE_DESC desc = color_buffer[0]->GetDesc();
+
+	desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+
+	hr = device->CreateCommittedResource(
+		&prop,
+		D3D12_HEAP_FLAG_NONE,
+		&desc,
+		D3D12_RESOURCE_STATE_RESOLVE_DEST,
+		&clearValue,
+		IID_PPV_ARGS(shadowMap.GetAddressOf())
+
+	);
+
+	if (FAILED(hr))
+	{
+		std::cerr << "シャドウマップ作成失敗" << std::endl;
+
+		return false;
+	}
+
+	return true;
+}
+
+bool DXRenderSystem::CreateShadowMapView()
+{
+	heap.emplace(100);
+
+	shadowMapHandle = heapRT.value().GetHandle();
+
+	D3D12_RENDER_TARGET_VIEW_DESC desc;
+
+	desc.ViewDimension = D3D12_RTV_DIMENSION_TEXTURE2D;
+
+	desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+
+	desc.Texture2D.MipSlice = 0;
+
+	desc.Texture2D.PlaneSlice = 0;
+
+	device->CreateRenderTargetView(shadowMap.Get(), &desc, shadowMapHandle->cpuHandle);
 
 	return true;
 }

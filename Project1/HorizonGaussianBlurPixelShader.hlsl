@@ -51,7 +51,7 @@ pixelOp main(output vertexOp)
         float weight = gaussian(i, sigma);
         
         float2 uvAdj = uv + offset;
-        uvAdj.x = saturate(uvAdj.x + GameTime * 0.05);
+        uvAdj.x = saturate(uvAdj.x);
 
         color += tex.Sample(tex_sampler, uvAdj) * weight;
         weightSum += weight;

@@ -18,6 +18,7 @@
 #include <VertexTypes.h>
 #include "wrl.h"
 #include "DescriptorHeapManager.h"
+#include "Camera.h"
 #include <optional>
 #include "SystemManager.h"
 
@@ -68,6 +69,8 @@ public:
 	void RenderPostEffect();
 
 	void RenderIMGUI();
+
+	void RenderShadowMap();
 
 	void Draw();
 
@@ -155,6 +158,10 @@ private:
 
 	bool CreatePostEffectView();
 
+	bool CreateShadowMapResource();
+
+	bool CreateShadowMapView();
+
 	/// <summary>
 	/// 深度バッファビューのリソースを作成する
 	/// </summary>
@@ -205,6 +212,7 @@ private:
 	std::optional<DescriptorHeapManager> heapDS;
 	std::optional<DescriptorHeapManager> heap;
 	ComPtr<ID3D12Resource> postEffect[2];
+	ComPtr<ID3D12Resource> shadowMap;
 	ComPtr<ID3D12Resource> rtv;
 	ComPtr<ID3D12Resource> color_buffer[frameBuffer];
 	ComPtr<ID3D12Fence> fence;
@@ -227,6 +235,8 @@ private:
 	std::unique_ptr < DescriptorHeapManager::PtrHandles> msaaDSVHandle;
 
 	std::unique_ptr < DescriptorHeapManager::PtrHandles> postEffectHandle[2];
+
+	std::unique_ptr < DescriptorHeapManager::PtrHandles> shadowMapHandle;
 
 	int backbuffer_index = 0;
 };
