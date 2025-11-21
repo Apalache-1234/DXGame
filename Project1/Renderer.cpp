@@ -120,6 +120,8 @@ void Renderer::AddRenderCommand(ComPtr<ID3D12GraphicsCommandList>& cmdList, int 
 
 	cmdList->SetGraphicsRootConstantBufferView(7, timeInfoCBView.BufferLocation);
 
+	cmdList->SetGraphicsRootDescriptorTable(8, shadowMapTexHandles[0]->gpuHandle);
+
 	cmdList->SetPipelineState(currentPipeline.Get());
 
 	cmdList->IASetPrimitiveTopology(primitiveType);
@@ -128,7 +130,7 @@ void Renderer::AddRenderCommand(ComPtr<ID3D12GraphicsCommandList>& cmdList, int 
 	{
 		auto& mesh = meshData->meshes[i];
 
-		int texHandlesIndex = (i * 2) % texHandles.size();
+		int texHandlesIndex = (i * 3) % texHandles.size();
 
 		cmdList->SetGraphicsRootDescriptorTable(1, texHandles[texHandlesIndex]->gpuHandle);
 
@@ -196,6 +198,8 @@ void Renderer::Init()
 	PrepareForRenderPipeline();
 
 	InitRenderer();
+
+	RegisterShadowMapTextureSRV();
 
 	isSuccess &= CreateRootSignature();
 
@@ -651,6 +655,18 @@ void Renderer::CreateSRV(ComPtr<ID3D12Resource> texResource , D3D12_CPU_DESCRIPT
 	DXRenderSystem::GetInstance().GetDevice()->CreateShaderResourceView(texResource.Get(), &desc, handle);
 }
 
+
+void Renderer::RegisterShadowMapTextureSRV()
+{
+	shadowMapTexHandles.clear();
+
+	auto han = heapManager.GetHandle();
+
+	CreateSRV(DXRenderSystem::GetInstance().GetShadowMapResource(), han->cpuHandle);
+
+	shadowMapTexHandles.push_back(std::move(han));
+}
+
 void Renderer::RegisterTextureSRV()
 {
 	texHandles.clear();
@@ -882,7 +898,7 @@ void Renderer::SetMaterial(int idx , const Material& mat)
 {
 	mats[idx] = mat;
 }
-
+ 
 D3D12_GPU_DESCRIPTOR_HANDLE Renderer::GetTextureGPUHandle(int idx, Renderer::TEXTURE_TYPE type)
 {
 	return texHandles[idx * TEXTURE_TYPE::CountLast + (int)type]->gpuHandle;
@@ -900,7 +916,7 @@ void Renderer::SetDepthStencilDesc(D3D12_DEPTH_STENCIL_DESC desc)
 
 void Renderer::PrepareForRootSignature()
 {
-	param.resize(8);
+	param.resize(9);
 
 	param[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
 
@@ -985,6 +1001,24 @@ void Renderer::PrepareForRootSignature()
 	param[7].Descriptor.ShaderRegister = 2;
 
 	param[7].Descriptor.RegisterSpace = 0;
+
+	shadowMapSRV[0].NumDescriptors = 1;
+
+	shadowMapSRV[0].BaseShaderRegister = 100;
+
+	shadowMapSRV[0].RegisterSpace = 0;
+
+	shadowMapSRV[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
+
+	shadowMapSRV[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
+
+	param[8].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
+
+	param[8].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
+
+	param[8].DescriptorTable.NumDescriptorRanges = 1;
+
+	param[8].DescriptorTable.pDescriptorRanges = shadowMapSRV;
 
 	descSampler = {};
 

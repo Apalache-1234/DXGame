@@ -38,6 +38,8 @@ float Hash(float2 p)
 Texture2D tex : register(t0);
 Texture2D normal : register(t1);
 
+Texture2D shadowMap : register(t100);
+
 SamplerState tex_sampler : register(s0);
 
 struct DirectionalLight

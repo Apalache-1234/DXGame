@@ -75,6 +75,10 @@ bool DXRenderSystem::Init()
 
 	isSuccess &= CreatePostEffectView();
 
+	isSuccess &= CreateShadowMapResource();
+
+	isSuccess &= CreateShadowMapView();
+
 	isSuccess &= SetScissorAndViewPort();
 
 	postEffectEntity = SystemManager::GetInstance().CreateEntity<PEEdgeFilter>("postEffect");
@@ -242,13 +246,15 @@ void DXRenderSystem::RenderIMGUI()
 
 void DXRenderSystem::RenderShadowMap()
 {
-	auto camPosCur = Camera::GetInstance().GetPosition();
+	auto camPosTemp = Camera::GetInstance().GetPosition();
 
-	camPosCur = DirectX::XMVectorAdd(camPosCur, DirectX::XMVectorSet(0,50,0,0));
+	auto camRotTemp = Camera::GetInstance().GetRotation();
+
+	auto camPosCur = DirectX::XMVectorAdd(camPosTemp, DirectX::XMVectorSet(0, 50, 0, 0));
 
 	Camera::GetInstance().SetCameraPosition(camPosCur);
 
-	Camera::GetInstance().SetCameraRotation(DirectX::XMVectorSet(0,90,0,0));
+	Camera::GetInstance().SetCameraRotation(DirectX::XMVectorSet(0, 40, 0, 0));
 
 	cmd_list->OMSetRenderTargets(1, &shadowMapHandle->cpuHandle, false, nullptr);
 
@@ -257,13 +263,36 @@ void DXRenderSystem::RenderShadowMap()
 	cmd_list->RSSetScissorRects(1, &scissor);
 	cmd_list->RSSetViewports(1, &viewport);
 
-	posts[i]->AddRenderCommand(cmd_list, backbuffer_index);
-
 	RenderComponent<SkinnedRenderer>();
+
+	Camera::GetInstance().SetCameraPosition(camPosTemp);
+
+	Camera::GetInstance().SetCameraRotation(camRotTemp);
+
+	cmd_list->OMSetRenderTargets(1, &msaaRTVHandle->cpuHandle, false, &msaaDSVHandle->cpuHandle);
+
+	ExecuteCommands();
+}
+
+D3D12_CPU_DESCRIPTOR_HANDLE DXRenderSystem::GetShadowMapResourceCPUHandle()
+{
+	return shadowMapHandle->cpuHandle;
+}
+
+D3D12_GPU_DESCRIPTOR_HANDLE DXRenderSystem::GetShadowMapResourceGPUHandle()
+{
+	return shadowMapHandle->gpuHandle;
+}
+
+ComPtr<ID3D12Resource> DXRenderSystem::GetShadowMapResource()
+{
+	return shadowMap;
 }
 
 void DXRenderSystem::Draw()
 {
+	RenderShadowMap();
+
 	D3D12_RESOURCE_BARRIER barrier;
 
 	barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
@@ -787,8 +816,6 @@ bool DXRenderSystem::CreateShadowMapResource()
 
 bool DXRenderSystem::CreateShadowMapView()
 {
-	heap.emplace(100);
-
 	shadowMapHandle = heapRT.value().GetHandle();
 
 	D3D12_RENDER_TARGET_VIEW_DESC desc;

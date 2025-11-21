@@ -72,6 +72,10 @@ public:
 
 	void RenderShadowMap();
 
+	D3D12_CPU_DESCRIPTOR_HANDLE GetShadowMapResourceCPUHandle();
+	D3D12_GPU_DESCRIPTOR_HANDLE GetShadowMapResourceGPUHandle();
+	ComPtr<ID3D12Resource> GetShadowMapResource();
+
 	void Draw();
 
 	void ExecuteCommands();

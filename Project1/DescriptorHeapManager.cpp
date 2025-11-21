@@ -61,6 +61,8 @@ std::unique_ptr<DescriptorHeapManager::PtrHandles> DescriptorHeapManager::GetHan
 
 std::vector<std::unique_ptr<DescriptorHeapManager::PtrHandles>> DescriptorHeapManager::GetSerialHandle(UINT num)
 {
+
+
 	int temp = nextIndex;
 
 	bool isFound = false;

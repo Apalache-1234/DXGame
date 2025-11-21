@@ -163,6 +163,8 @@ protected:
 
 	std::vector<PtrHandle> texHandles;
 
+	std::vector<PtrHandle> shadowMapTexHandles;
+
 	/// <summary>
 	/// ルートシグネチャのCOM
 	/// </summary>
@@ -252,7 +254,9 @@ private:
 	std::vector<D3D12_ROOT_PARAMETER> param;
 
 	D3D12_DESCRIPTOR_RANGE rangeCB;
-	D3D12_DESCRIPTOR_RANGE rangeSRV[2];
+	D3D12_DESCRIPTOR_RANGE rangeSRV[3];
+
+	D3D12_DESCRIPTOR_RANGE shadowMapSRV[1];
 
 	std::vector<D3D12_INPUT_ELEMENT_DESC> descElement;
 
@@ -299,6 +303,8 @@ private:
 	bool LinkCBVResourceToDescHeap();
 
 	void CreateSRV(ComPtr<ID3D12Resource> texResource, D3D12_CPU_DESCRIPTOR_HANDLE handle);
+
+	void RegisterShadowMapTextureSRV();
 
 	void RegisterTextureSRV();
 
