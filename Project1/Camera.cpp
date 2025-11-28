@@ -84,6 +84,50 @@ float Camera::GetAspect()
     return aspect;
 }
 
+float Camera::GetOrthoWidth()
+{
+    return orthoWidth;
+}
+
+float Camera::GetOrthoHeight()
+{
+    return orthoHeight;
+}
+
+DirectX::XMMATRIX Camera::GetViewMat()
+{
+    return  XMMatrixLookAtLH(GetPosition(), GetTargetPos(), DirectX::XMVectorSet(0, 1, 0, 0));
+}
+
+DirectX::XMMATRIX Camera::GetProjMat()
+{
+    if (isPerspective)
+        return  XMMatrixPerspectiveFovLH(GetFov(), GetAspect(), GetNearZ(), GetFarZ());
+    else
+        return XMMatrixOrthographicLH(GetOrthoWidth(),GetOrthoHeight(), GetNearZ(), GetFarZ());
+}
+
+DirectX::XMMATRIX Camera::GetAmbientShadowMapViewMat()
+{
+    auto tempPos = GetPosition();
+    auto tempRot = GetRotation();
+
+    SetCameraPosition(DirectX::XMVectorAdd(tempPos, shadowMapPos));
+    SetCameraRotation(shadowMapRot);
+
+    auto result = XMMatrixLookAtLH(GetPosition(), GetTargetPos(), DirectX::XMVectorSet(0, 1, 0, 0));
+
+    SetCameraPosition(tempPos);
+    SetCameraRotation(tempRot);
+
+    return result;
+}
+
+DirectX::XMMATRIX Camera::GetAmbientShadowMapProjMat()
+{
+    return  XMMatrixOrthographicLH(GetOrthoWidth(), GetOrthoHeight(), GetNearZ(), GetFarZ());
+}
+
 void Camera::SetFov(float v)
 {
     v = fmin(fmax(v, 0.01f), Utility::PI);
@@ -108,6 +152,22 @@ void Camera::SetFarZ(float v)
 void Camera::SetAspect(float v)
 {
     aspect = fabs(v);
+}
+
+void Camera::SetOrthoWidth(float wid)
+{
+    if (1 > wid)
+        wid = 1;
+
+    orthoWidth = wid;
+}
+
+void Camera::SetOrthoHeight(float hei)
+{
+    if (1 > hei)
+        hei = 1;
+
+    orthoHeight = hei;
 }
 
 DirectX::XMVECTOR Camera::GetPosition()
@@ -141,10 +201,17 @@ void Camera::SetCameraRotation(DirectX::XMVECTOR rotation)
 {
     camRotation = rotation;
 
+    float adjust = 0;
+
+    if (DirectX::XMVectorGetX(camRotation) > 0)
+        adjust = -Utility::ep;
+    else
+        adjust = Utility::ep;
+
     DirectX::XMVECTOR camQuaternion = DirectX::XMQuaternionRotationRollPitchYaw(
-        DirectX::XMConvertToRadians(DirectX::XMVectorGetX(camRotation)),
-        DirectX::XMConvertToRadians(DirectX::XMVectorGetY(camRotation)),
-        DirectX::XMConvertToRadians(DirectX::XMVectorGetZ(camRotation))
+        DirectX::XMConvertToRadians(DirectX::XMVectorGetX(camRotation) - adjust),
+        DirectX::XMConvertToRadians(DirectX::XMVectorGetY(camRotation) - adjust),
+        DirectX::XMConvertToRadians(DirectX::XMVectorGetZ(camRotation) - adjust)
     );
 
     targetVec = DirectX::XMVector3Rotate(forward, camQuaternion);

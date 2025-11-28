@@ -65,6 +65,8 @@ struct alignas(256) LightInfo
 
     float padding;
 
+    DirectX::XMMATRIX  ambientLightVP;
+
     XMFLOAT4 DirectionalLightNum;
 
     XMFLOAT4 PointLightNum;
@@ -91,6 +93,12 @@ struct alignas(256) TimeInfo
     float RealDeltaTime = 0;
 
     DirectX::XMFLOAT3 padding4;
+};
+
+enum class SamplerType
+{
+    DEFAULT,
+    SHADOW_MAP
 };
 
 struct Material

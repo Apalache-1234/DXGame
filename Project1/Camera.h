@@ -58,6 +58,16 @@ public:
 
 	float GetAspect();
 
+	float GetOrthoWidth();
+
+	float GetOrthoHeight();
+
+	DirectX::XMMATRIX GetViewMat();
+	DirectX::XMMATRIX GetProjMat();
+
+	DirectX::XMMATRIX GetAmbientShadowMapViewMat();
+	DirectX::XMMATRIX GetAmbientShadowMapProjMat();
+
 	void SetFov(float v);
 
 	void SetNearZ(float v);
@@ -65,6 +75,16 @@ public:
 	void SetFarZ(float v);
 
 	void SetAspect(float v);
+
+	void SetOrthoWidth(float wid);
+
+	void SetOrthoHeight(float hei);
+
+	bool isPerspective = true;
+
+	const DirectX::XMVECTOR shadowMapPos = DirectX::XMVectorSet(0, 1, -1, 0);
+
+	const DirectX::XMVECTOR shadowMapRot = DirectX::XMVectorSet(55, 0, 0, 0);
 private:
 	float fov = DirectX::XMConvertToRadians(70);
 
@@ -73,6 +93,9 @@ private:
 	float farZ = 1000.0f;
 
 	float aspect = (float)Window::width / (float)Window::height;
+
+	float orthoWidth = Window::width;
+	float orthoHeight = Window::height;
 
 	/// <summary>
 	/// ÉJÉÅÉâÇÃç¿ïWà íu

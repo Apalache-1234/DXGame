@@ -5,6 +5,8 @@ struct output
     float3 worldPos : POSITION;
 
     float2 TexCoord : TEXCOORD;
+    
+    float4 lightPos : LIGHT_POS;
 
     float3 tangent : TANGENT;
 
@@ -36,6 +38,19 @@ pixelOp main(output vertexOp)
 
 	if (output_pixel.color.a == 0.0f) discard;
 
+    float3 shadow_coord = vertexOp.lightPos.xyz / vertexOp.lightPos.w;
+    
+    shadow_coord.x = shadow_coord.x * 0.5 + 0.5;
+    shadow_coord.y = shadow_coord.y * 0.5 + 0.5;
 
+    float shadowFactor = shadowMap.SampleCmpLevelZero
+    (
+    shadow_sampler,
+    shadow_coord.xy,
+    shadow_coord.z
+    );
+    
+    output_pixel.color *= shadowFactor;
+    
 	return output_pixel;
 }

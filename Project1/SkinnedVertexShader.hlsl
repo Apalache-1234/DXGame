@@ -24,6 +24,8 @@ struct output
 	float3 worldPos : POSITION;
 
 	float2 TexCoord : TEXCOORD;
+	
+	float4 lightPos : LIGHT_POS;
 
 	float3 tangent : TANGENT;
 
@@ -116,6 +118,10 @@ output main(input vertexIn)
     float4 local = ReturnAnimatedVerteces(vertexIn);
 
 	float4 proj = TransLocalToProj(local);
+	
+    float4 world = mul(world_mat, local);
+	
+    vertexOut.lightPos = mul(ambientLightVPMat, local);
 
 	vertexOut.color = color;
 

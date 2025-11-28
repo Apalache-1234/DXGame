@@ -11,11 +11,12 @@ cbuffer transform : register(b0)
 
 cbuffer LightInfo : register(b1)
 {
-	float4 ambientLight : packoffset(c0);
-	float4 directionalLightNum : packoffset(c1);
-	float4 pointLightNum : packoffset(c2);
-	float4 spotLightNum : packoffset(c3);
-	float4 cameraPos : packoffset(c4);
+	float4 ambientLightCol : packoffset(c0);
+	float4 ambientLightVPMat : packoffset(c1);
+	float4 directionalLightNum : packoffset(c5);
+	float4 pointLightNum : packoffset(c6);
+	float4 spotLightNum : packoffset(c7);
+	float4 cameraPos : packoffset(c8);
 }
 
 cbuffer TimeInfo: register(b2)
@@ -41,6 +42,7 @@ Texture2D normal : register(t1);
 Texture2D shadowMap : register(t100);
 
 SamplerState tex_sampler : register(s0);
+SamplerComparisonState shadow_sampler : register(s1);
 
 struct DirectionalLight
 {
@@ -217,7 +219,7 @@ float4 SpotLightShading(float4 col, float3 pos, float3 normal, int matIdx)
 
 float4 ApplyLightShading(float4 col, float3 pos, float3 normal,  int matIdx)
 {
-    float4 ambientCol = float4(Materials[matIdx].AMBIENT, 1) * col * float4(ambientLight.xyz, 1);
+    float4 ambientCol = float4(Materials[matIdx].AMBIENT, 1) * col * float4(ambientLightCol.xyz, 1);
 
 	float4 dirLightCol = DirectionalLightShading(col,pos, normal , matIdx);
 

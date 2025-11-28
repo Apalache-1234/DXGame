@@ -232,6 +232,8 @@ private:
 
 	HANDLE fence_event;
 
+	XMMATRIX ambientVPMat;
+
 	std::unique_ptr<DescriptorHeapManager::PtrHandles> RTVHandle[frameBuffer];
 	std::unique_ptr<DescriptorHeapManager::PtrHandles> msaaRTVHandle;
 
@@ -243,6 +245,8 @@ private:
 	std::unique_ptr < DescriptorHeapManager::PtrHandles> shadowMapHandle;
 
 	int backbuffer_index = 0;
+
+
 };
 
 #endif

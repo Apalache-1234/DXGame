@@ -75,11 +75,11 @@ bool DXRenderSystem::Init()
 
 	isSuccess &= CreatePostEffectView();
 
+	isSuccess &= SetScissorAndViewPort();
+
 	isSuccess &= CreateShadowMapResource();
 
 	isSuccess &= CreateShadowMapView();
-
-	isSuccess &= SetScissorAndViewPort();
 
 	postEffectEntity = SystemManager::GetInstance().CreateEntity<PEEdgeFilter>("postEffect");
 	postEffectEntity->AddComponent<PEMosaicFilter>();
@@ -246,19 +246,37 @@ void DXRenderSystem::RenderIMGUI()
 
 void DXRenderSystem::RenderShadowMap()
 {
+	Camera::GetInstance().isPerspective = false;
+
+	D3D12_RESOURCE_BARRIER barrier;
+
+	barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
+
+	barrier.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
+
+	barrier.Transition.pResource =shadowMap.Get();
+
+	barrier.Transition.Subresource = D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES;
+
+	barrier.Transition.StateBefore = D3D12_RESOURCE_STATE_ALL_SHADER_RESOURCE;
+
+	barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_DEPTH_WRITE;
+
+	cmd_list->ResourceBarrier(1, &barrier);
+
 	auto camPosTemp = Camera::GetInstance().GetPosition();
 
 	auto camRotTemp = Camera::GetInstance().GetRotation();
 
-	auto camPosCur = DirectX::XMVectorAdd(camPosTemp, DirectX::XMVectorSet(0, 50, 0, 0));
+	auto camPosCur = DirectX::XMVectorAdd(camPosTemp, Camera::GetInstance().shadowMapPos);
 
 	Camera::GetInstance().SetCameraPosition(camPosCur);
 
-	Camera::GetInstance().SetCameraRotation(DirectX::XMVectorSet(0, 40, 0, 0));
+	Camera::GetInstance().SetCameraRotation(Camera::GetInstance().shadowMapRot);
 
-	cmd_list->OMSetRenderTargets(1, &shadowMapHandle->cpuHandle, false, nullptr);
+	cmd_list->OMSetRenderTargets(0, nullptr, false, &shadowMapHandle->cpuHandle);
 
-	cmd_list->ClearRenderTargetView(shadowMapHandle->cpuHandle, colorBG, 0, nullptr);
+	cmd_list->ClearDepthStencilView(shadowMapHandle->cpuHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
 
 	cmd_list->RSSetScissorRects(1, &scissor);
 	cmd_list->RSSetViewports(1, &viewport);
@@ -271,7 +289,36 @@ void DXRenderSystem::RenderShadowMap()
 
 	cmd_list->OMSetRenderTargets(1, &msaaRTVHandle->cpuHandle, false, &msaaDSVHandle->cpuHandle);
 
-	ExecuteCommands();
+	cmd_list->Close();
+
+	ID3D12CommandList* lists_array[] = { cmd_list.Get() };
+
+	cmd_queue->ExecuteCommandLists(1, lists_array);
+
+	auto cur_value = fence_counter;
+
+	cmd_queue->Signal(fence.Get(), cur_value);
+
+	fence_counter++;
+
+	if (fence->GetCompletedValue() < cur_value)
+	{
+		fence->SetEventOnCompletion(cur_value, fence_event);
+
+		WaitForSingleObjectEx(fence_event, INFINITE, false);
+	}
+
+	cmd_allocator[backbuffer_index]->Reset();
+
+	cmd_list->Reset(cmd_allocator[backbuffer_index].Get(), nullptr);
+
+	barrier.Transition.StateBefore = D3D12_RESOURCE_STATE_DEPTH_WRITE;
+
+	barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_ALL_SHADER_RESOURCE;
+
+	cmd_list->ResourceBarrier(1, &barrier);
+
+	Camera::GetInstance().isPerspective = true;
 }
 
 D3D12_CPU_DESCRIPTOR_HANDLE DXRenderSystem::GetShadowMapResourceCPUHandle()
@@ -792,17 +839,17 @@ bool DXRenderSystem::CreateShadowMapResource()
 
 	D3D12_RESOURCE_DESC desc = color_buffer[0]->GetDesc();
 
-	desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+	desc.Format = DXGI_FORMAT_R32_TYPELESS;
+
+	desc.Flags = D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL;
 
 	hr = device->CreateCommittedResource(
 		&prop,
 		D3D12_HEAP_FLAG_NONE,
 		&desc,
-		D3D12_RESOURCE_STATE_RESOLVE_DEST,
-		&clearValue,
-		IID_PPV_ARGS(shadowMap.GetAddressOf())
-
-	);
+		D3D12_RESOURCE_STATE_ALL_SHADER_RESOURCE,
+		&clearDepth,
+		IID_PPV_ARGS(shadowMap.GetAddressOf()));
 
 	if (FAILED(hr))
 	{
@@ -816,19 +863,15 @@ bool DXRenderSystem::CreateShadowMapResource()
 
 bool DXRenderSystem::CreateShadowMapView()
 {
-	shadowMapHandle = heapRT.value().GetHandle();
+	shadowMapHandle = heapDS.value().GetHandle();
 
-	D3D12_RENDER_TARGET_VIEW_DESC desc;
+	D3D12_DEPTH_STENCIL_VIEW_DESC desc = {};
 
-	desc.ViewDimension = D3D12_RTV_DIMENSION_TEXTURE2D;
+	desc.Format = DXGI_FORMAT_D32_FLOAT;
+	desc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2DMS;
+	desc.Flags = D3D12_DSV_FLAG_NONE;
 
-	desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
-
-	desc.Texture2D.MipSlice = 0;
-
-	desc.Texture2D.PlaneSlice = 0;
-
-	device->CreateRenderTargetView(shadowMap.Get(), &desc, shadowMapHandle->cpuHandle);
+	device->CreateDepthStencilView(shadowMap.Get(), &desc, shadowMapHandle->cpuHandle);
 
 	return true;
 }

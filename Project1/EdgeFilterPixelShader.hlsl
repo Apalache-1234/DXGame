@@ -41,7 +41,7 @@ pixelOp main(output vertexOp)
     
     edgeColor.a = 1;
         
-    output_pixel.color = color;
+    output_pixel.color = color.rrrr;
     
     return output_pixel;
 }

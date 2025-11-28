@@ -298,13 +298,20 @@ void Renderer::ConvertValues()
 	float colB = DirectX::XMVectorGetZ(color);
 	float colA = DirectX::XMVectorGetW(color);
 
-	trans.view = XMMatrixLookAtLH(Camera::GetInstance().GetPosition(), Camera::GetInstance().GetTargetPos(), DirectX::XMVectorSet(0, 1, 0, 0));
+	trans.view = Camera::GetInstance().GetViewMat();
 
-	trans.projection = XMMatrixPerspectiveFovLH(Camera::GetInstance().GetFov(), Camera::GetInstance().GetAspect(), Camera::GetInstance().GetNearZ(), Camera::GetInstance().GetFarZ());
+	trans.projection = Camera::GetInstance().GetProjMat();
 
 	auto color_normalized = XMFLOAT4(colR, colG, colB, colA);
 
 	trans.color = color_normalized;
+
+	auto ambientViewV = Camera::GetInstance().GetAmbientShadowMapViewMat();
+	auto ambientViewP = Camera::GetInstance().GetAmbientShadowMapProjMat();
+
+	lightInfo.ambientLightVP = DirectX::XMMatrixMultiply(ambientViewV , ambientViewP);
+
+	lightInfo.ambientLightVP = DirectX::XMMatrixTranspose(lightInfo.ambientLightVP);
 }
 
 bool Renderer::MapCB()
@@ -643,7 +650,10 @@ void Renderer::CreateSRV(ComPtr<ID3D12Resource> texResource , D3D12_CPU_DESCRIPT
 
 	desc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
 
-	desc.Format = texture_desc.Format;
+	if (texture_desc.Format != DXGI_FORMAT_R32_TYPELESS)
+		desc.Format = texture_desc.Format;
+	else
+		desc.Format = DXGI_FORMAT_R32_FLOAT;
 
 	desc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
 
@@ -838,9 +848,11 @@ void Renderer::AddInputElementDesc(D3D12_INPUT_ELEMENT_DESC desc)
 	descElement.emplace_back(desc);
 }
 
-void Renderer::SetDescSampler(D3D12_STATIC_SAMPLER_DESC desc)
+void Renderer::SetDescSampler(D3D12_STATIC_SAMPLER_DESC desc , SamplerType type)
 {
-	descSampler = desc;
+	int num = (int)type;
+
+	descSampler[num] = desc;
 }
 
 void Renderer::SetRasterizerDesc(D3D12_RASTERIZER_DESC desc)
@@ -1020,22 +1032,42 @@ void Renderer::PrepareForRootSignature()
 
 	param[8].DescriptorTable.pDescriptorRanges = shadowMapSRV;
 
-	descSampler = {};
+	int def = (int)SamplerType::DEFAULT;
 
-	descSampler.Filter = D3D12_FILTER_ANISOTROPIC;
+	descSampler[def] = {};
 
-	descSampler.AddressU = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
-	descSampler.AddressV = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
-	descSampler.AddressW = D3D12_TEXTURE_ADDRESS_MODE_CLAMP;
-	descSampler.MipLODBias = D3D12_DEFAULT_MIP_LOD_BIAS;
-	descSampler.MaxAnisotropy = 4;
-	descSampler.ComparisonFunc = D3D12_COMPARISON_FUNC_NEVER;
-	descSampler.BorderColor = D3D12_STATIC_BORDER_COLOR_TRANSPARENT_BLACK;
-	descSampler.MaxLOD = D3D12_FLOAT32_MAX;
-	descSampler.MinLOD = -D3D12_FLOAT32_MAX;
-	descSampler.ShaderRegister = 0;
-	descSampler.RegisterSpace = 0;
-	descSampler.ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+	descSampler[def].Filter = D3D12_FILTER_ANISOTROPIC;
+
+	descSampler[def].AddressU = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
+	descSampler[def].AddressV = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
+	descSampler[def].AddressW = D3D12_TEXTURE_ADDRESS_MODE_CLAMP;
+	descSampler[def].MipLODBias = D3D12_DEFAULT_MIP_LOD_BIAS;
+	descSampler[def].MaxAnisotropy = 4;
+	descSampler[def].ComparisonFunc = D3D12_COMPARISON_FUNC_NEVER;
+	descSampler[def].BorderColor = D3D12_STATIC_BORDER_COLOR_TRANSPARENT_BLACK;
+	descSampler[def].MaxLOD = D3D12_FLOAT32_MAX;
+	descSampler[def].MinLOD = -D3D12_FLOAT32_MAX;
+	descSampler[def].ShaderRegister = 0;
+	descSampler[def].RegisterSpace = 0;
+	descSampler[def].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+
+	int sha = (int)SamplerType::SHADOW_MAP;
+
+	descSampler[sha] = {};
+
+	descSampler[sha].Filter = D3D12_FILTER_COMPARISON_MIN_MAG_MIP_LINEAR;
+
+	descSampler[sha].AddressV = D3D12_TEXTURE_ADDRESS_MODE_CLAMP;
+	descSampler[sha].AddressW = D3D12_TEXTURE_ADDRESS_MODE_CLAMP;
+	descSampler[sha].MipLODBias = D3D12_DEFAULT_MIP_LOD_BIAS;
+	descSampler[sha].MaxAnisotropy = 1;
+	descSampler[sha].ComparisonFunc = D3D12_COMPARISON_FUNC_LESS_EQUAL;
+	descSampler[sha].BorderColor = D3D12_STATIC_BORDER_COLOR_OPAQUE_WHITE;
+	descSampler[sha].MaxLOD = D3D12_FLOAT32_MAX;
+	descSampler[sha].MinLOD = 0;
+	descSampler[sha].ShaderRegister = 1;
+	descSampler[sha].RegisterSpace = 0;
+	descSampler[sha].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
 }
 
 void Renderer::PrepareForRenderPipeline()
@@ -1135,11 +1167,11 @@ bool Renderer::CreateRootSignature()
 
 	desc.NumParameters = param.size();
 
-	desc.NumStaticSamplers = 1;
+	desc.NumStaticSamplers = 2;
 
 	desc.pParameters = param.data();
 
-	desc.pStaticSamplers = &descSampler;
+	desc.pStaticSamplers = descSampler;
 
 	ComPtr<ID3DBlob> blob;
 	ComPtr<ID3DBlob> error_blob;

@@ -956,6 +956,20 @@ void ShowTrees()
 
 		Camera::GetInstance().SetFarZ(farZ);
 
+		ImGui::Checkbox("isPerspective", &Camera::GetInstance().isPerspective);
+
+		auto wid = Camera::GetInstance().GetOrthoWidth();
+
+		ImGui::DragFloat("OrthoWidth", &wid);
+
+		Camera::GetInstance().SetOrthoWidth(wid);
+
+		auto hei = Camera::GetInstance().GetOrthoHeight();
+
+		ImGui::DragFloat("OrthoHeight", &hei);
+
+		Camera::GetInstance().SetOrthoHeight(hei);
+
 		ImGui::TreePop();
 	}
 }

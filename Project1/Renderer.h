@@ -91,7 +91,7 @@ protected:
 
 	void virtual AddCommand(ComPtr<ID3D12GraphicsCommandList> cmdList);
 
-	void SetDescSampler(D3D12_STATIC_SAMPLER_DESC desc);
+	void SetDescSampler(D3D12_STATIC_SAMPLER_DESC desc, SamplerType type);
 
 	void PrepareForRootSignature();
 
@@ -249,7 +249,7 @@ private:
 
 	std::unique_ptr<DescriptorHeapManager::PtrHandles> SLBHandle;
 
-	D3D12_STATIC_SAMPLER_DESC descSampler;
+	D3D12_STATIC_SAMPLER_DESC descSampler[2];
 
 	std::vector<D3D12_ROOT_PARAMETER> param;
 
