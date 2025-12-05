@@ -231,6 +231,8 @@ private:
 
 	ComPtr<ID3D12PipelineState> currentPipeline;
 
+	ComPtr<ID3D12PipelineState> shadowMapPipeline;
+
 	std::vector<DirLight> DirLights;
 
 	ComPtr<ID3D12Resource> DLBuffer;
@@ -249,7 +251,7 @@ private:
 
 	std::unique_ptr<DescriptorHeapManager::PtrHandles> SLBHandle;
 
-	D3D12_STATIC_SAMPLER_DESC descSampler[2];
+	std::vector<D3D12_STATIC_SAMPLER_DESC> descSamplers;
 
 	std::vector<D3D12_ROOT_PARAMETER> param;
 

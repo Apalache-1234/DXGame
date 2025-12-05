@@ -958,17 +958,11 @@ void ShowTrees()
 
 		ImGui::Checkbox("isPerspective", &Camera::GetInstance().isPerspective);
 
-		auto wid = Camera::GetInstance().GetOrthoWidth();
+		auto wid = Camera::GetInstance().GetOrthoDiameter();
 
-		ImGui::DragFloat("OrthoWidth", &wid);
+		ImGui::DragFloat("OrthoDiameter", &wid);
 
-		Camera::GetInstance().SetOrthoWidth(wid);
-
-		auto hei = Camera::GetInstance().GetOrthoHeight();
-
-		ImGui::DragFloat("OrthoHeight", &hei);
-
-		Camera::GetInstance().SetOrthoHeight(hei);
+		Camera::GetInstance().SetOrthoDiameter(wid);
 
 		ImGui::TreePop();
 	}
@@ -1153,6 +1147,15 @@ void MyIMGUI::MainLoop()
 			ShowRadicalBlurPostEffect();
 
 			ShowGaussianBlurPostEffect();
+
+			ImGui::TreePop();
+		}
+
+		if (ImGui::TreeNode("ShadowMap")) {
+
+			Camera::GetInstance().shadowMapPos = ShowAndSetVecInfo("Position", Camera::GetInstance().shadowMapPos);
+
+			Camera::GetInstance().shadowMapRot = ShowAndSetVecInfo("Rotation", Camera::GetInstance().shadowMapRot);
 
 			ImGui::TreePop();
 		}

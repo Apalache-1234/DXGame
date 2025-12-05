@@ -41,7 +41,7 @@ pixelOp main(output vertexOp)
     float3 shadow_coord = vertexOp.lightPos.xyz / vertexOp.lightPos.w;
     
     shadow_coord.x = shadow_coord.x * 0.5 + 0.5;
-    shadow_coord.y = shadow_coord.y * 0.5 + 0.5;
+    shadow_coord.y = -shadow_coord.y * 0.5 + 0.5;
 
     float shadowFactor = shadowMap.SampleCmpLevelZero
     (
@@ -50,7 +50,7 @@ pixelOp main(output vertexOp)
     shadow_coord.z
     );
     
-    output_pixel.color *= shadowFactor;
+    output_pixel.color.rgb *= shadowFactor;
     
 	return output_pixel;
 }

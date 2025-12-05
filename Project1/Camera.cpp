@@ -84,14 +84,9 @@ float Camera::GetAspect()
     return aspect;
 }
 
-float Camera::GetOrthoWidth()
+float Camera::GetOrthoDiameter()
 {
-    return orthoWidth;
-}
-
-float Camera::GetOrthoHeight()
-{
-    return orthoHeight;
+    return orthoDiameter;
 }
 
 DirectX::XMMATRIX Camera::GetViewMat()
@@ -104,7 +99,7 @@ DirectX::XMMATRIX Camera::GetProjMat()
     if (isPerspective)
         return  XMMatrixPerspectiveFovLH(GetFov(), GetAspect(), GetNearZ(), GetFarZ());
     else
-        return XMMatrixOrthographicLH(GetOrthoWidth(),GetOrthoHeight(), GetNearZ(), GetFarZ());
+        return XMMatrixOrthographicLH(orthoDiameter * 16 / 9, orthoDiameter, GetNearZ(), GetFarZ());
 }
 
 DirectX::XMMATRIX Camera::GetAmbientShadowMapViewMat()
@@ -125,7 +120,7 @@ DirectX::XMMATRIX Camera::GetAmbientShadowMapViewMat()
 
 DirectX::XMMATRIX Camera::GetAmbientShadowMapProjMat()
 {
-    return  XMMatrixOrthographicLH(GetOrthoWidth(), GetOrthoHeight(), GetNearZ(), GetFarZ());
+    return XMMatrixOrthographicLH(orthoDiameter , orthoDiameter, GetNearZ(), GetFarZ());
 }
 
 void Camera::SetFov(float v)
@@ -154,20 +149,12 @@ void Camera::SetAspect(float v)
     aspect = fabs(v);
 }
 
-void Camera::SetOrthoWidth(float wid)
+void Camera::SetOrthoDiameter(float v)
 {
-    if (1 > wid)
-        wid = 1;
+    if (v < Utility::ep)
+        v = Utility::ep;
 
-    orthoWidth = wid;
-}
-
-void Camera::SetOrthoHeight(float hei)
-{
-    if (1 > hei)
-        hei = 1;
-
-    orthoHeight = hei;
+    orthoDiameter = v;
 }
 
 DirectX::XMVECTOR Camera::GetPosition()

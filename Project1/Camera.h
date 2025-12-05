@@ -58,9 +58,7 @@ public:
 
 	float GetAspect();
 
-	float GetOrthoWidth();
-
-	float GetOrthoHeight();
+	float GetOrthoDiameter();
 
 	DirectX::XMMATRIX GetViewMat();
 	DirectX::XMMATRIX GetProjMat();
@@ -76,15 +74,13 @@ public:
 
 	void SetAspect(float v);
 
-	void SetOrthoWidth(float wid);
-
-	void SetOrthoHeight(float hei);
+	void SetOrthoDiameter(float v);
 
 	bool isPerspective = true;
 
-	const DirectX::XMVECTOR shadowMapPos = DirectX::XMVectorSet(0, 1, -1, 0);
+	DirectX::XMVECTOR shadowMapPos = DirectX::XMVectorSet(0, 10, -10, 0);
 
-	const DirectX::XMVECTOR shadowMapRot = DirectX::XMVectorSet(55, 0, 0, 0);
+	DirectX::XMVECTOR shadowMapRot = DirectX::XMVectorSet(55, 0, 0, 0);
 private:
 	float fov = DirectX::XMConvertToRadians(70);
 
@@ -94,8 +90,7 @@ private:
 
 	float aspect = (float)Window::width / (float)Window::height;
 
-	float orthoWidth = Window::width;
-	float orthoHeight = Window::height;
+	float orthoDiameter = 10;
 
 	/// <summary>
 	/// ÉJÉÅÉâÇÃç¿ïWà íu

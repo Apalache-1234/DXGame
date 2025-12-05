@@ -57,8 +57,16 @@ public:
 
 		for (int i = 0; i < rendL.size(); i++)
 		{
-			cmd_list->RSSetScissorRects(1, &scissor);
-			cmd_list->RSSetViewports(1, &viewport);
+			if (isShadowMapRendering)
+			{
+				cmd_list->RSSetScissorRects(1, &shadowScissor);
+				cmd_list->RSSetViewports(1, &shadowViewport);
+			}
+			else
+			{
+				cmd_list->RSSetScissorRects(1, &scissor);
+				cmd_list->RSSetViewports(1, &viewport);
+			}
 
 			auto rend = dynamic_cast<Renderer*>(rendL[i].get());
 
@@ -90,8 +98,12 @@ public:
 
 	void SetDeletingComps(std::vector<shared_ptr<Component>> comps);
 
+	bool GetIsShadowMapRendering();
+
 	const static int frameBuffer = 2;
 private:
+	int shadowMapRes = 2048;
+
 	std::vector<ComPtr<ID3D12Resource>> uploadHeaps;
 
 	std::vector<ComPtr<ID3D12Resource>> deletingHeaps;
@@ -99,6 +111,8 @@ private:
 	std::vector<shared_ptr<Component>> deletingComps;
 
 	shared_ptr<Entity> postEffectEntity;
+
+	bool isShadowMapRendering = false;
 
 	/// <summary>
 	/// DirectX12のデバイスを作成する
@@ -229,6 +243,10 @@ private:
 
 	D3D12_VIEWPORT viewport;
 	D3D12_RECT scissor;
+
+
+	D3D12_VIEWPORT shadowViewport;
+	D3D12_RECT shadowScissor;
 
 	HANDLE fence_event;
 

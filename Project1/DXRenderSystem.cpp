@@ -15,6 +15,7 @@
 #include "PERadicalBlur.h"
 #include "PEVerticalGaussianBlur.h"
 #include "PEHorizonGaussianBlur.h"
+#include "DXRenderSystem.h"
 
 DXRenderSystem::DXRenderSystem()
 {
@@ -246,6 +247,10 @@ void DXRenderSystem::RenderIMGUI()
 
 void DXRenderSystem::RenderShadowMap()
 {
+	isShadowMapRendering = true;
+
+	bool tempPerspective = Camera::GetInstance().isPerspective;
+
 	Camera::GetInstance().isPerspective = false;
 
 	D3D12_RESOURCE_BARRIER barrier;
@@ -267,7 +272,20 @@ void DXRenderSystem::RenderShadowMap()
 	auto camPosTemp = Camera::GetInstance().GetPosition();
 
 	auto camRotTemp = Camera::GetInstance().GetRotation();
+	/*
+	float texel = Camera::GetInstance().GetOrthoDiameter() / shadowMapRes;
 
+	auto viewMat = DirectX::XMMatrixLookAtLH(DirectX::XMVectorZero() , Camera::GetInstance().GetTargetPos() , Utility::up);
+	auto posAtView = DirectX::XMVector3TransformCoord(camPosTemp , viewMat);
+
+	float lx = floor(DirectX::XMVectorGetX(posAtView) / texel) * texel;
+	float ly = floor(DirectX::XMVectorGetY(posAtView) / texel) * texel;
+	float lz = DirectX::XMVectorGetZ(posAtView);
+
+	auto invViewMat = DirectX::XMMatrixTranspose(viewMat);
+
+	auto adjustPos = DirectX::XMVector3TransformCoord(DirectX::XMVectorSet(lx,ly,lz,0) , invViewMat);
+	*/
 	auto camPosCur = DirectX::XMVectorAdd(camPosTemp, Camera::GetInstance().shadowMapPos);
 
 	Camera::GetInstance().SetCameraPosition(camPosCur);
@@ -277,9 +295,6 @@ void DXRenderSystem::RenderShadowMap()
 	cmd_list->OMSetRenderTargets(0, nullptr, false, &shadowMapHandle->cpuHandle);
 
 	cmd_list->ClearDepthStencilView(shadowMapHandle->cpuHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
-
-	cmd_list->RSSetScissorRects(1, &scissor);
-	cmd_list->RSSetViewports(1, &viewport);
 
 	RenderComponent<SkinnedRenderer>();
 
@@ -318,7 +333,9 @@ void DXRenderSystem::RenderShadowMap()
 
 	cmd_list->ResourceBarrier(1, &barrier);
 
-	Camera::GetInstance().isPerspective = true;
+	Camera::GetInstance().isPerspective = tempPerspective;
+
+	isShadowMapRendering = false;
 }
 
 D3D12_CPU_DESCRIPTOR_HANDLE DXRenderSystem::GetShadowMapResourceCPUHandle()
@@ -839,6 +856,10 @@ bool DXRenderSystem::CreateShadowMapResource()
 
 	D3D12_RESOURCE_DESC desc = color_buffer[0]->GetDesc();
 
+	desc.Height = Window::height;
+
+	desc.Width = Window::width;
+
 	desc.Format = DXGI_FORMAT_R32_TYPELESS;
 
 	desc.Flags = D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL;
@@ -987,6 +1008,11 @@ void DXRenderSystem::SetDeletingComps(std::vector<shared_ptr<Component>> comps)
 	deletingComps.insert(deletingComps.end() , comps.begin() , comps.end());
 }
 
+bool DXRenderSystem::GetIsShadowMapRendering()
+{
+	return isShadowMapRendering;
+}
+
 bool DXRenderSystem::SetScissorAndViewPort()
 {
 	viewport.TopLeftX = 0;
@@ -1003,6 +1029,21 @@ bool DXRenderSystem::SetScissorAndViewPort()
 	scissor.top = 0;
 	scissor.bottom = Window::GetInstance().height;
 	scissor.right = Window::GetInstance().width;
+
+	shadowViewport.TopLeftX = 0;
+	shadowViewport.TopLeftY = 0;
+
+	shadowViewport.MinDepth = 0;
+	shadowViewport.MaxDepth = 1;
+
+	shadowViewport.Height = shadowMapRes;
+
+	shadowViewport.Width = shadowMapRes;
+
+	shadowScissor.left = 0;
+	shadowScissor.top = 0;
+	shadowScissor.bottom = shadowMapRes;
+	shadowScissor.right = shadowMapRes;
 
 	return true;
 }

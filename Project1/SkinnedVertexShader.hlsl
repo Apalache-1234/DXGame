@@ -118,16 +118,14 @@ output main(input vertexIn)
     float4 local = ReturnAnimatedVerteces(vertexIn);
 
 	float4 proj = TransLocalToProj(local);
-	
-    float4 world = mul(world_mat, local);
-	
-    vertexOut.lightPos = mul(ambientLightVPMat, local);
 
 	vertexOut.color = color;
 
 	vertexOut.position = proj;
 
 	vertexOut.worldPos = mul(world_mat , local);
+	
+    vertexOut.lightPos = mul(ambientLightVPMat, mul(world_mat, local));
 
     vertexOut.TexCoord = TransformUV(vertexIn.TexCoord , vertexIn.index);
 	

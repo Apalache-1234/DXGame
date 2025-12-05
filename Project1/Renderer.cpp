@@ -122,7 +122,10 @@ void Renderer::AddRenderCommand(ComPtr<ID3D12GraphicsCommandList>& cmdList, int 
 
 	cmdList->SetGraphicsRootDescriptorTable(8, shadowMapTexHandles[0]->gpuHandle);
 
-	cmdList->SetPipelineState(currentPipeline.Get());
+	if (DXRenderSystem::GetInstance().GetIsShadowMapRendering())
+		cmdList->SetPipelineState(shadowMapPipeline.Get());
+	else
+		cmdList->SetPipelineState(currentPipeline.Get());
 
 	cmdList->IASetPrimitiveTopology(primitiveType);
 
@@ -306,12 +309,10 @@ void Renderer::ConvertValues()
 
 	trans.color = color_normalized;
 
-	auto ambientViewV = Camera::GetInstance().GetAmbientShadowMapViewMat();
-	auto ambientViewP = Camera::GetInstance().GetAmbientShadowMapProjMat();
+	auto ambientVM = Camera::GetInstance().GetAmbientShadowMapViewMat();
+	auto ambientPM = Camera::GetInstance().GetAmbientShadowMapProjMat();
 
-	lightInfo.ambientLightVP = DirectX::XMMatrixMultiply(ambientViewV , ambientViewP);
-
-	lightInfo.ambientLightVP = DirectX::XMMatrixTranspose(lightInfo.ambientLightVP);
+	lightInfo.ambientLightVP = DirectX::XMMatrixMultiply(ambientVM , ambientPM);
 }
 
 bool Renderer::MapCB()
@@ -852,7 +853,7 @@ void Renderer::SetDescSampler(D3D12_STATIC_SAMPLER_DESC desc , SamplerType type)
 {
 	int num = (int)type;
 
-	descSampler[num] = desc;
+	descSamplers[num] = desc;
 }
 
 void Renderer::SetRasterizerDesc(D3D12_RASTERIZER_DESC desc)
@@ -1032,42 +1033,45 @@ void Renderer::PrepareForRootSignature()
 
 	param[8].DescriptorTable.pDescriptorRanges = shadowMapSRV;
 
-	int def = (int)SamplerType::DEFAULT;
+	D3D12_STATIC_SAMPLER_DESC desSam;
 
-	descSampler[def] = {};
+	desSam = {};
 
-	descSampler[def].Filter = D3D12_FILTER_ANISOTROPIC;
+	desSam.Filter = D3D12_FILTER_ANISOTROPIC;
 
-	descSampler[def].AddressU = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
-	descSampler[def].AddressV = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
-	descSampler[def].AddressW = D3D12_TEXTURE_ADDRESS_MODE_CLAMP;
-	descSampler[def].MipLODBias = D3D12_DEFAULT_MIP_LOD_BIAS;
-	descSampler[def].MaxAnisotropy = 4;
-	descSampler[def].ComparisonFunc = D3D12_COMPARISON_FUNC_NEVER;
-	descSampler[def].BorderColor = D3D12_STATIC_BORDER_COLOR_TRANSPARENT_BLACK;
-	descSampler[def].MaxLOD = D3D12_FLOAT32_MAX;
-	descSampler[def].MinLOD = -D3D12_FLOAT32_MAX;
-	descSampler[def].ShaderRegister = 0;
-	descSampler[def].RegisterSpace = 0;
-	descSampler[def].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+	desSam.AddressU = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
+	desSam.AddressV = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
+	desSam.AddressW = D3D12_TEXTURE_ADDRESS_MODE_CLAMP;
+	desSam.MipLODBias = D3D12_DEFAULT_MIP_LOD_BIAS;
+	desSam.MaxAnisotropy = 4;
+	desSam.ComparisonFunc = D3D12_COMPARISON_FUNC_NEVER;
+	desSam.BorderColor = D3D12_STATIC_BORDER_COLOR_TRANSPARENT_BLACK;
+	desSam.MaxLOD = D3D12_FLOAT32_MAX;
+	desSam.MinLOD = -D3D12_FLOAT32_MAX;
+	desSam.ShaderRegister = 0;
+	desSam.RegisterSpace = 0;
+	desSam.ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
 
-	int sha = (int)SamplerType::SHADOW_MAP;
+	descSamplers.push_back(desSam);
 
-	descSampler[sha] = {};
+	desSam = {};
 
-	descSampler[sha].Filter = D3D12_FILTER_COMPARISON_MIN_MAG_MIP_LINEAR;
+	desSam.Filter = D3D12_FILTER_COMPARISON_MIN_MAG_MIP_LINEAR;
 
-	descSampler[sha].AddressV = D3D12_TEXTURE_ADDRESS_MODE_CLAMP;
-	descSampler[sha].AddressW = D3D12_TEXTURE_ADDRESS_MODE_CLAMP;
-	descSampler[sha].MipLODBias = D3D12_DEFAULT_MIP_LOD_BIAS;
-	descSampler[sha].MaxAnisotropy = 1;
-	descSampler[sha].ComparisonFunc = D3D12_COMPARISON_FUNC_LESS_EQUAL;
-	descSampler[sha].BorderColor = D3D12_STATIC_BORDER_COLOR_OPAQUE_WHITE;
-	descSampler[sha].MaxLOD = D3D12_FLOAT32_MAX;
-	descSampler[sha].MinLOD = 0;
-	descSampler[sha].ShaderRegister = 1;
-	descSampler[sha].RegisterSpace = 0;
-	descSampler[sha].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+	desSam.AddressU = D3D12_TEXTURE_ADDRESS_MODE_BORDER;
+	desSam.AddressV = D3D12_TEXTURE_ADDRESS_MODE_BORDER;
+	desSam.AddressW = D3D12_TEXTURE_ADDRESS_MODE_BORDER;
+	desSam.MipLODBias = D3D12_DEFAULT_MIP_LOD_BIAS;
+	desSam.MaxAnisotropy = 4;
+	desSam.ComparisonFunc = D3D12_COMPARISON_FUNC_LESS_EQUAL;
+	desSam.BorderColor = D3D12_STATIC_BORDER_COLOR_OPAQUE_WHITE;
+	desSam.MaxLOD = D3D12_FLOAT32_MAX;
+	desSam.MinLOD = -D3D12_FLOAT32_MAX;
+	desSam.ShaderRegister = 1;
+	desSam.RegisterSpace = 0;
+	desSam.ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+
+	descSamplers.push_back(desSam);
 }
 
 void Renderer::PrepareForRenderPipeline()
@@ -1167,11 +1171,11 @@ bool Renderer::CreateRootSignature()
 
 	desc.NumParameters = param.size();
 
-	desc.NumStaticSamplers = 2;
+	desc.NumStaticSamplers = descSamplers.size();
 
 	desc.pParameters = param.data();
 
-	desc.pStaticSamplers = descSampler;
+	desc.pStaticSamplers = descSamplers.data();
 
 	ComPtr<ID3DBlob> blob;
 	ComPtr<ID3DBlob> error_blob;
@@ -1211,6 +1215,20 @@ bool Renderer::CreateRenderPipeline()
 	}
 
 	pipeline.push_back(currentPipeline);
+
+	desc_pipe.RasterizerState.DepthBias = 3000;
+	desc_pipe.RasterizerState.SlopeScaledDepthBias = 1;
+
+	hr = DXRenderSystem::GetInstance().GetDevice()->CreateGraphicsPipelineState(&desc_pipe, IID_PPV_ARGS(shadowMapPipeline.GetAddressOf()));
+
+	if (FAILED(hr))
+	{
+		std::cerr << "シャドウマップ用パイプラインの作成失敗" << std::endl;
+
+		return false;
+	}
+
+	pipeline.push_back(shadowMapPipeline);
 
 	return true;
 }

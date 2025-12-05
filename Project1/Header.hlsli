@@ -12,7 +12,7 @@ cbuffer transform : register(b0)
 cbuffer LightInfo : register(b1)
 {
 	float4 ambientLightCol : packoffset(c0);
-	float4 ambientLightVPMat : packoffset(c1);
+	float4x4 ambientLightVPMat : packoffset(c1);
 	float4 directionalLightNum : packoffset(c5);
 	float4 pointLightNum : packoffset(c6);
 	float4 spotLightNum : packoffset(c7);
