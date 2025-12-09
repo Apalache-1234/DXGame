@@ -308,11 +308,6 @@ void Renderer::ConvertValues()
 	auto color_normalized = XMFLOAT4(colR, colG, colB, colA);
 
 	trans.color = color_normalized;
-
-	auto ambientVM = Camera::GetInstance().GetAmbientShadowMapViewMat();
-	auto ambientPM = Camera::GetInstance().GetAmbientShadowMapProjMat();
-
-	lightInfo.ambientLightVP = DirectX::XMMatrixMultiply(ambientVM , ambientPM);
 }
 
 bool Renderer::MapCB()
@@ -1340,6 +1335,15 @@ bool Renderer::MapDLB()
 	    l.shadow = list[i]->isShadow;
 		l.power = list[i]->GetPower();
 
+		auto adjustPos = DirectX::XMVectorAdd(Camera::GetInstance().GetPosition() , DirectX::XMVectorNegate(list[i]->GetLightDir()) );
+
+		auto viewMat = XMMatrixLookAtLH(adjustPos, list[i]->GetLightDir(), DirectX::XMVectorSet(0, 1, 0, 0));
+
+		auto projMat
+		= XMMatrixOrthographicLH(Camera::GetInstance().GetOrthoDiameter(), Camera::GetInstance().GetOrthoDiameter(), Camera::GetInstance().GetNearZ(), Camera::GetInstance().GetFarZ());
+
+		l.matVP = DirectX::XMMatrixMultiply(viewMat, projMat);
+
 		DirLights[i] = l;
 	}
 
@@ -1452,6 +1456,7 @@ bool Renderer::MapPLB()
 		l.power = list[i]->GetPower();
 		l.radius = list[i]->GetRadius();
 		l.shadow = list[i]->isShadow;
+
 	    PLights[i] = l;
 	}
 

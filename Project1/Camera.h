@@ -63,9 +63,6 @@ public:
 	DirectX::XMMATRIX GetViewMat();
 	DirectX::XMMATRIX GetProjMat();
 
-	DirectX::XMMATRIX GetAmbientShadowMapViewMat();
-	DirectX::XMMATRIX GetAmbientShadowMapProjMat();
-
 	void SetFov(float v);
 
 	void SetNearZ(float v);

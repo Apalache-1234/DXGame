@@ -856,9 +856,9 @@ bool DXRenderSystem::CreateShadowMapResource()
 
 	D3D12_RESOURCE_DESC desc = color_buffer[0]->GetDesc();
 
-	desc.Height = Window::height;
+	desc.Height = shadowMapRes;
 
-	desc.Width = Window::width;
+	desc.Width = shadowMapRes;
 
 	desc.Format = DXGI_FORMAT_R32_TYPELESS;
 

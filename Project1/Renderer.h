@@ -190,6 +190,8 @@ private:
 		float power;
 
 		float shadow;
+
+		DirectX::XMMATRIX matVP 
 	};
 
 	struct PLight
@@ -203,6 +205,8 @@ private:
 		float power;
 
 		float shadow;
+
+		DirectX::XMMATRIX matVP
 	};
 
 	struct SLight
@@ -220,6 +224,8 @@ private:
 		float length;
 
 		float shadow;
+
+		DirectX::XMMATRIX matVP
 	};
 
 	D3D12_PRIMITIVE_TOPOLOGY primitiveType = D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST;

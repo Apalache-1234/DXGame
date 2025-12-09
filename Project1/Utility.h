@@ -65,8 +65,6 @@ struct alignas(256) LightInfo
 
     float padding;
 
-    DirectX::XMMATRIX  ambientLightVP;
-
     XMFLOAT4 DirectionalLightNum;
 
     XMFLOAT4 PointLightNum;

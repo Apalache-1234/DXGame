@@ -12,11 +12,10 @@ cbuffer transform : register(b0)
 cbuffer LightInfo : register(b1)
 {
 	float4 ambientLightCol : packoffset(c0);
-	float4x4 ambientLightVPMat : packoffset(c1);
-	float4 directionalLightNum : packoffset(c5);
-	float4 pointLightNum : packoffset(c6);
-	float4 spotLightNum : packoffset(c7);
-	float4 cameraPos : packoffset(c8);
+	float4 directionalLightNum : packoffset(c1);
+	float4 pointLightNum : packoffset(c2);
+	float4 spotLightNum : packoffset(c3);
+	float4 cameraPos : packoffset(c4);
 }
 
 cbuffer TimeInfo: register(b2)
@@ -44,6 +43,9 @@ Texture2D shadowMap : register(t100);
 SamplerState tex_sampler : register(s0);
 SamplerComparisonState shadow_sampler : register(s1);
 
+const float bias = 0.001;
+const float slopeBias = 0.004;
+
 struct DirectionalLight
 {
 	float3 direct;
@@ -53,6 +55,8 @@ struct DirectionalLight
 	float power;
 	
     float onShadow;
+	
+    float4x4 matVP;
 };
 
 struct PointLight
@@ -66,6 +70,8 @@ struct PointLight
 	float power;
 	
     float onShadow;
+	
+    float4x4 matVP;
 };
 
 struct SpotLight
@@ -83,6 +89,8 @@ struct SpotLight
 	float length;
 	
     float onShadow;
+	
+    float4x4 matVP;
 };
 
 struct Material
@@ -128,7 +136,7 @@ float2 TransformUV(float2 uv , int matIdx)
 
 }
 
-float4 ReturnPhongLighting(float3 lightCol, float4 col, float3 pos, float3 lightDir, float3 normal, int matIdx)
+float4 ReturnPhongLighting(float3 lightCol, float4 col, float4 pos, float3 lightDir, float3 normal, int matIdx)
 {
 	float3 outCol = lightCol + lightCol * col;
 
@@ -143,7 +151,7 @@ float4 ReturnPhongLighting(float3 lightCol, float4 col, float3 pos, float3 light
 	return float4(lightCol,1);
 }
 
-float4 DirectionalLightShading(float4 col, float3 pos, float3 normal, int matIdx)
+float4 DirectionalLightShading(float4 col, float4 pos, float3 normal, int matIdx)
 {
     float4 sumCol = 0;
 	
@@ -165,7 +173,7 @@ float4 DirectionalLightShading(float4 col, float3 pos, float3 normal, int matIdx
 	return sumCol;
 }
 
-float4 PointLightShading(float4 col, float3 pos, float3 normal, int matIdx)
+float4 PointLightShading(float4 col, float4 pos, float3 normal, int matIdx)
 {
 	float4 sumCol = 0;
 
@@ -188,7 +196,7 @@ float4 PointLightShading(float4 col, float3 pos, float3 normal, int matIdx)
 	return sumCol;
 }
 
-float4 SpotLightShading(float4 col, float3 pos, float3 normal, int matIdx)
+float4 SpotLightShading(float4 col, float4 pos, float3 normal, int matIdx)
 {
 	float4 sumCol = 0;
 
@@ -217,7 +225,7 @@ float4 SpotLightShading(float4 col, float3 pos, float3 normal, int matIdx)
 	return sumCol;
 }
 
-float4 ApplyLightShading(float4 col, float3 pos, float3 normal,  int matIdx)
+float4 ApplyLightShading(float4 col, float4 pos, float3 normal,  int matIdx)
 {
     float4 ambientCol = float4(Materials[matIdx].AMBIENT, 1) * col * float4(ambientLightCol.xyz, 1);
 

@@ -2,7 +2,7 @@ struct output
 {
     float4 position : SV_POSITION;
 
-    float3 worldPos : POSITION;
+    float4 worldPos : POSITION;
 
     float2 TexCoord : TEXCOORD;
     

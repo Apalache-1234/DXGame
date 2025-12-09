@@ -21,11 +21,9 @@ struct output
 {
 	float4 position : SV_POSITION;
 
-	float3 worldPos : POSITION;
+	float4 worldPos : POSITION;
 
 	float2 TexCoord : TEXCOORD;
-	
-	float4 lightPos : LIGHT_POS;
 
 	float3 tangent : TANGENT;
 
@@ -122,10 +120,10 @@ output main(input vertexIn)
 	vertexOut.color = color;
 
 	vertexOut.position = proj;
-
-	vertexOut.worldPos = mul(world_mat , local);
 	
-    vertexOut.lightPos = mul(ambientLightVPMat, mul(world_mat, local));
+    float4 world = mul(world_mat, local);
+	
+	vertexOut.worldPos = world;
 
     vertexOut.TexCoord = TransformUV(vertexIn.TexCoord , vertexIn.index);
 	

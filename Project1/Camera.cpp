@@ -4,6 +4,7 @@
 #include "Entity.h"
 #include <vector>
 #include "KeyInput.h"
+#include "DXRenderSystem.h"
 #include <list>
 
 Camera::Camera()
@@ -99,28 +100,12 @@ DirectX::XMMATRIX Camera::GetProjMat()
     if (isPerspective)
         return  XMMatrixPerspectiveFovLH(GetFov(), GetAspect(), GetNearZ(), GetFarZ());
     else
-        return XMMatrixOrthographicLH(orthoDiameter * 16 / 9, orthoDiameter, GetNearZ(), GetFarZ());
-}
-
-DirectX::XMMATRIX Camera::GetAmbientShadowMapViewMat()
-{
-    auto tempPos = GetPosition();
-    auto tempRot = GetRotation();
-
-    SetCameraPosition(DirectX::XMVectorAdd(tempPos, shadowMapPos));
-    SetCameraRotation(shadowMapRot);
-
-    auto result = XMMatrixLookAtLH(GetPosition(), GetTargetPos(), DirectX::XMVectorSet(0, 1, 0, 0));
-
-    SetCameraPosition(tempPos);
-    SetCameraRotation(tempRot);
-
-    return result;
-}
-
-DirectX::XMMATRIX Camera::GetAmbientShadowMapProjMat()
-{
-    return XMMatrixOrthographicLH(orthoDiameter , orthoDiameter, GetNearZ(), GetFarZ());
+    {
+        if(DXRenderSystem::GetInstance().GetIsShadowMapRendering())
+            return XMMatrixOrthographicLH(orthoDiameter , orthoDiameter, GetNearZ(), GetFarZ());
+        else
+            return XMMatrixOrthographicLH(orthoDiameter * 16 / 9, orthoDiameter, GetNearZ(), GetFarZ());
+    }
 }
 
 void Camera::SetFov(float v)
