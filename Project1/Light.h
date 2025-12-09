@@ -31,8 +31,14 @@ public:
 	std::type_index GetBaseType() override;
 
 	bool isShadow = false;
+
+	void SetIsCastShadow(bool val);
+
+	bool GetIsCastShadow();
 private:
 	float power = 1;
+
+	bool isCastShadow = false;
 
 	DirectX::XMVECTOR color = DirectX::XMVectorSet(0.3, 0, 0, 1);
 };

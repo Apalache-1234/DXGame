@@ -16,6 +16,9 @@
 #include "PEVerticalGaussianBlur.h"
 #include "PEHorizonGaussianBlur.h"
 #include "DXRenderSystem.h"
+#include "DirectionalLight.h"
+#include "SpotLight.h"
+#include "PointLight.h"
 
 DXRenderSystem::DXRenderSystem()
 {
@@ -860,6 +863,8 @@ bool DXRenderSystem::CreateShadowMapResource()
 
 	desc.Width = shadowMapRes;
 
+	desc.DepthOrArraySize = std::max(DlightCastingShadowNum + PlightCastingShadowNum + SlightCastingShadowNum , 1U);
+
 	desc.Format = DXGI_FORMAT_R32_TYPELESS;
 
 	desc.Flags = D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL;
@@ -884,15 +889,23 @@ bool DXRenderSystem::CreateShadowMapResource()
 
 bool DXRenderSystem::CreateShadowMapView()
 {
-	shadowMapHandle = heapDS.value().GetHandle();
+	shadowMapHandle.clear();
 
-	D3D12_DEPTH_STENCIL_VIEW_DESC desc = {};
+	shadowMapHandle = heapDS.value().GetSerialHandle(std::max(DlightCastingShadowNum + PlightCastingShadowNum + SlightCastingShadowNum, 1U));
 
-	desc.Format = DXGI_FORMAT_D32_FLOAT;
-	desc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2DMS;
-	desc.Flags = D3D12_DSV_FLAG_NONE;
+	for (int i = 0; i < shadowMapHandle.size(); i++)
+	{
+		D3D12_DEPTH_STENCIL_VIEW_DESC desc = {};
 
-	device->CreateDepthStencilView(shadowMap.Get(), &desc, shadowMapHandle->cpuHandle);
+		desc.Format = DXGI_FORMAT_D32_FLOAT;
+		desc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2DMSARRAY;
+		desc.Flags = D3D12_DSV_FLAG_NONE;
+		desc.Texture2DMSArray.FirstArraySlice = 1;
+		desc.Texture2DMSArray.ArraySize = shadowMapHandle.size();
+
+		device->CreateDepthStencilView(shadowMap.Get(), &desc, shadowMapHandle[i]->cpuHandle);
+
+	}
 
 	return true;
 }
@@ -1011,6 +1024,22 @@ void DXRenderSystem::SetDeletingComps(std::vector<shared_ptr<Component>> comps)
 bool DXRenderSystem::GetIsShadowMapRendering()
 {
 	return isShadowMapRendering;
+}
+
+void DXRenderSystem::UpdateLightCastingShadow()
+{
+	bool isValueChanged = false;
+
+	isValueChanged |= UpdateLightCastingShadowNum<DirectionalLight>(DlightCastingShadowNum);
+	isValueChanged |= UpdateLightCastingShadowNum<SpotLight>(SlightCastingShadowNum);
+	isValueChanged |= UpdateLightCastingShadowNum<PointLight>(PlightCastingShadowNum);
+
+	if (isValueChanged)
+	{
+		CreateShadowMapResource();
+
+		CreateShadowMapView();
+	}
 }
 
 bool DXRenderSystem::SetScissorAndViewPort()

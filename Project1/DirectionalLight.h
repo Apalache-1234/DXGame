@@ -32,6 +32,8 @@ private:
 	DirectX::XMVECTOR lightDir = Utility::forward;
 
 	DirectX::XMVECTOR rotation = DirectX::XMVectorZero();
+
+
 };
 
 #endif

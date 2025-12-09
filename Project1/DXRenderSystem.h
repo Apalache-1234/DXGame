@@ -100,6 +100,8 @@ public:
 
 	bool GetIsShadowMapRendering();
 
+	void UpdateLightCastingShadow();
+
 	const static int frameBuffer = 2;
 private:
 	int shadowMapRes = 2048;
@@ -204,6 +206,30 @@ private:
 	/// <returns>正常に終了したらtrueを返す</returns>
 	bool SetScissorAndViewPort();
 
+	template <typename T, std::enable_if_t<std::is_base_of_v<Light, T>>* = nullptr>
+	bool UpdateLightCastingShadowNum(UINT& lightCastingShadowNum)
+	{
+		auto lights = SystemManager::GetInstance().GetComponentList<T>();
+
+		UINT num = 0;
+
+		for (int i = 0; i < lights.size(); i++)
+		{
+			if (DLight[i]->GetIsCastShadow())
+				num++;
+		}
+
+		if (num != lightCastingShadowNum)
+		{
+			lightCastingShadowNum = num;
+
+			return true;
+		}
+
+		return false;
+	}
+
+
 	/// <summary>
 	/// DirectXの基幹システムを構築するクラスのシングルトンのインスタンス
 	/// </summary>
@@ -244,6 +270,9 @@ private:
 	D3D12_VIEWPORT viewport;
 	D3D12_RECT scissor;
 
+	UINT DlightCastingShadowNum = 0;
+	UINT SlightCastingShadowNum = 0;
+	UINT PlightCastingShadowNum = 0;
 
 	D3D12_VIEWPORT shadowViewport;
 	D3D12_RECT shadowScissor;
@@ -260,7 +289,7 @@ private:
 
 	std::unique_ptr < DescriptorHeapManager::PtrHandles> postEffectHandle[2];
 
-	std::unique_ptr < DescriptorHeapManager::PtrHandles> shadowMapHandle;
+	std::vector<std::unique_ptr < DescriptorHeapManager::PtrHandles>> shadowMapHandle;
 
 	int backbuffer_index = 0;
 

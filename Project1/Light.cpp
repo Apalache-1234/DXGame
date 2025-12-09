@@ -32,3 +32,13 @@ std::type_index Light::GetBaseType()
 {
     return typeid(Component);
 }
+
+void Light::SetIsCastShadow(bool val)
+{
+
+}
+
+bool Light::GetIsCastShadow()
+{
+    return false;
+}
