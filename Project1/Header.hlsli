@@ -38,7 +38,7 @@ float Hash(float2 p)
 Texture2D tex : register(t0);
 Texture2D normal : register(t1);
 
-Texture2D shadowMap : register(t100);
+Texture2DArray<float> shadowMap : register(t100);
 
 SamplerState tex_sampler : register(s0);
 SamplerComparisonState shadow_sampler : register(s1);
@@ -57,6 +57,8 @@ struct DirectionalLight
     float onShadow;
 	
     float4x4 matVP;
+	
+    float shadowMapIndex;
 };
 
 struct PointLight
@@ -72,6 +74,8 @@ struct PointLight
     float onShadow;
 	
     float4x4 matVP;
+	
+    float shadowMapIndex;
 };
 
 struct SpotLight
@@ -91,6 +95,8 @@ struct SpotLight
     float onShadow;
 	
     float4x4 matVP;
+	
+    float shadowMapIndex;
 };
 
 struct Material
@@ -154,13 +160,37 @@ float4 ReturnPhongLighting(float3 lightCol, float4 col, float4 pos, float3 light
 float4 DirectionalLightShading(float4 col, float4 pos, float3 normal, int matIdx)
 {
     float4 sumCol = 0;
-	
+
 	for (int i = 0;i < directionalLightNum.x;i++)
 	{
-        if (DirectionalLights[i].onShadow)
-            continue;
+        float shadowFactor = 1;
 		
-            float3 lightDir = -normalize(DirectionalLights[i].direct);
+        if (DirectionalLights[i].onShadow)
+        {
+            float4 lightPos = mul(DirectionalLights[i].matVP , pos);
+			
+            float3 shadow_coord = lightPos.xyz / lightPos.w;
+    
+            shadow_coord.x = shadow_coord.x * 0.5 + 0.5;
+            shadow_coord.y = -shadow_coord.y * 0.5 + 0.5;
+
+            float3 uvw = shadow_coord.xyz;
+			
+            uvw.z = DirectionalLights[i].shadowMapIndex;
+			
+            shadowFactor = shadowMap.SampleCmpLevelZero
+            (
+            shadow_sampler,
+            uvw,
+            shadow_coord.z
+            );
+			
+            if (shadowFactor < 1)
+                continue;
+
+        }
+		
+        float3 lightDir = -normalize(DirectionalLights[i].direct);
 		float pow = DirectionalLights[i].power;
 		
         float4 light = ReturnPhongLighting(DirectionalLights[i].color , col , pos ,lightDir, normal , matIdx);
@@ -225,7 +255,7 @@ float4 SpotLightShading(float4 col, float4 pos, float3 normal, int matIdx)
 	return sumCol;
 }
 
-float4 ApplyLightShading(float4 col, float4 pos, float3 normal,  int matIdx)
+float4 ApplyLightShading(float4 col, float4 pos, float3 normal,  int matIdx )
 {
     float4 ambientCol = float4(Materials[matIdx].AMBIENT, 1) * col * float4(ambientLightCol.xyz, 1);
 

@@ -1,4 +1,5 @@
 #include "Light.h"
+#include "DXRenderSystem.h"
 
 Light::Light(std::shared_ptr<Entity> ent) : Component::Component(ent)
 {
@@ -35,10 +36,25 @@ std::type_index Light::GetBaseType()
 
 void Light::SetIsCastShadow(bool val)
 {
+    isCastShadow = val;
 
+    DXRenderSystem::GetInstance().UpdateLightCastingShadow();
 }
 
 bool Light::GetIsCastShadow()
 {
-    return false;
+    return isCastShadow;
+}
+
+void Light::SetShadowMapIndex(UINT ind)
+{
+    if (DXRenderSystem::GetInstance().GetIsShadowMapRendering())
+    {
+        shadowMapIndex = ind;
+    }
+}
+
+UINT Light::GetShadowMapIndex()
+{
+    return shadowMapIndex;
 }

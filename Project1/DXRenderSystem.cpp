@@ -254,8 +254,6 @@ void DXRenderSystem::RenderShadowMap()
 
 	bool tempPerspective = Camera::GetInstance().isPerspective;
 
-	Camera::GetInstance().isPerspective = false;
-
 	D3D12_RESOURCE_BARRIER barrier;
 
 	barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
@@ -289,46 +287,80 @@ void DXRenderSystem::RenderShadowMap()
 
 	auto adjustPos = DirectX::XMVector3TransformCoord(DirectX::XMVectorSet(lx,ly,lz,0) , invViewMat);
 	*/
-	auto camPosCur = DirectX::XMVectorAdd(camPosTemp, Camera::GetInstance().shadowMapPos);
 
-	Camera::GetInstance().SetCameraPosition(camPosCur);
+	auto lights = SystemManager::GetInstance().GetComponentList<Light>();
 
-	Camera::GetInstance().SetCameraRotation(Camera::GetInstance().shadowMapRot);
+	UINT ind = 0;
 
-	cmd_list->OMSetRenderTargets(0, nullptr, false, &shadowMapHandle->cpuHandle);
+	for (int i = 0; i < lights.size(); i++)
+	{
+		if (!lights[i]->GetIsCastShadow())
+			continue;
 
-	cmd_list->ClearDepthStencilView(shadowMapHandle->cpuHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
+		auto dl = std::dynamic_pointer_cast<DirectionalLight>(lights[i]);
+		auto pl = std::dynamic_pointer_cast<PointLight>(lights[i]);
+		auto sl = std::dynamic_pointer_cast<SpotLight>(lights[i]);
 
-	RenderComponent<SkinnedRenderer>();
+		if (dl)
+		{
+			Camera::GetInstance().isPerspective = false;
+
+			auto camPosCur = DirectX::XMVectorAdd(camPosTemp, DirectX::XMVectorNegate(dl->GetLightDir()));
+
+			Camera::GetInstance().SetCameraPosition(camPosCur);
+
+			Camera::GetInstance().SetCameraRotation(dl->GetRotation());
+
+			cmd_list->OMSetRenderTargets(0, nullptr, false, &shadowMapHandle[ind]->cpuHandle);
+
+			cmd_list->ClearDepthStencilView(shadowMapHandle[ind]->cpuHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
+
+			RenderComponent<SkinnedRenderer>();
+
+			lights[i]->SetShadowMapIndex(ind);
+
+			ind++;
+
+			cmd_list->OMSetRenderTargets(1, &msaaRTVHandle->cpuHandle, false, &msaaDSVHandle->cpuHandle);
+
+			cmd_list->Close();
+
+			ID3D12CommandList* lists_array[] = { cmd_list.Get() };
+
+			cmd_queue->ExecuteCommandLists(1, lists_array);
+
+			auto cur_value = fence_counter;
+
+			cmd_queue->Signal(fence.Get(), cur_value);
+
+			fence_counter++;
+
+			if (fence->GetCompletedValue() < cur_value)
+			{
+				fence->SetEventOnCompletion(cur_value, fence_event);
+
+				WaitForSingleObjectEx(fence_event, INFINITE, false);
+			}
+
+			std::cout << lights[i]->GetShadowMapIndex() << std::endl;
+
+			cmd_allocator[backbuffer_index]->Reset();
+
+			cmd_list->Reset(cmd_allocator[backbuffer_index].Get(), nullptr);
+		}
+		else if (pl)
+		{
+
+		}
+		else if (sl)
+		{
+
+		}
+	}
 
 	Camera::GetInstance().SetCameraPosition(camPosTemp);
 
 	Camera::GetInstance().SetCameraRotation(camRotTemp);
-
-	cmd_list->OMSetRenderTargets(1, &msaaRTVHandle->cpuHandle, false, &msaaDSVHandle->cpuHandle);
-
-	cmd_list->Close();
-
-	ID3D12CommandList* lists_array[] = { cmd_list.Get() };
-
-	cmd_queue->ExecuteCommandLists(1, lists_array);
-
-	auto cur_value = fence_counter;
-
-	cmd_queue->Signal(fence.Get(), cur_value);
-
-	fence_counter++;
-
-	if (fence->GetCompletedValue() < cur_value)
-	{
-		fence->SetEventOnCompletion(cur_value, fence_event);
-
-		WaitForSingleObjectEx(fence_event, INFINITE, false);
-	}
-
-	cmd_allocator[backbuffer_index]->Reset();
-
-	cmd_list->Reset(cmd_allocator[backbuffer_index].Get(), nullptr);
 
 	barrier.Transition.StateBefore = D3D12_RESOURCE_STATE_DEPTH_WRITE;
 
@@ -341,14 +373,14 @@ void DXRenderSystem::RenderShadowMap()
 	isShadowMapRendering = false;
 }
 
-D3D12_CPU_DESCRIPTOR_HANDLE DXRenderSystem::GetShadowMapResourceCPUHandle()
+D3D12_CPU_DESCRIPTOR_HANDLE DXRenderSystem::GetShadowMapResourceCPUHandle(UINT index)
 {
-	return shadowMapHandle->cpuHandle;
+	return shadowMapHandle[index]->cpuHandle;
 }
 
-D3D12_GPU_DESCRIPTOR_HANDLE DXRenderSystem::GetShadowMapResourceGPUHandle()
+D3D12_GPU_DESCRIPTOR_HANDLE DXRenderSystem::GetShadowMapResourceGPUHandle(UINT index)
 {
-	return shadowMapHandle->gpuHandle;
+	return shadowMapHandle[index]->gpuHandle;
 }
 
 ComPtr<ID3D12Resource> DXRenderSystem::GetShadowMapResource()
@@ -358,7 +390,8 @@ ComPtr<ID3D12Resource> DXRenderSystem::GetShadowMapResource()
 
 void DXRenderSystem::Draw()
 {
-	RenderShadowMap();
+	if (GetShadowMapNum() > 0)
+		RenderShadowMap();
 
 	D3D12_RESOURCE_BARRIER barrier;
 
@@ -863,7 +896,7 @@ bool DXRenderSystem::CreateShadowMapResource()
 
 	desc.Width = shadowMapRes;
 
-	desc.DepthOrArraySize = std::max(DlightCastingShadowNum + PlightCastingShadowNum + SlightCastingShadowNum , 1U);
+	desc.DepthOrArraySize = std::max(GetShadowMapNum() , 1U);
 
 	desc.Format = DXGI_FORMAT_R32_TYPELESS;
 
@@ -891,7 +924,7 @@ bool DXRenderSystem::CreateShadowMapView()
 {
 	shadowMapHandle.clear();
 
-	shadowMapHandle = heapDS.value().GetSerialHandle(std::max(DlightCastingShadowNum + PlightCastingShadowNum + SlightCastingShadowNum, 1U));
+	shadowMapHandle = heapDS.value().GetSerialHandle(std::max(GetShadowMapNum(), 1U));
 
 	for (int i = 0; i < shadowMapHandle.size(); i++)
 	{
@@ -900,7 +933,7 @@ bool DXRenderSystem::CreateShadowMapView()
 		desc.Format = DXGI_FORMAT_D32_FLOAT;
 		desc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2DMSARRAY;
 		desc.Flags = D3D12_DSV_FLAG_NONE;
-		desc.Texture2DMSArray.FirstArraySlice = 1;
+		desc.Texture2DMSArray.FirstArraySlice = 0;
 		desc.Texture2DMSArray.ArraySize = shadowMapHandle.size();
 
 		device->CreateDepthStencilView(shadowMap.Get(), &desc, shadowMapHandle[i]->cpuHandle);
@@ -1028,18 +1061,23 @@ bool DXRenderSystem::GetIsShadowMapRendering()
 
 void DXRenderSystem::UpdateLightCastingShadow()
 {
-	bool isValueChanged = false;
-
-	isValueChanged |= UpdateLightCastingShadowNum<DirectionalLight>(DlightCastingShadowNum);
-	isValueChanged |= UpdateLightCastingShadowNum<SpotLight>(SlightCastingShadowNum);
-	isValueChanged |= UpdateLightCastingShadowNum<PointLight>(PlightCastingShadowNum);
+	bool isValueChanged  = UpdateLightCastingShadowNum();
 
 	if (isValueChanged)
 	{
+		std::cout << DlightCastingShadowNum << std::endl;
+		std::cout << SlightCastingShadowNum << std::endl;
+		std::cout << PlightCastingShadowNum << std::endl;
+
 		CreateShadowMapResource();
 
 		CreateShadowMapView();
 	}
+}
+
+UINT DXRenderSystem::GetShadowMapNum()
+{
+	return DlightCastingShadowNum + PlightCastingShadowNum + SlightCastingShadowNum;
 }
 
 bool DXRenderSystem::SetScissorAndViewPort()
@@ -1075,4 +1113,47 @@ bool DXRenderSystem::SetScissorAndViewPort()
 	shadowScissor.right = shadowMapRes;
 
 	return true;
+}
+
+bool DXRenderSystem::UpdateLightCastingShadowNum()
+{
+	auto lights = SystemManager::GetInstance().GetComponentList<Light>();
+
+	UINT num = 0;
+
+	UINT tempDlightNum = 0;
+	UINT tempSlightNum = 0;
+	UINT tempPlightNum = 0;
+
+	for (int i = 0; i < lights.size(); i++)
+	{
+		auto dl = std::dynamic_pointer_cast<DirectionalLight>(lights[i]);
+		auto pl = std::dynamic_pointer_cast<PointLight>(lights[i]);
+		auto sl = std::dynamic_pointer_cast<SpotLight>(lights[i]);
+
+		if (dl)
+			tempDlightNum++;
+		else if (pl)
+			tempPlightNum = +4;
+		else if (sl)
+			tempSlightNum++;
+	}
+
+	if (tempDlightNum != DlightCastingShadowNum)
+	{
+		DlightCastingShadowNum = tempDlightNum;
+		return true;
+	}
+	else if (tempSlightNum != SlightCastingShadowNum)
+	{
+		SlightCastingShadowNum = tempSlightNum;
+		return true;
+	}
+	else if (tempPlightNum != PlightCastingShadowNum)
+	{
+		PlightCastingShadowNum = tempPlightNum;
+		return true;
+	}
+
+	return false;
 }

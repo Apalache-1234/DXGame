@@ -568,11 +568,11 @@ void ShowComponentInfo(std::shared_ptr<DirectionalLight> DLight)
 
 	DLight->SetPower(pow);
 
-	auto isShadow = DLight->isShadow;
+	auto isShadow = DLight->GetIsCastShadow();
 
 	ImGui::Checkbox("Shadow ", &isShadow);
 
-	DLight->isShadow = isShadow;
+	DLight->SetIsCastShadow(isShadow);
 
 	DLight->SetRotation(ShowAndSetVecInfo("Rotation", DLight->GetRotation()));
 }
@@ -641,11 +641,11 @@ void ShowComponentInfo(std::shared_ptr<PointLight> pl)
 
 	pl->SetRadius(rad);
 
-	auto isShadow = pl->isShadow;
+	auto isShadow = pl->GetIsCastShadow();
 
-	ImGui::Checkbox("Shadow " , &isShadow);
+	ImGui::Checkbox("Shadow ", &isShadow);
 
-	pl->isShadow = isShadow;
+	pl->SetIsCastShadow(isShadow);
 
 	pl->position = ShowAndSetVecInfo("Position", pl->position);
 }
@@ -676,11 +676,11 @@ void ShowComponentInfo(std::shared_ptr<SpotLight> sl)
 
 	sl->SetLength(len);
 
-	auto isShadow = sl->isShadow;
+	auto isShadow = sl->GetIsCastShadow();
 
 	ImGui::Checkbox("Shadow ", &isShadow);
 
-	sl->isShadow = isShadow;
+	sl->SetIsCastShadow(isShadow);
 
 	sl->SetRotation(ShowAndSetVecInfo("Rotation", sl->GetRotation()));
 
@@ -1152,10 +1152,6 @@ void MyIMGUI::MainLoop()
 		}
 
 		if (ImGui::TreeNode("ShadowMap")) {
-
-			Camera::GetInstance().shadowMapPos = ShowAndSetVecInfo("Position", Camera::GetInstance().shadowMapPos);
-
-			Camera::GetInstance().shadowMapRot = ShowAndSetVecInfo("Rotation", Camera::GetInstance().shadowMapRot);
 
 			ImGui::TreePop();
 		}

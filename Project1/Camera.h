@@ -74,10 +74,6 @@ public:
 	void SetOrthoDiameter(float v);
 
 	bool isPerspective = true;
-
-	DirectX::XMVECTOR shadowMapPos = DirectX::XMVectorSet(0, 10, -10, 0);
-
-	DirectX::XMVECTOR shadowMapRot = DirectX::XMVectorSet(55, 0, 0, 0);
 private:
 	float fov = DirectX::XMConvertToRadians(70);
 

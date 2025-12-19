@@ -191,7 +191,9 @@ private:
 
 		float shadow;
 
-		DirectX::XMMATRIX matVP 
+		DirectX::XMMATRIX matVP;
+
+		UINT shadowMapIndex = 0;
 	};
 
 	struct PLight
@@ -206,7 +208,9 @@ private:
 
 		float shadow;
 
-		DirectX::XMMATRIX matVP
+		DirectX::XMMATRIX matVP;
+
+		UINT shadowMapIndex = 0;
 	};
 
 	struct SLight
@@ -225,7 +229,9 @@ private:
 
 		float shadow;
 
-		DirectX::XMMATRIX matVP
+		DirectX::XMMATRIX matVP;
+
+		UINT shadowMapIndex = 0;
 	};
 
 	D3D12_PRIMITIVE_TOPOLOGY primitiveType = D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST;

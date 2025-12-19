@@ -647,16 +647,26 @@ void Renderer::CreateSRV(ComPtr<ID3D12Resource> texResource , D3D12_CPU_DESCRIPT
 	desc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
 
 	if (texture_desc.Format != DXGI_FORMAT_R32_TYPELESS)
+	{
 		desc.Format = texture_desc.Format;
+		desc.Texture2D.MipLevels = texture_desc.MipLevels;
+		desc.Texture2D.MostDetailedMip = 0;
+		desc.Texture2D.ResourceMinLODClamp = 0;
+		desc.Texture2D.PlaneSlice = 0;
+	}
 	else
+	{
 		desc.Format = DXGI_FORMAT_R32_FLOAT;
+		desc.Texture2DArray.MipLevels = texture_desc.MipLevels;
+		desc.Texture2DArray.MostDetailedMip = 0;
+		desc.Texture2DArray.ResourceMinLODClamp = 0;
+		desc.Texture2DArray.PlaneSlice = 0;
+		desc.Texture2DArray.FirstArraySlice = 0;
+		desc.Texture2DArray.ArraySize = std::max(DXRenderSystem::GetInstance().GetShadowMapNum(), 1U);
+	}
 
 	desc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
 
-	desc.Texture2D.MipLevels = texture_desc.MipLevels;
-	desc.Texture2D.MostDetailedMip = 0;
-	desc.Texture2D.ResourceMinLODClamp = 0;
-	desc.Texture2D.PlaneSlice = 0;
 
 	DXRenderSystem::GetInstance().GetDevice()->CreateShaderResourceView(texResource.Get(), &desc, handle);
 }
@@ -1332,8 +1342,9 @@ bool Renderer::MapDLB()
 		DirLight l;
 		DirectX::XMStoreFloat3(&l.color , list[i]->GetColor());
 		DirectX::XMStoreFloat3(&l.direct, list[i]->GetLightDir());
-	    l.shadow = list[i]->isShadow;
+	    l.shadow = list[i]->GetIsCastShadow();
 		l.power = list[i]->GetPower();
+		l.shadowMapIndex = list[i]->GetShadowMapIndex();
 
 		auto adjustPos = DirectX::XMVectorAdd(Camera::GetInstance().GetPosition() , DirectX::XMVectorNegate(list[i]->GetLightDir()) );
 
@@ -1455,7 +1466,8 @@ bool Renderer::MapPLB()
 		DirectX::XMStoreFloat3(&l.pos, list[i]->GetPosition());
 		l.power = list[i]->GetPower();
 		l.radius = list[i]->GetRadius();
-		l.shadow = list[i]->isShadow;
+		l.shadow = list[i]->GetIsCastShadow();
+		l.shadowMapIndex = list[i]->GetShadowMapIndex();
 
 	    PLights[i] = l;
 	}
@@ -1569,7 +1581,8 @@ bool Renderer::MapSLB()
 		l.length = list[i]->GetLength();
 		l.angular = list[i]->GetAngular();
 		l.power = list[i]->GetPower();
-		l.shadow = list[i]->isShadow;
+		l.shadow = list[i]->GetIsCastShadow();
+		l.shadowMapIndex = list[i]->GetShadowMapIndex();
 		SLights[i] = l;
 	}
 

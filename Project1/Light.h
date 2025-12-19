@@ -30,13 +30,17 @@ public:
 
 	std::type_index GetBaseType() override;
 
-	bool isShadow = false;
-
 	void SetIsCastShadow(bool val);
 
 	bool GetIsCastShadow();
+
+	void SetShadowMapIndex(UINT ind);
+
+	UINT GetShadowMapIndex();
 private:
 	float power = 1;
+
+	UINT shadowMapIndex = 0;
 
 	bool isCastShadow = false;
 

@@ -33,8 +33,6 @@ pixelOp main(output vertexOp)
     
     uv.y = 1 - uv.y;
     
-    float4 color = shadowMap.Sample(tex_sampler, uv);
-    
     float luminance = dot(color.rgb, float3(0.299, 0.587, 0.114));
     
     float4 edgeColor = fwidth(luminance);
@@ -42,6 +40,8 @@ pixelOp main(output vertexOp)
     edgeColor.a = 1;
         
     output_pixel.color = color.rrrr;
+    
+    output_pixel.color = shadowMap.Sample(tex_sampler, float3(uv, 0));
     
     return output_pixel;
 }

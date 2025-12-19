@@ -80,8 +80,8 @@ public:
 
 	void RenderShadowMap();
 
-	D3D12_CPU_DESCRIPTOR_HANDLE GetShadowMapResourceCPUHandle();
-	D3D12_GPU_DESCRIPTOR_HANDLE GetShadowMapResourceGPUHandle();
+	D3D12_CPU_DESCRIPTOR_HANDLE GetShadowMapResourceCPUHandle(UINT index);
+	D3D12_GPU_DESCRIPTOR_HANDLE GetShadowMapResourceGPUHandle(UINT index);
 	ComPtr<ID3D12Resource> GetShadowMapResource();
 
 	void Draw();
@@ -101,6 +101,8 @@ public:
 	bool GetIsShadowMapRendering();
 
 	void UpdateLightCastingShadow();
+
+	UINT GetShadowMapNum();
 
 	const static int frameBuffer = 2;
 private:
@@ -206,29 +208,7 @@ private:
 	/// <returns>正常に終了したらtrueを返す</returns>
 	bool SetScissorAndViewPort();
 
-	template <typename T, std::enable_if_t<std::is_base_of_v<Light, T>>* = nullptr>
-	bool UpdateLightCastingShadowNum(UINT& lightCastingShadowNum)
-	{
-		auto lights = SystemManager::GetInstance().GetComponentList<T>();
-
-		UINT num = 0;
-
-		for (int i = 0; i < lights.size(); i++)
-		{
-			if (DLight[i]->GetIsCastShadow())
-				num++;
-		}
-
-		if (num != lightCastingShadowNum)
-		{
-			lightCastingShadowNum = num;
-
-			return true;
-		}
-
-		return false;
-	}
-
+	bool UpdateLightCastingShadowNum();
 
 	/// <summary>
 	/// DirectXの基幹システムを構築するクラスのシングルトンのインスタンス
