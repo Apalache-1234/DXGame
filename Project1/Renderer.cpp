@@ -656,6 +656,7 @@ void Renderer::CreateSRV(ComPtr<ID3D12Resource> texResource , D3D12_CPU_DESCRIPT
 	}
 	else
 	{
+		desc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2DARRAY;
 		desc.Format = DXGI_FORMAT_R32_FLOAT;
 		desc.Texture2DArray.MipLevels = texture_desc.MipLevels;
 		desc.Texture2DArray.MostDetailedMip = 0;

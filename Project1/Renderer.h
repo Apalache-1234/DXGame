@@ -69,6 +69,8 @@ public:
 
 	void ApplyTextureOnMesh(int idx, Renderer::TEXTURE_TYPE type, ComPtr<ID3D12Resource> texResource, D3D12_SHADER_RESOURCE_VIEW_DESC desc);
 
+	void RegisterShadowMapTextureSRV();
+
 	std::type_index GetBaseType() override;
 protected:
 	void virtual Update();
@@ -317,8 +319,6 @@ private:
 	bool LinkCBVResourceToDescHeap();
 
 	void CreateSRV(ComPtr<ID3D12Resource> texResource, D3D12_CPU_DESCRIPTOR_HANDLE handle);
-
-	void RegisterShadowMapTextureSRV();
 
 	void RegisterTextureSRV();
 

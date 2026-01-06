@@ -313,15 +313,13 @@ void DXRenderSystem::RenderShadowMap()
 
 			cmd_list->OMSetRenderTargets(0, nullptr, false, &shadowMapHandle[ind]->cpuHandle);
 
-			cmd_list->ClearDepthStencilView(shadowMapHandle[ind]->cpuHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
+			cmd_list->ClearDepthStencilView(shadowMapHandle[ind]->cpuHandle, D3D12_CLEAR_FLAG_DEPTH, 1, 0, 0, nullptr);
 
 			RenderComponent<SkinnedRenderer>();
 
 			lights[i]->SetShadowMapIndex(ind);
 
 			ind++;
-
-			cmd_list->OMSetRenderTargets(1, &msaaRTVHandle->cpuHandle, false, &msaaDSVHandle->cpuHandle);
 
 			cmd_list->Close();
 
@@ -1066,12 +1064,23 @@ void DXRenderSystem::UpdateLightCastingShadow()
 	if (isValueChanged)
 	{
 		std::cout << DlightCastingShadowNum << std::endl;
+		std::cout << "0000" << std::endl;
 		std::cout << SlightCastingShadowNum << std::endl;
+		std::cout << "0000" << std::endl;
 		std::cout << PlightCastingShadowNum << std::endl;
+		std::cout << "0000" << std::endl;
 
 		CreateShadowMapResource();
 
 		CreateShadowMapView();
+
+		auto rends = SystemManager::GetInstance().GetComponentList<Renderer>();
+
+
+		for (int i = 0; i < rends.size(); i++)
+		{
+			rends[i]->RegisterShadowMapTextureSRV();
+		}
 	}
 }
 

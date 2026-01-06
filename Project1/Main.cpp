@@ -59,7 +59,6 @@ int main()
 
 	auto player = SystemManager->CreateEntity<SkinnedRenderer>("Player");
 	auto player4 = SystemManager->CreateEntity<SkinnedRenderer>("Player4");
-	auto player5 = SystemManager->CreateEntity<SpotLight>("PointLight");
 	auto player2 = SystemManager->CreateEntity<SkinnedRenderer>("Player2");
 	auto Skybox = SystemManager->CreateEntity<SkyBox>("Skybox");
 	auto debugColCube = SystemManager->CreateEntity<DebugCollider>("DebugCube");
