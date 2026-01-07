@@ -41,7 +41,7 @@ pixelOp main(output vertexOp)
         
     output_pixel.color = color.rrrr;
     
-    output_pixel.color = shadowMap.Sample(tex_sampler, float3(uv, 0));
+    output_pixel.color = shadowMap.Sample(tex_sampler, float3(uv, 1));
     
     return output_pixel;
 }

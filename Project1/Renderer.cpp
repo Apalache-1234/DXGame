@@ -1349,7 +1349,7 @@ bool Renderer::MapDLB()
 
 		auto adjustPos = DirectX::XMVectorAdd(Camera::GetInstance().GetPosition() , DirectX::XMVectorNegate(list[i]->GetLightDir()) );
 
-		auto viewMat = XMMatrixLookAtLH(adjustPos, list[i]->GetLightDir(), DirectX::XMVectorSet(0, 1, 0, 0));
+		auto viewMat = XMMatrixLookAtLH(adjustPos, DirectX::XMVectorAdd(list[i]->GetLightDir() , adjustPos), DirectX::XMVectorSet(0, 1, 0, 0));
 
 		auto projMat
 		= XMMatrixOrthographicLH(Camera::GetInstance().GetOrthoDiameter(), Camera::GetInstance().GetOrthoDiameter(), Camera::GetInstance().GetNearZ(), Camera::GetInstance().GetFarZ());

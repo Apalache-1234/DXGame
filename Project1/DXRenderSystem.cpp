@@ -1136,6 +1136,11 @@ bool DXRenderSystem::UpdateLightCastingShadowNum()
 
 	for (int i = 0; i < lights.size(); i++)
 	{
+		auto l = std::dynamic_pointer_cast<Light>(lights[i]);
+
+		if (!l->GetIsCastShadow())
+			continue;
+
 		auto dl = std::dynamic_pointer_cast<DirectionalLight>(lights[i]);
 		auto pl = std::dynamic_pointer_cast<PointLight>(lights[i]);
 		auto sl = std::dynamic_pointer_cast<SpotLight>(lights[i]);

@@ -184,10 +184,6 @@ float4 DirectionalLightShading(float4 col, float4 pos, float3 normal, int matIdx
             uvw,
             shadow_coord.z
             );
-			
-            if (shadowFactor < 1)
-                continue;
-
         }
 		
         float3 lightDir = -normalize(DirectionalLights[i].direct);
@@ -195,7 +191,7 @@ float4 DirectionalLightShading(float4 col, float4 pos, float3 normal, int matIdx
 		
         float4 light = ReturnPhongLighting(DirectionalLights[i].color , col , pos ,lightDir, normal , matIdx);
 
-		sumCol += light * pow;
+		sumCol += light * pow * shadowFactor;
 
 		sumCol = normalizeColor(sumCol);
     }
