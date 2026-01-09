@@ -85,6 +85,8 @@ bool DXRenderSystem::Init()
 
 	isSuccess &= CreateShadowMapView();
 
+	CreateCSDividedDist();
+
 	postEffectEntity = SystemManager::GetInstance().CreateEntity<PEEdgeFilter>("postEffect");
 	postEffectEntity->AddComponent<PEMosaicFilter>();
 	postEffectEntity->AddComponent<PERadicalBlur>();
@@ -246,6 +248,29 @@ void DXRenderSystem::RenderIMGUI()
 		cmd_list->SetDescriptorHeaps(1, myIMGUIIns.GetHeap().GetAddressOf());
 		myIMGUIIns.MainLoop();
 	}
+}
+
+void DXRenderSystem::CreateCSDividedDist()
+{
+	CSDividedDist.clear();
+
+	for (int i = 0; i < cascadeShadowCount; i++)
+	{
+		float val = (float)(i + 1) / (float)cascadeShadowCount;
+
+		float log = pow(CSFarZ / CSNearZ, val) * CSNearZ;
+
+		float liner = CSNearZ + (CSFarZ - CSNearZ) * val;
+
+		float result = log * cascadeShadowLerp + liner * (1 - cascadeShadowLerp);
+
+		CSDividedDist.emplace_back(result);
+	}
+}
+
+void DXRenderSystem::ComputeDLShadowMapRender()
+{
+
 }
 
 void DXRenderSystem::RenderShadowMap()

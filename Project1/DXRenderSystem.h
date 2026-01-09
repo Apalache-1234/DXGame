@@ -78,6 +78,10 @@ public:
 
 	void RenderIMGUI();
 
+	void CreateCSDividedDist();
+
+	void ComputeDLShadowMapRender();
+
 	void RenderShadowMap();
 
 	D3D12_CPU_DESCRIPTOR_HANDLE GetShadowMapResourceCPUHandle(UINT index);
@@ -104,9 +108,25 @@ public:
 
 	UINT GetShadowMapNum();
 
+	void SetCascadeShadowCount(int num);
+
+	void SetCascadeFarZ(float val);
+	void SetCascadeNearZ(float val);
+
+	void SetCascadeShadowLerp(float val);
+
 	const static int frameBuffer = 2;
 private:
 	int shadowMapRes = 2048;
+
+	UINT cascadeShadowCount = 4;
+
+	std::vector<float> CSDividedDist;
+
+	float CSFarZ = 1000;
+	float CSNearZ = 0.1f;
+
+	float cascadeShadowLerp = 0.9f;
 
 	std::vector<ComPtr<ID3D12Resource>> uploadHeaps;
 

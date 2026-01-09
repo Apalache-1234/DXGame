@@ -142,7 +142,7 @@ float4 normalizeColor(float4 col)
 	return col;
 }
 
-float2 TransformUV(float2 uv , int matIdx)
+float2 TransformUV(float2 0uv , int matIdx)
 {
     return (uv + Materials[matIdx].UVPOS) * Materials[matIdx].UVSCALE;
 
