@@ -48,6 +48,8 @@ const float slopeBias = 0.004;
 
 struct DirectionalLight
 {
+    float4x4 matVP;
+	
 	float3 direct;
 
 	float3 color;
@@ -56,13 +58,15 @@ struct DirectionalLight
 	
     float onShadow;
 	
-    float4x4 matVP;
-	
     float shadowMapIndex;
+	
+    float3 padding;
 };
 
 struct PointLight
 {
+    float4x4 matVP;
+	
 	float radius;
 
 	float3 color;
@@ -73,13 +77,15 @@ struct PointLight
 	
     float onShadow;
 	
-    float4x4 matVP;
-	
     float shadowMapIndex;
+	
+    float2 padding;
 };
 
 struct SpotLight
 {
+    float4x4 matVP;
+	
 	float angular;
 
 	float3 direct;
@@ -94,9 +100,9 @@ struct SpotLight
 	
     float onShadow;
 	
-    float4x4 matVP;
-	
     float shadowMapIndex;
+	
+    float2 padding;
 };
 
 struct Material
@@ -184,6 +190,11 @@ float4 DirectionalLightShading(float4 col, float4 pos, float3 normal, int matIdx
             uvw,
             shadow_coord.z
             );
+		
+			
+            if (!shadowFactor)
+                continue;
+
         }
 		
         float3 lightDir = -normalize(DirectionalLights[i].direct);
@@ -191,7 +202,7 @@ float4 DirectionalLightShading(float4 col, float4 pos, float3 normal, int matIdx
 		
         float4 light = ReturnPhongLighting(DirectionalLights[i].color , col , pos ,lightDir, normal , matIdx);
 
-		sumCol += light * pow * shadowFactor;
+		sumCol += light * pow ;
 
 		sumCol = normalizeColor(sumCol);
     }

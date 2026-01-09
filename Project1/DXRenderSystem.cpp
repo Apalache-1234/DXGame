@@ -931,8 +931,8 @@ bool DXRenderSystem::CreateShadowMapView()
 		desc.Format = DXGI_FORMAT_D32_FLOAT;
 		desc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2DMSARRAY;
 		desc.Flags = D3D12_DSV_FLAG_NONE;
-		desc.Texture2DMSArray.FirstArraySlice = 0;
-		desc.Texture2DMSArray.ArraySize = shadowMapHandle.size();
+		desc.Texture2DMSArray.FirstArraySlice = i;
+		desc.Texture2DMSArray.ArraySize = 1;
 
 		device->CreateDepthStencilView(shadowMap.Get(), &desc, shadowMapHandle[i]->cpuHandle);
 
@@ -1063,13 +1063,6 @@ void DXRenderSystem::UpdateLightCastingShadow()
 
 	if (isValueChanged)
 	{
-		std::cout << DlightCastingShadowNum << std::endl;
-		std::cout << "0000" << std::endl;
-		std::cout << SlightCastingShadowNum << std::endl;
-		std::cout << "0000" << std::endl;
-		std::cout << PlightCastingShadowNum << std::endl;
-		std::cout << "0000" << std::endl;
-
 		CreateShadowMapResource();
 
 		CreateShadowMapView();

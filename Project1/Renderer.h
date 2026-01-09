@@ -185,6 +185,8 @@ protected:
 private:
 	struct DirLight
 	{
+		DirectX::XMMATRIX matVP;
+
 		DirectX::XMFLOAT3 direct;
 
 		DirectX::XMFLOAT3 color;
@@ -193,13 +195,15 @@ private:
 
 		float shadow;
 
-		DirectX::XMMATRIX matVP;
+		float shadowMapIndex = 0;
 
-		UINT shadowMapIndex = 0;
+		DirectX::XMFLOAT3 padding;
 	};
 
 	struct PLight
 	{
+		DirectX::XMMATRIX matVP;
+
 		float radius;
 
 		DirectX::XMFLOAT3 color;
@@ -210,13 +214,15 @@ private:
 
 		float shadow;
 
-		DirectX::XMMATRIX matVP;
+		float shadowMapIndex = 0;
 
-		UINT shadowMapIndex = 0;
+		DirectX::XMFLOAT2 padding;
 	};
 
 	struct SLight
 	{
+		DirectX::XMMATRIX matVP;
+
 		float angular;
 
 		DirectX::XMFLOAT3 direct;
@@ -231,9 +237,9 @@ private:
 
 		float shadow;
 
-		DirectX::XMMATRIX matVP;
+		float shadowMapIndex = 0;
 
-		UINT shadowMapIndex = 0;
+		DirectX::XMFLOAT2 padding;
 	};
 
 	D3D12_PRIMITIVE_TOPOLOGY primitiveType = D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST;

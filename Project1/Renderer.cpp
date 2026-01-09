@@ -1336,11 +1336,12 @@ bool Renderer::InitDirectionalLightBResource()
 
 bool Renderer::MapDLB()
 {
-	auto list = SystemManager::GetInstance().GetComponentList<DirectionalLight>();
+	auto list = SystemManager::GetInstance().GetComponentList<DirectionalLight>();;
 
 	for (int i = 0; i< list.size() ; i++)
 	{
 		DirLight l;
+
 		DirectX::XMStoreFloat3(&l.color , list[i]->GetColor());
 		DirectX::XMStoreFloat3(&l.direct, list[i]->GetLightDir());
 	    l.shadow = list[i]->GetIsCastShadow();
@@ -1381,6 +1382,7 @@ bool Renderer::InitDLBV()
 {
 	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
 	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_BUFFER;
+	srvDesc.Format = DXGI_FORMAT_UNKNOWN;
 	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
 	srvDesc.Buffer.FirstElement = 0;
 	srvDesc.Buffer.NumElements = DirLights.size();
