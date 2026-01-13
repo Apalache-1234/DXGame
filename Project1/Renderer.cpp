@@ -120,7 +120,7 @@ void Renderer::AddRenderCommand(ComPtr<ID3D12GraphicsCommandList>& cmdList, int 
 
 	cmdList->SetGraphicsRootConstantBufferView(7, timeInfoCBView.BufferLocation);
 
-	cmdList->SetGraphicsRootDescriptorTable(8, shadowMapTexHandles[0]->gpuHandle);
+	cmdList->SetGraphicsRootDescriptorTable(8, DXRenderSystem::GetInstance().GetShadowMapTextureSRVGPUHandle());
 
 	if (DXRenderSystem::GetInstance().GetIsShadowMapRendering())
 		cmdList->SetPipelineState(shadowMapPipeline.Get());
@@ -201,8 +201,6 @@ void Renderer::Init()
 	PrepareForRenderPipeline();
 
 	InitRenderer();
-
-	RegisterShadowMapTextureSRV();
 
 	isSuccess &= CreateRootSignature();
 
@@ -426,6 +424,9 @@ bool Renderer::MapLLICB()
 
 	lightInfo.cameraPos = Camera::GetInstance().GetPosition();
 
+	lightInfo.cascadeShadowCount = DXRenderSystem::GetInstance().GetCascadeShadowCount();
+	lightInfo.cascadeShadowDist = DXRenderSystem::GetInstance().GetCascadeShadowDist();
+
 	void* ptr = nullptr;
 
 	hr =  lightInfoCB->Map(0, nullptr, &ptr);
@@ -646,42 +647,16 @@ void Renderer::CreateSRV(ComPtr<ID3D12Resource> texResource , D3D12_CPU_DESCRIPT
 
 	desc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
 
-	if (texture_desc.Format != DXGI_FORMAT_R32_TYPELESS)
-	{
-		desc.Format = texture_desc.Format;
-		desc.Texture2D.MipLevels = texture_desc.MipLevels;
-		desc.Texture2D.MostDetailedMip = 0;
-		desc.Texture2D.ResourceMinLODClamp = 0;
-		desc.Texture2D.PlaneSlice = 0;
-	}
-	else
-	{
-		desc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2DARRAY;
-		desc.Format = DXGI_FORMAT_R32_FLOAT;
-		desc.Texture2DArray.MipLevels = texture_desc.MipLevels;
-		desc.Texture2DArray.MostDetailedMip = 0;
-		desc.Texture2DArray.ResourceMinLODClamp = 0;
-		desc.Texture2DArray.PlaneSlice = 0;
-		desc.Texture2DArray.FirstArraySlice = 0;
-		desc.Texture2DArray.ArraySize = std::max(DXRenderSystem::GetInstance().GetShadowMapNum(), 1U);
-	}
+	desc.Format = texture_desc.Format;
+	desc.Texture2D.MipLevels = texture_desc.MipLevels;
+	desc.Texture2D.MostDetailedMip = 0;
+	desc.Texture2D.ResourceMinLODClamp = 0;
+	desc.Texture2D.PlaneSlice = 0;
 
 	desc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
 
 
 	DXRenderSystem::GetInstance().GetDevice()->CreateShaderResourceView(texResource.Get(), &desc, handle);
-}
-
-
-void Renderer::RegisterShadowMapTextureSRV()
-{
-	shadowMapTexHandles.clear();
-
-	auto han = heapManager.GetHandle();
-
-	CreateSRV(DXRenderSystem::GetInstance().GetShadowMapResource(), han->cpuHandle);
-
-	shadowMapTexHandles.push_back(std::move(han));
 }
 
 void Renderer::RegisterTextureSRV()
@@ -1347,16 +1322,8 @@ bool Renderer::MapDLB()
 	    l.shadow = list[i]->GetIsCastShadow();
 		l.power = list[i]->GetPower();
 		l.shadowMapIndex = list[i]->GetShadowMapIndex();
-
-		auto adjustPos = DirectX::XMVectorAdd(Camera::GetInstance().GetPosition() , DirectX::XMVectorNegate(list[i]->GetLightDir()) );
-
-		auto viewMat = XMMatrixLookAtLH(adjustPos, DirectX::XMVectorAdd(list[i]->GetLightDir() , adjustPos), DirectX::XMVectorSet(0, 1, 0, 0));
-
-		auto projMat
-		= XMMatrixOrthographicLH(Camera::GetInstance().GetOrthoDiameter(), Camera::GetInstance().GetOrthoDiameter(), Camera::GetInstance().GetNearZ(), Camera::GetInstance().GetFarZ());
-
-		l.matVP = DirectX::XMMatrixMultiply(viewMat, projMat);
-
+		for (int j = 0;j < DXRenderSystem::GetInstance().GetCascadeShadowCount();j++)
+			l.matVP[j] = list[i]->lightVP[j];
 		DirLights[i] = l;
 	}
 

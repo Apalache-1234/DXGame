@@ -21,12 +21,15 @@
 #include "Camera.h"
 #include <optional>
 #include "SystemManager.h"
+#include "Utility.h"
 
 using namespace DirectX;
 using namespace Microsoft::WRL;
 using namespace std;
 
 class Renderer;
+
+class DirectionalLight;
 
 class DXRenderSystem
 {
@@ -78,14 +81,11 @@ public:
 
 	void RenderIMGUI();
 
-	void CreateCSDividedDist();
-
-	void ComputeDLShadowMapRender();
+	void  ComputeDLShadowMapRender(std::shared_ptr<DirectionalLight> dl);
 
 	void RenderShadowMap();
 
 	D3D12_CPU_DESCRIPTOR_HANDLE GetShadowMapResourceCPUHandle(UINT index);
-	D3D12_GPU_DESCRIPTOR_HANDLE GetShadowMapResourceGPUHandle(UINT index);
 	ComPtr<ID3D12Resource> GetShadowMapResource();
 
 	void Draw();
@@ -104,16 +104,32 @@ public:
 
 	bool GetIsShadowMapRendering();
 
+	D3D12_CPU_DESCRIPTOR_HANDLE GetShadowMapTextureSRVCPUHandle();
+	D3D12_GPU_DESCRIPTOR_HANDLE GetShadowMapTextureSRVGPUHandle();
+
+	D3D12_CPU_DESCRIPTOR_HANDLE GetShadowMapTextureSliceSRVCPUHandle(UINT ind);
+
+	D3D12_GPU_DESCRIPTOR_HANDLE GetShadowMapTextureSliceSRVGPUHandle(UINT ind);
+
 	void UpdateLightCastingShadow();
 
 	UINT GetShadowMapNum();
 
-	void SetCascadeShadowCount(int num);
+	void SetCascadeShadowCount(UINT num);
 
-	void SetCascadeFarZ(float val);
-	void SetCascadeNearZ(float val);
+	void SetCascadeShadowFarZ(float val);
+	void SetCascadeShadowNearZ(float val);
 
 	void SetCascadeShadowLerp(float val);
+
+	UINT GetCascadeShadowCount();
+
+	float GetCascadeShadowFarZ();
+	float GetCascadeShadowNearZ();
+
+	float GetCascadeShadowLerp();
+
+	DirectX::XMFLOAT3 GetCascadeShadowDist();
 
 	const static int frameBuffer = 2;
 private:
@@ -121,7 +137,7 @@ private:
 
 	UINT cascadeShadowCount = 4;
 
-	std::vector<float> CSDividedDist;
+	float CSDividedDist[4];
 
 	float CSFarZ = 1000;
 	float CSNearZ = 0.1f;
@@ -149,6 +165,10 @@ private:
 	/// </summary>
 	/// <returns>正常に終了したらtrueを返す</returns>
 	bool CreateCommandQueue();
+
+	void CreateCSDividedDist();
+
+	void RenderDLShadowMap(std::shared_ptr<DirectionalLight> dl, int ind, XMMATRIX proj, XMMATRIX view);
 
 	/// <summary>
 	/// モニタなどのハードウェアとのデータの受け渡しを行うファクトリーを作成する
@@ -204,6 +224,8 @@ private:
 
 	bool CreateShadowMapView();
 
+	void CreateShadowMapTextureSRV();
+
 	/// <summary>
 	/// 深度バッファビューのリソースを作成する
 	/// </summary>
@@ -243,6 +265,8 @@ private:
 	float colorBG[4] =
 	{ 0.5 , 0.5 , 0.5, 1 };
 
+	PtrHandle shadowMapTexHandle;
+	std::vector<PtrHandle> shadowMapTexSliceHandles;
 
 	ComPtr<ID3D12Device> device;
 	ComPtr<IDXGIAdapter1> adapter1;
@@ -254,7 +278,7 @@ private:
 	ComPtr<ID3D12GraphicsCommandList> cmd_list;
 	std::optional<DescriptorHeapManager> heapRT;
 	std::optional<DescriptorHeapManager> heapDS;
-	std::optional<DescriptorHeapManager> heap;
+	std::optional<DescriptorHeapManager> heapSM;
 	ComPtr<ID3D12Resource> postEffect[2];
 	ComPtr<ID3D12Resource> shadowMap;
 	ComPtr<ID3D12Resource> rtv;

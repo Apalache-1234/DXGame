@@ -142,11 +142,13 @@ void ShowInfo()
 bool showEntityWindow = false;
 bool showAnimationWindow = false;
 bool showMaterialWindow = false;
+bool showShadowMapWindow = false;
 
 shared_ptr<Entity> currentEntity = 0;
 shared_ptr<Renderer> currentRend = 0;
 
 ImVec2 imageSize = ImVec2(64, 64);
+ImVec2 imageSMSize = ImVec2(256, 256);
 
 std::vector < std::shared_ptr<Entity>> entityList;
 
@@ -554,6 +556,37 @@ void ShowMaterialInfo(std::shared_ptr<Renderer> rend)
 
 }
 
+void ShowShadowMapInfo(std::shared_ptr<DirectionalLight> dl)
+{
+	if (!dl)
+		return;
+
+	UINT startOffset = dl->GetShadowMapIndex();
+	UINT count = DXRenderSystem::GetInstance().GetCascadeShadowCount();
+
+
+	if (ImGui::Begin("ShadowMapWindow", &showShadowMapWindow))
+	{
+
+		for (int i = 0;i < count;i++)
+		{
+			auto gpuH = DXRenderSystem::GetInstance().GetShadowMapTextureSliceSRVGPUHandle(startOffset + i);
+
+			auto num = std::to_string(i + 1);
+
+			auto name = "ShadowMap No." + num;
+
+			ImGui::Text(name.c_str());
+
+			ImGui::ImageButton(name.c_str(), (ImTextureID)gpuH.ptr, imageSMSize);
+		}
+
+		ImGui::End();
+	}
+
+}
+
+
 void ShowComponentInfo(std::shared_ptr<DirectionalLight> DLight)
 {
 	auto color = DLight->GetColor();
@@ -573,6 +606,8 @@ void ShowComponentInfo(std::shared_ptr<DirectionalLight> DLight)
 	ImGui::Checkbox("Shadow ", &isShadow);
 
 	DLight->SetIsCastShadow(isShadow);
+
+	showShadowMapWindow = isShadow;
 
 	DLight->SetRotation(ShowAndSetVecInfo("Rotation", DLight->GetRotation()));
 }
@@ -817,6 +852,11 @@ void ShowEntityInfo()
 	if (showMaterialWindow)
 	{
 		ShowMaterialInfo(currentRend);
+	}
+
+	if (showShadowMapWindow)
+	{
+		ShowShadowMapInfo(currentEntity->GetComponent<DirectionalLight>());
 	}
 }
 
@@ -1152,6 +1192,30 @@ void MyIMGUI::MainLoop()
 		}
 
 		if (ImGui::TreeNode("ShadowMap")) {
+
+			int count = DXRenderSystem::GetInstance().GetCascadeShadowCount();
+
+			ImGui::SliderInt("CSCount" , &count ,1  , 4);
+
+			DXRenderSystem::GetInstance().SetCascadeShadowCount(count);
+
+			float nearZ = DXRenderSystem::GetInstance().GetCascadeShadowNearZ();
+
+			ImGui::DragFloat("NearZ", &nearZ);
+
+			DXRenderSystem::GetInstance().SetCascadeShadowNearZ(nearZ);
+
+			float farZ = DXRenderSystem::GetInstance().GetCascadeShadowFarZ();
+
+			ImGui::DragFloat("FarZ", &farZ);
+
+			DXRenderSystem::GetInstance().SetCascadeShadowFarZ(farZ);
+
+			float lerp = DXRenderSystem::GetInstance().GetCascadeShadowLerp();
+
+			ImGui::DragFloat("Lerp", &lerp);
+
+			DXRenderSystem::GetInstance().SetCascadeShadowLerp(lerp);
 
 			ImGui::TreePop();
 		}

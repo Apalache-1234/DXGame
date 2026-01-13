@@ -9,10 +9,13 @@
 #include "DescriptorHeapManager.h"
 #undef TRANSPARENT
 
+#define PtrHandle std::unique_ptr<DescriptorHeapManager::PtrHandles>
+
 using namespace Microsoft::WRL;
 
 namespace Utility
 {
+
     static const DirectX::XMVECTOR zero3D = DirectX::XMVectorSet(0, 0, 0, 0);
 
     static const DirectX::XMVECTOR up = DirectX::XMVectorSet(0, 1, 0, 0);
@@ -63,7 +66,7 @@ struct alignas(256) LightInfo
 {
     DirectX::XMFLOAT3 ambientLightColor;
 
-    float padding;
+    float padding1;
 
     XMFLOAT4 DirectionalLightNum;
 
@@ -72,6 +75,14 @@ struct alignas(256) LightInfo
     XMFLOAT4 SpotLightNum;
 
     XMVECTOR cameraPos;
+
+    float cascadeShadowCount;
+
+    XMFLOAT3 padding2;
+
+    XMFLOAT3 cascadeShadowDist;
+
+    float padding3;
 };
 
 struct alignas(256) TimeInfo

@@ -16,8 +16,6 @@
 #include "DXRenderSystem.h"
 #include "Utility.h"
 
-#define PtrHandle std::unique_ptr<DescriptorHeapManager::PtrHandles>
-
 using namespace DirectX;
 using namespace Microsoft::WRL;
 using namespace std;
@@ -68,8 +66,6 @@ public:
 	void ApplyTextureOnMesh(int idx, Renderer::TEXTURE_TYPE type, ComPtr<ID3D12Resource> texResource);
 
 	void ApplyTextureOnMesh(int idx, Renderer::TEXTURE_TYPE type, ComPtr<ID3D12Resource> texResource, D3D12_SHADER_RESOURCE_VIEW_DESC desc);
-
-	void RegisterShadowMapTextureSRV();
 
 	std::type_index GetBaseType() override;
 protected:
@@ -165,8 +161,6 @@ protected:
 
 	std::vector<PtrHandle> texHandles;
 
-	std::vector<PtrHandle> shadowMapTexHandles;
-
 	/// <summary>
 	/// ルートシグネチャのCOM
 	/// </summary>
@@ -185,7 +179,7 @@ protected:
 private:
 	struct DirLight
 	{
-		DirectX::XMMATRIX matVP;
+		DirectX::XMMATRIX matVP[4];
 
 		DirectX::XMFLOAT3 direct;
 

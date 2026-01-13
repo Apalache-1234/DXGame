@@ -62,6 +62,10 @@ public:
 
 	DirectX::XMMATRIX GetViewMat();
 	DirectX::XMMATRIX GetProjMat();
+	void SetCSProjMat(DirectX::XMMATRIX mat);
+	DirectX::XMMATRIX GetCSProjMat();
+	void SetCSViewMat(DirectX::XMMATRIX mat);
+	DirectX::XMMATRIX GetCSViewMat();
 
 	void SetFov(float v);
 
@@ -84,6 +88,9 @@ private:
 	float aspect = (float)Window::width / (float)Window::height;
 
 	float orthoDiameter = 10;
+
+	DirectX::XMMATRIX CSMapProjMat;
+	DirectX::XMMATRIX CSMapViewMat;
 
 	/// <summary>
 	/// ÉJÉÅÉâÇÃç¿ïWà íu

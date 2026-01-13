@@ -165,12 +165,14 @@
     <ClCompile Include="DXRenderSystem.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="Flags.cpp" />
+    <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="PEEdgeFilter.cpp" />
     <ClCompile Include="PEHorizonGaussianBlur.cpp" />
     <ClCompile Include="PEMosaicFilter.cpp" />
     <ClCompile Include="PERadicalBlur.cpp" />
     <ClCompile Include="PEVerticalGaussianBlur.cpp" />
     <ClCompile Include="PostEffect.cpp" />
+    <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="SystemManager.cpp" />
     <ClCompile Include="KeyInput.cpp" />
     <ClCompile Include="Light.cpp" />
@@ -443,6 +445,7 @@
     <ClInclude Include="DXRenderSystem.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Flags.h" />
+    <ClInclude Include="GameScene.h" />
     <ClInclude Include="ITween.h" />
     <ClInclude Include="PEEdgeFilter.h" />
     <ClInclude Include="PEHorizonGaussianBlur.h" />
@@ -450,6 +453,7 @@
     <ClInclude Include="PostEffect.h" />
     <ClInclude Include="PEMosaicFilter.h" />
     <ClInclude Include="PERadicalBlur.h" />
+    <ClInclude Include="SceneManager.h" />
     <ClInclude Include="SystemManager.h" />
     <ClInclude Include="KeyInput.h" />
     <ClInclude Include="Light.h" />

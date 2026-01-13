@@ -85,6 +85,10 @@ bool DXRenderSystem::Init()
 
 	isSuccess &= CreateShadowMapView();
 
+	heapSM.emplace(100);
+
+	CreateShadowMapTextureSRV();
+
 	CreateCSDividedDist();
 
 	postEffectEntity = SystemManager::GetInstance().CreateEntity<PEEdgeFilter>("postEffect");
@@ -252,8 +256,6 @@ void DXRenderSystem::RenderIMGUI()
 
 void DXRenderSystem::CreateCSDividedDist()
 {
-	CSDividedDist.clear();
-
 	for (int i = 0; i < cascadeShadowCount; i++)
 	{
 		float val = (float)(i + 1) / (float)cascadeShadowCount;
@@ -264,13 +266,140 @@ void DXRenderSystem::CreateCSDividedDist()
 
 		float result = log * cascadeShadowLerp + liner * (1 - cascadeShadowLerp);
 
-		CSDividedDist.emplace_back(result);
+		CSDividedDist[i] = result;
 	}
 }
 
-void DXRenderSystem::ComputeDLShadowMapRender()
+void DXRenderSystem::RenderDLShadowMap(std::shared_ptr<DirectionalLight> dl, int ind, XMMATRIX proj, XMMATRIX view)
 {
+	Camera::GetInstance().SetCSProjMat(proj);
+	Camera::GetInstance().SetCSViewMat(view);
 
+	int startOffset = dl->GetShadowMapIndex();
+
+	cmd_list->OMSetRenderTargets(0, nullptr, false, &shadowMapHandle[startOffset + ind]->cpuHandle);
+
+	cmd_list->ClearDepthStencilView(shadowMapHandle[startOffset + ind]->cpuHandle, D3D12_CLEAR_FLAG_DEPTH, 1, 0, 0, nullptr);
+
+	RenderComponent<SkinnedRenderer>();
+
+	cmd_list->Close();
+
+	ID3D12CommandList* lists_array[] = { cmd_list.Get() };
+
+	cmd_queue->ExecuteCommandLists(1, lists_array);
+
+	auto cur_value = fence_counter;
+
+	cmd_queue->Signal(fence.Get(), cur_value);
+
+	fence_counter++;
+
+	if (fence->GetCompletedValue() < cur_value)
+	{
+		fence->SetEventOnCompletion(cur_value, fence_event);
+
+		WaitForSingleObjectEx(fence_event, INFINITE, false);
+	}
+
+	cmd_allocator[backbuffer_index]->Reset();
+
+	cmd_list->Reset(cmd_allocator[backbuffer_index].Get(), nullptr);
+}
+
+void DXRenderSystem::ComputeDLShadowMapRender(std::shared_ptr<DirectionalLight> dl)
+{
+	auto curNearZ = CSNearZ;
+	auto curFarZ = CSDividedDist[0];
+
+	for (int i = 0;i < cascadeShadowCount;i++)
+	{
+		curFarZ = CSDividedDist[i];
+
+		DirectX::XMMATRIX curProj = XMMatrixPerspectiveFovLH(Camera::GetInstance().GetFov(), Camera::GetInstance().GetAspect(), curNearZ, curFarZ);
+		isShadowMapRendering = false;
+		auto viewProj = DirectX::XMMatrixMultiply(Camera::GetInstance().GetViewMat() , curProj);
+		isShadowMapRendering = true;
+		auto invViewProj = DirectX::XMMatrixInverse(nullptr , viewProj);
+
+		XMVECTOR frustumCorners[8] = {
+		{-1.0f,  1.0f, 0.0f, 1.0f}, { 1.0f,  1.0f, 0.0f, 1.0f},
+		{ 1.0f, -1.0f, 0.0f, 1.0f}, {-1.0f, -1.0f, 0.0f, 1.0f},
+		{-1.0f,  1.0f, 1.0f, 1.0f}, { 1.0f,  1.0f, 1.0f, 1.0f},
+		{ 1.0f, -1.0f, 1.0f, 1.0f}, {-1.0f, -1.0f, 1.0f, 1.0f},
+		};
+
+		// 世界座標へ変換
+		for (int j = 0; j < 8; ++j) {
+			frustumCorners[j] = XMVector3TransformCoord(frustumCorners[j], invViewProj);
+		}
+
+		XMVECTOR center = XMVectorZero();
+		for (int j = 0; j < 8; ++j) center = XMVectorAdd(center, frustumCorners[j]);
+		center = XMVectorScale(center, 1.0f / 8.0f);
+
+		float radius = 0.0f;
+		for (int j = 0; j < 8; ++j) {
+			float dist = XMVectorGetX(XMVector3Length(XMVectorSubtract(frustumCorners[j], center)));
+			radius = std::max(radius, dist);
+		}
+
+		radius = std::ceil(radius * 16.0f) / 16.0f;
+
+		float worldUnitsPerTexel = (radius * 2.0f) / (float)shadowMapRes;
+
+		XMVECTOR up = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
+
+		if (fabs(XMVectorGetY(dl->GetLightDir())) > 0.99f) up = XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
+
+		XMMATRIX lightViewRotOnly = XMMatrixLookAtLH(XMVectorZero(), dl->GetLightDir(), up);
+
+		// 中心をライト空間へ
+		XMVECTOR centerLightSpace = XMVector3TransformCoord(center, lightViewRotOnly);
+
+		// X, Y座標を「テクセルサイズの倍数」に丸める（Snap）
+		float oldX = XMVectorGetX(centerLightSpace);
+		float oldY = XMVectorGetY(centerLightSpace);
+		float newX = floor(oldX / worldUnitsPerTexel) * worldUnitsPerTexel;
+		float newY = floor(oldY / worldUnitsPerTexel) * worldUnitsPerTexel;
+
+		// 丸めた座標との差分を世界座標に戻して、球の中心を補正する
+		centerLightSpace = XMVectorSet(newX, newY, XMVectorGetZ(centerLightSpace), 1.0f);
+		XMMATRIX invLightViewRot = XMMatrixInverse(nullptr, lightViewRotOnly);
+		center = XMVector3TransformCoord(centerLightSpace, invLightViewRot);
+
+		// -----------------------------------------------------------------------
+		// 4. 最終的な LightView / LightProj 行列の作成
+		// -----------------------------------------------------------------------
+
+		// ライトの位置：補正した中心から、ライト逆方向へ半径分以上バックさせる
+		// ※バックフェイスカリング等の影響を受けないよう、十分に引く
+		float farAdjust = 1000.0f; // 適当な大きな値（シーンサイズ依存）
+		XMVECTOR lightPos = XMVectorSubtract(center, XMVectorScale(dl->GetLightDir(), radius + farAdjust));
+
+		XMMATRIX lightView = XMMatrixLookAtLH(lightPos, center, up);
+
+		// 正射影行列
+		// 球を使っているので、幅(w)と高さ(h)はどちらも「半径×2」の正方形になる
+		// これにより「長方形を正方形に直す」という処理が自然に完了している
+		float boxSize = radius;
+
+		// Z範囲: 手前(radius + farAdjust) から 奥(radius + farAdjust + radius * 2) まで
+		// 実際にはもっと余裕を持って取る
+		float zRange = radius * 6.0f + farAdjust;
+
+		XMMATRIX lightProj = XMMatrixOrthographicOffCenterLH(
+			-boxSize, boxSize,      // Left, Right (中心からのオフセット)
+			-boxSize, boxSize,      // Bottom, Top
+			-zRange, zRange        // Near, Far (十分に取る)
+		);
+
+		dl->lightVP[i] = DirectX::XMMatrixMultiply(lightView,lightProj);
+
+		RenderDLShadowMap(dl, i, lightProj, lightView);
+
+		curNearZ = curFarZ;
+	} 
 }
 
 void DXRenderSystem::RenderShadowMap()
@@ -298,20 +427,6 @@ void DXRenderSystem::RenderShadowMap()
 	auto camPosTemp = Camera::GetInstance().GetPosition();
 
 	auto camRotTemp = Camera::GetInstance().GetRotation();
-	/*
-	float texel = Camera::GetInstance().GetOrthoDiameter() / shadowMapRes;
-
-	auto viewMat = DirectX::XMMatrixLookAtLH(DirectX::XMVectorZero() , Camera::GetInstance().GetTargetPos() , Utility::up);
-	auto posAtView = DirectX::XMVector3TransformCoord(camPosTemp , viewMat);
-
-	float lx = floor(DirectX::XMVectorGetX(posAtView) / texel) * texel;
-	float ly = floor(DirectX::XMVectorGetY(posAtView) / texel) * texel;
-	float lz = DirectX::XMVectorGetZ(posAtView);
-
-	auto invViewMat = DirectX::XMMatrixTranspose(viewMat);
-
-	auto adjustPos = DirectX::XMVector3TransformCoord(DirectX::XMVectorSet(lx,ly,lz,0) , invViewMat);
-	*/
 
 	auto lights = SystemManager::GetInstance().GetComponentList<Light>();
 
@@ -330,46 +445,11 @@ void DXRenderSystem::RenderShadowMap()
 		{
 			Camera::GetInstance().isPerspective = false;
 
-			auto camPosCur = DirectX::XMVectorAdd(camPosTemp, DirectX::XMVectorNegate(dl->GetLightDir()));
+			dl->SetShadowMapIndex(ind);
 
-			Camera::GetInstance().SetCameraPosition(camPosCur);
+			ind += cascadeShadowCount;
 
-			Camera::GetInstance().SetCameraRotation(dl->GetRotation());
-
-			cmd_list->OMSetRenderTargets(0, nullptr, false, &shadowMapHandle[ind]->cpuHandle);
-
-			cmd_list->ClearDepthStencilView(shadowMapHandle[ind]->cpuHandle, D3D12_CLEAR_FLAG_DEPTH, 1, 0, 0, nullptr);
-
-			RenderComponent<SkinnedRenderer>();
-
-			lights[i]->SetShadowMapIndex(ind);
-
-			ind++;
-
-			cmd_list->Close();
-
-			ID3D12CommandList* lists_array[] = { cmd_list.Get() };
-
-			cmd_queue->ExecuteCommandLists(1, lists_array);
-
-			auto cur_value = fence_counter;
-
-			cmd_queue->Signal(fence.Get(), cur_value);
-
-			fence_counter++;
-
-			if (fence->GetCompletedValue() < cur_value)
-			{
-				fence->SetEventOnCompletion(cur_value, fence_event);
-
-				WaitForSingleObjectEx(fence_event, INFINITE, false);
-			}
-
-			std::cout << lights[i]->GetShadowMapIndex() << std::endl;
-
-			cmd_allocator[backbuffer_index]->Reset();
-
-			cmd_list->Reset(cmd_allocator[backbuffer_index].Get(), nullptr);
+			ComputeDLShadowMapRender(dl);
 		}
 		else if (pl)
 		{
@@ -399,11 +479,6 @@ void DXRenderSystem::RenderShadowMap()
 D3D12_CPU_DESCRIPTOR_HANDLE DXRenderSystem::GetShadowMapResourceCPUHandle(UINT index)
 {
 	return shadowMapHandle[index]->cpuHandle;
-}
-
-D3D12_GPU_DESCRIPTOR_HANDLE DXRenderSystem::GetShadowMapResourceGPUHandle(UINT index)
-{
-	return shadowMapHandle[index]->gpuHandle;
 }
 
 ComPtr<ID3D12Resource> DXRenderSystem::GetShadowMapResource()
@@ -870,8 +945,6 @@ bool DXRenderSystem::CreatePostEffectResouce()
 
 bool DXRenderSystem::CreatePostEffectView()
 {
-	heap.emplace(100);
-
 	for (int i = 0;i < sizeof(postEffect) / sizeof(postEffect[0]);i++)
 	{
 		postEffectHandle[i] = heapRT.value().GetHandle();
@@ -966,6 +1039,67 @@ bool DXRenderSystem::CreateShadowMapView()
 	return true;
 }
 
+void DXRenderSystem::CreateShadowMapTextureSRV()
+{
+	auto han = heapSM->GetHandle();
+
+	auto texture_desc = shadowMap->GetDesc();
+
+	D3D12_SHADER_RESOURCE_VIEW_DESC desc = {};
+
+	desc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2DARRAY;
+	desc.Format = DXGI_FORMAT_R32_FLOAT;
+	desc.Texture2DArray.MipLevels = 1;
+	desc.Texture2DArray.MostDetailedMip = 0;
+	desc.Texture2DArray.ResourceMinLODClamp = 0;
+	desc.Texture2DArray.PlaneSlice = 0;
+	desc.Texture2DArray.FirstArraySlice = 0;
+	desc.Texture2DArray.ArraySize = std::max(DXRenderSystem::GetInstance().GetShadowMapNum(), 1U);
+
+	desc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+
+	DXRenderSystem::GetInstance().GetDevice()->CreateShaderResourceView(shadowMap.Get(), &desc, han->cpuHandle);
+
+	shadowMapTexHandle = std::move(han);
+
+	shadowMapTexSliceHandles.clear();
+
+	auto hans = heapSM->GetSerialHandle(std::max(GetShadowMapNum() , 1U));
+
+	desc.Texture2DArray.ArraySize = 1;
+
+	desc.Shader4ComponentMapping = D3D12_ENCODE_SHADER_4_COMPONENT_MAPPING(0,0,0,0);
+
+	for (int i = 0;i < hans.size();i++)
+	{
+		desc.Texture2DArray.FirstArraySlice = i;
+
+		DXRenderSystem::GetInstance().GetDevice()->CreateShaderResourceView(shadowMap.Get(), &desc, hans[i]->cpuHandle);
+
+		shadowMapTexSliceHandles.emplace_back(std::move(hans[i]));
+	}
+}
+
+
+D3D12_CPU_DESCRIPTOR_HANDLE DXRenderSystem::GetShadowMapTextureSRVCPUHandle()
+{
+	return shadowMapTexHandle->cpuHandle;
+}
+
+D3D12_GPU_DESCRIPTOR_HANDLE DXRenderSystem::GetShadowMapTextureSRVGPUHandle()
+{
+	return shadowMapTexHandle->gpuHandle;
+}
+
+D3D12_CPU_DESCRIPTOR_HANDLE DXRenderSystem::GetShadowMapTextureSliceSRVCPUHandle(UINT ind)
+{
+	return shadowMapTexSliceHandles[ind]->cpuHandle;
+}
+
+D3D12_GPU_DESCRIPTOR_HANDLE DXRenderSystem::GetShadowMapTextureSliceSRVGPUHandle(UINT ind)
+{
+	return shadowMapTexSliceHandles[ind]->gpuHandle;
+}
 
 bool DXRenderSystem::CreateDBVResouce()
 {
@@ -1092,19 +1226,72 @@ void DXRenderSystem::UpdateLightCastingShadow()
 
 		CreateShadowMapView();
 
-		auto rends = SystemManager::GetInstance().GetComponentList<Renderer>();
-
-
-		for (int i = 0; i < rends.size(); i++)
-		{
-			rends[i]->RegisterShadowMapTextureSRV();
-		}
+		CreateShadowMapTextureSRV();
 	}
 }
 
 UINT DXRenderSystem::GetShadowMapNum()
 {
-	return DlightCastingShadowNum + PlightCastingShadowNum + SlightCastingShadowNum;
+	return DlightCastingShadowNum * cascadeShadowCount + PlightCastingShadowNum * 4 + SlightCastingShadowNum;
+}
+
+void DXRenderSystem::SetCascadeShadowCount(UINT num)
+{
+	cascadeShadowCount = std::clamp(num , 0U ,4U);
+
+	CreateCSDividedDist();
+}
+
+void DXRenderSystem::SetCascadeShadowFarZ(float val)
+{
+	if (CSNearZ >= val)
+		CSFarZ = CSNearZ + Utility::ep;
+	else
+		CSFarZ = val;
+
+	CreateCSDividedDist();
+}
+
+void DXRenderSystem::SetCascadeShadowNearZ(float val)
+{
+	if (CSFarZ <= val)
+		CSNearZ = CSFarZ - Utility::ep;
+	else
+		CSNearZ = val;
+
+	CreateCSDividedDist();
+}
+
+void DXRenderSystem::SetCascadeShadowLerp(float val)
+{
+	val = std::clamp(val , 0.0f , 1.0f);
+
+	CreateCSDividedDist();
+}
+
+UINT DXRenderSystem::GetCascadeShadowCount()
+{
+	return cascadeShadowCount;
+}
+
+float DXRenderSystem::GetCascadeShadowFarZ()
+{
+	return CSFarZ;
+}
+
+float DXRenderSystem::GetCascadeShadowNearZ()
+{
+	return CSNearZ;
+}
+
+float DXRenderSystem::GetCascadeShadowLerp()
+{
+	return cascadeShadowLerp;
+}
+
+DirectX::XMFLOAT3 DXRenderSystem::GetCascadeShadowDist()
+{
+	return DirectX::XMFLOAT3(CSDividedDist[0], CSDividedDist[1], CSDividedDist[2]);
 }
 
 bool DXRenderSystem::SetScissorAndViewPort()
@@ -1166,7 +1353,7 @@ bool DXRenderSystem::UpdateLightCastingShadowNum()
 		if (dl)
 			tempDlightNum++;
 		else if (pl)
-			tempPlightNum = +4;
+			tempPlightNum++;
 		else if (sl)
 			tempSlightNum++;
 	}

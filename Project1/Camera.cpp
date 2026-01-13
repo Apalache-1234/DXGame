@@ -92,7 +92,10 @@ float Camera::GetOrthoDiameter()
 
 DirectX::XMMATRIX Camera::GetViewMat()
 {
-    return  XMMatrixLookAtLH(GetPosition(), GetTargetPos(), DirectX::XMVectorSet(0, 1, 0, 0));
+    if (DXRenderSystem::GetInstance().GetIsShadowMapRendering())
+        return CSMapViewMat;
+    else
+        return XMMatrixLookAtLH(GetPosition(), GetTargetPos(), DirectX::XMVectorSet(0, 1, 0, 0));
 }
 
 DirectX::XMMATRIX Camera::GetProjMat()
@@ -102,10 +105,30 @@ DirectX::XMMATRIX Camera::GetProjMat()
     else
     {
         if(DXRenderSystem::GetInstance().GetIsShadowMapRendering())
-            return XMMatrixOrthographicLH(orthoDiameter , orthoDiameter, GetNearZ(), GetFarZ());
+            return CSMapProjMat;
         else
             return XMMatrixOrthographicLH(orthoDiameter * 16 / 9, orthoDiameter, GetNearZ(), GetFarZ());
     }
+}
+
+void Camera::SetCSProjMat(DirectX::XMMATRIX mat)
+{
+    CSMapProjMat = mat;
+}
+
+DirectX::XMMATRIX Camera::GetCSProjMat()
+{
+    return CSMapProjMat;
+}
+
+void Camera::SetCSViewMat(DirectX::XMMATRIX mat)
+{
+    CSMapViewMat = mat;
+}
+
+DirectX::XMMATRIX Camera::GetCSViewMat()
+{
+    return CSMapViewMat;
 }
 
 void Camera::SetFov(float v)

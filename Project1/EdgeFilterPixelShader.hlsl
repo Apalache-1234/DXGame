@@ -32,6 +32,8 @@ pixelOp main(output vertexOp)
     float2 uv = vertexOp.TexCoord;
     
     uv.y = 1 - uv.y;
+
+    float4 color = tex.Sample(tex_sampler, uv);
     
     float luminance = dot(color.rgb, float3(0.299, 0.587, 0.114));
     
@@ -39,9 +41,7 @@ pixelOp main(output vertexOp)
     
     edgeColor.a = 1;
         
-    output_pixel.color = color.rrrr;
-    
-    output_pixel.color = shadowMap.Sample(tex_sampler, float3(uv, 1));
+    output_pixel.color = lerp(color , edgeColor , transition);
     
     return output_pixel;
 }

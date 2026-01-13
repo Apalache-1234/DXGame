@@ -16,6 +16,8 @@ cbuffer LightInfo : register(b1)
 	float4 pointLightNum : packoffset(c2);
 	float4 spotLightNum : packoffset(c3);
 	float4 cameraPos : packoffset(c4);
+	float cascadeShadowCount : packoffset(c5);
+	float3 cascadeShadowDist : packoffset(c6);
 }
 
 cbuffer TimeInfo: register(b2)
@@ -48,7 +50,7 @@ const float slopeBias = 0.004;
 
 struct DirectionalLight
 {
-    float4x4 matVP;
+    float4x4 matVP[4];
 	
 	float3 direct;
 
@@ -142,7 +144,7 @@ float4 normalizeColor(float4 col)
 	return col;
 }
 
-float2 TransformUV(float2 0uv , int matIdx)
+float2 TransformUV(float2 uv , int matIdx)
 {
     return (uv + Materials[matIdx].UVPOS) * Materials[matIdx].UVSCALE;
 
@@ -163,6 +165,52 @@ float4 ReturnPhongLighting(float3 lightCol, float4 col, float4 pos, float3 light
 	return float4(lightCol,1);
 }
 
+static const float2 poissonDisk[16] =
+{
+    float2(-0.94201624, -0.39906216),
+    float2(0.94558609, -0.76890725),
+    float2(-0.094184101, -0.92938870),
+    float2(0.34495938, 0.29387760),
+    float2(-0.91588581, 0.45771432),
+    float2(-0.81544232, -0.87912464),
+    float2(-0.38277543, 0.27676845),
+    float2(0.97484398, 0.75648379),
+    float2(0.44323325, -0.97511554),
+    float2(0.53742981, -0.47373420),
+    float2(-0.26496911, -0.41893023),
+    float2(0.79197514, 0.19090188),
+    float2(-0.24188840, 0.99706507),
+    float2(-0.81409955, 0.91437590),
+    float2(0.19984126, 0.78641367),
+    float2(0.14383161, -0.14100790)
+};
+
+float CalcShadowPoisson(float3 shadowCoord,float depth, float bias)
+{
+    float shadow = 0.0f;
+    float mapSize = 2048.0f;
+    float texelSize = 1.0f / mapSize;
+
+    float filterRadius = 2.0f;
+
+    for (int i = 0; i < 16; ++i)
+    {
+        float2 offset = poissonDisk[i] * texelSize * filterRadius;
+		
+        float3 coord = shadowCoord;
+		
+        coord.xy += offset;
+		
+        shadow += shadowMap.SampleCmpLevelZero(
+            shadow_sampler,
+            coord,
+            depth - bias
+        ).r;
+    }
+
+    return shadow / 16.0f;
+}
+
 float4 DirectionalLightShading(float4 col, float4 pos, float3 normal, int matIdx)
 {
     float4 sumCol = 0;
@@ -173,7 +221,19 @@ float4 DirectionalLightShading(float4 col, float4 pos, float3 normal, int matIdx
 		
         if (DirectionalLights[i].onShadow)
         {
-            float4 lightPos = mul(DirectionalLights[i].matVP , pos);
+            float viewDepth = mul(view_mat, pos).z;
+			
+            float shadowMapIndex = DirectionalLights[i].shadowMapIndex;
+            float offset = 0;
+			
+            if (cascadeShadowCount >= 2 && viewDepth >= cascadeShadowDist[0])
+                offset = 1;
+            else if (cascadeShadowCount >= 3 && viewDepth >= cascadeShadowDist[1])
+                offset = 2;
+            else if (cascadeShadowCount >= 4 && viewDepth >= cascadeShadowDist[2])
+                offset = 3;
+			
+			float4 lightPos = mul(DirectionalLights[i].matVP[offset], pos);
 			
             float3 shadow_coord = lightPos.xyz / lightPos.w;
     
@@ -182,19 +242,9 @@ float4 DirectionalLightShading(float4 col, float4 pos, float3 normal, int matIdx
 
             float3 uvw = shadow_coord.xyz;
 			
-            uvw.z = DirectionalLights[i].shadowMapIndex;
+            uvw.z = DirectionalLights[i].shadowMapIndex + offset;
 			
-            shadowFactor = shadowMap.SampleCmpLevelZero
-            (
-            shadow_sampler,
-            uvw,
-            shadow_coord.z
-            );
-		
-			
-            if (!shadowFactor)
-                continue;
-
+            shadowFactor = CalcShadowPoisson(uvw, shadow_coord.z, 0);
         }
 		
         float3 lightDir = -normalize(DirectionalLights[i].direct);
@@ -202,7 +252,7 @@ float4 DirectionalLightShading(float4 col, float4 pos, float3 normal, int matIdx
 		
         float4 light = ReturnPhongLighting(DirectionalLights[i].color , col , pos ,lightDir, normal , matIdx);
 
-		sumCol += light * pow ;
+		sumCol += light * pow * shadowFactor;
 
 		sumCol = normalizeColor(sumCol);
     }
