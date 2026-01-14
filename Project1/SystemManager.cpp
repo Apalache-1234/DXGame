@@ -41,8 +41,18 @@ bool SystemManager::isExitNameEntity(std::string name)
 void SystemManager::SetEntity(std::shared_ptr<Entity> entity)
 {
 	entities.emplace_back(entity);
+	entitiesN[entity->GetName()] = entity;
 }
 
+std::shared_ptr<Entity> SystemManager::GetEntityByName(std::string name)
+{
+	if (entitiesN.count(name) > 0)
+		return entitiesN[name];
+
+	std::cout << "entity : " << name << " ‚Í‚»‚ñ‚´‚¢‚µ‚Ü‚¹‚ñ" << std::endl;
+
+	return nullptr;
+}
 
 std::shared_ptr<Entity> SystemManager::CreateEntity(std::string name)
 {
@@ -109,6 +119,7 @@ void SystemManager::MainLoop()
 	{
 		if (entities[i]->IsDestoroyed())
 		{
+			entitiesN.erase(entities[i]->GetName());
 			entities.erase(entities.begin() + i);
 		}
 	}

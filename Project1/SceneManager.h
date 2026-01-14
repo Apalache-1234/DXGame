@@ -19,12 +19,23 @@ public:
 
 	static SceneManager& GetInstance();
 
+	std::shared_ptr<GameScene> GetCurrentGameScene();
+
+	void ChangeGameScene(int ind);
+
+	void ChangeGameScene(std::string name);
+
 	void AddScene(GameScene scene);
 	std::shared_ptr<GameScene> GetScene(std::string name);
 	std::shared_ptr<GameScene> GetScene(UINT ind);
 private:
+	void ResetGameScene(std::shared_ptr<GameScene> scene);
+
 	static std::unique_ptr<SceneManager> instance;
 
 	std::vector<std::shared_ptr<GameScene>> scenes;
+	std::unordered_map<std::string , std::shared_ptr<GameScene>> scenesN;
+
+	std::shared_ptr<GameScene> currentGameScene;
 };
 #endif

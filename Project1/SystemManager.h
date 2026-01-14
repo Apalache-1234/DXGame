@@ -24,6 +24,8 @@ public:
 
 	void SetEntity(std::shared_ptr<Entity> entity);
 
+	std::shared_ptr<Entity> GetEntityByName(std::string name);
+
 	std::shared_ptr<Entity> CreateEntity(std::string name);
 
 	template <typename T, std::enable_if_t<std::is_base_of_v<Component, T>>* = nullptr>
@@ -103,6 +105,8 @@ private:
 	/// 現在生成されているエンティティ
 	/// </summary>
 	std::vector<std::shared_ptr<Entity>> entities;
+
+	std::unordered_map<std::string , std::shared_ptr<Entity>> entitiesN;
 
 	/// <summary>
 	/// ゲーム上のあらゆる情報を確保するSystemManagerクラスのシングルトンのインスタンス

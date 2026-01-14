@@ -8,6 +8,15 @@ GameScene::~GameScene()
 {
 }
 
+void GameScene::Load()
+{
+}
+
+void GameScene::Reset()
+{
+
+}
+
 void GameScene::SetName(std::string name)
 {
 	sceneName = name;

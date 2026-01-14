@@ -13,6 +13,10 @@ public:
 
 	~GameScene();
 
+	void Load();
+
+	void Reset();
+
 	void SetName(std::string name);
 	std::string GetName();
 private:

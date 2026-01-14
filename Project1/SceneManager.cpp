@@ -18,25 +18,81 @@ SceneManager& SceneManager::GetInstance()
     return *instance;
 }
 
+std::shared_ptr<GameScene> SceneManager::GetCurrentGameScene()
+{
+    return currentGameScene;
+}
+
+void SceneManager::ChangeGameScene(int ind)
+{
+    auto scene = GetScene(ind);
+
+    if (nullptr != scene)
+    {
+        ResetGameScene(scene);
+    }
+}
+
+void SceneManager::ChangeGameScene(std::string name)
+{
+    auto scene = GetScene(name);
+
+    if (nullptr != scene)
+    {
+        ResetGameScene(scene);
+    }
+}
+
+void SceneManager::ResetGameScene(std::shared_ptr<GameScene> scene)
+{
+    currentGameScene->Reset();
+
+
+
+    currentGameScene = scene;
+}
+
 void SceneManager::AddScene(GameScene scene)
 {
+    int index = 1;
+
+    std::string tempName = scene.GetName();
+
+    for (int i = 0; i < scenes.size(); i++)
+    {
+        if (scenes[i]->GetName() == tempName)
+            tempName = scene.GetName() + std::to_string(index);
+    }
+
     scenes.emplace_back(std::make_shared<GameScene>(scene));
+    scenesN[scenes.back()->GetName()] = scenes.back();
+
+    if (scenes.size() == 1)
+    {
+        currentGameScene = scenes.back();
+    }
 }
 
 std::shared_ptr<GameScene> SceneManager::GetScene(std::string name)
 {
-    int index = 1;
-
-    for (int i = 0;i<scenes.size();i++)
+    if (scenesN.count(name) > 0)
     {
-        if (scenes[i]->GetName() == name)
-            name = name + std::to_string(index);
+        return scenesN[name];
     }
 
-    return std::shared_ptr<GameScene>();
+    std::cout << "Scene : " << name << " ‚Í‘¶Ý‚µ‚Ü‚¹‚ñ" << std::endl;
+
+    return nullptr;
 }
 
 std::shared_ptr<GameScene> SceneManager::GetScene(UINT ind)
 {
-    return std::shared_ptr<GameScene>();
+    if (scenes.size() > ind)
+    {
+        return scenes[ind];
+    }
+
+    std::cout << "Scene : Index " << ind << " ‚Í‘¶Ý‚µ‚Ü‚¹‚ñ" << std::endl;
+
+    return nullptr;
 }
