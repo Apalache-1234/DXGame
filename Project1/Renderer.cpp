@@ -427,6 +427,12 @@ bool Renderer::MapLLICB()
 	lightInfo.cascadeShadowCount = DXRenderSystem::GetInstance().GetCascadeShadowCount();
 	lightInfo.cascadeShadowDist = DXRenderSystem::GetInstance().GetCascadeShadowDist();
 
+	DirectX::XMStoreFloat3(&lightInfo.fogColor , DXRenderSystem::GetInstance().GetFogColor());
+
+	lightInfo.fogRange = DXRenderSystem::GetInstance().GetFogRange();
+
+	lightInfo.fogFlag = DXRenderSystem::GetInstance().fogFlag;
+
 	void* ptr = nullptr;
 
 	hr =  lightInfoCB->Map(0, nullptr, &ptr);

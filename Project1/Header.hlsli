@@ -18,6 +18,9 @@ cbuffer LightInfo : register(b1)
 	float4 cameraPos : packoffset(c4);
 	float cascadeShadowCount : packoffset(c5);
 	float3 cascadeShadowDist : packoffset(c6);
+	float3 fogColor : packoffset(c7);
+	float fogRange : packoffset(c8);
+	float fogFlag : packoffset(c9);
 }
 
 cbuffer TimeInfo: register(b2)

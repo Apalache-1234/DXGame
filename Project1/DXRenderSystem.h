@@ -131,6 +131,16 @@ public:
 
 	DirectX::XMFLOAT3 GetCascadeShadowDist();
 
+	void SetFogColor(DirectX::XMVECTOR color);
+
+	void SetFogRange(float range);
+
+	DirectX::XMVECTOR GetFogColor();
+
+	float GetFogRange();
+
+	bool fogFlag = false;
+
 	const static int frameBuffer = 2;
 private:
 	int shadowMapRes = 2048;
@@ -153,6 +163,10 @@ private:
 	shared_ptr<Entity> postEffectEntity;
 
 	bool isShadowMapRendering = false;
+
+	DirectX::XMVECTOR fogColor;
+
+	float fogRange = 1000;
 
 	/// <summary>
 	/// DirectX12のデバイスを作成する

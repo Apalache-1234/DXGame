@@ -1220,6 +1220,22 @@ void MyIMGUI::MainLoop()
 			ImGui::TreePop();
 		}
 
+		if (ImGui::TreeNode("Fog")) {
+
+			ImGui::Checkbox("IsFog", &DXRenderSystem::GetInstance().fogFlag);
+
+			auto col = DXRenderSystem::GetInstance().GetFogColor();
+
+			EditColor(&col, " : FogColor");
+
+			DXRenderSystem::GetInstance().SetFogColor(col);
+
+
+
+
+			ImGui::TreePop();
+		}
+
 		if (ImGui::TreeNode("Flags")) {
 
 			ImGui::Checkbox("Debug", flagIns.isDebug.get());

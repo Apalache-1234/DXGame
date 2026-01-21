@@ -83,6 +83,18 @@ struct alignas(256) LightInfo
     XMFLOAT3 cascadeShadowDist;
 
     float padding3;
+
+    XMFLOAT3 fogColor;
+
+    float padding4;
+
+    float fogRange;
+
+    XMFLOAT3 padding5;
+
+    float fogFlag;
+
+    XMFLOAT3 padding6;
 };
 
 struct alignas(256) TimeInfo

@@ -1294,6 +1294,26 @@ DirectX::XMFLOAT3 DXRenderSystem::GetCascadeShadowDist()
 	return DirectX::XMFLOAT3(CSDividedDist[0], CSDividedDist[1], CSDividedDist[2]);
 }
 
+void DXRenderSystem::SetFogColor(DirectX::XMVECTOR color)
+{
+	fogColor = DirectX::XMVectorSaturate(color);
+}
+
+void DXRenderSystem::SetFogRange(float range)
+{
+	fogRange = std::clamp(range , Camera::GetInstance().GetNearZ() , Camera::GetInstance().GetFarZ());
+}
+
+DirectX::XMVECTOR DXRenderSystem::GetFogColor()
+{
+	return fogColor;
+}
+
+float DXRenderSystem::GetFogRange()
+{
+	return fogRange;
+}
+
 bool DXRenderSystem::SetScissorAndViewPort()
 {
 	viewport.TopLeftX = 0;
