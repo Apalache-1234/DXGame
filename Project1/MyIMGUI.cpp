@@ -1230,8 +1230,11 @@ void MyIMGUI::MainLoop()
 
 			DXRenderSystem::GetInstance().SetFogColor(col);
 
+			auto range = DXRenderSystem::GetInstance().GetFogRange();
 
+			ImGui::DragFloat("FogRange : ", &range, 1, Camera::GetInstance().GetNearZ(), Camera::GetInstance().GetFarZ());
 
+			DXRenderSystem::GetInstance().SetFogRange(range);
 
 			ImGui::TreePop();
 		}

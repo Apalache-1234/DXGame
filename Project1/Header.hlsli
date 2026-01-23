@@ -329,6 +329,11 @@ float4 ApplyLightShading(float4 col, float4 pos, float3 normal,  int matIdx )
 
 	resultCol.a = 1;
 	
+    float3 len = length(pos - cameraPos);
+	
+	if(fogFlag)
+        resultCol.xyz = lerp(resultCol, fogColor, saturate(len / fogRange));
+	
 	return resultCol;
 }
 

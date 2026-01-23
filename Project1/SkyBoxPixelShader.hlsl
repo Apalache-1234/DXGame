@@ -20,5 +20,8 @@ pixelOp main(output vertexOp)
 
 	output_pixel.color = texC.Sample(tex_sampler, normalize(vertexOp.TexCoord)) * vertexOp.color;
 
+	if(fogFlag)
+        output_pixel.color.rgb = fogColor;
+	
 	return output_pixel;
 }
