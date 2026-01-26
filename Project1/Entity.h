@@ -91,11 +91,7 @@ public:
     /// <returns>上方向</returns>
 	DirectX::XMVECTOR GetUp();
 
-	virtual void OnMousePointerIn();
 
-	virtual void OnMouseClick();
-
-	virtual void OnMousePointerOut();
 
 	/// <summary>
     /// このオブジェクトの前方向

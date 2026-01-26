@@ -34,7 +34,7 @@ public:
 
 	Renderer(std::shared_ptr<Entity> ent);
 
-	virtual ~Renderer();
+    ~Renderer();
 
 	void Init() override;
 

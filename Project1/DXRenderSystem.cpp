@@ -141,22 +141,20 @@ bool DXRenderSystem::CreateMSAAView()
 
 void DXRenderSystem::WaitForRender()
 {
-	swap_chain->Present(0, 0);
-
-	auto cur_value = fence_counter;
+	auto cur_value = fence_counter[backbuffer_index];
 
 	cmd_queue->Signal(fence.Get(), cur_value);
 
-	fence_counter++;
-
 	backbuffer_index = swap_chain->GetCurrentBackBufferIndex();
 
-	if (fence->GetCompletedValue() < cur_value)
+	if (fence->GetCompletedValue() < fence_counter[backbuffer_index])
 	{
-		fence->SetEventOnCompletion(cur_value, fence_event);
+		fence->SetEventOnCompletion(fence_counter[backbuffer_index], fence_event);
 
 		WaitForSingleObjectEx(fence_event, INFINITE, false);
 	}
+
+	fence_counter[backbuffer_index] = cur_value + 1;
 }
 
 std::unique_ptr<DXRenderSystem> DXRenderSystem::instance = nullptr;
@@ -289,18 +287,22 @@ void DXRenderSystem::RenderDLShadowMap(std::shared_ptr<DirectionalLight> dl, int
 
 	cmd_queue->ExecuteCommandLists(1, lists_array);
 
-	auto cur_value = fence_counter;
+	auto cur_value = fence_counter[backbuffer_index];
 
 	cmd_queue->Signal(fence.Get(), cur_value);
 
-	fence_counter++;
+	bool index= backbuffer_index;
 
-	if (fence->GetCompletedValue() < cur_value)
+	backbuffer_index = !index;
+
+	if (fence->GetCompletedValue() < fence_counter[backbuffer_index])
 	{
-		fence->SetEventOnCompletion(cur_value, fence_event);
+		fence->SetEventOnCompletion(fence_counter[backbuffer_index], fence_event);
 
 		WaitForSingleObjectEx(fence_event, INFINITE, false);
 	}
+
+	fence_counter[backbuffer_index] = cur_value + 1;
 
 	cmd_allocator[backbuffer_index]->Reset();
 
@@ -592,6 +594,8 @@ void DXRenderSystem::ExecuteCommands()
 	ID3D12CommandList* lists_array[] = { cmd_list.Get() };
 
 	cmd_queue->ExecuteCommandLists(1, lists_array);
+
+	swap_chain->Present(0, 0);
 
 	WaitForRender();
 

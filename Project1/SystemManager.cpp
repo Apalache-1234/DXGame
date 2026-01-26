@@ -1,5 +1,6 @@
 #include "SystemManager.h"
 #include "Flags.h"
+#include "ScriptComponent.h"
 
 SystemManager::SystemManager()
 {
@@ -115,6 +116,8 @@ void SystemManager::MainLoop()
 
 	prevGameTime = GameTime;
 
+	fixedUpdateCounter += RealDeltaTime;
+
 	for (int i = 0;i<entities.size();i++)
 	{
 		if (entities[i]->IsDestoroyed())
@@ -122,6 +125,40 @@ void SystemManager::MainLoop()
 			entitiesN.erase(entities[i]->GetName());
 			entities.erase(entities.begin() + i);
 		}
+		else
+		{
+			auto scripts = entities[i]->GetComponents<ScriptComponent>();
+
+			for (auto script : scripts)
+			{
+				script->OnUpdate();
+			}
+
+			while (fixedUpdateCounter > sixtyDenom)
+			{
+				for (auto script : scripts)
+				{
+					script->OnFixedUpdate();
+				}
+
+				fixedUpdateCounter -= sixtyDenom;
+			}
+		}
+	}
+
+	timeForFpsCounter += GetRealDeltaTime();
+
+	fpsCounter++;
+
+	if (timeForFpsCounter >= 1)
+	{
+		fps = fpsCounter;
+
+		std::cout << fps << std::endl;
+
+		fpsCounter = 0;
+
+		timeForFpsCounter = 0;
 	}
 }
 

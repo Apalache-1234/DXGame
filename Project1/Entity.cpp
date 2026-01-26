@@ -2,6 +2,7 @@
 #include "Utility.h"
 #include "SkinnedRenderer.h"
 #include "DXRenderSystem.h"
+#include "ScriptComponent.h"
 
 Entity::Entity(const std::string& name) : Object::Object(name)
 {
@@ -21,6 +22,13 @@ Entity::Entity(const std::string& name) : Object::Object(name)
 Entity::~Entity()
 {
 	std::cout << GetName() << "‚ª”jŠü‚³‚ê‚½" << std::endl;
+
+	auto scripts = GetComponents<ScriptComponent>();
+
+	for (auto script : scripts)
+	{
+		script->OnDestroy();
+	}
 
 	RemoveAllComponent();
 }
@@ -172,21 +180,6 @@ DirectX::XMVECTOR Entity::GetRight()
 DirectX::XMVECTOR Entity::GetUp()
 {
 	return up;
-}
-
-void Entity::OnMousePointerIn()
-{
-	std::cout << "a";
-}
-
-void Entity::OnMouseClick()
-{
-	std::cout << "A" << std::endl;
-}
-
-void Entity::OnMousePointerOut()
-{
-	std::cout << "a";
 }
 
 DirectX::XMVECTOR Entity::GetForward()

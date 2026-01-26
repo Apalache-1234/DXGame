@@ -1,4 +1,5 @@
 #include "GameScene.h"
+#include "TitleScene.h"
 
 GameScene::GameScene()
 {
@@ -14,7 +15,10 @@ void GameScene::Load()
 
 void GameScene::Reset()
 {
-
+	for (auto ent : entites)
+	{
+		ent->Destroy();
+	}
 }
 
 void GameScene::SetName(std::string name)
@@ -26,3 +30,9 @@ std::string GameScene::GetName()
 {
 	return sceneName;
 }
+
+std::vector<std::shared_ptr<Entity>> GameScene::GetEntities()
+{
+	return entites;
+}
+

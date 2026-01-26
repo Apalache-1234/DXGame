@@ -71,7 +71,7 @@ void ColliderDetection::MainLoop()
 		list[i]->isColliding = false;
 	}
 
-	for (int i = 0;i < (list.size() - 1);i++)
+	for (int i = 0;i < std::min(list.size() - 1 , (unsigned long long)0);i++)
 	{
 		auto colA = list[i];
 

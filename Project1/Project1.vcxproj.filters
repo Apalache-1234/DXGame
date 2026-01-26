@@ -16,6 +16,24 @@
     <Filter Include="ソース ファイル\IMGUICPP">
       <UniqueIdentifier>{ab070616-f3ff-447d-88f5-74db53944326}</UniqueIdentifier>
     </Filter>
+    <Filter Include="スクリプト">
+      <UniqueIdentifier>{ee18209a-3853-4d19-ba3a-bd0033896dad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="スクリプト\ソース ファイル">
+      <UniqueIdentifier>{3e0d99c3-4f2a-407c-8e2e-f91f0f14aa66}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="スクリプト\ヘッダー ファイル">
+      <UniqueIdentifier>{cfbca345-0ad9-48c7-aaef-4f4ebd030f5e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="シーン">
+      <UniqueIdentifier>{6b2f7c4f-2e8d-4cef-a738-43fb4c63c98f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="シーン\ソース ファイル">
+      <UniqueIdentifier>{695d0c7b-00f2-4ba4-9a17-6129be5d22df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="シーン\ヘッダー ファイル">
+      <UniqueIdentifier>{a013f378-2eb5-4863-8e56-b534c839b04a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -179,6 +197,12 @@
     </ClCompile>
     <ClCompile Include="GameScene.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="ScriptComponent.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleScene.cpp">
+      <Filter>シーン\ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -405,6 +429,12 @@
     </ClInclude>
     <ClInclude Include="GameScene.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="ScriptComponent.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleScene.h">
+      <Filter>シーン\ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

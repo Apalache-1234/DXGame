@@ -22,8 +22,6 @@ public:
 
 	bool isExitNameEntity(std::string name);
 
-	void SetEntity(std::shared_ptr<Entity> entity);
-
 	std::shared_ptr<Entity> GetEntityByName(std::string name);
 
 	std::shared_ptr<Entity> CreateEntity(std::string name);
@@ -99,6 +97,10 @@ private:
 	/// </summary>
 	float RealDeltaTime = 0;
 
+	float fixedUpdateCounter = 0;
+
+	const float sixtyDenom = 1.0f / 60.0f;
+
 	bool pause = false;
 
 	/// <summary>
@@ -131,12 +133,18 @@ private:
 
 	DirectX::XMFLOAT3 ambientColor = DirectX::XMFLOAT3(1,1,1);
 
+	UINT fpsCounter = 0;
+
+	float timeForFpsCounter = 0;
+
 	/// <summary>
 	/// ‘O‰ñ‚ÌGameTime
 	/// </summary>
 	float prevGameTime = 0;
 
 	float prevRealTime = 0;
+
+	void SetEntity(std::shared_ptr<Entity> entity);
 };
 
 #endif

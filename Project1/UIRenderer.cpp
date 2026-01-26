@@ -2,6 +2,8 @@
 #include "Utility.h"
 #include "Camera.h"
 #include "KeyInput.h"
+#include "ScriptComponent.h"
+
 UINT UIRenderer::GetImageWidth()
 {
 	return imageWidth;
@@ -129,21 +131,34 @@ void UIRenderer::CheckPointerInbound()
 	auto pointX = pointer.x;
 	auto pointY = pointer.y;
 
+	auto scripts = attachFrom->GetComponents<ScriptComponent>();
+
 	if (x >= pointX && xN <= pointX && y >= pointY && yN <= pointY)
 	{
+
+		if (isOnMousePointer == false)
+		{
+			for (auto script : scripts)
+				script->OnMousePointerIn();
+		}
+
 		isOnMousePointer = true;
+
+		for (auto script : scripts)
+			script->OnMousePointerOn();
 
 		if (input.GetKey(Key::MOUSE_LEFT))
 		{
-			attachFrom->OnMouseClick();
-
+			for (auto script : scripts)
+				script->OnMousePointerClick();
 		}
 	}
 	else
 	{
 		if (isOnMousePointer == true)
 		{
-			attachFrom->OnMousePointerOut();
+			for (auto script : scripts)
+				script->OnMousePointerOut();
 		}
 
 		isOnMousePointer = false;

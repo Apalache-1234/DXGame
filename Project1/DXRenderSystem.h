@@ -298,7 +298,7 @@ private:
 	ComPtr<ID3D12Resource> rtv;
 	ComPtr<ID3D12Resource> color_buffer[frameBuffer];
 	ComPtr<ID3D12Fence> fence;
-	UINT16 fence_counter = 1;
+	UINT64 fence_counter[frameBuffer] = {0 , 0};
 
 	D3D12_CLEAR_VALUE clearDepth = {};
 

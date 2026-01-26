@@ -7,6 +7,7 @@
 #include "DirectionalLight.h"
 #include "PointLight.h"
 #include "SpotLight.h"
+#include "SceneManager.h"
 #include "SkyBox.h"
 #include "PhysicsSystem.h"
 #include "PEEdgeFilter.h"
@@ -957,10 +958,10 @@ void ShowTrees()
 	if (ImGui::TreeNode("Entites")) {
 
 		if (ImGui::Button("CreateObject", ImVec2(150, 22))) {
-			SystemManager::GetInstance().CreateEntity("GameObject");
+			SceneManager::GetInstance().GetCurrentGameScene()->CreateEntity<SkinnedRenderer>("GameObject");
 		}
 
-		entityList = SystemManager::GetInstance().GetInstance().GetEntityList();
+		entityList = SceneManager::GetInstance().GetCurrentGameScene()->GetEntities();
 
 		for (int i = 0; i < entityList.size(); i++)
 		{

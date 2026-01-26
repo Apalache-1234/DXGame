@@ -56,8 +56,12 @@ void KeyInput::Update()
 {
     keyInputsPrev = keyInputsCur;
 
-    for (int vk = 0; vk < 256; ++vk) {
-        SHORT state = GetAsyncKeyState(vk);
-        keyInputsCur[vk] = (state & 0x8000) != 0;
+    BYTE keyState[256];
+
+    if (GetKeyboardState(keyState))
+    {
+        for (int vk = 0; vk < 256; ++vk) {
+            keyInputsCur[vk] = (keyState[vk] & 0x80) != 0;
+        }
     }
 }

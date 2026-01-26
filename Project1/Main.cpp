@@ -29,6 +29,9 @@
 #include "DebugUIRenderer.h"
 #include "TweenSystem.h"
 #include "Tween.h"
+#include "GameScene.h"
+#include "SceneManager.h"
+#include "TitleScene.h"
 
 float hoge = 0;
 
@@ -46,7 +49,7 @@ int main()
 	auto PhysicsSystem = &PhysicsSystem::GetInstance();
 	auto keySystem = &KeyInput::GetInstance();
 	auto tweenSystem = &TweenSystem::GetInstance();
-
+	auto SceneManager = &SceneManager::GetInstance();
 
 	window->Init();
 	renSys->Init();
@@ -57,9 +60,7 @@ int main()
 
 	meshLoader->Init();
 
-	auto player = SystemManager->CreateEntity<SkinnedRenderer>("Player");
-	auto player4 = SystemManager->CreateEntity<SkinnedRenderer>("Player4");
-	auto player2 = SystemManager->CreateEntity<SkinnedRenderer>("Player2");
+
 	auto Skybox = SystemManager->CreateEntity<SkyBox>("Skybox");
 	auto debugColCube = SystemManager->CreateEntity<DebugCollider>("DebugCube");
 	auto debugColSphere = SystemManager->CreateEntity("DebugSphere");
@@ -71,24 +72,9 @@ int main()
 	auto debugGrids = SystemManager->CreateEntity<DebugGrids>("DebugGrids");
 	auto debugUI = SystemManager->CreateEntity<DebugUIRenderer>("DebugUIRenderer");
 
-	player->AddComponent<Collider>();
-	player->AddComponent<Rigidbody>();
-
-	player->GetComponent<Rigidbody>()->isStatic = true;
-
-	player->SetWorldScale(DirectX::XMVectorSet(100,10,100,0));
-	player->SetWorldPosition(DirectX::XMVectorSet(0,-5,0,0));
-	player2->SetWorldScale(DirectX::XMVectorSet(1, 1, 1,0));
-	player2->SetWorldPosition(DirectX::XMVectorSet(0,10,0,0));
-	player2->SetWorldRotation(DirectX::XMVectorSet(0,0,0,0));
-
 	debugColSphere->AddComponent<DebugCollider>(Collider::ColliderType::Sphere);
 
-	bool show_demo_window = true;
-
-	UINT fpsCounter = 0;
-
-	float timeForFpsCounter = 0;
+	SceneManager->AddScene(std::make_shared<TitleScene>("TitleScene"));
 
 	shared_ptr<Tween<XMVECTOR>> tw = nullptr;
 
@@ -98,10 +84,6 @@ int main()
 		PhysicsSystem->MainLoop();
 		keySystem->Update();
 		tweenSystem->Update();
-
-		hoge += 360 * SystemManager->GetGameDeltaTime();
-
-		DirectX::XMVECTOR velocity = DirectX::XMVectorSet(0,0,0,0);
 
 		if (keySystem->GetKey(I))
 		{
@@ -117,86 +99,9 @@ int main()
 			tw = nullptr;
 		}
 
-		if (tw)
-		{
-			player->SetWorldPosition(tw->GetValue());
-		}
-
-		if (keySystem->GetKeyDown(A))
-		{
-			velocity = DirectX::XMVectorAdd(velocity , Utility::left);
-		}
-
-		if (keySystem->GetKeyDown(D))
-		{
-			velocity = DirectX::XMVectorAdd(velocity, Utility::right);
-		}
-
-		if (keySystem->GetKeyDown(W))
-		{
-			velocity = DirectX::XMVectorAdd(velocity, Utility::forward);
-		}
-
-		if (keySystem->GetKeyDown(S))
-		{
-			velocity = DirectX::XMVectorAdd(velocity, Utility::backward);
-		}
-
-		if (keySystem->GetKey(SPACE))
-		{
-			player2->GetComponent<Rigidbody>()->SetVelocity(DirectX::XMVectorScale(Utility::up , 20));
-		}
-
-		RayCast ray = RayCast(player4->GetWorldPosition() , player4->GetForward(), 3);
-
-		if (keySystem->GetKey(Z))
-		{
-			player4->AddWorldPosition(DirectX::XMVectorScale(player4->GetForward(), 0.1));
-		}
-
-		velocity = DirectX::XMVectorScale(velocity , 0.07);
-
-		auto hoge1 = DirectX::XMVectorScale(player2->GetRight(),4);
-		auto hoge2 = DirectX::XMVectorScale(player2->GetUp(),4);
-		auto hoge3 = DirectX::XMVectorScale(player2->GetForward(),4);
-
-		auto vec = player2->GetWorldPosition();
-
-		auto axis = DirectX::XMVectorSet(0.5, 0.5, 0.5, 0);
-
-		axis = DirectX::XMVector3Normalize(axis);
-
-		auto mousePos = keySystem->GetMousePos();
-
-		auto norVec = DirectX::XMVectorSubtract(Camera::GetInstance().GetPosScreenToWorld(DirectX::XMLoadFloat2(&mousePos)), Camera::GetInstance().GetPosition());
-
-		RayCast(Camera::GetInstance().GetPosition(), DirectX::XMVector3Normalize(norVec), 100.0f);
-
-		if (keySystem->GetKeyDown(T))
-		{
-			player4->SetQuaternion(DirectX::XMQuaternionRotationAxis(axis, 0.01));
-		}
-
-		hoge1 = DirectX::XMVectorAdd(hoge1 , vec);
-		hoge2 = DirectX::XMVectorAdd(hoge2 , vec);
-		hoge3 = DirectX::XMVectorAdd(hoge3 , vec);
-
 		ColliderDetection::GetInstance().MainLoop();
 
 		renSys->Draw();
-
-		timeForFpsCounter += SystemManager->GetGameDeltaTime();
-
-		fpsCounter++;
-
-		if (timeForFpsCounter >= 1)
-		{
-			SystemManager->GetInstance().fps = fpsCounter;
-
-			fpsCounter = 0;
-
-			timeForFpsCounter = 0;
-		}
 	}
 
 	myImGui->Term();
