@@ -3,6 +3,7 @@
 
 #include <memory>
 #include <typeindex>
+#include <iostream>
 #include "Component.h"
 
 class Entity;
@@ -12,7 +13,7 @@ class ScriptComponent : public Component
 public:
 	ScriptComponent(std::shared_ptr<Entity> ent);
 
-	~ScriptComponent();
+	virtual ~ScriptComponent();
 
 	virtual void OnMousePointerIn();
 

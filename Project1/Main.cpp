@@ -32,6 +32,7 @@
 #include "GameScene.h"
 #include "SceneManager.h"
 #include "TitleScene.h"
+#include "CardGameScene.h"
 
 float hoge = 0;
 
@@ -75,6 +76,7 @@ int main()
 	debugColSphere->AddComponent<DebugCollider>(Collider::ColliderType::Sphere);
 
 	SceneManager->AddScene(std::make_shared<TitleScene>("TitleScene"));
+	SceneManager->AddScene(std::make_shared<CardGameScene>("CardGameScene"));
 
 	shared_ptr<Tween<XMVECTOR>> tw = nullptr;
 
@@ -92,6 +94,16 @@ int main()
 			tw->OnComplete([]() { std::cout << "COMP" << std::endl; return; });
 			tw->OnStart([]() { std::cout << "START" << std::endl; return; });
 			tw->OnUpdate([]() { std::cout << "UPDATE" << std::endl; return; });
+		}
+
+		if (keySystem->GetKey(D))
+		{
+			SceneManager->ChangeGameScene("TitleScene");
+		}
+
+		if (keySystem->GetKey(A))
+		{
+			SceneManager->ChangeGameScene("CardGameScene");
 		}
 
 		if (keySystem->GetKeyDown(N))

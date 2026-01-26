@@ -291,10 +291,6 @@ void DXRenderSystem::RenderDLShadowMap(std::shared_ptr<DirectionalLight> dl, int
 
 	cmd_queue->Signal(fence.Get(), cur_value);
 
-	bool index= backbuffer_index;
-
-	backbuffer_index = !index;
-
 	if (fence->GetCompletedValue() < fence_counter[backbuffer_index])
 	{
 		fence->SetEventOnCompletion(fence_counter[backbuffer_index], fence_event);
@@ -302,7 +298,8 @@ void DXRenderSystem::RenderDLShadowMap(std::shared_ptr<DirectionalLight> dl, int
 		WaitForSingleObjectEx(fence_event, INFINITE, false);
 	}
 
-	fence_counter[backbuffer_index] = cur_value + 1;
+	fence_counter[0] = cur_value + 1;
+	fence_counter[1] = cur_value + 1;
 
 	cmd_allocator[backbuffer_index]->Reset();
 

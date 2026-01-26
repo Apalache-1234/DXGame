@@ -13,7 +13,7 @@ class Entity;
 class GameScene
 {
 public:
-	GameScene();
+	GameScene(std::string name);
 
 	virtual ~GameScene();
 

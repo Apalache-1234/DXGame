@@ -25,6 +25,7 @@ D:\Users\2312031\Documents\DXGame\Project1\DXRenderSystem.cpp;D:\Users\2312031\D
 D:\Users\2312031\Documents\DXGame\Project1\Entity.cpp;D:\Users\2312031\Documents\DXGame\Project1\x64\Debug\Entity.obj
 D:\Users\2312031\Documents\DXGame\Project1\Flags.cpp;D:\Users\2312031\Documents\DXGame\Project1\x64\Debug\Flags.obj
 D:\Users\2312031\Documents\DXGame\Project1\GameScene.cpp;D:\Users\2312031\Documents\DXGame\Project1\x64\Debug\GameScene.obj
+D:\Users\2312031\Documents\DXGame\Project1\GameStartUIScript.cpp;D:\Users\2312031\Documents\DXGame\Project1\x64\Debug\GameStartUIScript.obj
 D:\Users\2312031\Documents\DXGame\Project1\PEEdgeFilter.cpp;D:\Users\2312031\Documents\DXGame\Project1\x64\Debug\PEEdgeFilter.obj
 D:\Users\2312031\Documents\DXGame\Project1\PEHorizonGaussianBlur.cpp;D:\Users\2312031\Documents\DXGame\Project1\x64\Debug\PEHorizonGaussianBlur.obj
 D:\Users\2312031\Documents\DXGame\Project1\PEMosaicFilter.cpp;D:\Users\2312031\Documents\DXGame\Project1\x64\Debug\PEMosaicFilter.obj
@@ -32,6 +33,7 @@ D:\Users\2312031\Documents\DXGame\Project1\PERadicalBlur.cpp;D:\Users\2312031\Do
 D:\Users\2312031\Documents\DXGame\Project1\PEVerticalGaussianBlur.cpp;D:\Users\2312031\Documents\DXGame\Project1\x64\Debug\PEVerticalGaussianBlur.obj
 D:\Users\2312031\Documents\DXGame\Project1\PostEffect.cpp;D:\Users\2312031\Documents\DXGame\Project1\x64\Debug\PostEffect.obj
 D:\Users\2312031\Documents\DXGame\Project1\SceneManager.cpp;D:\Users\2312031\Documents\DXGame\Project1\x64\Debug\SceneManager.obj
+D:\Users\2312031\Documents\DXGame\Project1\ScriptComponent.cpp;D:\Users\2312031\Documents\DXGame\Project1\x64\Debug\ScriptComponent.obj
 D:\Users\2312031\Documents\DXGame\Project1\SystemManager.cpp;D:\Users\2312031\Documents\DXGame\Project1\x64\Debug\SystemManager.obj
 D:\Users\2312031\Documents\DXGame\Project1\KeyInput.cpp;D:\Users\2312031\Documents\DXGame\Project1\x64\Debug\KeyInput.obj
 D:\Users\2312031\Documents\DXGame\Project1\Light.cpp;D:\Users\2312031\Documents\DXGame\Project1\x64\Debug\Light.obj
@@ -48,7 +50,9 @@ D:\Users\2312031\Documents\DXGame\Project1\Rigidbody.cpp;D:\Users\2312031\Docume
 D:\Users\2312031\Documents\DXGame\Project1\SkyBox.cpp;D:\Users\2312031\Documents\DXGame\Project1\x64\Debug\SkyBox.obj
 D:\Users\2312031\Documents\DXGame\Project1\SpotLight.cpp;D:\Users\2312031\Documents\DXGame\Project1\x64\Debug\SpotLight.obj
 D:\Users\2312031\Documents\DXGame\Project1\TextureLoader.cpp;D:\Users\2312031\Documents\DXGame\Project1\x64\Debug\TextureLoader.obj
+D:\Users\2312031\Documents\DXGame\Project1\TitleScene.cpp;D:\Users\2312031\Documents\DXGame\Project1\x64\Debug\TitleScene.obj
 D:\Users\2312031\Documents\DXGame\Project1\TweenSystem.cpp;D:\Users\2312031\Documents\DXGame\Project1\x64\Debug\TweenSystem.obj
 D:\Users\2312031\Documents\DXGame\Project1\UIRenderer.cpp;D:\Users\2312031\Documents\DXGame\Project1\x64\Debug\UIRenderer.obj
 D:\Users\2312031\Documents\DXGame\Project1\Utility.cpp;D:\Users\2312031\Documents\DXGame\Project1\x64\Debug\Utility.obj
 D:\Users\2312031\Documents\DXGame\Project1\Window.cpp;D:\Users\2312031\Documents\DXGame\Project1\x64\Debug\Window.obj
+D:\Users\2312031\Documents\DXGame\Project1\CardGameScene.cpp;D:\Users\2312031\Documents\DXGame\Project1\x64\Debug\CardGameScene.obj

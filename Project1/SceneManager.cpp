@@ -47,9 +47,9 @@ void SceneManager::ResetGameScene(std::shared_ptr<GameScene> scene)
 {
     currentGameScene->Reset();
 
-
-
     currentGameScene = scene;
+
+    currentGameScene->Load();
 }
 
 void SceneManager::AddScene(std::shared_ptr<GameScene> scene)
@@ -66,6 +66,8 @@ void SceneManager::AddScene(std::shared_ptr<GameScene> scene)
 
     scenes.emplace_back(std::dynamic_pointer_cast<GameScene>(scene));
     scenesN[scenes.back()->GetName()] = scenes.back();
+
+    std::cout << scenes.back()->GetName() << std::endl;
 
     if (scenes.size() == 1)
     {

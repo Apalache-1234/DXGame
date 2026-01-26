@@ -2,8 +2,9 @@
 #include "SkinnedRenderer.h"
 #include "Collider.h"
 #include "RigidBody.h"
+#include "GameStartUIScript.h"
 
-TitleScene::TitleScene(std::string name)
+TitleScene::TitleScene(std::string name) : GameScene::GameScene(name)
 {
 }
 
@@ -13,10 +14,5 @@ TitleScene::~TitleScene()
 
 void TitleScene::Load()
 {
-	std::cout << "fainfuanw" << std::endl;
-
-	CreateEntity<SkinnedRenderer>("Player");
-	CreateEntity<SkinnedRenderer>("Player4");
-	CreateEntity<SkinnedRenderer>("Player2");
-
+	CreateEntity<GameStartUIScript>("GameStartUI");
 }

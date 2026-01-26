@@ -204,6 +204,12 @@
     <ClCompile Include="TitleScene.cpp">
       <Filter>シーン\ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="CardGameScene.cpp">
+      <Filter>シーン\ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="GameStartUIScript.cpp">
+      <Filter>スクリプト\ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="SkinnedVertexShader.hlsl">
@@ -435,6 +441,12 @@
     </ClInclude>
     <ClInclude Include="TitleScene.h">
       <Filter>シーン\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="CardGameScene.h">
+      <Filter>シーン\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="GameStartUIScript.h">
+      <Filter>スクリプト\ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
