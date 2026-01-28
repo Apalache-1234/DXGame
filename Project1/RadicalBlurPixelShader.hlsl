@@ -44,7 +44,7 @@ pixelOp main(output vertexOp)
     {
         float t = i / (float) (sampleCount - 1);
         float2 sampleUV = uv + direction * t * blurStrength;
-        sampleUV = clamp(sampleUV , 0 , 1);
+        sampleUV = clamp(sampleUV, float2(0, 0), float2(1, 1));
         color += tex.Sample(tex_sampler, sampleUV);
         weightSum += 1.0;
     }

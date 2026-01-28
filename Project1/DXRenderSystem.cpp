@@ -159,20 +159,24 @@ void DXRenderSystem::WaitForRender()
 
 std::unique_ptr<DXRenderSystem> DXRenderSystem::instance = nullptr;
 
-void DXRenderSystem::RenderPostEffect()
+int in = 0;
+
+int out = 1;
+
+void DXRenderSystem::RenderPostEffect(bool whenOnUi)
 {
+	in = 0;
+
+	out = 1;
+
 	auto posts = SystemManager::GetInstance().GetComponentList<PostEffect>();
 
 	posts.erase(std::remove_if(posts.begin(), posts.end(),
-		[](shared_ptr<PostEffect> x) { return !x->flag; }),
+		[whenOnUi](shared_ptr<PostEffect> x) { return !x->flag || (x->onUI != whenOnUi); }),
 		posts.end());
 
 	if (posts.empty())
 		return;
-
-	int in = 0;
-
-	int out = 1;
 
 	D3D12_RESOURCE_BARRIER barrier;
 
@@ -526,7 +530,7 @@ void DXRenderSystem::Draw()
 
 	RenderComponent<SkinnedRenderer>();
 
-	if (*Flags::GetInstance().isDebug)
+	if (Flags::GetInstance().isDebug)
 	{
 		RenderComponent<DebugCollider>();
 		RenderComponent<DebugOrigin>();
@@ -537,11 +541,13 @@ void DXRenderSystem::Draw()
 		RenderComponent<DebugGrids>();
 	}
 
-	RenderPostEffect();
+	RenderPostEffect(false);
 
 	RenderComponent<UIRenderer>();
 
-	if (*Flags::GetInstance().isDebug)
+	RenderPostEffect(true);
+
+	if (Flags::GetInstance().isDebug)
 	{
 		RenderComponent<DebugUIRenderer>();
 	}

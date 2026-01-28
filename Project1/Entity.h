@@ -191,7 +191,7 @@ public:
 	/// </summary>
 	/// <typeparam name="T">追加するタイプ</typeparam>
 	template <typename T , typename... Args , std::enable_if_t<std::is_base_of_v<Component, T>>* = nullptr>
-	void AddComponent(Args&&... args )
+	std::shared_ptr<T> AddComponent(Args&&... args )
 	{
 		if (components.find(typeid(T)) == components.end())
 		{
@@ -205,6 +205,8 @@ public:
 			// コンポーネントの初期化
 			components[typeid(T)]->Init();
 		}
+
+		return std::dynamic_pointer_cast<T>(components[typeid(T)]);
 	}
 
 	/// <summary>

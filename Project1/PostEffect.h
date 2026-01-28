@@ -17,6 +17,8 @@ public:
 	void AddCommand(ComPtr<ID3D12GraphicsCommandList> cmdList) override;
 
 	bool flag = false;
+
+	bool onUI = false;
 protected:
 	virtual void InitPostEffect();
 

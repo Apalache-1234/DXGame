@@ -77,7 +77,7 @@ public:
 		}
 	}
 
-	void RenderPostEffect();
+	void RenderPostEffect(bool whenOnUi);
 
 	void RenderIMGUI();
 

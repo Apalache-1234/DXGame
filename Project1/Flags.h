@@ -13,9 +13,9 @@ public:
 
 	static Flags& GetInstance();
 
-	std::shared_ptr<bool> isDebug = std::make_shared<bool>();
+	bool isDebug = false;
 
-	std::shared_ptr<bool> isTimeStop = std::make_shared<bool>();
+	bool isTimeStop = false;
 private:
 	/// <summary>
     /// 全般の状態を示すためのクラスのシングルトンのインスタンス

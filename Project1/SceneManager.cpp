@@ -1,4 +1,5 @@
 #include "SceneManager.h"
+#include "Flags.h"
 
 SceneManager::SceneManager()
 {
@@ -46,6 +47,8 @@ void SceneManager::ChangeGameScene(std::string name)
 void SceneManager::ResetGameScene(std::shared_ptr<GameScene> scene)
 {
     currentGameScene->Reset();
+
+    Flags::GetInstance().isTimeStop = false;
 
     currentGameScene = scene;
 
@@ -99,4 +102,9 @@ std::shared_ptr<GameScene> SceneManager::GetScene(UINT ind)
     std::cout << "Scene : Index " << ind << " ‚Í‘¶Ý‚µ‚Ü‚¹‚ñ" << std::endl;
 
     return nullptr;
+}
+
+std::vector<std::shared_ptr<GameScene>> SceneManager::GetScenes()
+{
+    return scenes;
 }

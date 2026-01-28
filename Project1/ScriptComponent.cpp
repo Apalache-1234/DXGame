@@ -2,7 +2,8 @@
 
 ScriptComponent::ScriptComponent(std::shared_ptr<Entity> ent) : Component::Component(ent)
 {
-	OnStart();
+	tweenSystem = &TweenSystem::GetInstance();
+	systemManager = &SystemManager::GetInstance();
 }
 
 ScriptComponent::~ScriptComponent()
@@ -39,4 +40,9 @@ void ScriptComponent::OnFixedUpdate()
 
 void ScriptComponent::OnDestroy()
 {
+}
+
+void ScriptComponent::Init()
+{
+	OnStart();
 }

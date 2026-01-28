@@ -4,6 +4,7 @@
 #include <memory>
 #include <typeindex>
 #include "ScriptComponent.h"
+#include "Tween.h"
 
 class Entity;
 
@@ -15,6 +16,8 @@ public:
 	~GameStartUIScript();
 
 	void OnStart() override;
+
+	void OnUpdate() override;
 protected:
 };
 

@@ -87,15 +87,6 @@ int main()
 		keySystem->Update();
 		tweenSystem->Update();
 
-		if (keySystem->GetKey(I))
-		{
-			tw = tweenSystem->DoTween<XMVECTOR>(DirectX::XMVectorSet(0,10 , 0 , 0), DirectX::XMVectorZero(), EasingType::EaseOutQuint);
-
-			tw->OnComplete([]() { std::cout << "COMP" << std::endl; return; });
-			tw->OnStart([]() { std::cout << "START" << std::endl; return; });
-			tw->OnUpdate([]() { std::cout << "UPDATE" << std::endl; return; });
-		}
-
 		if (keySystem->GetKey(D))
 		{
 			SceneManager->ChangeGameScene("TitleScene");

@@ -86,11 +86,11 @@ std::shared_ptr<Entity> SystemManager::CreateEntity(std::string name)
 
 void SystemManager::MainLoop()
 {
-	if (*Flags::GetInstance().isTimeStop && !pause)
+	if (Flags::GetInstance().isTimeStop && !pause)
 	{
 		PauseTime();
 	}
-	else if(!*Flags::GetInstance().isTimeStop && pause)
+	else if(!Flags::GetInstance().isTimeStop && pause)
 	{
 		UnpauseTime();
 	}

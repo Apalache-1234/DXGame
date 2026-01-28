@@ -5,6 +5,7 @@
 #include <typeindex>
 #include <iostream>
 #include "Component.h"
+#include "TweenSystem.h"
 
 class Entity;
 
@@ -31,10 +32,12 @@ public:
 
 	virtual void OnDestroy();
 
-	std::shared_ptr<Entity> attachFrom;
-protected:
-	//このコンポーネントを持つエンティティーのポインタ
+	void Init() override;
 
+protected:
+	TweenSystem* tweenSystem;
+
+	SystemManager* systemManager;
 };
 
 #endif

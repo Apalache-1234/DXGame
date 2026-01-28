@@ -28,6 +28,7 @@ public:
 	void AddScene(std::shared_ptr<GameScene> scene);
 	std::shared_ptr<GameScene> GetScene(std::string name);
 	std::shared_ptr<GameScene> GetScene(UINT ind);
+	std::vector<std::shared_ptr<GameScene>> GetScenes();
 private:
 	void ResetGameScene(std::shared_ptr<GameScene> scene);
 

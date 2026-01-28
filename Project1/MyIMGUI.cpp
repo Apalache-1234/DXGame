@@ -15,6 +15,7 @@
 #include "PERadicalBlur.h"
 #include "PEVerticalGaussianBlur.h"
 #include "PEHorizonGaussianBlur.h"
+#include "SceneManager.h"
 
 std::unique_ptr<MyIMGUI> MyIMGUI::instance = nullptr;
 
@@ -955,6 +956,20 @@ void ShowEntityTree(shared_ptr<Entity> ent)
 
 void ShowTrees()
 {
+	if (ImGui::TreeNode("Scenes")) {
+		auto sceneList = SceneManager::GetInstance().GetScenes();
+
+		for (int i = 0; i < sceneList.size(); i++)
+		{
+			if (ImGui::Selectable(sceneList[i]->GetName().c_str()))
+			{
+				SceneManager::GetInstance().ChangeGameScene(i);
+			}
+		}
+
+		ImGui::TreePop();
+	}
+
 	if (ImGui::TreeNode("Entites")) {
 
 		if (ImGui::Button("CreateObject", ImVec2(150, 22))) {
@@ -1025,13 +1040,19 @@ void DebugMenu()
 	}
 }
 
+void ShowPostEffectFlags(shared_ptr<PostEffect> ps)
+{
+	ImGui::Checkbox("Flag", &ps->flag);
+	ImGui::Checkbox("OnUI", &ps->onUI);
+}
+
 void ShowEdgeFilterPostEffect()
 {
 	if (ImGui::TreeNode("EdgeFilter")) {
 
 		auto edgeF = SystemManager::GetInstance().GetComponentList<PEEdgeFilter>();
 
-		ImGui::Checkbox("Flag", &edgeF.front()->flag);
+		ShowPostEffectFlags(edgeF.front());
 
 		auto trans = edgeF.front()->GetTransition();
 
@@ -1049,7 +1070,7 @@ void ShowMosaicFilterPostEffect()
 
 		auto mosaicF = SystemManager::GetInstance().GetComponentList<PEMosaicFilter>();
 
-		ImGui::Checkbox("Flag", &mosaicF.front()->flag);
+		ShowPostEffectFlags(mosaicF.front());
 
 		auto intens = mosaicF.front()->GetIntensify();
 
@@ -1067,7 +1088,7 @@ void ShowRadicalBlurPostEffect()
 
 		auto rad = SystemManager::GetInstance().GetComponentList<PERadicalBlur>();
 
-		ImGui::Checkbox("Flag", &rad.front()->flag);
+		ShowPostEffectFlags(rad.front());
 
 		auto samp = rad.front()->GetSample();
 
@@ -1093,7 +1114,7 @@ void ShowGaussianBlurPostEffect()
 
 		auto hg = SystemManager::GetInstance().GetComponentList<PEHorizonGaussianBlur>();
 
-		ImGui::Checkbox("Flag", &hg.front()->flag);
+		ShowPostEffectFlags(hg.front());
 
 		auto samp = hg.front()->GetKernelRadius();
 
@@ -1242,12 +1263,12 @@ void MyIMGUI::MainLoop()
 
 		if (ImGui::TreeNode("Flags")) {
 
-			ImGui::Checkbox("Debug", flagIns.isDebug.get());
+			ImGui::Checkbox("Debug", &flagIns.isDebug);
 
-			if (*flagIns.isDebug)
+			if (flagIns.isDebug)
 				DebugMenu();
 
-			ImGui::Checkbox("Time", flagIns.isTimeStop.get());
+			ImGui::Checkbox("Time", &flagIns.isTimeStop);
 
 			ImGui::TreePop();
 		}
