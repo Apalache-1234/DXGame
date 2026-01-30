@@ -17,7 +17,7 @@ void MeshLoader::Init()
 	LoadMesh("Models/Box.fbx", BOX);
 	LoadMesh("Models/Plane.fbx", PLANE);
 	LoadMesh("Models/Sphere.fbx", SPHERE);
-	LoadMesh("Models/Card1.fbx", CARD);
+	LoadMesh("Models/Sphere.fbx", CARD);
 	LoadMesh("Models/OriginMarker.fbx", DEBUG_ORIGIN);
 	LoadMesh("Models/RayDebug.fbx", DEBUG_RAY);
 }

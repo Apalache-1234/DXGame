@@ -28,11 +28,13 @@ public:
 	std::vector<std::shared_ptr<Entity>> GetEntities();
 
 	template <typename T, std::enable_if_t<std::is_base_of_v<Component, T>>* = nullptr>
-	void CreateEntity(std::string name)
+	std::shared_ptr<Entity> CreateEntity(std::string name)
 	{
 		auto ent = SystemManager::GetInstance().CreateEntity<T>(name);
 
 		entites.emplace_back(ent);
+
+		return ent;
 	}
 private:
 	std::vector<std::shared_ptr<Entity>> entites;

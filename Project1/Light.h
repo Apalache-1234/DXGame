@@ -38,13 +38,13 @@ public:
 
 	UINT GetShadowMapIndex();
 private:
-	float power = 1;
+	float power = 0.5f;
 
 	UINT shadowMapIndex = 0;
 
 	bool isCastShadow = false;
 
-	DirectX::XMVECTOR color = DirectX::XMVectorSet(0.3, 0, 0, 1);
+	DirectX::XMVECTOR color = DirectX::XMVectorSet(0.6, 0.5, 0.5, 1);
 };
 
 #endif
