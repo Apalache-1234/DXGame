@@ -37,6 +37,7 @@ public:
 		BOX,
 		PLANE,
 		SPHERE,
+		CARD,
 		DEBUG_ORIGIN,
 		DEBUG_RAY
 	};

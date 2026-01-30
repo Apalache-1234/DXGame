@@ -133,7 +133,7 @@ void Renderer::AddRenderCommand(ComPtr<ID3D12GraphicsCommandList>& cmdList, int 
 	{
 		auto& mesh = meshData->meshes[i];
 
-		int texHandlesIndex = (i * 3) % texHandles.size();
+		int texHandlesIndex = (i * 2) % texHandles.size();
 
 		cmdList->SetGraphicsRootDescriptorTable(1, texHandles[texHandlesIndex]->gpuHandle);
 

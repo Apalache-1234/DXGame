@@ -6,6 +6,8 @@
 #include <iostream>
 #include "Component.h"
 #include "TweenSystem.h"
+#include "MeshLoader.h"
+#include "TextureLoader.h"
 
 class Entity;
 
@@ -38,6 +40,10 @@ protected:
 	TweenSystem* tweenSystem;
 
 	SystemManager* systemManager;
+
+	MeshLoader* meshLoader;
+
+	TextureLoader* textureLoader;
 };
 
 #endif

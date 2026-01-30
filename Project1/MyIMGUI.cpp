@@ -264,7 +264,8 @@ void ShowComponentInfo(std::shared_ptr<SkinnedRenderer> rend)
 	    "SPARTAN",
 	    "BOX",
 	    "PLANE",
-		"SPHERE"
+		"SPHERE",
+		"CARD"
 		};
 
 		MeshLoader::MESHTYPE currentMeshType = rend->GetCurrentMeshType();
@@ -479,7 +480,7 @@ ComPtr<ID3D12Resource> LoadImageResource()
 	ofn.lStructSize = sizeof(OPENFILENAME);
 	ofn.lpstrFile = filePath;
 	ofn.nMaxFile = MAXLENGTH;
-	ofn.lpstrFilter = "画像ファイル (*.dds) \0*.dds\0";
+	ofn.lpstrFilter = "画像ファイル (*.png) \0*.png\0";
 	ofn.nFilterIndex = 1;
 	ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
 

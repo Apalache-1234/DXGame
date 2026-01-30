@@ -4,6 +4,8 @@ ScriptComponent::ScriptComponent(std::shared_ptr<Entity> ent) : Component::Compo
 {
 	tweenSystem = &TweenSystem::GetInstance();
 	systemManager = &SystemManager::GetInstance();
+	meshLoader = &MeshLoader::GetInstance();
+	textureLoader = &TextureLoader::GetInstance();
 }
 
 ScriptComponent::~ScriptComponent()

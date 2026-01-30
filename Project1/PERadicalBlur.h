@@ -32,7 +32,7 @@ private:
     {
         DirectX::XMFLOAT2 screenCenter = { 0.5f, 0.5f }; 
         DirectX::XMFLOAT2 padding1;
-        float blurStrength = 0.5f; 
+        float blurStrength = 0.0f; 
         DirectX::XMFLOAT3 padding2;
         int sampleCount = 16; 
         DirectX::XMFLOAT3 padding3;

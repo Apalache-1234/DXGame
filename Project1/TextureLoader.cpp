@@ -2,7 +2,8 @@
 #include "Entity.h"
 #include "DirectXMath.h"
 #include "DXRenderSystem.h"
-
+#include "WICTextureLoader.h"
+#include <fileSystem>
 TextureLoader::TextureLoader()
 {
 }
@@ -37,13 +38,27 @@ ComPtr<ID3D12Resource> TextureLoader::LoadTexture(const std::string filePath)
 
 	batch.Begin();
 
-	HRESULT hr = DirectX::CreateDDSTextureFromFile(DXRenderSystem::GetInstance().GetDevice().Get(), batch, ws.c_str(), resource.GetAddressOf(), false);
+	std::filesystem::path path(ws);
+
+	std::wstring ext = path.extension().wstring();
+	std::transform(ext.begin(), ext.end(), ext.begin(), ::tolower);
+
+	HRESULT hr;
+
+	if (ext == L".dds")
+	{
+		hr = DirectX::CreateDDSTextureFromFile(DXRenderSystem::GetInstance().GetDevice().Get(), batch, ws.c_str(), resource.GetAddressOf(), false);
+	}
+	else if (ext == L".png" || ext == L".jpg" || ext == L".jpeg" || ext == L".bmp" || ext == L".tif")
+	{
+		hr = DirectX::CreateWICTextureFromFile(DXRenderSystem::GetInstance().GetDevice().Get(), batch, ws.c_str(), resource.GetAddressOf(), false);
+	}
 
 	std::wcout << L"path = " << ws << std::endl;
 
 	if (FAILED(hr))
 	{
-		std::cerr << "ddsファイル読み込みエラー" << std::endl;
+		std::cerr << "テクスチャファイル読み込みエラー" << std::endl;
 
 		hr = DirectX::CreateDDSTextureFromFile(DXRenderSystem::GetInstance().GetDevice().Get(), batch, L"Textures/error.dds", resource.GetAddressOf(), false);
 	}

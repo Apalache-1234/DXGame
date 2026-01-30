@@ -75,7 +75,6 @@ int main()
 
 	debugColSphere->AddComponent<DebugCollider>(Collider::ColliderType::Sphere);
 
-	SceneManager->AddScene(std::make_shared<TitleScene>("TitleScene"));
 	SceneManager->AddScene(std::make_shared<CardGameScene>("CardGameScene"));
 
 	shared_ptr<Tween<XMVECTOR>> tw = nullptr;

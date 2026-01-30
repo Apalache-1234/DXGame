@@ -334,6 +334,8 @@ float4 ApplyLightShading(float4 col, float4 pos, float3 normal,  int matIdx )
 	if(fogFlag)
         resultCol.xyz = lerp(resultCol, fogColor, saturate(len / fogRange));
 	
+    resultCol.a = col.a;
+	
 	return resultCol;
 }
 
