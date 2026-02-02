@@ -1,5 +1,6 @@
 #include "Window.h"
 #include "imgui_impl_win32.h"
+#include <iostream>
 
 Window::Window() : hInstance(GetModuleHandle(NULL)){}
 
@@ -22,7 +23,12 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT nMsg, WPARAM wParam, LPARAM lParam)
 	switch (nMsg)
 	{
 	case WM_PAINT:
-		break;
+	{
+		PAINTSTRUCT ps;
+		BeginPaint(hWnd, &ps);
+		EndPaint(hWnd, &ps);
+	}
+	return 0;
 	case WM_DESTROY:
 		PostQuitMessage(0);
 		break;
@@ -34,15 +40,23 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT nMsg, WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
+void Window::Close()
+{
+	if (window_handle != nullptr)
+	{
+		PostMessage(window_handle, WM_CLOSE, 0, 0);
+	}
+}
+
 bool Window::MainLoop()
 {
 	MSG msg;
 
-	if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
+	while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
 	{
 		if (msg.message == WM_QUIT)
 		{
-			return false;
+			return false; // アプリ終了
 		}
 		else
 		{
@@ -51,7 +65,7 @@ bool Window::MainLoop()
 		}
 	}
 
-	return true;
+	return true; // ゲーム続行
 }
 
 bool Window::Init()

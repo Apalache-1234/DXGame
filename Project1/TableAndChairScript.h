@@ -20,8 +20,11 @@ public:
 	void OnStart() override;
 
 	void OnUpdate() override;
+
 private:
 	std::shared_ptr<SkinnedRenderer> rend;
+
+
 };
 
 #endif

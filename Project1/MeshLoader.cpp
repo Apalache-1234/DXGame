@@ -19,7 +19,7 @@ void MeshLoader::Init()
 	LoadMesh("Models/Sphere.fbx", SPHERE);
 	LoadMesh("Models/Card.fbx", CARD);
 	LoadMesh("Models/Old_wooden_table_and_chair/Old_wooden_table_and_chair55.fbx", TABLE_AND_CHAIR);
-	LoadMesh("Models/frame/frame999.fbx", FRAME);
+	LoadMesh("Models/frame/frame.fbx", FRAME);
 	LoadMesh("Models/OriginMarker.fbx", DEBUG_ORIGIN);
 	LoadMesh("Models/RayDebug.fbx", DEBUG_RAY);
 }
@@ -163,8 +163,7 @@ void MeshLoader::Init(MESHTYPE type)
 	}
 }
 
-void MeshLoader::StoreVertices(const std::string filePath, std::vector<Mesh>& meshes , M
-	eshData& meshData)
+void MeshLoader::StoreVertices(const std::string filePath, std::vector<Mesh>& meshes , MeshData& meshData)
 {
 	aiVector3D zero = aiVector3D(0, 0, 0);
 	aiColor4D one = aiColor4D(1, 1, 1, 1);

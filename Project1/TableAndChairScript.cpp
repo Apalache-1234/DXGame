@@ -1,5 +1,6 @@
 #include "TableAndChairScript.h"
 #include "MeshLoader.h"
+
 TableAndChairScript::TableAndChairScript(std::shared_ptr<Entity> ent) : ScriptComponent::ScriptComponent(ent)
 {
 }

@@ -17,11 +17,17 @@ public:
 
 	void OnStart() override;
 
+	void LightUpward();
+
 	void OnUpdate() override;
 private:
 	std::shared_ptr<SpotLight> slComp;
 
 	std::shared_ptr<Tween < XMVECTOR>> tw;
+	std::shared_ptr<Tween < XMVECTOR>> tw2;
+	std::shared_ptr<Tween < XMVECTOR>> tw3;
+
+	std::shared_ptr<Tween < XMVECTOR>> tw4;
 };
 
 #endif

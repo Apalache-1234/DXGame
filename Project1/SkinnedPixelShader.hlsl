@@ -12,7 +12,7 @@ struct output
 
     float4 color : COLOR0;
 	
-    float index : INDEX;
+    nointerpolation float index : INDEX;
 };
 
 struct pixelOp
@@ -27,14 +27,17 @@ pixelOp main(output vertexOp)
 	pixelOp output_pixel = (pixelOp)0;
 
     float2 uv = vertexOp.TexCoord;
+    
+    uv.y = 1 - uv.y;
 
 	output_pixel.color = tex.Sample(tex_sampler , uv) * vertexOp.color;
 
-	vertexOp.normal = ApplyNormalMap(uv, vertexOp.normal, vertexOp.tangent);
+    if (output_pixel.color.a < 0.9)
+        output_pixel.color.rgba = 1;
+    
+    vertexOp.normal = ApplyNormalMap(uv, vertexOp.normal, vertexOp.tangent);
 
 	output_pixel.color = ApplyLightShading(output_pixel.color, vertexOp.worldPos ,vertexOp.normal , vertexOp.index);
-
-    output_pixel.color.a = 1;
     
 	return output_pixel;
 }

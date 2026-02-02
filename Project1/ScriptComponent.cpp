@@ -42,6 +42,10 @@ void ScriptComponent::OnFixedUpdate()
 {
 }
 
+void ScriptComponent::OnRayCast()
+{
+}
+
 void ScriptComponent::OnDestroy()
 {
 }

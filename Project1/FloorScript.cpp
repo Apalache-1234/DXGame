@@ -1,4 +1,6 @@
 #include "FloorScript.h"
+#include "RayCast.h"
+#include "KeyInput.h"
 
 FloorScript::FloorScript(std::shared_ptr<Entity> ent) : ScriptComponent::ScriptComponent(ent)
 {
@@ -38,4 +40,13 @@ void FloorScript::OnUpdate()
 
 		sRend->SetMaterial(0, mat);
 	}
+
+	auto mousePos = KeyInput::GetInstance().GetMousePos();
+
+	auto mousePosXm = DirectX::XMLoadFloat2(&mousePos);
+
+	;
+	auto dir = DirectX::XMVectorSubtract(Camera::GetInstance().GetPosScreenToWorld(mousePosXm), Camera::GetInstance().GetPosition());
+
+	RayCast(Camera::GetInstance().GetPosition(), DirectX::XMVector3Normalize(dir) , 100);
 }

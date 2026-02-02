@@ -41,6 +41,8 @@ public:
 
 	virtual void OnFixedUpdate();
 
+	virtual void OnRayCast();
+
 	virtual void OnDestroy();
 
 	void Init() override;

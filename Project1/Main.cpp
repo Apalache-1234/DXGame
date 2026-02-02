@@ -106,7 +106,14 @@ int main()
 		ColliderDetection::GetInstance().MainLoop();
 
 		renSys->Draw();
+
+		if (SystemManager->GetIsExit())
+		{
+			window->Close();
+		}
 	}
+
+	renSys->WaitForRender();
 
 	myImGui->Term();
 

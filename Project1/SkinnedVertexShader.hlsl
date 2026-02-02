@@ -31,7 +31,7 @@ struct output
 
 	float4 color : COLOR0;
 	
-    float index : INDEX;
+    nointerpolation float index : INDEX;
 };
 
 #include <Header.hlsli> 

@@ -16,6 +16,8 @@ public:
 
 	bool Init();
 
+	void Close();
+
 	bool MainLoop();
 
 	bool Term();

@@ -20,7 +20,6 @@ public:
 	virtual std::type_index GetBaseType();
 protected:
 	//このコンポーネントを持つエンティティーのポインタ
-
 };
 
 #endif

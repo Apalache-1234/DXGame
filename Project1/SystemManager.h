@@ -77,7 +77,13 @@ public:
 	float GetRealTime();
 	float GetRealDeltaTime();
 
+	void ExitGame();
+
+	bool GetIsExit();
+
 private:
+	bool isExit = false;
+
 	/// <summary>
     /// 起動してからの総時間、ポーズの影響を受ける
     /// </summary>

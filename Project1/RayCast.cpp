@@ -2,6 +2,7 @@
 #include "SystemManager.h"
 #include "Utility.h"
 #include "DebugRayCast.h"
+#include "ScriptComponent.h"
 
 RayCast::RayCast(DirectX::XMVECTOR startPoint , DirectX::XMVECTOR dir, float distance)
 {
@@ -97,6 +98,8 @@ void RayCast::ParseRayInteract(DirectX::XMVECTOR p1, DirectX::XMVECTOR p2, Direc
 
 	auto result = DirectX::XMVectorAdd(p1 , uVec);
 	result = DirectX::XMVectorAdd(result , vVec);
+
+	col->attachFrom->GetComponent<ScriptComponent>()->OnRayCast();
 
 	Info info;
 

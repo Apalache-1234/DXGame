@@ -18,14 +18,18 @@ public:
 
 	void OnStart() override;
 
+	void OnBlack();
+
 	void OnUpdate() override;
 protected:
 private:
 	std::shared_ptr<Tween < float>> tw;
+	std::shared_ptr<Tween < XMVECTOR>> tw2;
 
 	std::shared_ptr<PERadicalBlur> mF;
 
 	std::vector<shared_ptr<Entity>> speedUIs;
+	shared_ptr<Entity> BlackScreen;
 };
 
 #endif

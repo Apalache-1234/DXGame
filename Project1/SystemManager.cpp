@@ -221,6 +221,16 @@ float SystemManager::GetRealDeltaTime()
 	return RealDeltaTime;
 }
 
+void SystemManager::ExitGame()
+{
+	isExit = true;
+}
+
+bool SystemManager::GetIsExit()
+{
+	return isExit;
+}
+
 void SystemManager::AllReset()
 {
 	UpdateDestroyedEntities();
