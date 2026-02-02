@@ -7,6 +7,9 @@
 #include <sstream>
 #include "Component.h"
 #include "SystemManager.h"
+#include "DirectionalLight.h"
+#include "SpotLight.h"
+#include "Entity.h"
 
 class Entity;
 

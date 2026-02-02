@@ -17,9 +17,9 @@ public:
 	static TweenSystem& GetInstance();
 
 	template<typename T>
-	std::shared_ptr<Tween<T>> DoTween(T from, T to, EasingType type = EasingType::EaseOutSine, float speed = 1, bool isOnRealTime = false)
+	std::shared_ptr<Tween<T>> DoTween(T from, T to, EasingType type = EasingType::EaseOutSine, float time = 1, bool isOnRealTime = false)
 	{
-		std::shared_ptr<ITween> base_tween = std::make_shared<Tween<T>>(from, to, type, speed, isOnRealTime);
+		std::shared_ptr<ITween> base_tween = std::make_shared<Tween<T>>(from, to, type, time, isOnRealTime);
 
 		tween.push_back(base_tween);
 

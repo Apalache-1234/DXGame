@@ -52,6 +52,7 @@ ComPtr<ID3D12Resource> TextureLoader::LoadTexture(const std::string filePath)
 	else if (ext == L".png" || ext == L".jpg" || ext == L".jpeg" || ext == L".bmp" || ext == L".tif")
 	{
 		hr = DirectX::CreateWICTextureFromFile(DXRenderSystem::GetInstance().GetDevice().Get(), batch, ws.c_str(), resource.GetAddressOf(), false);
+		
 	}
 
 	std::wcout << L"path = " << ws << std::endl;

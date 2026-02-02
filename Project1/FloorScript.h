@@ -16,7 +16,13 @@ public:
 	~FloorScript();
 
 	void OnStart() override;
+
+	void OnUpdate() override;
 protected:
+private:
+	std::shared_ptr<SkinnedRenderer> sRend;
+
+	Material mat;
 };
 
 #endif

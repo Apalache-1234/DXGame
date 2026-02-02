@@ -48,14 +48,16 @@ enum class EasingType {
 
 	EaseInBounce,
 	EaseOutBounce,
-	EaseInOutBounce
+	EaseInOutBounce,
+
+	EaseLine
 };
 
 template<typename T>
 class Tween : public ITween
 {
 public:
-	Tween(T from , T to , EasingType type = EasingType::EaseOutSine , float speed = 1, bool isOnRealTime = false) 
+	Tween(T from , T to , EasingType type = EasingType::EaseOutSine , float time = 1, bool isOnRealTime = false) 
 	{
 		this->from = from;
 
@@ -65,7 +67,7 @@ public:
 
 		this->type = type;
 
-		SetSpeed(speed);
+		SetTime(time);
 
 		onRealTime = isOnRealTime;
 
@@ -82,9 +84,9 @@ public:
 
 	}
 
-	void SetSpeed(float speed)
+	void SetTime(float time)
 	{
-		this->speed = std::clamp(speed, 0.0f, FLT_MAX);
+		this->time = std::clamp(time, 0.0f, FLT_MAX);
 	}
 
 	void ProcessTime() override
@@ -104,26 +106,29 @@ public:
 			startFunc();
 		}
 		
-		if (updateFunc && currentTime < 1 )
+		if (updateFunc && currentTime < time )
 		{
 			updateFunc();
 		}
 
 		float result = EasingFunction();
 
-		if (currentTime == 1 && !isLooping && !isEnd && completeFunc)
+		if (currentTime >= time && !isLooping && !isEnd && completeFunc)
 		{
 			isEnd = true;
 			isPlaying = false;
 			completeFunc();
 		}
 
-		currentTime += SystemManager::GetInstance().GetRealDeltaTime() * speed;
+		if (onRealTime)
+			currentTime += SystemManager::GetInstance().GetRealDeltaTime();
+		else
+			currentTime += SystemManager::GetInstance().GetGameDeltaTime();
 
 		if (isLooping)
-			currentTime = std::fmod(currentTime, 1);
+			currentTime = std::fmod(currentTime, time);
 		else
-			currentTime = std::clamp(currentTime, 0.0f, 1.0f);
+			currentTime = std::clamp(currentTime, 0.0f, time);
 
 		if constexpr (std::is_same_v<T, int>) 
 		{
@@ -165,6 +170,11 @@ public:
 
 	float GetTime()
 	{
+		return time;
+	}
+
+	float GetCurrentTime()
+	{
 		return currentTime;
 	}
 
@@ -199,46 +209,51 @@ public:
 	bool onRealTime = false;
 private:
 	float EasingFunction() {
+
+		float t = currentTime / time;
+
 		switch (type) {
-		case EasingType::EaseInSine:      return easeInSine(currentTime);
-		case EasingType::EaseOutSine:     return easeOutSine(currentTime);
-		case EasingType::EaseInOutSine:   return easeInOutSine(currentTime);
+		case EasingType::EaseInSine:      return easeInSine(t);
+		case EasingType::EaseOutSine:     return easeOutSine(t);
+		case EasingType::EaseInOutSine:   return easeInOutSine(t);
 
-		case EasingType::EaseInQuad:      return easeInQuad(currentTime);
-		case EasingType::EaseOutQuad:     return easeOutQuad(currentTime);
-		case EasingType::EaseInOutQuad:   return easeInOutQuad(currentTime);
+		case EasingType::EaseInQuad:      return easeInQuad(t);
+		case EasingType::EaseOutQuad:     return easeOutQuad(t);
+		case EasingType::EaseInOutQuad:   return easeInOutQuad(t);
 
-		case EasingType::EaseInCubic:     return easeInCubic(currentTime);
-		case EasingType::EaseOutCubic:    return easeOutCubic(currentTime);
-		case EasingType::EaseInOutCubic:  return easeInOutCubic(currentTime);
+		case EasingType::EaseInCubic:     return easeInCubic(t);
+		case EasingType::EaseOutCubic:    return easeOutCubic(t);
+		case EasingType::EaseInOutCubic:  return easeInOutCubic(t);
 
-		case EasingType::EaseInQuart:     return easeInQuart(currentTime);
-		case EasingType::EaseOutQuart:    return easeOutQuart(currentTime);
-		case EasingType::EaseInOutQuart:  return easeInOutQuart(currentTime);
+		case EasingType::EaseInQuart:     return easeInQuart(t);
+		case EasingType::EaseOutQuart:    return easeOutQuart(t);
+		case EasingType::EaseInOutQuart:  return easeInOutQuart(t);
 
-		case EasingType::EaseInQuint:     return easeInQuint(currentTime);
-		case EasingType::EaseOutQuint:    return easeOutQuint(currentTime);
-		case EasingType::EaseInOutQuint:  return easeInOutQuint(currentTime);
+		case EasingType::EaseInQuint:     return easeInQuint(t);
+		case EasingType::EaseOutQuint:    return easeOutQuint(t);
+		case EasingType::EaseInOutQuint:  return easeInOutQuint(t);
 
-		case EasingType::EaseInExpo:      return easeInExpo(currentTime);
-		case EasingType::EaseOutExpo:     return easeOutExpo(currentTime);
-		case EasingType::EaseInOutExpo:   return easeInOutExpo(currentTime);
+		case EasingType::EaseInExpo:      return easeInExpo(t);
+		case EasingType::EaseOutExpo:     return easeOutExpo(t);
+		case EasingType::EaseInOutExpo:   return easeInOutExpo(t);
 
-		case EasingType::EaseInCirc:      return easeInCirc(currentTime);
-		case EasingType::EaseOutCirc:     return easeOutCirc(currentTime);
-		case EasingType::EaseInOutCirc:   return easeInOutCirc(currentTime);
+		case EasingType::EaseInCirc:      return easeInCirc(t);
+		case EasingType::EaseOutCirc:     return easeOutCirc(t);
+		case EasingType::EaseInOutCirc:   return easeInOutCirc(t);
 
-		case EasingType::EaseInBack:      return easeInBack(currentTime);
-		case EasingType::EaseOutBack:     return easeOutBack(currentTime);
-		case EasingType::EaseInOutBack:   return easeInOutBack(currentTime);
+		case EasingType::EaseInBack:      return easeInBack(t);
+		case EasingType::EaseOutBack:     return easeOutBack(t);
+		case EasingType::EaseInOutBack:   return easeInOutBack(t);
 
-		case EasingType::EaseInElastic:   return easeInElastic(currentTime);
-		case EasingType::EaseOutElastic:  return easeOutElastic(currentTime);
-		case EasingType::EaseInOutElastic:return easeInOutElastic(currentTime);
+		case EasingType::EaseInElastic:   return easeInElastic(t);
+		case EasingType::EaseOutElastic:  return easeOutElastic(t);
+		case EasingType::EaseInOutElastic:return easeInOutElastic(t);
 
-		case EasingType::EaseInBounce:    return easeInBounce(currentTime);
-		case EasingType::EaseOutBounce:   return easeOutBounce(currentTime);
-		case EasingType::EaseInOutBounce: return easeInOutBounce(currentTime);
+		case EasingType::EaseInBounce:    return easeInBounce(t);
+		case EasingType::EaseOutBounce:   return easeOutBounce(t);
+		case EasingType::EaseInOutBounce: return easeInOutBounce(t);
+
+		case EasingType::EaseLine: return t;
 
 		default: return 9999;
 		}
@@ -439,7 +454,7 @@ private:
 
 	bool isEnd = false;
 
-	float speed = 0;
+	float time = 0;
 };
 
 #endif // !TWEEN

@@ -13,11 +13,13 @@ MeshLoader::~MeshLoader()
 
 void MeshLoader::Init()
 {
-	LoadMesh("Models/Spartan_Warrio1r.fbx", SPARTAN);
+	LoadMesh("Models/Spartan_Warrior.fbx", SPARTAN);
 	LoadMesh("Models/Box.fbx", BOX);
 	LoadMesh("Models/Plane.fbx", PLANE);
 	LoadMesh("Models/Sphere.fbx", SPHERE);
-	LoadMesh("Models/Sphere.fbx", CARD);
+	LoadMesh("Models/Card.fbx", CARD);
+	LoadMesh("Models/Old_wooden_table_and_chair/Old_wooden_table_and_chair55.fbx", TABLE_AND_CHAIR);
+	LoadMesh("Models/frame/frame999.fbx", FRAME);
 	LoadMesh("Models/OriginMarker.fbx", DEBUG_ORIGIN);
 	LoadMesh("Models/RayDebug.fbx", DEBUG_RAY);
 }
@@ -50,8 +52,6 @@ bool MeshLoader::LoadMesh(const std::string filePath , MESHTYPE type)
 	flag |= aiProcess_Triangulate;
 
 	flag |= aiProcess_GenSmoothNormals;
-
-
 
 	flag |= aiProcess_CalcTangentSpace;
 
@@ -101,9 +101,6 @@ void MeshLoader::RelateMeshWithBone(MeshData& meshData ,aiNode& node)
 
 	for (int i = 0; i < node.mNumMeshes; i++)
 	{
-		if (node.mParent == meshData.scene.mRootNode)
-			continue;
-
 		UINT boneIndex = 0;
 
 		if (meshData.boneMapping.find(name) == meshData.boneMapping.end())
@@ -121,7 +118,7 @@ void MeshLoader::RelateMeshWithBone(MeshData& meshData ,aiNode& node)
 				meshData.meshes[node.mMeshes[i]].vertexDatas[j].parentBone = boneIndex;
 			}
 		}
-		else if (meshData.meshes[node.mMeshes[i]].vertexDatas[0].parentBone == 0)
+		else if (meshData.meshes[node.mMeshes[i]].vertexDatas[0].parentBone == -1)
 		{
 			boneIndex = meshData.boneMapping[name];
 
@@ -166,7 +163,8 @@ void MeshLoader::Init(MESHTYPE type)
 	}
 }
 
-void MeshLoader::StoreVertices(const std::string filePath, std::vector<Mesh>& meshes , MeshData& meshData)
+void MeshLoader::StoreVertices(const std::string filePath, std::vector<Mesh>& meshes , M
+	eshData& meshData)
 {
 	aiVector3D zero = aiVector3D(0, 0, 0);
 	aiColor4D one = aiColor4D(1, 1, 1, 1);
@@ -322,10 +320,6 @@ void MeshLoader::InitMaterial(const std::string filePath, const aiMesh& mesh, Me
 
 		std::replace(str.begin(), str.end(), '\\', '/');
 
-		auto indexPeriod = str.find_last_of(".");
-
-		str = str.substr(0, indexPeriod) + ".dds";
-
 		data.texResource = TextureLoader::GetInstance().LoadTexture(dir + "/" + str);
 	}
 	else
@@ -340,10 +334,6 @@ void MeshLoader::InitMaterial(const std::string filePath, const aiMesh& mesh, Me
 		std::string str = path.data;
 
 		std::replace(str.begin(), str.end(), '\\', '/');
-
-		auto indexPeriod = str.find_last_of(".");
-
-		str = str.substr(0, indexPeriod) + ".dds";
 
 		data.normalTexResource = TextureLoader::GetInstance().LoadTexture(dir + "/" + str);
 	}

@@ -41,12 +41,24 @@ protected:
 	void InitInCreateMesh() override;
 
 	void AddCommand(ComPtr<ID3D12GraphicsCommandList> cmdList) override;
+
+	void AddCommand(ComPtr<ID3D12GraphicsCommandList> cmdList , UINT meshInd) override;
 private:
+	struct alignas(256) NodeTransform
+	{
+		DirectX::XMMATRIX transform;
+	};
+
+	std::vector<NodeTransform*> mappedData;
+
+	std::vector<ComPtr<ID3D12Resource>> nodeTransformBuffer;
+
 	std::unique_ptr<DescriptorHeapManager::PtrHandles> boneHandle;
 
 	ComPtr<ID3D12Resource> boneBuffer;
 
 	int boneBufferParamNum = 0;
+	int nodeTransformBufferParamNum = 0;
 
 	std::vector<XMMATRIX> finalBoneMats;
 
@@ -65,6 +77,12 @@ private:
 	void ReadHierarchyNode(aiNode& node, const aiMatrix4x4& parentMat);
 
 	void ReadHierarchyNode(float animationTime, aiNode& node, aiMatrix4x4& parentMat, aiAnimation& anim);
+
+	void CreateNodeTransformBuffer();
+
+	void InitNodeTransformBuffer(aiNode& node, const aiMatrix4x4& parentMat);
+
+	void InitNodeTransFormBuffer();
 
 	void ProcessAnimation(float time);
 };

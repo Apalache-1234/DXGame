@@ -1,13 +1,22 @@
 #ifndef SCRIPT_COMPONENT_H
 #define SCRIPT_COMPONENT_H
 
-#include <memory>
+#include <vector>
+#include <list>
 #include <typeindex>
+#include <memory>
 #include <iostream>
+#include <unordered_map>
 #include "Component.h"
 #include "TweenSystem.h"
 #include "MeshLoader.h"
 #include "TextureLoader.h"
+#include "SceneManager.h"
+#include "DirectionalLight.h"
+#include "Entity.h"
+#include "Camera.h"
+#include "KeyInput.h"
+#include "SkinnedRenderer.h"
 
 class Entity;
 
@@ -44,6 +53,10 @@ protected:
 	MeshLoader* meshLoader;
 
 	TextureLoader* textureLoader;
+
+	SceneManager* sceneManager;
+
+	Camera* camera;
 };
 
 #endif

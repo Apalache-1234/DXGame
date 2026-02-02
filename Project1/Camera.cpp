@@ -100,14 +100,14 @@ DirectX::XMMATRIX Camera::GetViewMat()
 
 DirectX::XMMATRIX Camera::GetProjMat()
 {
+    if (DXRenderSystem::GetInstance().GetIsShadowMapRendering())
+        return CSMapProjMat;
+
     if (isPerspective)
         return  XMMatrixPerspectiveFovLH(GetFov(), GetAspect(), GetNearZ(), GetFarZ());
     else
     {
-        if(DXRenderSystem::GetInstance().GetIsShadowMapRendering())
-            return CSMapProjMat;
-        else
-            return XMMatrixOrthographicLH(orthoDiameter * 16 / 9, orthoDiameter, GetNearZ(), GetFarZ());
+        return XMMatrixOrthographicLH(orthoDiameter * 16 / 9, orthoDiameter, GetNearZ(), GetFarZ());
     }
 }
 

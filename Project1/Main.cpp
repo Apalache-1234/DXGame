@@ -46,14 +46,13 @@ int main()
 	auto window = &Window::GetInstance();
 	auto renSys = &DXRenderSystem::GetInstance();
 	auto myImGui = &MyIMGUI::GetInstance();
-	auto SystemManager = &SystemManager::GetInstance();
 	auto PhysicsSystem = &PhysicsSystem::GetInstance();
 	auto keySystem = &KeyInput::GetInstance();
-	auto tweenSystem = &TweenSystem::GetInstance();
 	auto SceneManager = &SceneManager::GetInstance();
 
 	window->Init();
 	renSys->Init();
+
 	if (myImGui->useIMGUI)
 		myImGui->Init();
 
@@ -61,6 +60,8 @@ int main()
 
 	meshLoader->Init();
 
+	auto SystemManager = &SystemManager::GetInstance();
+	auto tweenSystem = &TweenSystem::GetInstance();
 
 	auto Skybox = SystemManager->CreateEntity<SkyBox>("Skybox");
 	auto debugColCube = SystemManager->CreateEntity<DebugCollider>("DebugCube");
@@ -70,11 +71,12 @@ int main()
 	auto debugDL = SystemManager->CreateEntity<DebugDirectionalLight>("DebugDirectionalLight");
 	auto debugPL = SystemManager->CreateEntity<DebugPointLight>("DebugPointLight");
 	auto debugSL = SystemManager->CreateEntity<DebugSpotLight>("DebugSpotLight");
-	auto debugGrids = SystemManager->CreateEntity<DebugGrids>("DebugGrids");
 	auto debugUI = SystemManager->CreateEntity<DebugUIRenderer>("DebugUIRenderer");
+	auto debugGrids = SystemManager->CreateEntity<DebugGrids>("DebugGrids");
 
 	debugColSphere->AddComponent<DebugCollider>(Collider::ColliderType::Sphere);
 
+	SceneManager->AddScene(std::make_shared<TitleScene>("TitleScene"));
 	SceneManager->AddScene(std::make_shared<CardGameScene>("CardGameScene"));
 
 	shared_ptr<Tween<XMVECTOR>> tw = nullptr;

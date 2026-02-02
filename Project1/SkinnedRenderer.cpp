@@ -14,6 +14,13 @@ SkinnedRenderer::~SkinnedRenderer()
 void SkinnedRenderer::AddCommand(ComPtr<ID3D12GraphicsCommandList> cmdList)
 {
 	cmdList->SetGraphicsRootShaderResourceView(boneBufferParamNum, boneBuffer->GetGPUVirtualAddress());
+
+
+}
+
+void SkinnedRenderer::AddCommand(ComPtr<ID3D12GraphicsCommandList> cmdList, UINT meshInd)
+{
+	cmdList->SetGraphicsRootConstantBufferView(nodeTransformBufferParamNum, nodeTransformBuffer[meshInd]->GetGPUVirtualAddress());
 }
 
 bool SkinnedRenderer::InitBoneResource()
@@ -271,7 +278,7 @@ void SkinnedRenderer::ReadHierarchyNode(aiNode& node, const aiMatrix4x4& parentM
 
 	for (int i = 0;i < node.mNumChildren;i++)
 	{
-		ReadHierarchyNode(*node.mChildren[i] , resultMat);
+		ReadHierarchyNode(*node.mChildren[i], resultMat);
 	}
 }
 
@@ -280,7 +287,7 @@ void SkinnedRenderer::ReadHierarchyNode(float animationTime , aiNode& node , aiM
 {
 	string name(node.mName.C_Str());
 
-	aiMatrix4x4 nodeTransformation(node.mTransformation);
+	aiMatrix4x4 nodeTransformation;
 
 	auto channel = ParseAnimNode(anim , name);
 
@@ -309,6 +316,9 @@ void SkinnedRenderer::ReadHierarchyNode(float animationTime , aiNode& node , aiM
 
 	if (meshData->boneMapping.find(name) != meshData->boneMapping.end())
 	{
+		aiMatrix4x4 mat = aiMatrix4x4();
+
+
 		auto animationMat = resultMat * meshData->boneOffset[meshData->boneMapping[name]];
 
 		finalBoneMats[meshData->boneMapping[name]] = Utility::ConvertAiMatrix4x4ToXMMATRIX(animationMat);
@@ -331,9 +341,11 @@ void SkinnedRenderer::ProcessAnimation(float time)
 
 	float animationTime = fmod(ticksInSecond, anim->mDuration);
 
-	aiMatrix4x4 mat;
+	aiMatrix4x4 mat = aiMatrix4x4();
+	aiMatrix4x4 sc;
+	aiMatrix4x4::Scaling(aiVector3D(0.01), sc);
 
-	mat = aiMatrix4x4();
+	mat = mat * sc;
 
 	ReadHierarchyNode(animationTime, *meshData->scene.mRootNode, mat, *anim);
 
@@ -355,6 +367,60 @@ float SkinnedRenderer::GetAnimTime()
 int SkinnedRenderer::GetAnimIndex()
 {
 	return animIndex;
+}
+
+
+
+void SkinnedRenderer::CreateNodeTransformBuffer() 
+{
+	CD3DX12_HEAP_PROPERTIES heapProps(D3D12_HEAP_TYPE_UPLOAD);
+
+	CD3DX12_RESOURCE_DESC resourceDesc = CD3DX12_RESOURCE_DESC::Buffer(sizeof(NodeTransform));
+
+	for (int i = 0;i<nodeTransformBuffer.size();i++)
+	{
+		HRESULT hr = DXRenderSystem::GetInstance().GetDevice()->CreateCommittedResource(
+			&heapProps,
+			D3D12_HEAP_FLAG_NONE,
+			&resourceDesc,
+			D3D12_RESOURCE_STATE_GENERIC_READ, // UPLOADƒq[ƒv‚Ì‰Šúó‘Ô‚Í‚±‚ê
+			nullptr,
+			IID_PPV_ARGS(&nodeTransformBuffer[i])
+		);
+
+		CD3DX12_RANGE readRange(0, 0);
+		nodeTransformBuffer[i]->Map(0, &readRange, reinterpret_cast<void**>(&mappedData[i]));
+	}
+}
+
+void SkinnedRenderer::InitNodeTransformBuffer(aiNode& node, const aiMatrix4x4& parentMat)
+{
+	string name(node.mName.C_Str());
+
+	aiMatrix4x4 nodeTransformation(node.mTransformation);
+
+	auto resultMat = parentMat * nodeTransformation ;
+
+	auto xmMat = Utility::ConvertAiMatrix4x4ToXMMATRIX(resultMat);
+
+	if (node.mNumMeshes > 0)
+	{
+		for (int i = 0;i < node.mNumMeshes;i++)
+		{
+			NodeTransform data;
+
+			Utility::Debug(Utility::ConvertAiMatrix4x4ToXMMATRIX(node.mTransformation));
+
+			data.transform = xmMat;
+
+			memcpy(mappedData[node.mMeshes[i]], &data, sizeof(NodeTransform));
+		}
+	}
+
+	for (int i = 0;i < node.mNumChildren;i++)
+	{
+		InitNodeTransformBuffer(*node.mChildren[i], resultMat);
+	}
 }
 
 void SkinnedRenderer::SetAnimTime(float time)
@@ -397,7 +463,9 @@ void SkinnedRenderer::ResetAnimationStatue()
 {
 	finalBoneMats.clear();
 
-	finalBoneMats.resize(meshData->boneMapping.size(), DirectX::XMMatrixIdentity());
+	int size = (int)meshData->boneMapping.size();
+
+	finalBoneMats.resize(size, DirectX::XMMatrixIdentity());
 
 	isAnimPlaying = false;
 
@@ -409,9 +477,10 @@ void SkinnedRenderer::ResetAnimationStatue()
 
 	animLoop = false;
 
+	InitNodeTransFormBuffer();
+
 	auto mat = aiMatrix4x4();
 
-	ReadHierarchyNode(*meshData->scene.mRootNode, aiMatrix4x4());
 
 	InitBoneResource();
 
@@ -442,7 +511,19 @@ void SkinnedRenderer::InitRenderer()
 
 	AddRootParam(param);
 
-	ReadHierarchyNode(*meshData->scene.mRootNode , aiMatrix4x4());
+	param.ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
+
+	param.ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
+
+	param.Descriptor.ShaderRegister = 21;
+
+	param.Descriptor.RegisterSpace = 0;
+
+	nodeTransformBufferParamNum = GetRootParamNum();
+
+	AddRootParam(param);
+
+	InitNodeTransFormBuffer();
 
 	bool isSuccess = true;
 
@@ -488,6 +569,21 @@ void SkinnedRenderer::Update()
 		ProcessAnimation(animTimeCur);
 	}
 }
+
+void SkinnedRenderer::InitNodeTransFormBuffer()
+{
+	nodeTransformBuffer.resize(meshData->meshes.size());
+	mappedData.resize(meshData->meshes.size(), nullptr);
+
+	aiMatrix4x4 mat = aiMatrix4x4();
+	aiMatrix4x4 sc;
+	aiMatrix4x4::Scaling(aiVector3D(0.01), sc);
+
+	CreateNodeTransformBuffer();
+
+	InitNodeTransformBuffer(*meshData->scene.mRootNode, mat * sc);
+}
+
 
 void SkinnedRenderer::InitInCreateMesh()
 {

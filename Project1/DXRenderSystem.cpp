@@ -15,6 +15,7 @@
 #include "PERadicalBlur.h"
 #include "PEVerticalGaussianBlur.h"
 #include "PEHorizonGaussianBlur.h"
+#include "PENoiseFilter.h"
 #include "DXRenderSystem.h"
 #include "DirectionalLight.h"
 #include "SpotLight.h"
@@ -96,6 +97,7 @@ bool DXRenderSystem::Init()
 	postEffectEntity->AddComponent<PERadicalBlur>();
 	postEffectEntity->AddComponent<PEHorizonGaussianBlur>();
 	postEffectEntity->AddComponent<PEVerticalGaussianBlur>();
+	postEffectEntity->AddComponent<PENoiseFilter>();
 
 	if (!isSuccess)
 	{
@@ -405,6 +407,56 @@ void DXRenderSystem::ComputeDLShadowMapRender(std::shared_ptr<DirectionalLight> 
 	} 
 }
 
+void DXRenderSystem::ComputeSLShadowMapRender(std::shared_ptr<SpotLight> sl)
+{
+	float fov = sl->GetAngular();
+
+	XMVECTOR up = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
+
+	if (fabs(XMVectorGetY(sl->GetLightDir())) > 0.99f) up = XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
+
+	XMMATRIX view = XMMatrixLookAtLH(sl->GetPosition(), DirectX::XMVectorAdd(sl->GetPosition() , sl->GetLightDir()), up);
+	XMMATRIX proj = XMMatrixPerspectiveFovLH(fov * 2, 1, 0.001f, Camera::GetInstance().GetFarZ());
+
+	sl->lightVP = DirectX::XMMatrixMultiply(view, proj);
+
+	int startOffset = sl->GetShadowMapIndex();
+
+	Camera::GetInstance().SetCSProjMat(proj);
+	Camera::GetInstance().SetCSViewMat(view);
+
+	cmd_list->OMSetRenderTargets(0, nullptr, false, &shadowMapHandle[startOffset]->cpuHandle);
+
+	cmd_list->ClearDepthStencilView(shadowMapHandle[startOffset]->cpuHandle, D3D12_CLEAR_FLAG_DEPTH, 1, 0, 0, nullptr);
+
+	RenderComponent<SkinnedRenderer>();
+
+	cmd_list->Close();
+
+	ID3D12CommandList* lists_array[] = { cmd_list.Get() };
+
+	cmd_queue->ExecuteCommandLists(1, lists_array);
+
+	auto cur_value = fence_counter[backbuffer_index];
+
+	cmd_queue->Signal(fence.Get(), cur_value);
+
+	if (fence->GetCompletedValue() < fence_counter[backbuffer_index])
+	{
+		fence->SetEventOnCompletion(fence_counter[backbuffer_index], fence_event);
+
+		WaitForSingleObjectEx(fence_event, INFINITE, false);
+	}
+
+	fence_counter[0] = cur_value + 1;
+	fence_counter[1] = cur_value + 1;
+
+	cmd_allocator[backbuffer_index]->Reset();
+
+	cmd_list->Reset(cmd_allocator[backbuffer_index].Get(), nullptr);
+	
+}
+
 void DXRenderSystem::RenderShadowMap()
 {
 	isShadowMapRendering = true;
@@ -456,11 +508,14 @@ void DXRenderSystem::RenderShadowMap()
 		}
 		else if (pl)
 		{
-
 		}
 		else if (sl)
 		{
+			sl->SetShadowMapIndex(ind);
 
+			ind++;
+
+			ComputeSLShadowMapRender(sl);
 		}
 	}
 
@@ -1273,6 +1328,8 @@ void DXRenderSystem::SetCascadeShadowLerp(float val)
 {
 	val = std::clamp(val , 0.0f , 1.0f);
 
+	cascadeShadowLerp = val;
+
 	CreateCSDividedDist();
 }
 
@@ -1385,21 +1442,37 @@ bool DXRenderSystem::UpdateLightCastingShadowNum()
 			tempSlightNum++;
 	}
 
+	bool isChanged = false;
+
 	if (tempDlightNum != DlightCastingShadowNum)
 	{
 		DlightCastingShadowNum = tempDlightNum;
-		return true;
+		isChanged = true;
 	}
 	else if (tempSlightNum != SlightCastingShadowNum)
 	{
 		SlightCastingShadowNum = tempSlightNum;
-		return true;
+		isChanged = true;
+
+		std::cout << SlightCastingShadowNum << std::endl;
 	}
 	else if (tempPlightNum != PlightCastingShadowNum)
 	{
 		PlightCastingShadowNum = tempPlightNum;
-		return true;
+		isChanged = true;
 	}
 
-	return false;
+	return isChanged;
+}
+
+DirectX::XMFLOAT3 DXRenderSystem::GetAmbientColor()
+{
+	return ambientColor;
+}
+
+void DXRenderSystem::SetAmbientColor(DirectX::XMFLOAT3 col)
+{
+	auto xmvec = DirectX::XMVectorClamp(DirectX::XMLoadFloat3(&col), DirectX::XMVectorZero(), DirectX::XMVectorSplatOne());
+
+	DirectX::XMStoreFloat3(&ambientColor, xmvec);
 }

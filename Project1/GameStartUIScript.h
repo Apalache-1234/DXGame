@@ -5,6 +5,7 @@
 #include <typeindex>
 #include "ScriptComponent.h"
 #include "Tween.h"
+#include "PERadicalBlur.h"
 
 class Entity;
 
@@ -19,6 +20,12 @@ public:
 
 	void OnUpdate() override;
 protected:
+private:
+	std::shared_ptr<Tween < float>> tw;
+
+	std::shared_ptr<PERadicalBlur> mF;
+
+	std::vector<shared_ptr<Entity>> speedUIs;
 };
 
 #endif

@@ -15,4 +15,5 @@ public:
 	~TitleScene();
 
 	void Load() override;
+private:
 };

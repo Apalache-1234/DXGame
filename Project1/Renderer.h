@@ -89,6 +89,8 @@ protected:
 
 	void virtual AddCommand(ComPtr<ID3D12GraphicsCommandList> cmdList);
 
+	void virtual AddCommand(ComPtr<ID3D12GraphicsCommandList> cmdList, UINT meshInd);
+
 	void SetDescSampler(D3D12_STATIC_SAMPLER_DESC desc, SamplerType type);
 
 	void PrepareForRootSignature();

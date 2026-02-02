@@ -19,7 +19,9 @@ pixelOp main(output vertexOp)
 	pixelOp output_pixel = (pixelOp)0;
 
 	float2 uv = vertexOp.TexCoord;
-
+	
+    uv.y = 1.0 - uv.y;
+	
 	output_pixel.color = tex.Sample(tex_sampler, uv) * vertexOp.color;
 
 	if (output_pixel.color.a == 0.0f) discard;

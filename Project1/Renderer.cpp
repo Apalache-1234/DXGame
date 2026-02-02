@@ -142,12 +142,18 @@ void Renderer::AddRenderCommand(ComPtr<ID3D12GraphicsCommandList>& cmdList, int 
 		cmdList->IASetIndexBuffer(&mesh.ibView);
 
 		AddCommand(cmdList);
+		AddCommand(cmdList , i);
 
 		cmdList->DrawIndexedInstanced(mesh.indices.size(), instanceCount, 0, 0, 0);
 	}
 }
 
 void Renderer::AddCommand(ComPtr<ID3D12GraphicsCommandList> cmdList)
+{
+
+}
+
+void Renderer::AddCommand(ComPtr<ID3D12GraphicsCommandList> cmdList , UINT meshInd)
 {
 
 }
@@ -408,7 +414,7 @@ bool Renderer::LinkLightInfoCBVToDescHeap()
 
 bool Renderer::MapLLICB()
 {
-	lightInfo.ambientLightColor = SystemManager::GetInstance().GetAmbientColor();
+	lightInfo.ambientLightColor = DXRenderSystem::GetInstance().GetAmbientColor();
 
 	auto dirLNum = SystemManager::GetInstance().GetComponentList<DirectionalLight>().size();
 
@@ -1203,8 +1209,9 @@ bool Renderer::CreateRenderPipeline()
 
 	pipeline.push_back(currentPipeline);
 
-	desc_pipe.RasterizerState.DepthBias = 3000;
+	desc_pipe.RasterizerState.DepthBias = 1;
 	desc_pipe.RasterizerState.SlopeScaledDepthBias = 1;
+	desc_pipe.RasterizerState.CullMode = D3D12_CULL_MODE_FRONT;
 
 	hr = DXRenderSystem::GetInstance().GetDevice()->CreateGraphicsPipelineState(&desc_pipe, IID_PPV_ARGS(shadowMapPipeline.GetAddressOf()));
 
@@ -1559,6 +1566,7 @@ bool Renderer::MapSLB()
 		l.power = list[i]->GetPower();
 		l.shadow = list[i]->GetIsCastShadow();
 		l.shadowMapIndex = list[i]->GetShadowMapIndex();
+		l.matVP = list[i]->lightVP;
 		SLights[i] = l;
 	}
 

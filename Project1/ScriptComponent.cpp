@@ -6,6 +6,8 @@ ScriptComponent::ScriptComponent(std::shared_ptr<Entity> ent) : Component::Compo
 	systemManager = &SystemManager::GetInstance();
 	meshLoader = &MeshLoader::GetInstance();
 	textureLoader = &TextureLoader::GetInstance();
+	sceneManager = &SceneManager::GetInstance();
+	camera = &Camera::GetInstance();
 }
 
 ScriptComponent::~ScriptComponent()

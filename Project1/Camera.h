@@ -81,7 +81,7 @@ public:
 private:
 	float fov = DirectX::XMConvertToRadians(70);
 
-	float nearZ = 1.0f;
+	float nearZ = 0.01f;
 
 	float farZ = 1000.0f;
 

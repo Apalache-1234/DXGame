@@ -128,6 +128,7 @@ struct Material
     DirectX::XMFLOAT3 SPECULAR = DirectX::XMFLOAT3(1, 1, 1);
     DirectX::XMFLOAT3 AMBIENT = DirectX::XMFLOAT3(1, 1, 1);
     DirectX::XMFLOAT3 REFLECTIVE = DirectX::XMFLOAT3(1, 1, 1);
+    float REFLECTIVE_POW = 100;
     DirectX::XMFLOAT3 TRANSPARENT = DirectX::XMFLOAT3(1, 1, 1);
     DirectX::XMFLOAT3 EMISSIVE = DirectX::XMFLOAT3(1, 1, 1);
     DirectX::XMFLOAT2 UVPOS = XMFLOAT2(0,0);

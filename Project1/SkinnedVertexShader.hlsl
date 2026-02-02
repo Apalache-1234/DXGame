@@ -41,6 +41,11 @@ struct Bones
 	float4x4 boneFinalMat;
 };
 
+cbuffer transform : register(b21)
+{
+    float4x4 node_trans_mat : packoffset(c0);
+}
+
 StructuredBuffer<float4x4> boneFinalMats : register(t20);
 
 float4 ReturnAnimatedVerteces(input vertexIn)
@@ -66,10 +71,8 @@ float4 ReturnAnimatedVerteces(input vertexIn)
         pos = float4(vertexIn.position, 1.0f);
     }
 
-	if (id4 != 0)
-	{
-		pos = mul(boneFinalMats[id4], pos);
-	}
+    pos = mul(node_trans_mat, pos);
+
 
 	return pos;
 }
@@ -98,11 +101,9 @@ float3 ReturnAnimatedNormal(float3 nor , input vertexIn , float4 vertexPos)
     {
         pos = float4(norPos, 1);
     }
+	
+    pos = mul(node_trans_mat, pos);
 
-	if (id4 != 0)
-	{
-		pos = mul(boneFinalMats[id4], pos);
-	}
 	
     float3 pos3 = (float3) (pos - vertexPos);
 

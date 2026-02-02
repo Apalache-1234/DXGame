@@ -30,6 +30,7 @@ using namespace std;
 class Renderer;
 
 class DirectionalLight;
+class SpotLight;
 
 class DXRenderSystem
 {
@@ -82,6 +83,8 @@ public:
 	void RenderIMGUI();
 
 	void  ComputeDLShadowMapRender(std::shared_ptr<DirectionalLight> dl);
+
+	void ComputeSLShadowMapRender(std::shared_ptr<SpotLight> sl);
 
 	void RenderShadowMap();
 
@@ -141,6 +144,10 @@ public:
 
 	bool fogFlag = false;
 
+	DirectX::XMFLOAT3 GetAmbientColor();
+
+	void SetAmbientColor(DirectX::XMFLOAT3 col);
+
 	const static int frameBuffer = 2;
 private:
 	int shadowMapRes = 2048;
@@ -149,7 +156,7 @@ private:
 
 	float CSDividedDist[4];
 
-	float CSFarZ = 1000;
+	float CSFarZ = 100;
 	float CSNearZ = 0.1f;
 
 	float cascadeShadowLerp = 0.9f;
@@ -164,7 +171,7 @@ private:
 
 	bool isShadowMapRendering = false;
 
-	DirectX::XMVECTOR fogColor;
+	DirectX::XMVECTOR fogColor = DirectX::XMVectorSplatOne();
 
 	float fogRange = 1000;
 
@@ -331,7 +338,7 @@ private:
 
 	int backbuffer_index = 0;
 
-
+	DirectX::XMFLOAT3 ambientColor = DirectX::XMFLOAT3(1, 1, 1);
 };
 
 #endif

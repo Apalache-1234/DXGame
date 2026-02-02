@@ -38,6 +38,8 @@ public:
 		PLANE,
 		SPHERE,
 		CARD,
+		TABLE_AND_CHAIR,
+		FRAME,
 		DEBUG_ORIGIN,
 		DEBUG_RAY
 	};
@@ -58,7 +60,7 @@ public:
 
 		XMFLOAT4 weight;
 
-		float parentBone = 0;
+		float parentBone = -1;
 
 		float index = 0;
 	};

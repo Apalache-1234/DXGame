@@ -1,6 +1,13 @@
 #include "SystemManager.h"
 #include "Flags.h"
 #include "ScriptComponent.h"
+#include "DXRenderSystem.h"
+#include "Flags.h"
+#include "PEEdgeFilter.h"
+#include "PEHorizonGaussianBlur.h"
+#include "PEVerticalGaussianBlur.h"
+#include "PEMosaicFilter.h"
+#include "PERadicalBlur.h"
 
 SystemManager::SystemManager()
 {
@@ -84,6 +91,37 @@ std::shared_ptr<Entity> SystemManager::CreateEntity(std::string name)
 	return entity;
 }
 
+void SystemManager::UpdateDestroyedEntities()
+{
+	for (int i = 0;i < entities.size();i++)
+	{
+		if (entities[i]->IsDestoroyed())
+		{
+			entitiesN.erase(entities[i]->GetName());
+			entities.erase(entities.begin() + i);
+		}
+		else
+		{
+			auto scripts = entities[i]->GetComponents<ScriptComponent>();
+
+			for (auto script : scripts)
+			{
+				script->OnUpdate();
+			}
+
+			while (fixedUpdateCounter > sixtyDenom)
+			{
+				for (auto script : scripts)
+				{
+					script->OnFixedUpdate();
+				}
+
+				fixedUpdateCounter -= sixtyDenom;
+			}
+		}
+	}
+}
+
 void SystemManager::MainLoop()
 {
 	if (Flags::GetInstance().isTimeStop && !pause)
@@ -118,33 +156,7 @@ void SystemManager::MainLoop()
 
 	fixedUpdateCounter += RealDeltaTime;
 
-	for (int i = 0;i<entities.size();i++)
-	{
-		if (entities[i]->IsDestoroyed())
-		{
-			entitiesN.erase(entities[i]->GetName());
-			entities.erase(entities.begin() + i);
-		}
-		else
-		{
-			auto scripts = entities[i]->GetComponents<ScriptComponent>();
-
-			for (auto script : scripts)
-			{
-				script->OnUpdate();
-			}
-
-			while (fixedUpdateCounter > sixtyDenom)
-			{
-				for (auto script : scripts)
-				{
-					script->OnFixedUpdate();
-				}
-
-				fixedUpdateCounter -= sixtyDenom;
-			}
-		}
-	}
+	UpdateDestroyedEntities();
 
 	timeForFpsCounter += GetRealDeltaTime();
 
@@ -184,18 +196,6 @@ void SystemManager::UnpauseTime()
 	std::cout << "ƒ|[ƒY‰ðœ" << std::endl;
 }
 
-DirectX::XMFLOAT3 SystemManager::GetAmbientColor()
-{
-	return ambientColor;
-}
-
-void SystemManager::SetAmbientColor(DirectX::XMFLOAT3 col)
-{
-	auto xmvec = DirectX::XMVectorClamp(DirectX::XMLoadFloat3(&col), DirectX::XMVectorZero(), DirectX::XMVectorSplatOne());
-
-	DirectX::XMStoreFloat3(&ambientColor , xmvec);
-}
-
 bool SystemManager::GetIsPause()
 {
 	return pause;
@@ -219,4 +219,40 @@ float SystemManager::GetRealTime()
 float SystemManager::GetRealDeltaTime()
 {
 	return RealDeltaTime;
+}
+
+void SystemManager::AllReset()
+{
+	UpdateDestroyedEntities();
+
+	DXRenderSystem* dxrs = &DXRenderSystem::GetInstance();
+	Flags* flags = &Flags::GetInstance();
+
+	dxrs->fogFlag = false;
+	dxrs->SetFogColor(DirectX::XMVectorSplatOne());
+	dxrs->SetFogRange(1000);
+	dxrs->SetCascadeShadowLerp(0.9f);
+	dxrs->SetCascadeShadowNearZ(0.1f);
+	dxrs->SetCascadeShadowFarZ(1000);
+	dxrs->SetCascadeShadowCount(4);
+	dxrs->SetAmbientColor(DirectX::XMFLOAT3(1,1,1));
+	
+	auto posts = GetComponentList<PostEffect>();
+
+	for (auto& post : posts)
+	{
+		post->flag = false;
+	}
+
+	Camera* camera = &Camera::GetInstance();
+
+	camera->SetFov(DirectX::XMConvertToRadians(70));
+	camera->SetCameraPosition(DirectX::XMVectorSet(0, 2, -4, 0));
+	camera->SetCameraRotation(DirectX::XMVectorSet(0, 0, 10, 0));
+	camera->SetFarZ(1000);
+	camera->SetNearZ(0.01f);
+	camera->SetOrthoDiameter(10);
+
+	flags->isTimeStop = false;
+
 }

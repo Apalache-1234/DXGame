@@ -15,6 +15,7 @@
 #include "PERadicalBlur.h"
 #include "PEVerticalGaussianBlur.h"
 #include "PEHorizonGaussianBlur.h"
+#include "PENoiseFilter.h"
 #include "SceneManager.h"
 
 std::unique_ptr<MyIMGUI> MyIMGUI::instance = nullptr;
@@ -265,7 +266,8 @@ void ShowComponentInfo(std::shared_ptr<SkinnedRenderer> rend)
 	    "BOX",
 	    "PLANE",
 		"SPHERE",
-		"CARD"
+		"CARD",
+		"TABLE_AND_CHAIR"
 		};
 
 		MeshLoader::MESHTYPE currentMeshType = rend->GetCurrentMeshType();
@@ -547,6 +549,7 @@ void ShowMaterialInfo(std::shared_ptr<Renderer> rend)
 		EditColor(&mat.AMBIENT , " : AmbientColor");
 		EditColor(&mat.EMISSIVE , " : EmissiveColor");
 		EditColor(&mat.REFLECTIVE , " : ReflectiveColor");
+		ImGui::DragFloat("RefectivePower ", &mat.REFLECTIVE_POW, 1);
 		EditColor(&mat.TRANSPARENT , " : TransparentColor");
 
 		mat.UVPOS = ShowAndSetVecInfo("UVPosition" , mat.UVPOS , 0.001);
@@ -559,7 +562,7 @@ void ShowMaterialInfo(std::shared_ptr<Renderer> rend)
 
 }
 
-void ShowShadowMapInfo(std::shared_ptr<DirectionalLight> dl)
+void ShowDLShadowMapInfo(std::shared_ptr<DirectionalLight> dl)
 {
 	if (!dl)
 		return;
@@ -568,7 +571,7 @@ void ShowShadowMapInfo(std::shared_ptr<DirectionalLight> dl)
 	UINT count = DXRenderSystem::GetInstance().GetCascadeShadowCount();
 
 
-	if (ImGui::Begin("ShadowMapWindow", &showShadowMapWindow))
+	if (ImGui::Begin("DLShadowMapWindow", &showShadowMapWindow))
 	{
 
 		for (int i = 0;i < count;i++)
@@ -583,6 +586,28 @@ void ShowShadowMapInfo(std::shared_ptr<DirectionalLight> dl)
 
 			ImGui::ImageButton(name.c_str(), (ImTextureID)gpuH.ptr, imageSMSize);
 		}
+
+		ImGui::End();
+	}
+
+}
+
+void ShowSLShadowMapInfo(std::shared_ptr<SpotLight> sl)
+{
+	if (!sl)
+		return;
+
+	UINT startOffset = sl->GetShadowMapIndex();
+
+	if (ImGui::Begin("SLShadowMapWindow", &showShadowMapWindow))
+	{
+		auto gpuH = DXRenderSystem::GetInstance().GetShadowMapTextureSliceSRVGPUHandle(startOffset);
+
+		auto name = "ShadowMap";
+
+		ImGui::Text(name);
+
+		ImGui::ImageButton(name, (ImTextureID)gpuH.ptr, imageSMSize);
 
 		ImGui::End();
 	}
@@ -719,6 +744,8 @@ void ShowComponentInfo(std::shared_ptr<SpotLight> sl)
 	ImGui::Checkbox("Shadow ", &isShadow);
 
 	sl->SetIsCastShadow(isShadow);
+
+	showShadowMapWindow = isShadow;
 
 	sl->SetRotation(ShowAndSetVecInfo("Rotation", sl->GetRotation()));
 
@@ -861,7 +888,12 @@ void ShowEntityInfo()
 
 	if (showShadowMapWindow)
 	{
-		ShowShadowMapInfo(currentEntity->GetComponent<DirectionalLight>());
+		ShowDLShadowMapInfo(currentEntity->GetComponent<DirectionalLight>());
+	}
+
+	if (showShadowMapWindow)
+	{
+		ShowSLShadowMapInfo(currentEntity->GetComponent<SpotLight>());
 	}
 }
 
@@ -1143,6 +1175,30 @@ void ShowGaussianBlurPostEffect()
 	}
 }
 
+void ShowNoiseFilterPostEffect()
+{
+	if (ImGui::TreeNode("NoiseFilter")) {
+
+		auto hg = SystemManager::GetInstance().GetComponentList<PENoiseFilter>();
+
+		ShowPostEffectFlags(hg.front());
+
+		auto intes = hg.front()->GetIntensify();
+
+		ImGui::DragFloat("Strength", &intes, 0.05f);
+
+		hg.front()->SetIntensify(intes);
+
+		auto size = hg.front()->GetBlockSize();
+
+		ImGui::DragFloat("BlockSize", &size, 0.0001f);
+
+		hg.front()->SetBlockSize(size);
+
+		ImGui::TreePop();
+	}
+}
+
 void MyIMGUI::MainLoop()
 {
 	// Start the Dear ImGui frame
@@ -1150,7 +1206,7 @@ void MyIMGUI::MainLoop()
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
 
-	auto flagIns = Flags::GetInstance();
+	auto flagIns = &Flags::GetInstance();
 
 	//以下自由にIMGUIをカスタムするためのコード
 	{
@@ -1169,7 +1225,7 @@ void MyIMGUI::MainLoop()
 
 		if (ImGui::TreeNode("AmbientLight")) {
 
-			auto hoge = SystemManager::GetInstance().GetAmbientColor();
+			auto hoge = DXRenderSystem::GetInstance().GetAmbientColor();
 
 			auto ambientCol = DirectX::XMLoadFloat3(&hoge);
 
@@ -1181,7 +1237,7 @@ void MyIMGUI::MainLoop()
 
 			DirectX::XMStoreFloat3(&col, ambientCol);
 
-			SystemManager::GetInstance().SetAmbientColor(col);
+			DXRenderSystem::GetInstance().SetAmbientColor(col);
 
 			ImGui::TreePop();
 		}
@@ -1213,6 +1269,8 @@ void MyIMGUI::MainLoop()
 
 			ShowGaussianBlurPostEffect();
 
+			ShowNoiseFilterPostEffect();
+
 			ImGui::TreePop();
 		}
 
@@ -1238,7 +1296,7 @@ void MyIMGUI::MainLoop()
 
 			float lerp = DXRenderSystem::GetInstance().GetCascadeShadowLerp();
 
-			ImGui::DragFloat("Lerp", &lerp);
+			ImGui::DragFloat("Lerp", &lerp,0.01f);
 
 			DXRenderSystem::GetInstance().SetCascadeShadowLerp(lerp);
 
@@ -1266,12 +1324,12 @@ void MyIMGUI::MainLoop()
 
 		if (ImGui::TreeNode("Flags")) {
 
-			ImGui::Checkbox("Debug", &flagIns.isDebug);
+			ImGui::Checkbox("Debug", &flagIns->isDebug);
 
-			if (flagIns.isDebug)
+			if (flagIns->isDebug)
 				DebugMenu();
 
-			ImGui::Checkbox("Time", &flagIns.isTimeStop);
+			ImGui::Checkbox("Time", &flagIns->isTimeStop);
 
 			ImGui::TreePop();
 		}

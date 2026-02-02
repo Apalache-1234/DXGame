@@ -116,6 +116,7 @@ struct Material
     float3 SPECULAR;
     float3 AMBIENT;
     float3 REFLECTIVE;
+    float REFLECTIVE_POW;
     float3 TRANSPARENT;
     float3 EMISSIVE;
     float2 UVPOS;
@@ -163,7 +164,7 @@ float4 ReturnPhongLighting(float3 lightCol, float4 col, float4 pos, float3 light
 
 	float3 ref = -reflect(toCamera, normal);
 
-    lightCol += outCol * pow(saturate(dot(ref, lightDir)), 100) * Materials[matIdx].SPECULAR;
+    lightCol += outCol * pow(saturate(dot(ref, lightDir)), Materials[matIdx].REFLECTIVE_POW) * Materials[matIdx].SPECULAR;
 
 	return float4(lightCol,1);
 }
@@ -229,12 +230,12 @@ float4 DirectionalLightShading(float4 col, float4 pos, float3 normal, int matIdx
             float shadowMapIndex = DirectionalLights[i].shadowMapIndex;
             float offset = 0;
 			
-            if (cascadeShadowCount >= 2 && viewDepth >= cascadeShadowDist[0])
-                offset = 1;
+            if (cascadeShadowCount >= 4 && viewDepth >= cascadeShadowDist[2])
+                offset = 3;
             else if (cascadeShadowCount >= 3 && viewDepth >= cascadeShadowDist[1])
                 offset = 2;
-            else if (cascadeShadowCount >= 4 && viewDepth >= cascadeShadowDist[2])
-                offset = 3;
+            else if (cascadeShadowCount >= 2 && viewDepth >= cascadeShadowDist[0])
+                offset = 1;
 			
 			float4 lightPos = mul(DirectionalLights[i].matVP[offset], pos);
 			
@@ -269,9 +270,6 @@ float4 PointLightShading(float4 col, float4 pos, float3 normal, int matIdx)
 
 	for (int i = 0;i < pointLightNum.x;i++)
 	{
-        if (PointLights[i].onShadow)
-            continue;
-		
 		float3 lightDir = normalize(PointLights[i].pos - pos);
 		float lenPow = pow(saturate((PointLights[i].radius - length(PointLights[i].pos - pos)) / PointLights[i].radius) , 3);
 		float power = PointLights[i].power;
@@ -292,8 +290,27 @@ float4 SpotLightShading(float4 col, float4 pos, float3 normal, int matIdx)
 
 	for (int i = 0;i < spotLightNum.x;i++)
 	{
+        float shadowFactor = 1;
+		
         if (SpotLights[i].onShadow)
-            continue;
+        {
+            float viewDepth = mul(view_mat, pos).z;
+			
+            float shadowMapIndex = SpotLights[i].shadowMapIndex;
+     
+            float4 lightPos = mul(SpotLights[i].matVP, pos);
+			
+            float3 shadow_coord = lightPos.xyz / lightPos.w;
+    
+            shadow_coord.x = shadow_coord.x * 0.5 + 0.5;
+            shadow_coord.y = -shadow_coord.y * 0.5 + 0.5;
+
+            float3 uvw = shadow_coord.xyz;
+			
+            uvw.z = SpotLights[i].shadowMapIndex;
+			
+            shadowFactor = CalcShadowPoisson(uvw, shadow_coord.z, 0);
+        }
 		
 		float3 lightDir = normalize(SpotLights[i].pos - pos);
 		float lenPow = pow(saturate((SpotLights[i].length - length(SpotLights[i].pos - pos)) / SpotLights[i].length), 3);
@@ -307,7 +324,7 @@ float4 SpotLightShading(float4 col, float4 pos, float3 normal, int matIdx)
 
 		light *= pow(1 - saturate(d / di), 3);
 
-		sumCol += light * power;
+        sumCol += light * power * shadowFactor;
 
 		sumCol = normalizeColor(sumCol);
 	}
@@ -378,5 +395,10 @@ float4 TransLocalToProj(float4 local)
 	float4 proj = mul(proj_mat, view);
 
 	return proj;
+}
+
+float random(float2 uv)
+{
+    return frac(sin(dot(uv, float2(12.9898, 78.233))) * 43758.5453123);
 }
 

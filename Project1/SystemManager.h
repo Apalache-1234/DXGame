@@ -16,6 +16,9 @@ public:
 
 	~SystemManager();
 
+
+	void AllReset();
+
 	static SystemManager& GetInstance();
 
 	std::vector<std::shared_ptr<Entity>>& GetEntityList();
@@ -36,15 +39,13 @@ public:
 		return ent;
 	}
 
+	void UpdateDestroyedEntities();
+
 	void MainLoop();
 
 	void PauseTime();
 
 	void UnpauseTime();
-
-	DirectX::XMFLOAT3 GetAmbientColor();
-
-	void SetAmbientColor(DirectX::XMFLOAT3 col);
 
 	/// <summary>
     /// 全てのEntityが現在持つ指定されたコンポーネントの配列を返す
@@ -130,8 +131,6 @@ private:
 	LARGE_INTEGER pauseClocks;
 
 	LARGE_INTEGER unpauseClocks;
-
-	DirectX::XMFLOAT3 ambientColor = DirectX::XMFLOAT3(1,1,1);
 
 	UINT fpsCounter = 0;
 

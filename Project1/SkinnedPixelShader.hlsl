@@ -34,8 +34,7 @@ pixelOp main(output vertexOp)
 
 	output_pixel.color = ApplyLightShading(output_pixel.color, vertexOp.worldPos ,vertexOp.normal , vertexOp.index);
 
-    if (output_pixel.color.a == 0.0f)
-        output_pixel.color.rgba = 1;
+    output_pixel.color.a = 1;
     
 	return output_pixel;
 }

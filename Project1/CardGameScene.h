@@ -15,4 +15,9 @@ public:
 	~CardGameScene();
 
 	void Load() override;
+private:
+	std::shared_ptr<Entity> floor;
+	std::shared_ptr<Entity> DLObj;
+
+	std::shared_ptr<DirectionalLight> dlComp;
 };

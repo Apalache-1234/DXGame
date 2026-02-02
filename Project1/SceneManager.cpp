@@ -48,7 +48,7 @@ void SceneManager::ResetGameScene(std::shared_ptr<GameScene> scene)
 {
     currentGameScene->Reset();
 
-    Flags::GetInstance().isTimeStop = false;
+    SystemManager::GetInstance().AllReset();
 
     currentGameScene = scene;
 

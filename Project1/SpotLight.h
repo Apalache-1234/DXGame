@@ -38,6 +38,8 @@ public:
 	DirectX::XMVECTOR position = DirectX::XMVectorZero();
 
 	std::type_index GetBaseType() override;
+
+	XMMATRIX lightVP;
 private:
 	float length = 13;
 	float angular  = DirectX::XMConvertToRadians(45);
