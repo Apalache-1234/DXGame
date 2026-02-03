@@ -67,6 +67,9 @@
       <FullPath>E:\DXGame\x64\Debug\SkyBoxVertexShader.cso</FullPath>
     </ContentFile>
     <ContentFile>
+      <FullPath>E:\DXGame\x64\Debug\SquareWipePixelShader.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
       <FullPath>E:\DXGame\x64\Debug\UIPixelShader.cso</FullPath>
     </ContentFile>
     <ContentFile>

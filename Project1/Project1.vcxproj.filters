@@ -231,6 +231,15 @@
     <ClCompile Include="TitleFrameScript.cpp">
       <Filter>スクリプト\ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="SquareWipeScript.cpp">
+      <Filter>スクリプト\ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="DeckScript.cpp">
+      <Filter>スクリプト\ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="HandScript.cpp">
+      <Filter>スクリプト\ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="SkinnedVertexShader.hlsl">
@@ -306,6 +315,9 @@
       <Filter>リソース ファイル</Filter>
     </FxCompile>
     <FxCompile Include="NoiseFilterPixelShader.hlsl">
+      <Filter>リソース ファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="SquareWipePixelShader.hlsl">
       <Filter>リソース ファイル</Filter>
     </FxCompile>
   </ItemGroup>
@@ -491,6 +503,15 @@
       <Filter>スクリプト\ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="TitleFrameScript.h">
+      <Filter>スクリプト\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="SquareWipeScript.h">
+      <Filter>スクリプト\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="DeckScript.h">
+      <Filter>スクリプト\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="HandScript.h">
       <Filter>スクリプト\ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

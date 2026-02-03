@@ -187,6 +187,60 @@ DirectX::XMVECTOR Entity::GetForward()
 	return forward;
 }
 
+DirectX::XMVECTOR Entity::GetLocalToWorldPos(DirectX::XMVECTOR pos)
+{
+	DirectX::XMMATRIX localMat;
+
+	DirectX::XMVECTOR transPosition;
+
+	if (HasParent())
+	{
+	    std:shared_ptr<Entity> ent = std::dynamic_pointer_cast<Entity>(GetParent());
+
+		if (ent != nullptr)
+		{
+			localMat = Utility::CreateTransMat(ent->right, ent->up, ent->forward);
+
+			transPosition = DirectX::XMVector3Transform(pos, XMMatrixInverse(nullptr, localMat));
+
+		    return DirectX::XMVectorAdd(ent->worldPosition, transPosition);
+		}
+	}
+	else
+	{
+		return pos;
+	}
+}
+
+DirectX::XMVECTOR Entity::GetWorldToLocalPos(DirectX::XMVECTOR pos)
+{
+	DirectX::XMMATRIX localMat;
+
+	DirectX::XMVECTOR transPosition;
+
+	if (HasParent())
+	{
+	    std:shared_ptr<Entity> ent = std::dynamic_pointer_cast<Entity>(GetParent());
+
+		if (ent != nullptr)
+		{
+			auto subVec = DirectX::XMVectorSubtract(pos, ent->GetWorldPosition());
+
+			localMat = Utility::CreateTransMat(ent->right, ent->up, ent->forward);
+
+			transPosition = DirectX::XMVector3Transform(subVec, localMat);
+
+			return transPosition;
+		}
+		else
+			return worldPosition;
+	}
+	else
+	{
+		return worldPosition;
+	}
+}
+
 void Entity::SetWorldPosition(DirectX::XMVECTOR position)
 {
 	worldPosition = position;
@@ -296,6 +350,8 @@ DirectX::XMVECTOR Entity::GetRotationAsQuaternion()
 
 	return resultQ;
 }
+
+
 
 void Entity::SetLocalPosition(DirectX::XMVECTOR position)
 {

@@ -16,17 +16,29 @@ void GameScene::Load()
 
 void GameScene::Reset()
 {
-	for (auto& ent : entites)
+	for (auto& ent : entities)
 	{
 		ent->Destroy();
 	}
 
-	entites.clear();
+	entities.clear();
 }
 
 void GameScene::SetName(std::string name)
 {
 	sceneName = name;
+}
+
+void GameScene::Update()
+{
+	for (int i = 0;i < entities.size();i++)
+	{
+		if (entities[i]->IsDestoroyed())
+		{
+			entities.erase(entities.begin() + i);
+
+		}
+	}
 }
 
 std::string GameScene::GetName()
@@ -36,6 +48,6 @@ std::string GameScene::GetName()
 
 std::vector<std::shared_ptr<Entity>> GameScene::GetEntities()
 {
-	return entites;
+	return entities;
 }
 

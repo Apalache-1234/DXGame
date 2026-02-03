@@ -68,16 +68,31 @@ public:
 	void ApplyTextureOnMesh(int idx, Renderer::TEXTURE_TYPE type, ComPtr<ID3D12Resource> texResource, D3D12_SHADER_RESOURCE_VIEW_DESC desc);
 
 	std::type_index GetBaseType() override;
+
+	void LoadVertexShader(LPCWSTR vsName);
+
+	void LoadPixelShader(LPCWSTR psName);
+
+	DescriptorHeapManager* GetHeapPointer();
+
+	/// <summary>
+    /// レンダーパイプラインを作成する
+    /// </summary>
+    /// <returns>正常に終了したらtrueを返す</returns>
+	bool CreateRenderPipeline();
+
+
+	void AddRootParam(D3D12_ROOT_PARAMETER param);
+
+	void AddCommandListFunction(std::function< void(ComPtr<ID3D12GraphicsCommandList>)> f);
+
+	int GetRootParamNum();
 protected:
 	void virtual Update();
 
 	void virtual InitRenderer();
 
 	void virtual InitInCreateMesh();
-
-	void AddRootParam(D3D12_ROOT_PARAMETER param);
-
-	int GetRootParamNum();
 
 	void SetPrimitiveType(D3D12_PRIMITIVE_TOPOLOGY type);
 
@@ -103,12 +118,6 @@ protected:
     ///  <returns>正常に終了したらtrueを返す</returns>
 	bool CreateRootSignature();
 
-	/// <summary>
-	/// レンダーパイプラインを作成する
-	/// </summary>
-	/// <returns>正常に終了したらtrueを返す</returns>
-	bool CreateRenderPipeline();
-
 	bool AddRenderPipeline(D3D12_GRAPHICS_PIPELINE_STATE_DESC desc);
 
 	void ChangeRenderPipeline(int idx);
@@ -117,13 +126,11 @@ protected:
 
 	void SetRTBDesc(D3D12_RENDER_TARGET_BLEND_DESC desc);
 
-	void LoadVertexShader(LPCWSTR vsName);
-
-	void LoadPixelShader(LPCWSTR psName);
-
 	void SetDepthStencilDesc(D3D12_DEPTH_STENCIL_DESC desc);
 
 	int instanceCount = 1;
+
+	bool isPipelineAlreadyCreated = false;
 
 	/// <summary>
     /// WinAPI系の関数の可否を格納する変数
@@ -237,6 +244,8 @@ private:
 
 		DirectX::XMFLOAT2 padding;
 	};
+
+	std::vector<std::function< void(ComPtr<ID3D12GraphicsCommandList>)>> cmdFuncs;
 
 	D3D12_PRIMITIVE_TOPOLOGY primitiveType = D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
 

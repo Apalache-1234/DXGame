@@ -99,6 +99,9 @@ public:
     /// <returns>前方向</returns>
 	DirectX::XMVECTOR GetForward();
 
+	DirectX::XMVECTOR GetWorldToLocalPos(DirectX::XMVECTOR vec);
+	DirectX::XMVECTOR GetLocalToWorldPos(DirectX::XMVECTOR vec);
+
 	/// <summary>
 	/// ワールド座標をセットする
 	/// </summary>

@@ -40,7 +40,11 @@ void GameStartUIScript::OnStart()
 
 void GameStartUIScript::OnBlack()
 {
-	tw2 = tweenSystem->DoTween(DirectX::XMVectorSet(0, 0, 0, 0), DirectX::XMVectorSet(0, 0, 0, 1), EasingType::EaseLine, 1);
+	std::function<void()> f = [=]() { sceneManager->ChangeGameScene("CardGameScene"); };
+
+	tw2 = tweenSystem->DoTween(DirectX::XMVectorSet(0, 0, 0, 0), DirectX::XMVectorSet(0, 0, 0, 2), EasingType::EaseLine, 2);
+
+	tw2->OnComplete(f);
 }
 
 

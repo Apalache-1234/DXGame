@@ -26,6 +26,8 @@ public:
 
 	void SetName(std::string name);
 
+	void Update();
+
 	std::string GetName();
 
 	std::vector<std::shared_ptr<Entity>> GetEntities();
@@ -35,12 +37,12 @@ public:
 	{
 		auto ent = SystemManager::GetInstance().CreateEntity<T>(name);
 
-		entites.emplace_back(ent);
+		entities.emplace_back(ent);
 
 		return ent;
 	}
 private:
-	std::vector<std::shared_ptr<Entity>> entites;
+	std::vector<std::shared_ptr<Entity>> entities;
 
 	std::string sceneName = {};
 };

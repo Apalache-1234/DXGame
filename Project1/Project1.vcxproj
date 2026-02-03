@@ -160,6 +160,7 @@
     <ClCompile Include="DebugRenderer.cpp" />
     <ClCompile Include="DebugSpotLight.cpp" />
     <ClCompile Include="DebugUIRenderer.cpp" />
+    <ClCompile Include="DeckScript.cpp" />
     <ClCompile Include="DescriptorHeapManager.cpp" />
     <ClCompile Include="DirectionalLight.cpp" />
     <ClCompile Include="DXRenderSystem.cpp" />
@@ -168,6 +169,7 @@
     <ClCompile Include="FloorScript.cpp" />
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="GameStartUIScript.cpp" />
+    <ClCompile Include="HandScript.cpp" />
     <ClCompile Include="PEEdgeFilter.cpp" />
     <ClCompile Include="PEHorizonGaussianBlur.cpp" />
     <ClCompile Include="PEMosaicFilter.cpp" />
@@ -177,6 +179,7 @@
     <ClCompile Include="PostEffect.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="ScriptComponent.cpp" />
+    <ClCompile Include="SquareWipeScript.cpp" />
     <ClCompile Include="SystemManager.cpp" />
     <ClCompile Include="KeyInput.cpp" />
     <ClCompile Include="Light.cpp" />
@@ -390,6 +393,16 @@
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.1</ShaderModel>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.1</ShaderModel>
     </FxCompile>
+    <FxCompile Include="SquareWipePixelShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.1</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.1</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.1</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.1</ShaderModel>
+    </FxCompile>
     <FxCompile Include="UIPixelShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
@@ -461,6 +474,7 @@
     <ClInclude Include="DebugRenderer.h" />
     <ClInclude Include="DebugSpotLight.h" />
     <ClInclude Include="DebugUIRenderer.h" />
+    <ClInclude Include="DeckScript.h" />
     <ClInclude Include="DescriptorHeapManager.h" />
     <ClInclude Include="DirectionalLight.h" />
     <ClInclude Include="DXRenderSystem.h" />
@@ -469,6 +483,7 @@
     <ClInclude Include="FloorScript.h" />
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="GameStartUIScript.h" />
+    <ClInclude Include="HandScript.h" />
     <ClInclude Include="ITween.h" />
     <ClInclude Include="PEEdgeFilter.h" />
     <ClInclude Include="PEHorizonGaussianBlur.h" />
@@ -479,6 +494,7 @@
     <ClInclude Include="PERadicalBlur.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="ScriptComponent.h" />
+    <ClInclude Include="SquareWipeScript.h" />
     <ClInclude Include="SystemManager.h" />
     <ClInclude Include="KeyInput.h" />
     <ClInclude Include="Light.h" />

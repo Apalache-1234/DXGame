@@ -44,6 +44,12 @@ void SceneManager::ChangeGameScene(std::string name)
     }
 }
 
+void SceneManager::Update()
+{
+    currentGameScene->Update();
+}
+
+
 void SceneManager::ResetGameScene(std::shared_ptr<GameScene> scene)
 {
     currentGameScene->Reset();

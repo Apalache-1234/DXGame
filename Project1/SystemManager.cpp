@@ -99,6 +99,8 @@ void SystemManager::UpdateDestroyedEntities()
 		{
 			entitiesN.erase(entities[i]->GetName());
 			entities.erase(entities.begin() + i);
+
+			i--;
 		}
 		else
 		{
@@ -165,8 +167,6 @@ void SystemManager::MainLoop()
 	if (timeForFpsCounter >= 1)
 	{
 		fps = fpsCounter;
-
-		std::cout << fps << std::endl;
 
 		fpsCounter = 0;
 

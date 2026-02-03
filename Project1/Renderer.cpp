@@ -122,6 +122,9 @@ void Renderer::AddRenderCommand(ComPtr<ID3D12GraphicsCommandList>& cmdList, int 
 
 	cmdList->SetGraphicsRootDescriptorTable(8, DXRenderSystem::GetInstance().GetShadowMapTextureSRVGPUHandle());
 
+	for (auto& func : cmdFuncs)
+		func(cmdList);
+
 	if (DXRenderSystem::GetInstance().GetIsShadowMapRendering())
 		cmdList->SetPipelineState(shadowMapPipeline.Get());
 	else
@@ -777,6 +780,11 @@ void Renderer::AddRootParam(D3D12_ROOT_PARAMETER param)
 	this->param.emplace_back(param);
 }
 
+void Renderer::AddCommandListFunction(std::function<void(ComPtr<ID3D12GraphicsCommandList>)> f)
+{
+	cmdFuncs.emplace_back(f);
+}
+
 int Renderer::GetRootParamNum()
 {
 	return param.size();
@@ -881,6 +889,13 @@ void Renderer::LoadVertexShader(LPCWSTR vsName)
 
 		return;
 	}
+
+	if (isPipelineAlreadyCreated)
+	{
+		CreateRootSignature();
+
+		CreateRenderPipeline();
+	}
 }
 
 void Renderer::LoadPixelShader(LPCWSTR psName)
@@ -893,6 +908,18 @@ void Renderer::LoadPixelShader(LPCWSTR psName)
 
 		return;
 	}
+
+	if (isPipelineAlreadyCreated)
+	{
+		CreateRootSignature();
+
+		CreateRenderPipeline();
+	}
+}
+
+DescriptorHeapManager* Renderer::GetHeapPointer()
+{
+	return &heapManager;
 }
 
 Material& Renderer::GetMaterial(int idx)
@@ -1196,6 +1223,8 @@ bool Renderer::CreateRootSignature()
 
 bool Renderer::CreateRenderPipeline()
 {
+	isPipelineAlreadyCreated = true;
+
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC desc_pipe = GetDefaultPipelineDesc();
 
 	hr = DXRenderSystem::GetInstance().GetDevice()->CreateGraphicsPipelineState(&desc_pipe, IID_PPV_ARGS(currentPipeline.GetAddressOf()));

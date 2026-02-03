@@ -25,6 +25,8 @@ public:
 
 	void ChangeGameScene(std::string name);
 
+	void Update();
+
 	void AddScene(std::shared_ptr<GameScene> scene);
 	std::shared_ptr<GameScene> GetScene(std::string name);
 	std::shared_ptr<GameScene> GetScene(UINT ind);

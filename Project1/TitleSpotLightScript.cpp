@@ -23,6 +23,7 @@ void TitleSpotLightScript::OnStart()
 void TitleSpotLightScript::LightUpward()
 {
 	tw2 = tweenSystem->DoTween(slComp->GetRotation(), DirectX::XMVectorSet(180, 0, 0, 0), EasingType::EaseOutQuint, 6);
+	tw5 = tweenSystem->DoTween(attachFrom->GetWorldPosition(), DirectX::XMVectorSet(0, 0, 0, 0), EasingType::EaseOutQuint, 6);
 }
 
 void TitleSpotLightScript::OnUpdate()
@@ -36,4 +37,6 @@ void TitleSpotLightScript::OnUpdate()
 	if (tw2 != nullptr)
 		slComp->SetRotation(tw2->GetValue());
 
+	if (tw5 != nullptr)
+		attachFrom->SetWorldPosition(tw5->GetValue());
 }

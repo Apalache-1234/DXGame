@@ -28,6 +28,8 @@ private:
 	std::shared_ptr<Tween < XMVECTOR>> tw3;
 
 	std::shared_ptr<Tween < XMVECTOR>> tw4;
+
+	std::shared_ptr<Tween < XMVECTOR>> tw5;
 };
 
 #endif

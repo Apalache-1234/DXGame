@@ -113,11 +113,12 @@ public:
 
 		float result = EasingFunction();
 
-		if (currentTime >= time && !isLooping && !isEnd && completeFunc)
+		if (currentTime >= time && !isLooping && !isEnd)
 		{
 			isEnd = true;
 			isPlaying = false;
-			completeFunc();
+			if (completeFunc)
+				completeFunc();
 		}
 
 		if (onRealTime)

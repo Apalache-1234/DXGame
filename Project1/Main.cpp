@@ -43,6 +43,9 @@ void GameMainLoop()
 
 int main()
 {
+	auto SystemManager = &SystemManager::GetInstance();
+	SystemManager->PauseTime();
+
 	auto window = &Window::GetInstance();
 	auto renSys = &DXRenderSystem::GetInstance();
 	auto myImGui = &MyIMGUI::GetInstance();
@@ -60,7 +63,7 @@ int main()
 
 	meshLoader->Init();
 
-	auto SystemManager = &SystemManager::GetInstance();
+
 	auto tweenSystem = &TweenSystem::GetInstance();
 
 	auto Skybox = SystemManager->CreateEntity<SkyBox>("Skybox");
@@ -79,7 +82,7 @@ int main()
 	SceneManager->AddScene(std::make_shared<TitleScene>("TitleScene"));
 	SceneManager->AddScene(std::make_shared<CardGameScene>("CardGameScene"));
 
-	shared_ptr<Tween<XMVECTOR>> tw = nullptr;
+	SystemManager->UnpauseTime();
 
 	while (window->MainLoop())
 	{
@@ -87,21 +90,7 @@ int main()
 		PhysicsSystem->MainLoop();
 		keySystem->Update();
 		tweenSystem->Update();
-
-		if (keySystem->GetKey(D))
-		{
-			SceneManager->ChangeGameScene("TitleScene");
-		}
-
-		if (keySystem->GetKey(A))
-		{
-			SceneManager->ChangeGameScene("CardGameScene");
-		}
-
-		if (keySystem->GetKeyDown(N))
-		{
-			tw = nullptr;
-		}
+		SceneManager->Update();
 
 		ColliderDetection::GetInstance().MainLoop();
 
