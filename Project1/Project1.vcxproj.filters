@@ -240,6 +240,18 @@
     <ClCompile Include="HandScript.cpp">
       <Filter>スクリプト\ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="CardTextureScript.cpp">
+      <Filter>スクリプト\ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="TableDeckScript.cpp">
+      <Filter>スクリプト\ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="GameManagerScript.cpp">
+      <Filter>スクリプト\ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="CardScript.cpp">
+      <Filter>スクリプト\ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="SkinnedVertexShader.hlsl">
@@ -512,6 +524,18 @@
       <Filter>スクリプト\ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="HandScript.h">
+      <Filter>スクリプト\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="TableDeckScript.h">
+      <Filter>スクリプト\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="CardTextureScript.h">
+      <Filter>スクリプト\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="GameManagerScript.h">
+      <Filter>スクリプト\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="CardScript.h">
       <Filter>スクリプト\ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

@@ -148,6 +148,8 @@
     <ClCompile Include="..\packages\IMGUI\imgui_widgets.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CameraComponent.cpp" />
+    <ClCompile Include="CardScript.cpp" />
+    <ClCompile Include="CardTextureScript.cpp" />
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="ColliderDetection.cpp" />
     <ClCompile Include="Component.cpp" />
@@ -167,6 +169,7 @@
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="Flags.cpp" />
     <ClCompile Include="FloorScript.cpp" />
+    <ClCompile Include="GameManagerScript.cpp" />
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="GameStartUIScript.cpp" />
     <ClCompile Include="HandScript.cpp" />
@@ -196,6 +199,7 @@
     <ClCompile Include="SkyBox.cpp" />
     <ClCompile Include="SpotLight.cpp" />
     <ClCompile Include="TableAndChairScript.cpp" />
+    <ClCompile Include="TableDeckScript.cpp" />
     <ClCompile Include="TextureLoader.cpp" />
     <ClCompile Include="TitleCardScript.cpp" />
     <ClCompile Include="TitleFrameScript.cpp" />
@@ -462,6 +466,8 @@
   <ItemGroup>
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CameraComponent.h" />
+    <ClInclude Include="CardScript.h" />
+    <ClInclude Include="CardTextureScript.h" />
     <ClInclude Include="Collider.h" />
     <ClInclude Include="ColliderDetection.h" />
     <ClInclude Include="Component.h" />
@@ -482,6 +488,7 @@
     <ClInclude Include="Flags.h" />
     <ClInclude Include="FloorScript.h" />
     <ClInclude Include="GameScene.h" />
+    <ClInclude Include="GameManagerScript.h" />
     <ClInclude Include="GameStartUIScript.h" />
     <ClInclude Include="HandScript.h" />
     <ClInclude Include="ITween.h" />
@@ -503,6 +510,7 @@
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="SpotLight.h" />
     <ClInclude Include="TableAndChairScript.h" />
+    <ClInclude Include="TableDeckScript.h" />
     <ClInclude Include="TextureLoader.h" />
     <ClInclude Include="MeshLoader.h" />
     <ClInclude Include="MyIMGUI.h" />

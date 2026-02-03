@@ -37,7 +37,7 @@ private:
 
 	bool isOnRay = false;
 
-	bool isPressed = false;
+	static bool isPressed;
 
 	std::shared_ptr<Collider> col;
 

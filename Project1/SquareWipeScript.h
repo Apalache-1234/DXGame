@@ -20,9 +20,8 @@ public:
 	void OnStart() override;
 
 	void OnUpdate() override;
-	void MapCB();
-	void InitCB();
-	bool LinkCBVToDescHeap();
+
+	bool GetIsWipeEnd();
 protected:
 private:
 	struct alignas(256) SquareInfo
@@ -38,9 +37,15 @@ private:
 
 	std::shared_ptr<UIRenderer> rend;
 
+	bool isWipeEnd = false;
+
 	ComPtr<ID3D12Resource> CB;
 	std::unique_ptr<DescriptorHeapManager::PtrHandles> CBHandle;
 	D3D12_CONSTANT_BUFFER_VIEW_DESC CBView;
+
+	void MapCB();
+	void InitCB();
+	bool LinkCBVToDescHeap();
 };
 
 #endif

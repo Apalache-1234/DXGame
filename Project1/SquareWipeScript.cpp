@@ -53,24 +53,29 @@ void SquareWipeScript::OnStart()
 
 void SquareWipeScript::OnUpdate()
 {
-	info.rotate = DirectX::XMMatrixRotationZ(systemManager->GetGameTime() * 5);
-
 	for (auto& tw : tws)
 	{
+		info.rotate = DirectX::XMMatrixRotationZ(systemManager->GetGameTime() * 5);
 		if (!tw->GetIsEnd())
 		{
 			tw->Play();
 			info.scale = tw->GetValue();
+			MapCB();
 			break;
 		}
 	}
 
 	if (tws.back()->GetIsEnd())
 	{
-		attachFrom->Destroy();
+		isWipeEnd = true;
 	}
 
-	MapCB();
+
+}
+
+bool SquareWipeScript::GetIsWipeEnd()
+{
+	return isWipeEnd;
 }
 
 void SquareWipeScript::MapCB()

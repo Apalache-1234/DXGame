@@ -102,5 +102,6 @@ void DeckScript::OnStart()
 
 void DeckScript::OnUpdate()
 {
-	attachFrom->SetWorldScale(DirectX::XMVectorSet(1, deck.size(), 1, 0));
+	attachFrom->SetWorldScale(DirectX::XMVectorSet(deck.size() > 0, deck.size(), deck.size() > 0, 0));
+	attachFrom->SetWorldPosition(DirectX::XMVectorSubtract(defPos , DirectX::XMVectorSet(0,0.0203 * (ySize - deck.size()), 0, 0)));
 }

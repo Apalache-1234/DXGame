@@ -5,8 +5,11 @@
 #include <typeindex>
 #include "ScriptComponent.h"
 #include "DeckScript.h"
+#include "CardTextureScript.h"
+#include "SquareWipeScript.h"
 
 class Entity;
+class CardScript;
 
 class HandScript : public ScriptComponent
 {
@@ -15,28 +18,30 @@ public:
 
 	~HandScript();
 
+	DirectX::XMVECTOR GetCardLocalPos(int idx);
+
 	void Init(DeckScript::SIDE side);
 
 	void OnStart() override;
 
-	void PlaceCard(DeckScript::Card card);
+	void PlaceCard();
 
 	bool IsAnyEmpty();
+
+	DeckScript::SIDE GetSide();
+
+	shared_ptr<DeckScript> GetUsingDeck();
 
 	void OnUpdate() override;
 protected:
 private:
-	struct CardHash {
-		std::size_t operator()(const DeckScript::Card& k) const {
-			return std::hash<int>()((int)k.pat) ^ (std::hash<int>()(k.num) << 1);
-		}
-	};
-
 	DeckScript::SIDE side;
 
 	shared_ptr<DeckScript> deckSc;
 
-	std::unordered_map<DeckScript::Card, ComPtr<ID3D12Resource> , CardHash> cardTexs;
+	std::vector<shared_ptr<CardScript>> cardScs;
+
+	shared_ptr<SquareWipeScript> wipeSc;
 
 	const static int handNum = 5;
 
@@ -49,6 +54,8 @@ private:
 	std::shared_ptr<Tween < XMVECTOR>> cardTws[handNum];
 
 	Material mat;
+
+	shared_ptr<CardTextureScript> cardTex;
 };
 
 #endif

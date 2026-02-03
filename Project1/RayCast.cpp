@@ -26,6 +26,13 @@ RayCast::~RayCast()
 
 std::vector<RayCast::Info> RayCast::GetInfo()
 {
+	std::sort(infos.begin(), infos.end(), [this](const RayCast::Info& a, const RayCast::Info& b) {
+
+		auto leng1 = DirectX::XMVector3Length(DirectX::XMVectorSubtract(a.hitPoint , startPoint));
+		auto leng2 = DirectX::XMVector3Length(DirectX::XMVectorSubtract(b.hitPoint, startPoint));
+		return DirectX::XMVectorGetX(leng1) < DirectX::XMVectorGetX(leng2);
+		});
+
 	return infos;
 }
 

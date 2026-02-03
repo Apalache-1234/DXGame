@@ -335,9 +335,6 @@ bool Renderer::MapCB()
 		}
 
 		memcpy(ptr[i], &trans, sizeof(Transform));
-
-
-		constantBuffer[i]->Unmap(0, nullptr);
 	}
 
 	return true;
@@ -455,8 +452,6 @@ bool Renderer::MapLLICB()
 
 	memcpy(ptr, &lightInfo, sizeof(LightInfo));
 
-    lightInfoCB->Unmap(0, nullptr);
-
 	return true;
 }
 
@@ -553,8 +548,6 @@ bool Renderer::MapTICB()
 
 	memcpy(ptr, &timeInfo, sizeof(TimeInfo));
 
-	timeInfoCB->Unmap(0, nullptr);
-
 	return true;
 }
 
@@ -631,8 +624,6 @@ bool Renderer::MapMB()
 	}
 
 	memcpy(ptr, mats.data(), sizeof(Material) * mats.size());
-
-	materialResource->Unmap(0, nullptr);
 
 	return true;
 }
@@ -1382,8 +1373,6 @@ bool Renderer::MapDLB()
 
 	memcpy(ptr, DirLights.data(), sizeof(DirLight) * DirLights.size());
 
-	DLBuffer->Unmap(0, nullptr);
-
 	return true;
 }
 
@@ -1497,8 +1486,6 @@ bool Renderer::MapPLB()
 
 	memcpy(ptr, PLights.data(), sizeof(PLight) * PLights.size());
 
-	PLBuffer->Unmap(0, nullptr);
-
 	return true;
 }
 
@@ -1611,9 +1598,6 @@ bool Renderer::MapSLB()
 	}
 
 	memcpy(ptr, SLights.data(), sizeof(PLight) * SLights.size());
-
-	SLBuffer->Unmap(0, nullptr);
-
 	return true;
 }
 

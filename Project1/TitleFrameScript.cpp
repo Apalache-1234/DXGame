@@ -3,6 +3,8 @@
 #include "GameStartUIScript.h"
 #include "Collider.h"
 
+bool TitleFrameScript::isPressed = false;
+
 TitleFrameScript::TitleFrameScript(std::shared_ptr<Entity> ent) : ScriptComponent::ScriptComponent(ent)
 {
 }
@@ -26,10 +28,15 @@ void TitleFrameScript::OnStart()
 	mat.UVSCALE = XMFLOAT2(-1, 1);
 
 	rend->SetMaterial(1, mat);
+
+	isPressed = false;
 }
 
 void TitleFrameScript::OnUpdate()
 {
+	if (isPressed)
+		return;
+
 	if (isOnRay)
 	{
 		time += systemManager->GetGameDeltaTime();

@@ -21,13 +21,18 @@ void Object::AddChild(std::shared_ptr<Object> obj)
 	}
 
 	obj->SetParent(shared_from_this());
-	
+
 	objsChild.emplace_back(obj);
 }
 
 std::vector<std::shared_ptr<Object>> Object::GetChild()
 {
 	return objsChild;
+}
+
+int Object::GetAsChildIndex()
+{
+	return asChildIndex;
 }
 
 std::shared_ptr<Object> Object::GetChild(std::string name)
@@ -74,6 +79,8 @@ void Object::SetParent(std::shared_ptr<Object> obj)
 	}
 
 	parent = obj;
+
+	asChildIndex = parent->GetChild().size();
 }
 
 void Object::ResetParent()

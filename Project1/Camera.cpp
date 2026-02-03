@@ -50,8 +50,8 @@ DirectX::XMVECTOR Camera::GetPosScreenToWorld(DirectX::XMVECTOR pos)
 
     auto worldPos = DirectX::XMVectorSet(x * nearZ, y * nearZ, 0, nearZ);
 
-    auto viewInverse = XMMatrixLookAtLH(GetPosition(), GetTargetPos(), DirectX::XMVectorSet(0, 1, 0, 0));
-    auto projInverse = XMMatrixPerspectiveFovLH(fov, aspect, nearZ, farZ);
+    auto viewInverse = GetViewMat();
+    auto projInverse = GetProjMat();
 
     viewInverse = DirectX::XMMatrixInverse(nullptr, viewInverse);
     projInverse = DirectX::XMMatrixInverse(nullptr, projInverse);

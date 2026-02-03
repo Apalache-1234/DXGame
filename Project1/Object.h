@@ -27,6 +27,8 @@ public:
     /// <returns>リスト</returns>
 	std::vector<std::shared_ptr<Object>> GetChild();
 
+	int GetAsChildIndex();
+
 	/// <summary>
     /// 指定した名前の子供のシェアドポインタを返す
     /// </summary>
@@ -89,6 +91,8 @@ private:
     /// オブジェクトの名前
     /// </summary>
 	std::string name;
+
+	int asChildIndex = 0;
 };
 
 #endif
