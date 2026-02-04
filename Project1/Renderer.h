@@ -79,12 +79,7 @@ public:
     /// <returns>正常に終了したらtrueを返す</returns>
 	bool CreateRenderPipeline();
 
-
-	void AddRootParam(D3D12_ROOT_PARAMETER param);
-
 	void AddCommandListFunction(std::function< void(ComPtr<ID3D12GraphicsCommandList>)> f);
-
-	int GetRootParamNum();
 protected:
 	void virtual Update();
 
@@ -104,17 +99,7 @@ protected:
 
 	void virtual AddCommand(ComPtr<ID3D12GraphicsCommandList> cmdList, UINT meshInd);
 
-	void SetDescSampler(D3D12_STATIC_SAMPLER_DESC desc, SamplerType type);
-
-	void PrepareForRootSignature();
-
 	void PrepareForRenderPipeline();
-
-	/// <summary>
-    /// ルートシグネチャを作成する
-    /// </summary>
-    ///  <returns>正常に終了したらtrueを返す</returns>
-	bool CreateRootSignature();
 
 	bool AddRenderPipeline(D3D12_GRAPHICS_PIPELINE_STATE_DESC desc);
 
@@ -144,22 +129,12 @@ protected:
 	/// </summary>
 	ComPtr<ID3D12Resource> constantBuffer[DXRenderSystem::frameBuffer];
 
-	ComPtr<ID3D12Resource> lightInfoCB;
-
-	ComPtr<ID3D12Resource> timeInfoCB;
-
 	/// <summary>
 	/// バックバッファ込みのコンスタントバッファビュー
 	/// </summary>
 	D3D12_CONSTANT_BUFFER_VIEW_DESC cbView[DXRenderSystem::frameBuffer];
-	D3D12_CONSTANT_BUFFER_VIEW_DESC lightInfoCBView;
-	D3D12_CONSTANT_BUFFER_VIEW_DESC timeInfoCBView;
 
 	std::unique_ptr<DescriptorHeapManager::PtrHandles> cbHandle[DXRenderSystem::frameBuffer];
-
-	std::unique_ptr<DescriptorHeapManager::PtrHandles> lightInfoCBHandle;
-
-	std::unique_ptr<DescriptorHeapManager::PtrHandles> timeInfoCBHandle;
 
 	std::unique_ptr<DescriptorHeapManager::PtrHandles> materialHandle;
 	ComPtr<ID3D12Resource> materialResource;
@@ -167,80 +142,12 @@ protected:
 	std::vector<PtrHandle> texHandles;
 
 	/// <summary>
-	/// ルートシグネチャのCOM
-	/// </summary>
-	ComPtr<ID3D12RootSignature> rootSig;
-
-	/// <summary>
 	/// 変換行列とカラーを格納するTransform変数
 	/// </summary>
 	Transform trans;
 
-	LightInfo lightInfo;
-
-	TimeInfo timeInfo;
-
 	std::vector<Material> mats;
 private:
-	struct DirLight
-	{
-		DirectX::XMMATRIX matVP[4];
-
-		DirectX::XMFLOAT3 direct;
-
-		DirectX::XMFLOAT3 color;
-
-		float power;
-
-		float shadow;
-
-		float shadowMapIndex = 0;
-
-		DirectX::XMFLOAT3 padding;
-	};
-
-	struct PLight
-	{
-		DirectX::XMMATRIX matVP;
-
-		float radius;
-
-		DirectX::XMFLOAT3 color;
-
-		DirectX::XMFLOAT3 pos;
-
-		float power;
-
-		float shadow;
-
-		float shadowMapIndex = 0;
-
-		DirectX::XMFLOAT2 padding;
-	};
-
-	struct SLight
-	{
-		DirectX::XMMATRIX matVP;
-
-		float angular;
-
-		DirectX::XMFLOAT3 direct;
-
-		DirectX::XMFLOAT3 color;
-
-		DirectX::XMFLOAT3 pos;
-
-		float power;
-
-		float length;
-
-		float shadow;
-
-		float shadowMapIndex = 0;
-
-		DirectX::XMFLOAT2 padding;
-	};
-
 	std::vector<std::function< void(ComPtr<ID3D12GraphicsCommandList>)>> cmdFuncs;
 
 	D3D12_PRIMITIVE_TOPOLOGY primitiveType = D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
@@ -253,33 +160,6 @@ private:
 	ComPtr<ID3D12PipelineState> currentPipeline;
 
 	ComPtr<ID3D12PipelineState> shadowMapPipeline;
-
-	std::vector<DirLight> DirLights;
-
-	ComPtr<ID3D12Resource> DLBuffer;
-
-	std::unique_ptr<DescriptorHeapManager::PtrHandles> DLBHandle;
-
-	std::vector<PLight> PLights;
-
-	ComPtr<ID3D12Resource> PLBuffer;
-
-	std::unique_ptr<DescriptorHeapManager::PtrHandles> PLBHandle;
-
-	std::vector<SLight> SLights;
-
-	ComPtr<ID3D12Resource> SLBuffer;
-
-	std::unique_ptr<DescriptorHeapManager::PtrHandles> SLBHandle;
-
-	std::vector<D3D12_STATIC_SAMPLER_DESC> descSamplers;
-
-	std::vector<D3D12_ROOT_PARAMETER> param;
-
-	D3D12_DESCRIPTOR_RANGE rangeCB;
-	D3D12_DESCRIPTOR_RANGE rangeSRV[3];
-
-	D3D12_DESCRIPTOR_RANGE shadowMapSRV[1];
 
 	std::vector<D3D12_INPUT_ELEMENT_DESC> descElement;
 
@@ -300,18 +180,6 @@ private:
 	/// </summary>
 	/// <returns>正常に終了したらtrueを返す</returns>
 	bool InitCBVResource();
-
-	bool InitLightInfoCB();
-
-	bool LinkLightInfoCBVToDescHeap();
-
-	bool MapLLICB();
-
-	bool InitTimeInfoCB();
-
-	bool LinkTimeInfoCBVToDescHeap();
-
-	bool MapTICB();
 
 	bool InitMaterialResource();
 
@@ -339,24 +207,6 @@ private:
 	/// </summary>
 	///<returns>正常に終了したらtrueを返す</returns>
 	bool MapCB();
-
-	bool InitDirectionalLightBResource();
-
-	bool MapDLB();
-
-	bool InitDLBV();
-
-	bool InitPointLightBResource();
-
-	bool MapPLB();
-
-	bool InitPLBV();
-
-	bool InitSpotLightBResource();
-
-	bool MapSLB();
-
-	bool InitSLBV();
 };
 
 #endif

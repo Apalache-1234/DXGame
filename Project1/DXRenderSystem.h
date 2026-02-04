@@ -91,6 +91,14 @@ public:
 	D3D12_CPU_DESCRIPTOR_HANDLE GetShadowMapResourceCPUHandle(UINT index);
 	ComPtr<ID3D12Resource> GetShadowMapResource();
 
+	ComPtr<ID3D12RootSignature> GetRootSignature();
+
+	void AddRootParam(D3D12_ROOT_PARAMETER param);
+
+	int GetRootParamNum();
+
+	void Map();
+
 	void Draw();
 
 	std::shared_ptr<DescriptorHeapManager> GetHeapManager();
@@ -152,6 +160,65 @@ public:
 
 	const static int frameBuffer = 2;
 private:
+	struct DirLight
+	{
+		DirectX::XMMATRIX matVP[4];
+
+		DirectX::XMFLOAT3 direct;
+
+		DirectX::XMFLOAT3 color;
+
+		float power;
+
+		float shadow;
+
+		float shadowMapIndex = 0;
+
+		DirectX::XMFLOAT3 padding;
+	};
+
+	struct PLight
+	{
+		DirectX::XMMATRIX matVP;
+
+		float radius;
+
+		DirectX::XMFLOAT3 color;
+
+		DirectX::XMFLOAT3 pos;
+
+		float power;
+
+		float shadow;
+
+		float shadowMapIndex = 0;
+
+		DirectX::XMFLOAT2 padding;
+	};
+
+	struct SLight
+	{
+		DirectX::XMMATRIX matVP;
+
+		float angular;
+
+		DirectX::XMFLOAT3 direct;
+
+		DirectX::XMFLOAT3 color;
+
+		DirectX::XMFLOAT3 pos;
+
+		float power;
+
+		float length;
+
+		float shadow;
+
+		float shadowMapIndex = 0;
+
+		DirectX::XMFLOAT2 padding;
+	};
+
 	int shadowMapRes = 2048;
 
 	UINT cascadeShadowCount = 4;
@@ -179,6 +246,40 @@ private:
 
 	float fogRange = 1000;
 
+	std::vector<DirLight> DirLights;
+
+	ComPtr<ID3D12Resource> DLBuffer;
+
+	std::unique_ptr<DescriptorHeapManager::PtrHandles> DLBHandle;
+
+	std::vector<PLight> PLights;
+
+	ComPtr<ID3D12Resource> PLBuffer;
+
+	std::unique_ptr<DescriptorHeapManager::PtrHandles> PLBHandle;
+
+	std::vector<SLight> SLights;
+
+	ComPtr<ID3D12Resource> SLBuffer;
+
+	std::unique_ptr<DescriptorHeapManager::PtrHandles> SLBHandle;
+
+	std::unique_ptr<DescriptorHeapManager::PtrHandles> lightInfoCBHandle;
+
+	std::unique_ptr<DescriptorHeapManager::PtrHandles> timeInfoCBHandle;
+
+	ComPtr<ID3D12Resource> lightInfoCB;
+
+	ComPtr<ID3D12Resource> timeInfoCB;
+
+	D3D12_CONSTANT_BUFFER_VIEW_DESC lightInfoCBView;
+
+	D3D12_CONSTANT_BUFFER_VIEW_DESC timeInfoCBView;
+
+	LightInfo lightInfo;
+
+	TimeInfo timeInfo;
+
 	/// <summary>
 	/// DirectX12のデバイスを作成する
 	/// </summary>
@@ -192,6 +293,8 @@ private:
 	bool CreateCommandQueue();
 
 	void CreateCSDividedDist();
+
+	void ResetCommands();
 
 	void RenderDLShadowMap(std::shared_ptr<DirectionalLight> dl, int ind, XMMATRIX proj, XMMATRIX view);
 
@@ -235,6 +338,7 @@ private:
 
 	bool CreateMSAAResource();
 
+
 	/// <summary>
 	/// 描画コマンドを実行して次に行くまでの待機に必要なフェンスを作成する
 	/// </summary>
@@ -277,6 +381,44 @@ private:
 
 	bool UpdateLightCastingShadowNum();
 
+	bool InitDirectionalLightBResource();
+
+	bool MapDLB();
+
+	bool InitDLBV();
+
+	bool InitPointLightBResource();
+
+	bool MapPLB();
+
+	bool InitPLBV();
+
+	bool InitSpotLightBResource();
+
+	bool MapSLB();
+
+	bool InitSLBV();
+
+	bool InitLightInfoCB();
+
+	bool LinkLightInfoCBVToDescHeap();
+
+	bool MapLLICB();
+
+	bool InitTimeInfoCB();
+
+	bool LinkTimeInfoCBVToDescHeap();
+
+	bool MapTICB();
+
+	void PrepareForRootSignature();
+
+	/// <summary>
+    /// ルートシグネチャを作成する
+    /// </summary>
+    ///  <returns>正常に終了したらtrueを返す</returns>
+	bool CreateRootSignature();
+
 	/// <summary>
 	/// DirectXの基幹システムを構築するクラスのシングルトンのインスタンス
 	/// </summary>
@@ -292,6 +434,20 @@ private:
 
 	PtrHandle shadowMapTexHandle;
 	std::vector<PtrHandle> shadowMapTexSliceHandles;
+
+	std::vector<D3D12_ROOT_PARAMETER> param;
+
+	std::vector<D3D12_STATIC_SAMPLER_DESC> descSamplers;
+
+	D3D12_DESCRIPTOR_RANGE rangeCB;
+	D3D12_DESCRIPTOR_RANGE rangeSRV[3];
+
+	D3D12_DESCRIPTOR_RANGE shadowMapSRV[1];
+
+	/// <summary>
+    /// ルートシグネチャのCOM
+    /// </summary>
+	ComPtr<ID3D12RootSignature> rootSig;
 
 	ComPtr<ID3D12Device> device;
 	ComPtr<IDXGIAdapter1> adapter1;

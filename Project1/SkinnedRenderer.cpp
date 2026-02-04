@@ -13,14 +13,14 @@ SkinnedRenderer::~SkinnedRenderer()
 
 void SkinnedRenderer::AddCommand(ComPtr<ID3D12GraphicsCommandList> cmdList)
 {
-	cmdList->SetGraphicsRootShaderResourceView(boneBufferParamNum, boneBuffer->GetGPUVirtualAddress());
+	cmdList->SetGraphicsRootShaderResourceView(10, boneBuffer->GetGPUVirtualAddress());
 
 
 }
 
 void SkinnedRenderer::AddCommand(ComPtr<ID3D12GraphicsCommandList> cmdList, UINT meshInd)
 {
-	cmdList->SetGraphicsRootConstantBufferView(nodeTransformBufferParamNum, nodeTransformBuffer[meshInd]->GetGPUVirtualAddress());
+	cmdList->SetGraphicsRootConstantBufferView(11, nodeTransformBuffer[meshInd]->GetGPUVirtualAddress());
 }
 
 bool SkinnedRenderer::InitBoneResource()
@@ -498,30 +498,6 @@ void SkinnedRenderer::InitRenderer()
 	LoadPixelShader(L"SkinnedPixelShader.cso");
 
 	D3D12_ROOT_PARAMETER param;
-
-	param.ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;
-
-	param.ParameterType = D3D12_ROOT_PARAMETER_TYPE_SRV;
-
-	param.Descriptor.ShaderRegister = 20;
-
-	param.Descriptor.RegisterSpace = 0;
-
-	boneBufferParamNum = GetRootParamNum();
-
-	AddRootParam(param);
-
-	param.ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
-
-	param.ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
-
-	param.Descriptor.ShaderRegister = 21;
-
-	param.Descriptor.RegisterSpace = 0;
-
-	nodeTransformBufferParamNum = GetRootParamNum();
-
-	AddRootParam(param);
 
 	InitNodeTransFormBuffer();
 

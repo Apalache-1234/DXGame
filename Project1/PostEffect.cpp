@@ -52,13 +52,11 @@ void PostEffect::InitRenderer()
 	desSam.ShaderRegister = 0;
 	desSam.RegisterSpace = 0;
 	desSam.ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
-
-	SetDescSampler(desSam , SamplerType::DEFAULT);
 }
 
 void PostEffect::AddCommand(ComPtr<ID3D12GraphicsCommandList> cmdList)
 {
-	cmdList->SetGraphicsRootConstantBufferView(paramNum, postEffectCBView.BufferLocation);
+	cmdList->SetGraphicsRootConstantBufferView(9, postEffectCBView.BufferLocation);
 }
 
 void PostEffect::InitPostEffect()

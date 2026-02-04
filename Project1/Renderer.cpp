@@ -90,33 +90,18 @@ void Renderer::AddRenderCommand(ComPtr<ID3D12GraphicsCommandList>& cmdList, int 
 
 	MapCB();
 
-	MapLLICB();
-
-	MapDLB();
-
-	MapPLB();
-
-	MapSLB();
-
 	MapMB();
 
-	MapTICB();
-
-	cmdList->SetGraphicsRootSignature(rootSig.Get());
-
-	cmdList->SetGraphicsRootConstantBufferView(0, cbView[backbufferIndex].BufferLocation);
-
-	cmdList->SetGraphicsRootConstantBufferView(2, lightInfoCBView.BufferLocation);
-
-	cmdList->SetGraphicsRootShaderResourceView(3, DLBuffer->GetGPUVirtualAddress());
-
-	cmdList->SetGraphicsRootShaderResourceView(4, PLBuffer->GetGPUVirtualAddress());
-
-	cmdList->SetGraphicsRootShaderResourceView(5, SLBuffer->GetGPUVirtualAddress());
+	if (DXRenderSystem::GetInstance().GetIsShadowMapRendering())
+	{
+		cmdList->SetGraphicsRootConstantBufferView(0, cbView[0].BufferLocation);
+	}
+	else
+	{
+		cmdList->SetGraphicsRootConstantBufferView(0, cbView[1].BufferLocation);
+	}
 
 	cmdList->SetGraphicsRootShaderResourceView(6, materialResource->GetGPUVirtualAddress());
-
-	cmdList->SetGraphicsRootConstantBufferView(7, timeInfoCBView.BufferLocation);
 
 	cmdList->SetGraphicsRootDescriptorTable(8, DXRenderSystem::GetInstance().GetShadowMapTextureSRVGPUHandle());
 
@@ -171,45 +156,11 @@ void Renderer::Init()
 
 	isSuccess &= MapCB();
 
-	isSuccess &= InitLightInfoCB();
-
-	isSuccess &= LinkLightInfoCBVToDescHeap();
-
-	isSuccess &= MapLLICB();
-
-	isSuccess &= InitTimeInfoCB();
-
-	isSuccess &= LinkTimeInfoCBVToDescHeap();
-
-	isSuccess &= MapTICB();
-
-	isSuccess &= InitDirectionalLightBResource();
-
-	isSuccess &= InitDLBV();
-
-	isSuccess &= MapDLB();
-
-	isSuccess &= InitPointLightBResource();
-
-	isSuccess &= InitPLBV();
-
-	isSuccess &= MapPLB();
-
-	isSuccess &= InitSpotLightBResource();
-
-	isSuccess &= InitSLBV();
-
-	isSuccess &= MapSLB();
-
 	isSuccess &= CreateMesh(MeshLoader::BOX);
-
-	PrepareForRootSignature();
 
 	PrepareForRenderPipeline();
 
 	InitRenderer();
-
-	isSuccess &= CreateRootSignature();
 
 	isSuccess &= CreateRenderPipeline();
 
@@ -319,11 +270,11 @@ bool Renderer::MapCB()
 {
 	void* ptr[2] = { nullptr , nullptr };
 
-	for (int i = 0; i < 2; i++)
+	if (DXRenderSystem::GetInstance().GetIsShadowMapRendering())
 	{
-		ptr[i] = nullptr;
+		ptr[0] = nullptr;
 
-		hr = constantBuffer[i]->Map(0, nullptr, &ptr[i]);
+		hr = constantBuffer[0]->Map(0, nullptr, &ptr[0]);
 
 		if (FAILED(hr))
 		{
@@ -332,219 +283,24 @@ bool Renderer::MapCB()
 			return false;
 		}
 
-		memcpy(ptr[i], &trans, sizeof(Transform));
+		memcpy(ptr[0], &trans, sizeof(Transform));
 	}
-
-	return true;
-}
-
-
-bool Renderer::InitLightInfoCB()
-{
-	D3D12_HEAP_PROPERTIES prop = {};
-
-	prop.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_UNKNOWN;
-
-	prop.Type = D3D12_HEAP_TYPE_UPLOAD;
-
-	prop.CreationNodeMask = 1;
-
-	prop.VisibleNodeMask = 1;
-
-	prop.MemoryPoolPreference = D3D12_MEMORY_POOL_UNKNOWN;
-
-	D3D12_RESOURCE_DESC desc = {  };
-
-	desc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
-
-	desc.Alignment = 0;
-
-	desc.Height = 1;
-
-	desc.Width = sizeof(LightInfo);
-
-	desc.Flags = D3D12_RESOURCE_FLAG_NONE;
-
-	desc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
-
-	desc.SampleDesc.Count = 1;
-
-	desc.SampleDesc.Quality = 0;
-
-	desc.DepthOrArraySize = 1;
-
-	desc.MipLevels = 1;
-
-	desc.Format = DXGI_FORMAT_UNKNOWN;
-
-	hr = DXRenderSystem::GetInstance().GetDevice()->CreateCommittedResource(
-		&prop,
-		D3D12_HEAP_FLAG_NONE,
-		&desc,
-		D3D12_RESOURCE_STATE_GENERIC_READ,
-		nullptr,
-		IID_PPV_ARGS(lightInfoCB.GetAddressOf())
-
-	);
-
-	if (FAILED(hr))
+	else
 	{
-		std::cerr << "CBVのリソース作成失敗" << std::endl;
+		ptr[1] = nullptr;
 
-		return false;
+		hr = constantBuffer[1]->Map(0, nullptr, &ptr[1]);
+
+		if (FAILED(hr))
+		{
+			std::cerr << "座標行列が収納されたCBのマッピング失敗" << std::endl;
+
+			return false;
+		}
+
+		memcpy(ptr[1], &trans, sizeof(Transform));
 	}
 
-	return true;
-}
-
-bool Renderer::LinkLightInfoCBVToDescHeap()
-{
-	lightInfoCBHandle = std::move(DXRenderSystem::GetInstance().GetHeapManager()->GetHandle());
-
-	lightInfoCBView.BufferLocation = lightInfoCB->GetGPUVirtualAddress();
-
-	lightInfoCBView.SizeInBytes = sizeof(LightInfo);
-
-	DXRenderSystem::GetInstance().GetDevice()->CreateConstantBufferView(&lightInfoCBView, lightInfoCBHandle->cpuHandle);
-
-	return true;
-}
-
-bool Renderer::MapLLICB()
-{
-	lightInfo.ambientLightColor = DXRenderSystem::GetInstance().GetAmbientColor();
-
-	auto dirLNum = SystemManager::GetInstance().GetComponentList<DirectionalLight>().size();
-
-	lightInfo.DirectionalLightNum = DirectX::XMFLOAT4(dirLNum, dirLNum, dirLNum, dirLNum);
-
-	auto pLNum = SystemManager::GetInstance().GetComponentList<PointLight>().size();
-
-	lightInfo.PointLightNum = DirectX::XMFLOAT4(pLNum, pLNum, pLNum, pLNum);
-
-	auto sLNum = SystemManager::GetInstance().GetComponentList<SpotLight>().size();
-
-	lightInfo.SpotLightNum = DirectX::XMFLOAT4(sLNum, sLNum, sLNum, sLNum);
-
-	lightInfo.cameraPos = Camera::GetInstance().GetPosition();
-
-	lightInfo.cascadeShadowCount = DXRenderSystem::GetInstance().GetCascadeShadowCount();
-	lightInfo.cascadeShadowDist = DXRenderSystem::GetInstance().GetCascadeShadowDist();
-
-	DirectX::XMStoreFloat3(&lightInfo.fogColor , DXRenderSystem::GetInstance().GetFogColor());
-
-	lightInfo.fogRange = DXRenderSystem::GetInstance().GetFogRange();
-
-	lightInfo.fogFlag = DXRenderSystem::GetInstance().fogFlag;
-
-	void* ptr = nullptr;
-
-	hr =  lightInfoCB->Map(0, nullptr, &ptr);
-
-	if (FAILED(hr))
-	{
-		std::cerr << "座標行列が収納されたCBのマッピング失敗" << std::endl;
-
-		return false;
-	}
-
-	memcpy(ptr, &lightInfo, sizeof(LightInfo));
-
-	return true;
-}
-
-bool Renderer::InitTimeInfoCB()
-{
-	D3D12_HEAP_PROPERTIES prop = {};
-
-	prop.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_UNKNOWN;
-
-	prop.Type = D3D12_HEAP_TYPE_UPLOAD;
-
-	prop.CreationNodeMask = 1;
-
-	prop.VisibleNodeMask = 1;
-
-	prop.MemoryPoolPreference = D3D12_MEMORY_POOL_UNKNOWN;
-
-	D3D12_RESOURCE_DESC desc = {  };
-
-	desc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
-
-	desc.Alignment = 0;
-
-	desc.Height = 1;
-
-	desc.Width = sizeof(TimeInfo);
-
-	desc.Flags = D3D12_RESOURCE_FLAG_NONE;
-
-	desc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
-
-	desc.SampleDesc.Count = 1;
-
-	desc.SampleDesc.Quality = 0;
-
-	desc.DepthOrArraySize = 1;
-
-	desc.MipLevels = 1;
-
-	desc.Format = DXGI_FORMAT_UNKNOWN;
-
-	hr = DXRenderSystem::GetInstance().GetDevice()->CreateCommittedResource(
-		&prop,
-		D3D12_HEAP_FLAG_NONE,
-		&desc,
-		D3D12_RESOURCE_STATE_GENERIC_READ,
-		nullptr,
-		IID_PPV_ARGS(timeInfoCB.GetAddressOf())
-
-	);
-
-	if (FAILED(hr))
-	{
-		std::cerr << "時間の情報を持ったTIBVのリソース作成失敗" << std::endl;
-
-		return false;
-	}
-
-	return true;
-}
-
-bool Renderer::LinkTimeInfoCBVToDescHeap()
-{
-	timeInfoCBHandle = std::move(DXRenderSystem::GetInstance().GetHeapManager()->GetHandle());
-
-	timeInfoCBView.BufferLocation = timeInfoCB->GetGPUVirtualAddress();
-
-	timeInfoCBView.SizeInBytes = sizeof(TimeInfo);
-
-	DXRenderSystem::GetInstance().GetDevice()->CreateConstantBufferView(&timeInfoCBView, timeInfoCBHandle->cpuHandle);
-
-	return true;
-}
-
-bool Renderer::MapTICB()
-{
-	auto system = SystemManager::GetInstance();
-
-	timeInfo.GameTime = system.GetGameTime();
-	timeInfo.GameDeltaTime = system.GetGameDeltaTime();
-	timeInfo.RealTime = system.GetRealTime();
-	timeInfo.RealDeltaTime = system.GetRealDeltaTime();
-
-	void* ptr = nullptr;
-
-	hr = timeInfoCB->Map(0, nullptr, &ptr);
-
-	if (FAILED(hr))
-	{
-		std::cerr << "時間の情報が収納されたCBのマッピング失敗" << std::endl;
-
-		return false;
-	}
-
-	memcpy(ptr, &timeInfo, sizeof(TimeInfo));
 
 	return true;
 }
@@ -764,26 +520,14 @@ void Renderer::InitRenderer()
 {
 }
 
-void Renderer::AddRootParam(D3D12_ROOT_PARAMETER param)
-{
-	this->param.emplace_back(param);
-}
-
 void Renderer::AddCommandListFunction(std::function<void(ComPtr<ID3D12GraphicsCommandList>)> f)
 {
 	cmdFuncs.emplace_back(f);
 }
 
-int Renderer::GetRootParamNum()
-{
-	return param.size();
-}
-
 void Renderer::SetPrimitiveType(D3D12_PRIMITIVE_TOPOLOGY type)
 {
 	primitiveType = type;
-
-	CreateRootSignature();
 
 	CreateRenderPipeline();
 }
@@ -795,14 +539,11 @@ D3D12_PRIMITIVE_TOPOLOGY Renderer::GetPrimitiveType()
 
 D3D12_GRAPHICS_PIPELINE_STATE_DESC Renderer::GetDefaultPipelineDesc()
 {
-	if (rootSig == nullptr)
-		CreateRootSignature();
-
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC desc_pipe = {};
 
 	desc_pipe.InputLayout = { descElement.data() , static_cast<unsigned int>(descElement.size()) };
 
-	desc_pipe.pRootSignature = rootSig.Get();
+	desc_pipe.pRootSignature = DXRenderSystem::GetInstance().GetRootSignature().Get();
 
 	desc_pipe.VS = { vsBlob->GetBufferPointer() , vsBlob->GetBufferSize() };
 
@@ -837,13 +578,6 @@ D3D12_GRAPHICS_PIPELINE_STATE_DESC Renderer::GetDefaultPipelineDesc()
 void Renderer::AddInputElementDesc(D3D12_INPUT_ELEMENT_DESC desc)
 {
 	descElement.emplace_back(desc);
-}
-
-void Renderer::SetDescSampler(D3D12_STATIC_SAMPLER_DESC desc , SamplerType type)
-{
-	int num = (int)type;
-
-	descSamplers[num] = desc;
 }
 
 void Renderer::SetRasterizerDesc(D3D12_RASTERIZER_DESC desc)
@@ -881,8 +615,6 @@ void Renderer::LoadVertexShader(LPCWSTR vsName)
 
 	if (isPipelineAlreadyCreated)
 	{
-		CreateRootSignature();
-
 		CreateRenderPipeline();
 	}
 }
@@ -900,8 +632,6 @@ void Renderer::LoadPixelShader(LPCWSTR psName)
 
 	if (isPipelineAlreadyCreated)
 	{
-		CreateRootSignature();
-
 		CreateRenderPipeline();
 	}
 }
@@ -929,153 +659,6 @@ D3D12_CPU_DESCRIPTOR_HANDLE Renderer::GetTextureCPUHandle(int idx, Renderer::TEX
 void Renderer::SetDepthStencilDesc(D3D12_DEPTH_STENCIL_DESC desc)
 {
 	dsDesc = desc;
-}
-
-void Renderer::PrepareForRootSignature()
-{
-	param.resize(9);
-
-	param[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
-
-	param[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
-
-	param[0].Descriptor.ShaderRegister = 0;
-
-	param[0].Descriptor.RegisterSpace = 0;
-
-	rangeSRV[0].NumDescriptors = 1;
-
-	rangeSRV[0].BaseShaderRegister = 0;
-
-	rangeSRV[0].RegisterSpace = 0;
-
-	rangeSRV[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
-
-	rangeSRV[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
-
-	rangeSRV[1].NumDescriptors = 1;
-
-	rangeSRV[1].BaseShaderRegister = 1;
-
-	rangeSRV[1].RegisterSpace = 0;
-
-	rangeSRV[1].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
-
-	rangeSRV[1].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
-
-	param[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
-
-	param[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
-
-	param[1].DescriptorTable.NumDescriptorRanges = 2;
-
-	param[1].DescriptorTable.pDescriptorRanges = rangeSRV;
-
-	param[2].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
-
-	param[2].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
-
-	param[2].Descriptor.ShaderRegister = 1;
-
-	param[2].Descriptor.RegisterSpace = 0;
-
-	param[3].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
-
-	param[3].ParameterType = D3D12_ROOT_PARAMETER_TYPE_SRV;
-
-	param[3].Descriptor.ShaderRegister = 10;
-
-	param[3].Descriptor.RegisterSpace = 0;
-
-	param[4].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
-
-	param[4].ParameterType = D3D12_ROOT_PARAMETER_TYPE_SRV;
-
-	param[4].Descriptor.ShaderRegister = 11;
-
-	param[4].Descriptor.RegisterSpace = 0;
-
-	param[5].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
-
-	param[5].ParameterType = D3D12_ROOT_PARAMETER_TYPE_SRV;
-
-	param[5].Descriptor.ShaderRegister = 12;
-
-	param[5].Descriptor.RegisterSpace = 0;
-
-	param[6].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
-
-	param[6].ParameterType = D3D12_ROOT_PARAMETER_TYPE_SRV;
-
-	param[6].Descriptor.ShaderRegister = 30;
-
-	param[6].Descriptor.RegisterSpace = 0;
-
-	param[7].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
-
-	param[7].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
-
-	param[7].Descriptor.ShaderRegister = 2;
-
-	param[7].Descriptor.RegisterSpace = 0;
-
-	shadowMapSRV[0].NumDescriptors = 1;
-
-	shadowMapSRV[0].BaseShaderRegister = 100;
-
-	shadowMapSRV[0].RegisterSpace = 0;
-
-	shadowMapSRV[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
-
-	shadowMapSRV[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
-
-	param[8].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
-
-	param[8].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
-
-	param[8].DescriptorTable.NumDescriptorRanges = 1;
-
-	param[8].DescriptorTable.pDescriptorRanges = shadowMapSRV;
-
-	D3D12_STATIC_SAMPLER_DESC desSam;
-
-	desSam = {};
-
-	desSam.Filter = D3D12_FILTER_ANISOTROPIC;
-
-	desSam.AddressU = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
-	desSam.AddressV = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
-	desSam.AddressW = D3D12_TEXTURE_ADDRESS_MODE_CLAMP;
-	desSam.MipLODBias = D3D12_DEFAULT_MIP_LOD_BIAS;
-	desSam.MaxAnisotropy = 4;
-	desSam.ComparisonFunc = D3D12_COMPARISON_FUNC_NEVER;
-	desSam.BorderColor = D3D12_STATIC_BORDER_COLOR_TRANSPARENT_BLACK;
-	desSam.MaxLOD = D3D12_FLOAT32_MAX;
-	desSam.MinLOD = -D3D12_FLOAT32_MAX;
-	desSam.ShaderRegister = 0;
-	desSam.RegisterSpace = 0;
-	desSam.ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
-
-	descSamplers.push_back(desSam);
-
-	desSam = {};
-
-	desSam.Filter = D3D12_FILTER_COMPARISON_MIN_MAG_MIP_LINEAR;
-
-	desSam.AddressU = D3D12_TEXTURE_ADDRESS_MODE_BORDER;
-	desSam.AddressV = D3D12_TEXTURE_ADDRESS_MODE_BORDER;
-	desSam.AddressW = D3D12_TEXTURE_ADDRESS_MODE_BORDER;
-	desSam.MipLODBias = D3D12_DEFAULT_MIP_LOD_BIAS;
-	desSam.MaxAnisotropy = 4;
-	desSam.ComparisonFunc = D3D12_COMPARISON_FUNC_LESS_EQUAL;
-	desSam.BorderColor = D3D12_STATIC_BORDER_COLOR_OPAQUE_WHITE;
-	desSam.MaxLOD = D3D12_FLOAT32_MAX;
-	desSam.MinLOD = -D3D12_FLOAT32_MAX;
-	desSam.ShaderRegister = 1;
-	desSam.RegisterSpace = 0;
-	desSam.ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
-
-	descSamplers.push_back(desSam);
 }
 
 void Renderer::PrepareForRenderPipeline()
@@ -1167,44 +750,6 @@ void Renderer::PrepareForRenderPipeline()
 	dsDesc.StencilEnable = false;
 }
 
-bool Renderer::CreateRootSignature()
-{
-	D3D12_ROOT_SIGNATURE_DESC desc = {};
-
-	desc.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT | D3D12_ROOT_SIGNATURE_FLAG_DENY_DOMAIN_SHADER_ROOT_ACCESS | D3D12_ROOT_SIGNATURE_FLAG_DENY_GEOMETRY_SHADER_ROOT_ACCESS | D3D12_ROOT_SIGNATURE_FLAG_DENY_HULL_SHADER_ROOT_ACCESS;
-
-	desc.NumParameters = param.size();
-
-	desc.NumStaticSamplers = descSamplers.size();
-
-	desc.pParameters = param.data();
-
-	desc.pStaticSamplers = descSamplers.data();
-
-	ComPtr<ID3DBlob> blob;
-	ComPtr<ID3DBlob> error_blob;
-
-	hr = D3D12SerializeRootSignature(&desc, D3D_ROOT_SIGNATURE_VERSION_1_0, blob.GetAddressOf(), error_blob.GetAddressOf());
-
-	if (FAILED(hr))
-	{
-		std::cerr << "ルートシグネチャシリアライズ化失敗" << std::endl;
-
-		return false;
-	}
-
-	hr = DXRenderSystem::GetInstance().GetDevice()->CreateRootSignature(0, blob->GetBufferPointer(), blob->GetBufferSize(), IID_PPV_ARGS(rootSig.GetAddressOf()));
-
-	if (FAILED(hr))
-	{
-		std::cerr << "ルートシグネチャ作成失敗" << std::endl;
-
-		return false;
-	}
-
-	return true;
-}
-
 bool Renderer::CreateRenderPipeline()
 {
 	isPipelineAlreadyCreated = true;
@@ -1276,341 +821,3 @@ MeshLoader::MESHTYPE  Renderer::GetCurrentMeshType()
 {
 	return currentMeshType;
 }
-
-bool Renderer::InitDirectionalLightBResource()
-{
-	DirLights.resize(100);
-
-	UINT bufferSize = sizeof(DirLight) * DirLights.size();
-
-	D3D12_HEAP_PROPERTIES prop = {};
-
-	prop.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_UNKNOWN;
-
-	prop.Type = D3D12_HEAP_TYPE_UPLOAD;
-
-	prop.CreationNodeMask = 1;
-
-	prop.VisibleNodeMask = 1;
-
-	prop.MemoryPoolPreference = D3D12_MEMORY_POOL_UNKNOWN;
-
-	D3D12_RESOURCE_DESC desc = {  };
-
-	desc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
-
-	desc.Alignment = 0;
-
-	desc.Height = 1;
-
-	desc.Width = bufferSize;
-
-	desc.Flags = D3D12_RESOURCE_FLAG_NONE;
-
-	desc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
-
-	desc.SampleDesc.Count = 1;
-
-	desc.SampleDesc.Quality = 0;
-
-	desc.DepthOrArraySize = 1;
-
-	desc.MipLevels = 1;
-
-	desc.Format = DXGI_FORMAT_UNKNOWN;
-
-	hr = DXRenderSystem::GetInstance().GetDevice()->CreateCommittedResource(
-		&prop,
-		D3D12_HEAP_FLAG_NONE,
-		&desc,
-		D3D12_RESOURCE_STATE_GENERIC_READ,
-		nullptr,
-		IID_PPV_ARGS(DLBuffer.GetAddressOf())
-	);
-
-	if (FAILED(hr))
-	{
-		std::cerr << "ダイレクショナルライトのリソースの作成失敗" << std::endl;
-
-		return false;
-	}
-
-	return true;
-}
-
-bool Renderer::MapDLB()
-{
-	auto list = SystemManager::GetInstance().GetComponentList<DirectionalLight>();;
-
-	for (int i = 0; i< list.size() ; i++)
-	{
-		DirLight l;
-
-		DirectX::XMStoreFloat3(&l.color , list[i]->GetColor());
-		DirectX::XMStoreFloat3(&l.direct, list[i]->GetLightDir());
-	    l.shadow = list[i]->GetIsCastShadow();
-		l.power = list[i]->GetPower();
-		l.shadowMapIndex = list[i]->GetShadowMapIndex();
-		for (int j = 0;j < DXRenderSystem::GetInstance().GetCascadeShadowCount();j++)
-			l.matVP[j] = list[i]->lightVP[j];
-		DirLights[i] = l;
-	}
-
-	void* ptr = nullptr;
-
-	hr = DLBuffer->Map(0, nullptr, &ptr);
-
-	if (FAILED(hr))
-	{
-		std::cerr << "ダイレクショナルライトのDLBのマッピング失敗" << std::endl;
-
-		return false;
-	}
-
-	memcpy(ptr, DirLights.data(), sizeof(DirLight) * DirLights.size());
-
-	return true;
-}
-
-bool Renderer::InitDLBV()
-{
-	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
-	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_BUFFER;
-	srvDesc.Format = DXGI_FORMAT_UNKNOWN;
-	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
-	srvDesc.Buffer.FirstElement = 0;
-	srvDesc.Buffer.NumElements = DirLights.size();
-	srvDesc.Buffer.StructureByteStride = sizeof(DirLight);
-	srvDesc.Buffer.Flags = D3D12_BUFFER_SRV_FLAG_NONE;
-
-	DLBHandle = std::move(DXRenderSystem::GetInstance().GetHeapManager()->GetHandle());
-
-	DXRenderSystem::GetInstance().GetDevice()->CreateShaderResourceView(DLBuffer.Get(), &srvDesc, DLBHandle->cpuHandle);
-
-	return true;
-}
-
-
-bool Renderer::InitPointLightBResource()
-{
-	PLights.resize(100);
-
-	UINT bufferSize = sizeof(PLight) * PLights.size();
-
-	D3D12_HEAP_PROPERTIES prop = {};
-
-	prop.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_UNKNOWN;
-
-	prop.Type = D3D12_HEAP_TYPE_UPLOAD;
-
-	prop.CreationNodeMask = 1;
-
-	prop.VisibleNodeMask = 1;
-
-	prop.MemoryPoolPreference = D3D12_MEMORY_POOL_UNKNOWN;
-
-	D3D12_RESOURCE_DESC desc = {  };
-
-	desc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
-
-	desc.Alignment = 0;
-
-	desc.Height = 1;
-
-	desc.Width = bufferSize;
-
-	desc.Flags = D3D12_RESOURCE_FLAG_NONE;
-
-	desc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
-
-	desc.SampleDesc.Count = 1;
-
-	desc.SampleDesc.Quality = 0;
-
-	desc.DepthOrArraySize = 1;
-
-	desc.MipLevels = 1;
-
-	desc.Format = DXGI_FORMAT_UNKNOWN;
-
-	hr = DXRenderSystem::GetInstance().GetDevice()->CreateCommittedResource(
-		&prop,
-		D3D12_HEAP_FLAG_NONE,
-		&desc,
-		D3D12_RESOURCE_STATE_GENERIC_READ,
-		nullptr,
-		IID_PPV_ARGS(PLBuffer.GetAddressOf())
-	);
-
-	if (FAILED(hr))
-	{
-		std::cerr << "ボーンバッファのリソースの作成失敗" << std::endl;
-
-		return false;
-	}
-
-	return true;
-}
-
-bool Renderer::MapPLB()
-{
-	auto list = SystemManager::GetInstance().GetComponentList<PointLight>();
-
-	for (int i = 0; i < list.size(); i++)
-	{
-		PLight l;
-		DirectX::XMStoreFloat3(&l.color, list[i]->GetColor());
-		DirectX::XMStoreFloat3(&l.pos, list[i]->GetPosition());
-		l.power = list[i]->GetPower();
-		l.radius = list[i]->GetRadius();
-		l.shadow = list[i]->GetIsCastShadow();
-		l.shadowMapIndex = list[i]->GetShadowMapIndex();
-
-	    PLights[i] = l;
-	}
-
-	void* ptr = nullptr;
-
-	hr = PLBuffer->Map(0, nullptr, &ptr);
-
-	if (FAILED(hr))
-	{
-		std::cerr << "ポイントライトのPLBのマッピング失敗" << std::endl;
-
-		return false;
-	}
-
-	memcpy(ptr, PLights.data(), sizeof(PLight) * PLights.size());
-
-	return true;
-}
-
-bool Renderer::InitPLBV()
-{
-	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
-	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_BUFFER;
-	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
-	srvDesc.Buffer.FirstElement = 0;
-	srvDesc.Buffer.NumElements = PLights.size();
-	srvDesc.Buffer.StructureByteStride = sizeof(PLight);
-	srvDesc.Buffer.Flags = D3D12_BUFFER_SRV_FLAG_NONE;
-
-	PLBHandle = std::move(DXRenderSystem::GetInstance().GetHeapManager()->GetHandle());
-
-	DXRenderSystem::GetInstance().GetDevice()->CreateShaderResourceView(PLBuffer.Get(), &srvDesc, PLBHandle->cpuHandle);
-
-	return true;
-}
-
-bool Renderer::InitSpotLightBResource()
-{
-	SLights.resize(100);
-
-	UINT bufferSize = sizeof(SLight) * SLights.size();
-
-	D3D12_HEAP_PROPERTIES prop = {};
-
-	prop.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_UNKNOWN;
-
-	prop.Type = D3D12_HEAP_TYPE_UPLOAD;
-
-	prop.CreationNodeMask = 1;
-
-	prop.VisibleNodeMask = 1;
-
-	prop.MemoryPoolPreference = D3D12_MEMORY_POOL_UNKNOWN;
-
-	D3D12_RESOURCE_DESC desc = {  };
-
-	desc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
-
-	desc.Alignment = 0;
-
-	desc.Height = 1;
-
-	desc.Width = bufferSize;
-
-	desc.Flags = D3D12_RESOURCE_FLAG_NONE;
-
-	desc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
-
-	desc.SampleDesc.Count = 1;
-
-	desc.SampleDesc.Quality = 0;
-
-	desc.DepthOrArraySize = 1;
-
-	desc.MipLevels = 1;
-
-	desc.Format = DXGI_FORMAT_UNKNOWN;
-
-	hr = DXRenderSystem::GetInstance().GetDevice()->CreateCommittedResource(
-		&prop,
-		D3D12_HEAP_FLAG_NONE,
-		&desc,
-		D3D12_RESOURCE_STATE_GENERIC_READ,
-		nullptr,
-		IID_PPV_ARGS(SLBuffer.GetAddressOf())
-	);
-
-	if (FAILED(hr))
-	{
-		std::cerr << "ボーンバッファのリソースの作成失敗" << std::endl;
-
-		return false;
-	}
-
-	return true;
-}
-
-bool Renderer::MapSLB()
-{
-	auto list = SystemManager::GetInstance().GetComponentList<SpotLight>();
-
-	for (int i = 0; i < list.size(); i++)
-	{
-		SLight l;
-		DirectX::XMStoreFloat3(&l.color, list[i]->GetColor());
-		DirectX::XMStoreFloat3(&l.pos, list[i]->GetPosition());
-		DirectX::XMStoreFloat3(&l.direct, list[i]->GetLightDir());
-		l.length = list[i]->GetLength();
-		l.angular = list[i]->GetAngular();
-		l.power = list[i]->GetPower();
-		l.shadow = list[i]->GetIsCastShadow();
-		l.shadowMapIndex = list[i]->GetShadowMapIndex();
-		l.matVP = list[i]->lightVP;
-		SLights[i] = l;
-	}
-
-	void* ptr = nullptr;
-
-	hr = SLBuffer->Map(0, nullptr, &ptr);
-
-	if (FAILED(hr))
-	{
-		std::cerr << "ポイントライトのPLBのマッピング失敗" << std::endl;
-
-		return false;
-	}
-
-	memcpy(ptr, SLights.data(), sizeof(PLight) * SLights.size());
-	return true;
-}
-
-bool Renderer::InitSLBV()
-{
-	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
-	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_BUFFER;
-	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
-	srvDesc.Buffer.FirstElement = 0;
-	srvDesc.Buffer.NumElements = SLights.size();
-	srvDesc.Buffer.StructureByteStride = sizeof(SLight);
-	srvDesc.Buffer.Flags = D3D12_BUFFER_SRV_FLAG_NONE;
-
-	SLBHandle = std::move(DXRenderSystem::GetInstance().GetHeapManager()->GetHandle());
-
-	DXRenderSystem::GetInstance().GetDevice()->CreateShaderResourceView(SLBuffer.Get(), &srvDesc, SLBHandle->cpuHandle);
-
-	return true;
-}
-

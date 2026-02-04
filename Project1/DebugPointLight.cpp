@@ -51,7 +51,6 @@ void DebugPointLight::InitDebugRenderer()
 	LoadVertexShader(L"DebugPointLightVertexShader.cso");
 	LoadPixelShader(L"DebugPointLightPixelShader.cso");
 
-	CreateRootSignature();
 	CreateRenderPipeline();
 
 	CreateMesh(MeshLoader::SPHERE);

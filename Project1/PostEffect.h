@@ -27,20 +27,6 @@ protected:
 	{
 		InitCB<T>();
 		LinkPostEffectCBVToDescHeap<T>();
-
-		D3D12_ROOT_PARAMETER param = {};
-
-		param.ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
-
-		param.ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
-
-		param.Descriptor.ShaderRegister = 3;
-
-		param.Descriptor.RegisterSpace = 0;
-
-		paramNum = GetRootParamNum();
-
-		AddRootParam(param);
 	}
 
 	template<typename T>

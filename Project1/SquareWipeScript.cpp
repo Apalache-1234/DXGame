@@ -17,20 +17,6 @@ void SquareWipeScript::OnStart()
 	rend->SetImageHeight(Window::height);
 	rend->color = DirectX::XMVectorSet(0,0,0,1);
 
-	D3D12_ROOT_PARAMETER param = {};
-
-	param.ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
-
-	param.ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
-
-	param.Descriptor.ShaderRegister = 33;
-
-	param.Descriptor.RegisterSpace = 0;
-
-	auto paramNum = rend->GetRootParamNum();
-
-	rend->AddRootParam(param);
-
 	rend->LoadPixelShader(L"SquareWipePixelShader.cso");
 
 	InitCB();
@@ -39,7 +25,7 @@ void SquareWipeScript::OnStart()
 
 	MapCB();
 
-	std::function<void(ComPtr<ID3D12GraphicsCommandList>)> f = [=](ComPtr<ID3D12GraphicsCommandList> i) { i->SetGraphicsRootConstantBufferView(paramNum, CBView.BufferLocation);};
+	std::function<void(ComPtr<ID3D12GraphicsCommandList>)> f = [=](ComPtr<ID3D12GraphicsCommandList> i) { i->SetGraphicsRootConstantBufferView(12, CBView.BufferLocation);};
 
 	rend->AddCommandListFunction(f);
 
