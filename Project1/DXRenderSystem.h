@@ -39,6 +39,8 @@ public:
 
 	~DXRenderSystem();
 
+	UINT GetCurrentShadowMapIndex();
+
 	static DXRenderSystem& GetInstance();
 
 	bool Init();
@@ -497,6 +499,8 @@ private:
 	std::vector<std::unique_ptr < DescriptorHeapManager::PtrHandles>> shadowMapHandle;
 
 	int backbuffer_index = 0;
+
+	UINT currentShadowMapIndex = 0;
 
 	DirectX::XMFLOAT3 ambientColor = DirectX::XMFLOAT3(1, 1, 1);
 };

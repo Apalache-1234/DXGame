@@ -29,14 +29,30 @@ public:
 
 	void OnStart() override;
 
+	void MapCB();
+
+	void InitCB();
+
+	bool LinkCBVToDescHeap();
+
 	DeckScript::SIDE GetSide();
 
 	void OnUpdate() override;
 
-	bool GetIsOnRay();
-
 	void OnRayCast() override;
+
+	bool isOnRay = false;
+	bool isGrabbed = false;
 private:
+	struct alignas(256) CardInfo
+	{
+		float isHit = false;
+
+		XMFLOAT3 padding1;
+	};
+
+	CardInfo info;
+
 	DeckScript::Card ver;
 
 	std::function<void()> fTween;
@@ -49,7 +65,9 @@ private:
 
 	shared_ptr<GameManagerScript> gameM;
 
-	bool isOnRay = false;
+	ComPtr<ID3D12Resource> CB;
+	std::unique_ptr<DescriptorHeapManager::PtrHandles> CBHandle;
+	D3D12_CONSTANT_BUFFER_VIEW_DESC CBView;
 
 	std::shared_ptr<SkinnedRenderer> sRend;
 };

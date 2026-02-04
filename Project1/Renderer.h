@@ -127,14 +127,16 @@ protected:
 	/// <summary>
 	/// バックバッファ込みのコンスタントバッファのリソース
 	/// </summary>
-	ComPtr<ID3D12Resource> constantBuffer[DXRenderSystem::frameBuffer];
+	std::vector<ComPtr<ID3D12Resource>> constantBuffer;
+
+	UINT currentCBCount = 5;
 
 	/// <summary>
 	/// バックバッファ込みのコンスタントバッファビュー
 	/// </summary>
-	D3D12_CONSTANT_BUFFER_VIEW_DESC cbView[DXRenderSystem::frameBuffer];
+	std::vector<D3D12_CONSTANT_BUFFER_VIEW_DESC> cbView;
 
-	std::unique_ptr<DescriptorHeapManager::PtrHandles> cbHandle[DXRenderSystem::frameBuffer];
+	std::vector<std::unique_ptr<DescriptorHeapManager::PtrHandles>> cbHandle;
 
 	std::unique_ptr<DescriptorHeapManager::PtrHandles> materialHandle;
 	ComPtr<ID3D12Resource> materialResource;
@@ -206,7 +208,7 @@ private:
 	/// コンスタントバッファをマッピングしてGPUに座標行列などを入力する
 	/// </summary>
 	///<returns>正常に終了したらtrueを返す</returns>
-	bool MapCB();
+	bool MapCB(int backBuffer);
 };
 
 #endif

@@ -32,7 +32,11 @@ private:
 
 	std::vector < std::shared_ptr<Tween < XMVECTOR>>> tws;
 
+	std::vector<shared_ptr<Entity>> cardPool;
+
 	UINT cardNum = 0;
+
+	UINT curPool = 0;
 
 	Material mat;
 };

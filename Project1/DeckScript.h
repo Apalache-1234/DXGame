@@ -19,7 +19,7 @@ public:
 
 	enum SIDE
 	{
-		PLAYER,CPU
+		PLAYER,CPU,TABLE
 	}
 	;
 

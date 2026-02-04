@@ -93,34 +93,50 @@ std::shared_ptr<Entity> SystemManager::CreateEntity(std::string name)
 
 void SystemManager::UpdateDestroyedEntities()
 {
+	// std::remove_if を使って「削除対象」を末尾に集める
+	auto it = std::remove_if(entities.begin(), entities.end(),
+		[this](const std::shared_ptr<Entity>& e) {
+			if (e->IsDestoroyed()) {
+				entitiesN.erase(e->GetName()); // マップから削除
+				return true; // vectorから削除対象にする
+			}
+			return false;
+		});
+
+	// 実際に vector から削除
+	entities.erase(it, entities.end());
+
 	for (int i = 0;i < entities.size();i++)
 	{
 		if (entities[i]->IsDestoroyed())
-		{
-			entitiesN.erase(entities[i]->GetName());
-			entities.erase(entities.begin() + i);
+			continue;
 
-			i--;
-		}
-		else
+		auto scripts = entities[i]->GetComponents<ScriptComponent>();
+
+		for (auto script : scripts)
 		{
+			script->OnUpdate();
+		}
+
+
+	}
+
+	while (fixedUpdateCounter > sixtyDenom)
+	{
+		for (int i = 0;i < entities.size();i++)
+		{
+			if (entities[i]->IsDestoroyed())
+				continue;
+
 			auto scripts = entities[i]->GetComponents<ScriptComponent>();
 
 			for (auto script : scripts)
 			{
-				script->OnUpdate();
-			}
-
-			while (fixedUpdateCounter > sixtyDenom)
-			{
-				for (auto script : scripts)
-				{
-					script->OnFixedUpdate();
-				}
-
-				fixedUpdateCounter -= sixtyDenom;
+				script->OnFixedUpdate();
 			}
 		}
+
+		fixedUpdateCounter -= sixtyDenom;
 	}
 }
 

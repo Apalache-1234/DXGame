@@ -84,21 +84,42 @@ Renderer::~Renderer()
 
 void Renderer::AddRenderCommand(ComPtr<ID3D12GraphicsCommandList>& cmdList, int backbufferIndex)
 {
+	if (currentCBCount != DXRenderSystem::GetInstance().GetShadowMapNum() + 1)
+	{
+		currentCBCount = DXRenderSystem::GetInstance().GetShadowMapNum() + 1;
+
+		InitCBVResource();
+
+		LinkCBVResourceToDescHeap();
+	}
+
 	ConvertValues();
 
 	Update();
 
-	MapCB();
+	if (DirectX::XMVectorGetX(DirectX::XMVector3Length(attachFrom->GetWorldScale())) == 0)
+		return;
+
+	MapCB(backbufferIndex);
 
 	MapMB();
 
-	if (DXRenderSystem::GetInstance().GetIsShadowMapRendering())
+	if (!DXRenderSystem::GetInstance().GetIsShadowMapRendering())
 	{
-		cmdList->SetGraphicsRootConstantBufferView(0, cbView[0].BufferLocation);
+		cmdList->SetGraphicsRootConstantBufferView(0, cbView[backbufferIndex].BufferLocation);
 	}
 	else
 	{
-		cmdList->SetGraphicsRootConstantBufferView(0, cbView[1].BufferLocation);
+		int baseOffset = 2;
+
+		int shadowIndex = DXRenderSystem::GetInstance().GetCurrentShadowMapIndex();
+		int bufferCount = 2;
+
+		// 正しい計算式:
+		// ベース + (ライト番号 × 1ライトあたりのバッファ数) + 現在のフレーム番号
+		int targetIndex = baseOffset + (shadowIndex * bufferCount) + backbufferIndex;
+
+		cmdList->SetGraphicsRootConstantBufferView(0, cbView[targetIndex].BufferLocation);
 	}
 
 	cmdList->SetGraphicsRootShaderResourceView(6, materialResource->GetGPUVirtualAddress());
@@ -154,7 +175,7 @@ void Renderer::Init()
 
     ConvertValues();
 
-	isSuccess &= MapCB();
+	isSuccess &= MapCB(0);
 
 	isSuccess &= CreateMesh(MeshLoader::BOX);
 
@@ -172,7 +193,9 @@ void Renderer::Init()
 
 bool Renderer::InitCBVResource()
 {
-	for (int i = 0; i < DXRenderSystem::frameBuffer; i++)
+	constantBuffer.resize(DXRenderSystem::frameBuffer * currentCBCount);
+
+	for (int i = 0; i < constantBuffer.size(); i++)
 	{
 		D3D12_HEAP_PROPERTIES prop = {};
 
@@ -233,7 +256,10 @@ bool Renderer::InitCBVResource()
 
 bool Renderer::LinkCBVResourceToDescHeap()
 {
-	for (int i = 0; i < DXRenderSystem::frameBuffer; i++)
+	cbView.resize(constantBuffer.size());
+	cbHandle.resize(constantBuffer.size());
+
+	for (int i = 0; i < constantBuffer.size(); i++)
 	{
 		cbHandle[i] = std::move(DXRenderSystem::GetInstance().GetHeapManager()->GetHandle());
 
@@ -266,41 +292,40 @@ void Renderer::ConvertValues()
 	trans.color = color_normalized;
 }
 
-bool Renderer::MapCB()
+bool Renderer::MapCB(int backBuffer)
 {
-	void* ptr[2] = { nullptr , nullptr };
+	int frameIndex = backBuffer + 1;
+
+	frameIndex = frameIndex % 2;
+
+	int targetIndex = 0;
 
 	if (DXRenderSystem::GetInstance().GetIsShadowMapRendering())
 	{
-		ptr[0] = nullptr;
+		int shadowIndex = DXRenderSystem::GetInstance().GetCurrentShadowMapIndex();
 
-		hr = constantBuffer[0]->Map(0, nullptr, &ptr[0]);
-
-		if (FAILED(hr))
-		{
-			std::cerr << "座標行列が収納されたCBのマッピング失敗" << std::endl;
-
-			return false;
-		}
-
-		memcpy(ptr[0], &trans, sizeof(Transform));
+		targetIndex = 2 + (shadowIndex * 2) + frameIndex;
 	}
 	else
 	{
-		ptr[1] = nullptr;
-
-		hr = constantBuffer[1]->Map(0, nullptr, &ptr[1]);
-
-		if (FAILED(hr))
-		{
-			std::cerr << "座標行列が収納されたCBのマッピング失敗" << std::endl;
-
-			return false;
-		}
-
-		memcpy(ptr[1], &trans, sizeof(Transform));
+		targetIndex = frameIndex;
 	}
 
+	if (targetIndex >= constantBuffer.size())
+	{
+		std::cerr << "CBインデックス範囲外: " << targetIndex << std::endl;
+		return false;
+	}
+
+	void* ptr = nullptr;
+	HRESULT hr = constantBuffer[targetIndex]->Map(0, nullptr, &ptr);
+
+	if (FAILED(hr))
+	{
+		return false;
+	}
+
+	memcpy(ptr, &trans, sizeof(Transform));
 
 	return true;
 }

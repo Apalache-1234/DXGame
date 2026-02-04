@@ -7,6 +7,9 @@
   </ProjectOutputs>
   <ContentFiles>
     <ContentFile>
+      <FullPath>E:\DXGame\x64\Debug\CardPixelShader.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
       <FullPath>E:\DXGame\x64\Debug\DebugColBoxPixelShader.cso</FullPath>
     </ContentFile>
     <ContentFile>

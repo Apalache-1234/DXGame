@@ -123,7 +123,7 @@ bool DXRenderSystem::Init()
 
 	isSuccess &= CreateRootSignature();
 
-	heapSM.emplace(100);
+	heapSM.emplace(10000);
 
 	CreateShadowMapTextureSRV();
 
@@ -340,6 +340,8 @@ void DXRenderSystem::ResetCommands()
 
 void DXRenderSystem::RenderDLShadowMap(std::shared_ptr<DirectionalLight> dl, int ind, XMMATRIX proj, XMMATRIX view)
 {
+	currentShadowMapIndex = ind;
+
 	Camera::GetInstance().SetCSProjMat(proj);
 	Camera::GetInstance().SetCSViewMat(view);
 
@@ -350,6 +352,11 @@ void DXRenderSystem::RenderDLShadowMap(std::shared_ptr<DirectionalLight> dl, int
 	cmd_list->ClearDepthStencilView(shadowMapHandle[startOffset + ind]->cpuHandle, D3D12_CLEAR_FLAG_DEPTH, 1, 0, 0, nullptr);
 
 	RenderComponent<SkinnedRenderer>();
+}
+
+UINT DXRenderSystem::GetCurrentShadowMapIndex()
+{
+	return currentShadowMapIndex;
 }
 
 void DXRenderSystem::ComputeDLShadowMapRender(std::shared_ptr<DirectionalLight> dl)
@@ -449,6 +456,8 @@ void DXRenderSystem::ComputeDLShadowMapRender(std::shared_ptr<DirectionalLight> 
 
 void DXRenderSystem::ComputeSLShadowMapRender(std::shared_ptr<SpotLight> sl)
 {
+	currentShadowMapIndex = 0;
+
 	float fov = sl->GetAngular();
 
 	XMVECTOR up = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
@@ -1124,7 +1133,7 @@ bool DXRenderSystem::MapTICB()
 
 void DXRenderSystem::PrepareForRootSignature()
 {
-	param.resize(13);
+	param.resize(14);
 
 	param[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
 
@@ -1259,6 +1268,14 @@ void DXRenderSystem::PrepareForRootSignature()
 	param[12].Descriptor.ShaderRegister = 33;
 
 	param[12].Descriptor.RegisterSpace = 0;
+
+	param[13].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
+
+	param[13].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
+
+	param[13].Descriptor.ShaderRegister = 34;
+
+	param[13].Descriptor.RegisterSpace = 0;
 
 	D3D12_STATIC_SAMPLER_DESC desSam;
 

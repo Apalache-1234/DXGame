@@ -65,29 +65,36 @@ void GameManagerScript::OnUpdate()
 
 	if (info.size() != 0)
 	{
+		auto cardSc = info[0].colliders->attachFrom->GetComponent<CardScript>();
+
+		if (cardSc && cardSc->GetSide() == DeckScript::PLAYER)
+			cardSc->isOnRay = true;
+
 		if (KeyInput::GetInstance().GetKey(Key::MOUSE_LEFT))
 		{
 			selectCard = info.front().colliders->attachFrom;
-
-			if (selectCard->GetComponent<CardScript>()->GetSide() != DeckScript::PLAYER)
+			cardSc->isGrabbed = true;
+			if (cardSc->GetSide() != DeckScript::PLAYER)
 				selectCard = nullptr;
 		}
 	}
 
 	if (selectCard)
 	{
-		mousePosXm = DirectX::XMVectorSetZ(mousePosXm, 5);
+		mousePosXm = DirectX::XMVectorSetZ(mousePosXm, 4.8);
 		selectCard->SetWorldPosition(Camera::GetInstance().GetPosScreenToWorld(mousePosXm));
 	}
 		
 
 	if (selectCard && KeyInput::GetInstance().GetKeyUp(Key::MOUSE_LEFT))
 	{
-		mousePosXm = DirectX::XMVectorSetZ(mousePosXm, 5);
+		mousePosXm = DirectX::XMVectorSetZ(mousePosXm, 4.8);
 
 		selectCard->SetWorldPosition(Camera::GetInstance().GetPosScreenToWorld(mousePosXm));
 
 		selectCard->GetComponent<CardScript>()->DrawBack();
+
+		selectCard->GetComponent<CardScript>()->isGrabbed = false;
 
 		selectCard = nullptr;
 	}

@@ -134,7 +134,7 @@ void HandScript::OnUpdate()
 			cardEnts[i]->SetWorldScale(DirectX::XMVectorSet(0, 0, 0, 0));
 		else
 			cardEnts[i]->SetWorldScale(DirectX::XMVectorSet(1, 1, 1, 0));
-		if (cardTws[i] != nullptr)
+		if (cardTws[i] != nullptr && !cardScs[i]->isGrabbed)
 		{
 			cardEnts[i]->SetLocalPosition(cardTws[i]->GetValue());
 		}

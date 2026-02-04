@@ -11,6 +11,13 @@ TableDeckScript::~TableDeckScript()
 
 void TableDeckScript::OnStart()
 {
+	for (int i = 0;i < 3;i++)
+	{
+		cardPool.emplace_back(sceneManager->GetCurrentGameScene()->CreateEntity<CardScript>("CardPool"));
+
+		cardPool[i]->SetWorldScale(DirectX::XMVectorZero());
+	}
+
 	sRend = attachFrom->AddComponent<SkinnedRenderer>();
 	sRend->CreateMesh(MeshLoader::CARD);
 	sRend->ApplyTextureOnMesh(0, Renderer::TEXTURE_TYPE::DIFFUSE, textureLoader->LoadTexture("Textures/Cards/back@2x.dds"));
@@ -21,7 +28,6 @@ void TableDeckScript::OnStart()
 
 	attachFrom->SetWorldScale(DirectX::XMVectorZero());
 
-	sRend->CreateMesh(MeshLoader::CARD);
 	auto mat = sRend->GetMaterial(1);
 	mat.UVSCALE = XMFLOAT2(-1, 1);
 	sRend->SetMaterial(1, mat);
@@ -29,9 +35,12 @@ void TableDeckScript::OnStart()
 
 void TableDeckScript::PlaceCard(DeckScript::Card card , DirectX::XMVECTOR fromPos)
 {
-	auto ent = sceneManager->GetCurrentGameScene()->CreateEntity<CardScript>("Card");
+	curPool++;
+	curPool = curPool % 3;
 
-	auto sc = ent->GetComponent<CardScript>();
+	cardPool[curPool]->SetWorldScale(DirectX::XMVectorSplatOne());
+
+	auto sc = cardPool[curPool]->GetComponent<CardScript>();
 
 	sc->Init(card);
 
@@ -42,12 +51,12 @@ void TableDeckScript::PlaceCard(DeckScript::Card card , DirectX::XMVECTOR fromPo
 	auto toPos = DirectX::XMVectorAdd(worldPos , adPos);
 
 	tws.emplace_back(tweenSystem->DoTween(fromPos , toPos , EasingType::EaseOutSine , 0.4f));
-	tws.back()->OnComplete([=]() {
-		ent->Destroy(); 
+	tws.back()->OnComplete([=, targetIndex = curPool]() {
+		cardPool[targetIndex]->SetWorldScale(DirectX::XMVectorZero());
 		attachFrom->SetWorldScale(DirectX::XMVectorSet(1, 1 + cardNum, 1, 1));
 		sRend->ApplyTextureOnMesh(1, Renderer::TEXTURE_TYPE::DIFFUSE, cardTex->GetCardTexture(card));
 		});
-	tws.back()->OnUpdate([=]() {ent->SetWorldPosition(tws.back()->GetValue());});
+	tws.back()->OnUpdate([=, targetIndex = curPool , currentTween = tws.back()]() {cardPool[targetIndex]->SetWorldPosition(currentTween->GetValue());});
 }
 
 void TableDeckScript::OnUpdate()

@@ -132,6 +132,13 @@ StructuredBuffer<SpotLight> SpotLights : register(t12);
 
 StructuredBuffer<Material> Materials : register(t30);
 
+float3 HsvToRgb(float3 hsv)
+{
+    float4 K = float4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);
+    float3 p = abs(frac(hsv.xxx + K.xyz) * 6.0 - K.www);
+    return hsv.z * lerp(K.xxx, clamp(p - K.xxx, 0.0, 1.0), hsv.y);
+}
+
 float4 normalizeColor(float4 col)
 {
 	float Max = max(col.x, max(col.y, col.z));
