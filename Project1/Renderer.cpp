@@ -104,8 +104,6 @@ void Renderer::AddRenderCommand(ComPtr<ID3D12GraphicsCommandList>& cmdList, int 
 
 	cmdList->SetGraphicsRootSignature(rootSig.Get());
 
-	cmdList->SetDescriptorHeaps(1, heapManager.GetHeap().GetAddressOf());
-
 	cmdList->SetGraphicsRootConstantBufferView(0, cbView[backbufferIndex].BufferLocation);
 
 	cmdList->SetGraphicsRootConstantBufferView(2, lightInfoCBView.BufferLocation);
@@ -286,7 +284,7 @@ bool Renderer::LinkCBVResourceToDescHeap()
 {
 	for (int i = 0; i < DXRenderSystem::frameBuffer; i++)
 	{
-		cbHandle[i] = std::move(heapManager.GetHandle());
+		cbHandle[i] = std::move(DXRenderSystem::GetInstance().GetHeapManager()->GetHandle());
 
 		cbView[i].BufferLocation = constantBuffer[i]->GetGPUVirtualAddress();
 
@@ -401,7 +399,7 @@ bool Renderer::InitLightInfoCB()
 
 bool Renderer::LinkLightInfoCBVToDescHeap()
 {
-	lightInfoCBHandle = std::move(heapManager.GetHandle());
+	lightInfoCBHandle = std::move(DXRenderSystem::GetInstance().GetHeapManager()->GetHandle());
 
 	lightInfoCBView.BufferLocation = lightInfoCB->GetGPUVirtualAddress();
 
@@ -515,7 +513,7 @@ bool Renderer::InitTimeInfoCB()
 
 bool Renderer::LinkTimeInfoCBVToDescHeap()
 {
-	timeInfoCBHandle = std::move(heapManager.GetHandle());
+	timeInfoCBHandle = std::move(DXRenderSystem::GetInstance().GetHeapManager()->GetHandle());
 
 	timeInfoCBView.BufferLocation = timeInfoCB->GetGPUVirtualAddress();
 
@@ -638,7 +636,7 @@ bool Renderer::InitSRVForMaterialResource()
 	srvDesc.Buffer.StructureByteStride = sizeof(Material);
 	srvDesc.Buffer.Flags = D3D12_BUFFER_SRV_FLAG_NONE;
 
-	materialHandle = std::move(heapManager.GetHandle());
+	materialHandle = std::move(DXRenderSystem::GetInstance().GetHeapManager()->GetHandle());
 
 	DXRenderSystem::GetInstance().GetDevice()->CreateShaderResourceView(materialResource.Get(), &srvDesc, materialHandle->cpuHandle);
 
@@ -671,7 +669,7 @@ void Renderer::RegisterTextureSRV()
 
 	for (int i = 0;i < meshData->meshes.size();i++)
 	{
-		auto list = heapManager.GetSerialHandle(2);
+		auto list = DXRenderSystem::GetInstance().GetHeapManager()->GetSerialHandle(2);
 
 		CreateSRV(meshData->meshes[i].texResource , list[0]->cpuHandle);
 
@@ -906,11 +904,6 @@ void Renderer::LoadPixelShader(LPCWSTR psName)
 
 		CreateRenderPipeline();
 	}
-}
-
-DescriptorHeapManager* Renderer::GetHeapPointer()
-{
-	return &heapManager;
 }
 
 Material& Renderer::GetMaterial(int idx)
@@ -1233,6 +1226,9 @@ bool Renderer::CreateRenderPipeline()
 	desc_pipe.RasterizerState.SlopeScaledDepthBias = 1;
 	desc_pipe.RasterizerState.CullMode = D3D12_CULL_MODE_FRONT;
 
+	desc_pipe.SampleDesc.Count = 1;
+	desc_pipe.SampleDesc.Quality = 0;
+
 	hr = DXRenderSystem::GetInstance().GetDevice()->CreateGraphicsPipelineState(&desc_pipe, IID_PPV_ARGS(shadowMapPipeline.GetAddressOf()));
 
 	if (FAILED(hr))
@@ -1387,7 +1383,7 @@ bool Renderer::InitDLBV()
 	srvDesc.Buffer.StructureByteStride = sizeof(DirLight);
 	srvDesc.Buffer.Flags = D3D12_BUFFER_SRV_FLAG_NONE;
 
-	DLBHandle = std::move(heapManager.GetHandle());
+	DLBHandle = std::move(DXRenderSystem::GetInstance().GetHeapManager()->GetHandle());
 
 	DXRenderSystem::GetInstance().GetDevice()->CreateShaderResourceView(DLBuffer.Get(), &srvDesc, DLBHandle->cpuHandle);
 
@@ -1499,7 +1495,7 @@ bool Renderer::InitPLBV()
 	srvDesc.Buffer.StructureByteStride = sizeof(PLight);
 	srvDesc.Buffer.Flags = D3D12_BUFFER_SRV_FLAG_NONE;
 
-	PLBHandle = std::move(heapManager.GetHandle());
+	PLBHandle = std::move(DXRenderSystem::GetInstance().GetHeapManager()->GetHandle());
 
 	DXRenderSystem::GetInstance().GetDevice()->CreateShaderResourceView(PLBuffer.Get(), &srvDesc, PLBHandle->cpuHandle);
 
@@ -1611,7 +1607,7 @@ bool Renderer::InitSLBV()
 	srvDesc.Buffer.StructureByteStride = sizeof(SLight);
 	srvDesc.Buffer.Flags = D3D12_BUFFER_SRV_FLAG_NONE;
 
-	SLBHandle = std::move(heapManager.GetHandle());
+	SLBHandle = std::move(DXRenderSystem::GetInstance().GetHeapManager()->GetHandle());
 
 	DXRenderSystem::GetInstance().GetDevice()->CreateShaderResourceView(SLBuffer.Get(), &srvDesc, SLBHandle->cpuHandle);
 

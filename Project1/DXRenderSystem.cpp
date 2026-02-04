@@ -88,6 +88,8 @@ bool DXRenderSystem::Init()
 
 	heapSM.emplace(100);
 
+	heapManager = std::make_shared<DescriptorHeapManager>(1000);
+
 	CreateShadowMapTextureSRV();
 
 	CreateCSDividedDist();
@@ -98,6 +100,11 @@ bool DXRenderSystem::Init()
 	postEffectEntity->AddComponent<PEHorizonGaussianBlur>();
 	postEffectEntity->AddComponent<PEVerticalGaussianBlur>();
 	postEffectEntity->AddComponent<PENoiseFilter>();
+
+	heapManager->GetHeap()->SetName(L"A");
+	heapRT->GetHeap()->SetName(L"B");
+	heapDS->GetHeap()->SetName(L"C");
+	heapSM->GetHeap()->SetName(L"D");
 
 	if (!isSuccess)
 	{
@@ -256,6 +263,9 @@ void DXRenderSystem::RenderIMGUI()
 		cmd_list->SetDescriptorHeaps(1, myIMGUIIns.GetHeap().GetAddressOf());
 		myIMGUIIns.MainLoop();
 	}
+
+	ID3D12DescriptorHeap* ppHeaps[] = { heapManager->GetHeap().Get() }; // あなたの管理しているSRV用ヒープ
+	cmd_list->SetDescriptorHeaps(1, ppHeaps);
 }
 
 void DXRenderSystem::CreateCSDividedDist()
@@ -310,6 +320,9 @@ void DXRenderSystem::RenderDLShadowMap(std::shared_ptr<DirectionalLight> dl, int
 	cmd_allocator[backbuffer_index]->Reset();
 
 	cmd_list->Reset(cmd_allocator[backbuffer_index].Get(), nullptr);
+
+	ID3D12DescriptorHeap* ppHeaps[] = { heapManager->GetHeap().Get() }; // あなたの管理しているSRV用ヒープ
+	cmd_list->SetDescriptorHeaps(1, ppHeaps);
 }
 
 void DXRenderSystem::ComputeDLShadowMapRender(std::shared_ptr<DirectionalLight> dl)
@@ -455,6 +468,8 @@ void DXRenderSystem::ComputeSLShadowMapRender(std::shared_ptr<SpotLight> sl)
 
 	cmd_list->Reset(cmd_allocator[backbuffer_index].Get(), nullptr);
 	
+	ID3D12DescriptorHeap* ppHeaps[] = { heapManager->GetHeap().Get() }; // あなたの管理しているSRV用ヒープ
+	cmd_list->SetDescriptorHeaps(1, ppHeaps);
 }
 
 void DXRenderSystem::RenderShadowMap()
@@ -546,9 +561,6 @@ ComPtr<ID3D12Resource> DXRenderSystem::GetShadowMapResource()
 
 void DXRenderSystem::Draw()
 {
-	if (GetShadowMapNum() > 0)
-		RenderShadowMap();
-
 	D3D12_RESOURCE_BARRIER barrier;
 
 	barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
@@ -572,6 +584,9 @@ void DXRenderSystem::Draw()
 	barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_RENDER_TARGET;
 
 	barrier.Transition.StateBefore = D3D12_RESOURCE_STATE_RESOLVE_SOURCE;
+
+	if (GetShadowMapNum() > 0)
+		RenderShadowMap();
 
 	cmd_list->ResourceBarrier(1, &barrier);
 
@@ -645,6 +660,11 @@ void DXRenderSystem::Draw()
 		deletingComps.clear();
 }
 
+std::shared_ptr<DescriptorHeapManager> DXRenderSystem::GetHeapManager()
+{
+	return heapManager;
+}
+
 void DXRenderSystem::ExecuteCommands()
 {
 	cmd_list->Close();
@@ -660,6 +680,9 @@ void DXRenderSystem::ExecuteCommands()
 	cmd_allocator[backbuffer_index]->Reset();
 
 	cmd_list->Reset(cmd_allocator[backbuffer_index].Get(), nullptr);
+
+	ID3D12DescriptorHeap* ppHeaps[] = { heapManager->GetHeap().Get() }; // あなたの管理しているSRV用ヒープ
+	cmd_list->SetDescriptorHeaps(1, ppHeaps);
 }
 
 ComPtr<ID3D12Device>& DXRenderSystem::GetDevice()
@@ -1103,7 +1126,7 @@ bool DXRenderSystem::CreateShadowMapView()
 
 void DXRenderSystem::CreateShadowMapTextureSRV()
 {
-	auto han = heapSM->GetHandle();
+	auto han = heapManager->GetHandle();
 
 	auto texture_desc = shadowMap->GetDesc();
 
@@ -1126,7 +1149,7 @@ void DXRenderSystem::CreateShadowMapTextureSRV()
 
 	shadowMapTexSliceHandles.clear();
 
-	auto hans = heapSM->GetSerialHandle(std::max(GetShadowMapNum() , 1U));
+	auto hans = heapManager->GetSerialHandle(std::max(GetShadowMapNum() , 1U));
 
 	desc.Texture2DArray.ArraySize = 1;
 

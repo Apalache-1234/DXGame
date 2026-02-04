@@ -73,8 +73,6 @@ public:
 
 	void LoadPixelShader(LPCWSTR psName);
 
-	DescriptorHeapManager* GetHeapPointer();
-
 	/// <summary>
     /// レンダーパイプラインを作成する
     /// </summary>
@@ -149,8 +147,6 @@ protected:
 	ComPtr<ID3D12Resource> lightInfoCB;
 
 	ComPtr<ID3D12Resource> timeInfoCB;
-
-	DescriptorHeapManager heapManager;
 
 	/// <summary>
 	/// バックバッファ込みのコンスタントバッファビュー

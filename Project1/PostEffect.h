@@ -105,7 +105,7 @@ protected:
 	template<typename T>
 	bool LinkPostEffectCBVToDescHeap()
 	{
-		postEffectCBHandle = std::move(heapManager.GetHandle());
+		postEffectCBHandle = std::move(DXRenderSystem::GetInstance().GetHeapManager()->GetHandle());
 
 		postEffectCBView.BufferLocation = postEffectCB->GetGPUVirtualAddress();
 

@@ -154,7 +154,7 @@ void SquareWipeScript::InitCB()
 
 bool SquareWipeScript::LinkCBVToDescHeap()
 {
-	CBHandle = std::move(rend->GetHeapPointer()->GetHandle());
+	CBHandle = std::move(DXRenderSystem::GetInstance().GetHeapManager()->GetHandle());
 
 	CBView.BufferLocation = CB->GetGPUVirtualAddress();
 

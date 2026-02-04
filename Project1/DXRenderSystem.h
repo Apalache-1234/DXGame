@@ -93,6 +93,8 @@ public:
 
 	void Draw();
 
+	std::shared_ptr<DescriptorHeapManager> GetHeapManager();
+
 	void ExecuteCommands();
 
 	ComPtr<ID3D12Device>& GetDevice();
@@ -162,6 +164,8 @@ private:
 	float cascadeShadowLerp = 0.9f;
 
 	std::vector<ComPtr<ID3D12Resource>> uploadHeaps;
+
+	std::shared_ptr<DescriptorHeapManager> heapManager;
 
 	std::vector<ComPtr<ID3D12Resource>> deletingHeaps;
 
@@ -284,7 +288,7 @@ private:
 	HRESULT hr;
 
 	float colorBG[4] =
-	{ 0.5 , 0.5 , 0.5, 1 };
+	{ 0 , 0 , 0, 1 };
 
 	PtrHandle shadowMapTexHandle;
 	std::vector<PtrHandle> shadowMapTexSliceHandles;

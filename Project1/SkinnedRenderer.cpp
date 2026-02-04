@@ -114,7 +114,7 @@ bool SkinnedRenderer::InitSRVForBoneBuffer()
 	srvDesc.Buffer.StructureByteStride = sizeof(XMMATRIX);
 	srvDesc.Buffer.Flags = D3D12_BUFFER_SRV_FLAG_NONE;
 
-	boneHandle = std::move(heapManager.GetHandle());
+	boneHandle = std::move(DXRenderSystem::GetInstance().GetHeapManager()->GetHandle());
 
 	DXRenderSystem::GetInstance().GetDevice()->CreateShaderResourceView(boneBuffer.Get(), &srvDesc, boneHandle->cpuHandle);
 
