@@ -15,7 +15,7 @@ public:
 
 	virtual void Init();
 
-	std::shared_ptr<Entity> attachFrom;
+	std::weak_ptr<Entity> attachFrom;
 
 	virtual std::type_index GetBaseType();
 protected:

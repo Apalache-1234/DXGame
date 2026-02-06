@@ -97,7 +97,9 @@ void SystemManager::UpdateDestroyedEntities()
 	auto it = std::remove_if(entities.begin(), entities.end(),
 		[this](const std::shared_ptr<Entity>& e) {
 			if (e->IsDestoroyed()) {
+				std::cout << e.use_count() << std::endl;
 				entitiesN.erase(e->GetName()); // ƒ}ƒbƒv‚©‚çíœ
+				DXRenderSystem::GetInstance().SetDeletingEnt(e);
 				return true; // vector‚©‚çíœ‘ÎÛ‚É‚·‚é
 			}
 			return false;
@@ -262,6 +264,8 @@ void SystemManager::AllReset()
 	dxrs->SetCascadeShadowFarZ(1000);
 	dxrs->SetCascadeShadowCount(4);
 	dxrs->SetAmbientColor(DirectX::XMFLOAT3(1,1,1));
+
+	TweenSystem::GetInstance().Reset();
 	
 	auto posts = GetComponentList<PostEffect>();
 

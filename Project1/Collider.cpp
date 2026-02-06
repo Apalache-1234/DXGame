@@ -26,16 +26,16 @@ std::vector<DirectX::XMVECTOR> Collider::GetCurrentVerticesPos()
 
 DirectX::XMMATRIX Collider::GetTRSMatrix()
 {
-	auto positionMat = DirectX::XMMatrixTranslationFromVector(attachFrom->GetWorldPosition()) * DirectX::XMMatrixTranslationFromVector(position);
+	auto positionMat = DirectX::XMMatrixTranslationFromVector(attachFrom.lock()->GetWorldPosition()) * DirectX::XMMatrixTranslationFromVector(position);
 
 	auto qCol = GetRotQuaternion();
 
-	auto resultQ = attachFrom->GetRotationAsQuaternion();
+	auto resultQ = attachFrom.lock()->GetRotationAsQuaternion();
 	resultQ = DirectX::XMQuaternionMultiply(resultQ, qCol);
 
 	auto rotationMat = DirectX::XMMatrixRotationQuaternion(resultQ);
 
-	auto resultS = DirectX::XMVectorMultiply(scale , attachFrom->GetScale());
+	auto resultS = DirectX::XMVectorMultiply(scale , attachFrom.lock()->GetScale());
 
 	auto scaleMat = DirectX::XMMatrixScalingFromVector(resultS);
 

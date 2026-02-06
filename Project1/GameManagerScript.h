@@ -13,10 +13,17 @@
 #include "RayCast.h"
 
 class Entity;
+class PlaceCardUIScript;
+class GameStartingScript;
 
 class GameManagerScript : public ScriptComponent
 {
 public:
+	enum RESULT
+	{
+		PLAYER_W , DRAW , CPU_W , NOT_YET
+	};
+
 	GameManagerScript(std::shared_ptr<Entity> ent);
 
 	~GameManagerScript();
@@ -24,9 +31,26 @@ public:
 	void OnStart() override;
 
 	void OnUpdate() override;
+
+	DeckScript::Card GetCurrentCard();
+
+	DeckScript::Card DrawCurrentCard();
+
+	DirectX::XMVECTOR GetCurrectCardPos();
+
+	GameManagerScript::RESULT CheckIsAllEmptyEachSide();
+
+	bool GetIsGrabbedCard();
+
+	bool GetIsSetupEnd();
 protected:
 private:
+	void EndGame();
+
 	void PlaceCardsOnTableDecks();
+
+	bool isSetupEnd = false;
+	bool isGameFinished = false;
 
 	float startDrawTime = 0;
 
@@ -44,6 +68,9 @@ private:
 	std::shared_ptr<TableDeckScript>  tableDeck1Sc;
 	std::shared_ptr<TableDeckScript>  tableDeck2Sc;
 
+	std::shared_ptr<GameStartingScript> gameStartingSc;
+
+	std::shared_ptr<PlaceCardUIScript> placeCardUISc;
 };
 
 #endif

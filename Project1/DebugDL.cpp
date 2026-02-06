@@ -54,7 +54,7 @@ void DebugDirectionalLight::InitDebugRenderer()
 		auto xQ = DirectX::XMQuaternionRotationAxis(xAxis, atan2(DirectX::XMVectorGetY(dir), DirectX::XMVectorGetX(length)));
 		auto r = yRot * DirectX::XMMatrixRotationQuaternion(xQ);
 
-		auto adjustPos = DirectX::XMVectorAdd(DLList[i]->attachFrom->GetWorldPosition(), DirectX::XMVector3Transform(DirectX::XMVectorScale(Utility::right, 1), r));
+		auto adjustPos = DirectX::XMVectorAdd(DLList[i]->attachFrom.lock()->GetWorldPosition(), DirectX::XMVector3Transform(DirectX::XMVectorScale(Utility::right, 1), r));
 
 		auto t = DirectX::XMMatrixTranslationFromVector(adjustPos);
 

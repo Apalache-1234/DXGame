@@ -15,7 +15,7 @@ float PointLight::GetRadius()
 
 DirectX::XMVECTOR PointLight::GetPosition()
 {
-    return DirectX::XMVectorAdd(position , attachFrom->GetWorldPosition());
+    return DirectX::XMVectorAdd(position , attachFrom.lock()->GetWorldPosition());
 }
 
 void PointLight::SetRadius(float rad)

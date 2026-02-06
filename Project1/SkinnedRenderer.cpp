@@ -4,6 +4,7 @@
 
 SkinnedRenderer::SkinnedRenderer(std::shared_ptr<Entity> ent) : Renderer::Renderer(ent)
 {
+	this;
 }
 
 SkinnedRenderer::~SkinnedRenderer()
@@ -508,6 +509,8 @@ void SkinnedRenderer::InitRenderer()
 	isSuccess &= MapBB();
 
 	isSuccess &= InitSRVForBoneBuffer();
+
+	auto a = boneBuffer.Get();
 
 	if (!isSuccess)
 	{

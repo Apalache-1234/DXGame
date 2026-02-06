@@ -34,7 +34,7 @@ void PhysicsSystem::MainLoop()
 
         comp->AddForce(DirectX::XMVectorScale(GetGravity() , comp->GetMass() * SystemManager::GetInstance().GetGameDeltaTime()));
 
-        comp->attachFrom->AddWorldPosition(DirectX::XMVectorScale(comp->GetVelocity(), SystemManager::GetInstance().GetGameDeltaTime()));
+        comp->attachFrom.lock()->AddWorldPosition(DirectX::XMVectorScale(comp->GetVelocity(), SystemManager::GetInstance().GetGameDeltaTime()));
     }
 }
 

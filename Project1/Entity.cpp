@@ -59,10 +59,7 @@ void Entity::Init()
 void Entity::RemoveAllComponent()
 {
 	components.clear();
-	for (auto& comp : compLists)
-	{
-		DXRenderSystem::GetInstance().SetDeletingComps(comp);
-	}
+
 	compLists.clear();
 }
 

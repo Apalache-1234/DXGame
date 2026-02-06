@@ -29,11 +29,10 @@ pixelOp main(output vertexOp)
     float2 uv = vertexOp.TexCoord;
     
     uv.y = 1 - uv.y;
+    
+    uv = frac(uv);
 
 	output_pixel.color = tex.Sample(tex_sampler , uv) * vertexOp.color;
-
-    if (output_pixel.color.a < 0.9)
-        output_pixel.color.rgba = 1;
     
     vertexOp.normal = ApplyNormalMap(uv, vertexOp.normal, vertexOp.tangent);
 

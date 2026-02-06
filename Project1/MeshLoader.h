@@ -40,6 +40,7 @@ public:
 		CARD,
 		TABLE_AND_CHAIR,
 		FRAME,
+		CARPET,
 		DEBUG_ORIGIN,
 		DEBUG_RAY
 	};

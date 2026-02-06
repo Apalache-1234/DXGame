@@ -117,6 +117,9 @@ public:
 		{
 			isEnd = true;
 			isPlaying = false;
+			if (updateFunc)
+				updateFunc();
+
 			if (completeFunc)
 				completeFunc();
 		}

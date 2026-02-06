@@ -10,11 +10,11 @@ TitleCardScript::~TitleCardScript()
 
 void TitleCardScript::OnStart()
 {
-	rend = attachFrom->AddComponent<SkinnedRenderer>();
+	rend = attachFrom.lock()->AddComponent<SkinnedRenderer>();
 
 	rend->CreateMesh(MeshLoader::CARD);
-	attachFrom->SetWorldPosition(DirectX::XMVectorSet(0, 1.4f, 1.350f, 0));
-	attachFrom->SetWorldScale(DirectX::XMVectorSet(0.4f, 0.4f, 0.4f, 1));
+	attachFrom.lock()->SetWorldPosition(DirectX::XMVectorSet(0, 1.4f, 1.350f, 0));
+	attachFrom.lock()->SetWorldScale(DirectX::XMVectorSet(0.4f, 0.4f, 0.4f, 1));
 
 	texs.emplace_back(textureLoader->LoadTexture("Textures/Cards/ace_of_spades.dds"));
 	texs.emplace_back(textureLoader->LoadTexture("Textures/Cards/2_of_diamonds.dds"));
@@ -30,8 +30,6 @@ void TitleCardScript::OnStart()
 
 	rend->ApplyTextureOnMesh(0, Renderer::TEXTURE_TYPE::DIFFUSE, texs.front());
 	rend->ApplyTextureOnMesh(1,Renderer::TEXTURE_TYPE::DIFFUSE , textureLoader->LoadTexture("Textures/Cards/back@2x.dds"));
-
-
 }
 
 void TitleCardScript::OnUpdate()
@@ -44,5 +42,5 @@ void TitleCardScript::OnUpdate()
 
 	rend->ApplyTextureOnMesh(0, Renderer::TEXTURE_TYPE::DIFFUSE, texs[ind] );
 
-	attachFrom->SetRotation(DirectX::XMVectorSet(90, time, 0, 0));
+	attachFrom.lock()->SetRotation(DirectX::XMVectorSet(90, time, 0, 0));
 }

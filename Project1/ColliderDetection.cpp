@@ -37,15 +37,15 @@ std::vector<DirectX::XMVECTOR> ReturnMinkowskiDif(std::vector<DirectX::XMVECTOR>
 
 void UpdateVelocity(std::shared_ptr<Collider> col , DirectX::XMVECTOR nd)
 {
-	auto comp = col->attachFrom->GetComponent<Rigidbody>();
+	auto comp = col->attachFrom.lock()->GetComponent<Rigidbody>();
 
 	if (comp != nullptr)
 	{
 		if (!comp->isStatic)
 		{
-			col->attachFrom->AddWorldPosition(nd);
+			col->attachFrom.lock()->AddWorldPosition(nd);
 
-			auto vel = col->attachFrom->GetComponent<Rigidbody>()->GetVelocity();
+			auto vel = col->attachFrom.lock()->GetComponent<Rigidbody>()->GetVelocity();
 
 			auto n = DirectX::XMVector3Normalize(nd);
 
@@ -55,7 +55,7 @@ void UpdateVelocity(std::shared_ptr<Collider> col , DirectX::XMVECTOR nd)
 			{
 				n = DirectX::XMVectorScale(n, -dot);
 
-				col->attachFrom->GetComponent<Rigidbody>()->AddForce(n);
+				col->attachFrom.lock()->GetComponent<Rigidbody>()->AddForce(n);
 			}
 	    }
 	}
@@ -85,18 +85,18 @@ void ColliderDetection::MainLoop()
 			CheckCollision(colA , colB , ndA);
 			CheckCollision(colB , colA , ndB);
 
-			if (colA->attachFrom->GetComponent<Rigidbody>() && colB->attachFrom->GetComponent<Rigidbody>())
+			if (colA->attachFrom.lock()->GetComponent<Rigidbody>() && colB->attachFrom.lock()->GetComponent<Rigidbody>())
 			{
-				if (!colA->attachFrom->GetComponent<Rigidbody>()->isStatic && !colB->attachFrom->GetComponent<Rigidbody>()->isStatic)
+				if (!colA->attachFrom.lock()->GetComponent<Rigidbody>()->isStatic && !colB->attachFrom.lock()->GetComponent<Rigidbody>()->isStatic)
 				{
 					ndA = DirectX::XMVectorScale(ndA, 0.5);
 					ndB = DirectX::XMVectorScale(ndB, 0.5);
 				}
 			}
 
-			if (colA->attachFrom->GetComponent<Rigidbody>())
+			if (colA->attachFrom.lock()->GetComponent<Rigidbody>())
 				UpdateVelocity(colA, ndA);
-			if (colB->attachFrom->GetComponent<Rigidbody>())
+			if (colB->attachFrom.lock()->GetComponent<Rigidbody>())
 				UpdateVelocity(colB, ndB);
 		
 		}
@@ -246,8 +246,8 @@ bool ColliderDetection::CheckCollision(std::shared_ptr<Collider> colA, std::shar
 {
 	auto difList = ReturnMinkowskiDif(colB->GetCurrentVerticesPos(), colA->GetCurrentVerticesPos());
 
-	auto entityAPos = colA->attachFrom->GetWorldPosition();
-	auto entityBPos = colB->attachFrom->GetWorldPosition();
+	auto entityAPos = colA->attachFrom.lock()->GetWorldPosition();
+	auto entityBPos = colB->attachFrom.lock()->GetWorldPosition();
 
 	vecAtoB = DirectX::XMVectorSubtract(entityBPos, entityAPos);
 

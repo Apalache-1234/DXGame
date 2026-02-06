@@ -10,7 +10,10 @@
 #include "TitleNoiseScript.h"
 #include "TableAndChairScript.h"
 #include "TitleCardScript.h"
+#include "ReadyUIScript.h"
 #include "TitleFrameScript.h"
+#include "GameEndScript.h"
+#include "GameStartingScript.h"
 
 TitleScene::TitleScene(std::string name) : GameScene::GameScene(name)
 {
@@ -27,6 +30,8 @@ void TitleScene::Load()
 	CreateEntity<GameStartUIScript>("TitleUI");
 	CreateEntity<TableAndChairScript>("TableChair");
 	CreateEntity<TitleCardScript>("TitleCard");
+	CreateEntity<TitleCardScript>("TitleCard");
+
 	auto start = CreateEntity<TitleFrameScript>("FrameStart");
 	auto exit = CreateEntity<TitleFrameScript>("FrameExit");
 

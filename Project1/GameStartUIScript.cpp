@@ -31,10 +31,6 @@ void GameStartUIScript::OnStart()
 	BlackScreen->GetComponent<UIRenderer>()->SetImageWidth(Window::width);
 	BlackScreen->GetComponent<UIRenderer>()->SetImageHeight(Window::height);
 
-	mF =  systemManager->GetComponentList<PERadicalBlur>().back();
-
-	mF->flag = true;
-
 	tw = tweenSystem->DoTween(0.0f, 2.0f , EasingType::EaseLine , 3);
 }
 

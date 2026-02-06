@@ -29,20 +29,17 @@ public:
 
 	void OnStart() override;
 
-	void MapCB();
-
-	void InitCB();
-
-	bool LinkCBVToDescHeap();
-
 	DeckScript::SIDE GetSide();
 
 	void OnUpdate() override;
 
 	void OnRayCast() override;
 
+	DeckScript::Card GetCurrentCard();
+
 	bool isOnRay = false;
 	bool isGrabbed = false;
+
 private:
 	struct alignas(256) CardInfo
 	{
@@ -51,9 +48,15 @@ private:
 		XMFLOAT3 padding1;
 	};
 
+	void MapCB();
+
+	void InitCB();
+
+	bool LinkCBVToDescHeap();
+
 	CardInfo info;
 
-	DeckScript::Card ver;
+	DeckScript::Card ver = DeckScript::Card();
 
 	std::function<void()> fTween;
 

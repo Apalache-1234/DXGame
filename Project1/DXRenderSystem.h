@@ -117,6 +117,9 @@ public:
 
 	void SetDeletingComps(std::vector<shared_ptr<Component>> comps);
 
+	void SetDeletingEnt(shared_ptr<Entity> ent);
+	void SetDeletingResource(ComPtr<ID3D12Resource> rsc);
+
 	bool GetIsShadowMapRendering();
 
 	D3D12_CPU_DESCRIPTOR_HANDLE GetShadowMapTextureSRVCPUHandle();
@@ -239,6 +242,8 @@ private:
 	std::vector<ComPtr<ID3D12Resource>> deletingHeaps;
 
 	std::vector<shared_ptr<Component>> deletingComps;
+	std::vector<std::pair<int , shared_ptr<Entity>>> deletingEnts;
+	std::vector<std::pair<int , ComPtr<ID3D12Resource>>> deletingResources;
 
 	shared_ptr<Entity> postEffectEntity;
 
@@ -250,33 +255,33 @@ private:
 
 	std::vector<DirLight> DirLights;
 
-	ComPtr<ID3D12Resource> DLBuffer;
+	ComPtr<ID3D12Resource> DLBuffer[frameBuffer];
 
-	std::unique_ptr<DescriptorHeapManager::PtrHandles> DLBHandle;
+	std::vector<std::unique_ptr<DescriptorHeapManager::PtrHandles>> DLBHandle;
 
 	std::vector<PLight> PLights;
 
-	ComPtr<ID3D12Resource> PLBuffer;
+	ComPtr<ID3D12Resource> PLBuffer[frameBuffer];
 
-	std::unique_ptr<DescriptorHeapManager::PtrHandles> PLBHandle;
+	std::vector<std::unique_ptr<DescriptorHeapManager::PtrHandles>> PLBHandle;
 
 	std::vector<SLight> SLights;
 
-	ComPtr<ID3D12Resource> SLBuffer;
+	ComPtr<ID3D12Resource> SLBuffer[frameBuffer];
 
-	std::unique_ptr<DescriptorHeapManager::PtrHandles> SLBHandle;
+	std::vector<std::unique_ptr<DescriptorHeapManager::PtrHandles>> SLBHandle;
 
-	std::unique_ptr<DescriptorHeapManager::PtrHandles> lightInfoCBHandle;
+	std::vector<std::unique_ptr<DescriptorHeapManager::PtrHandles>> lightInfoCBHandle;
 
-	std::unique_ptr<DescriptorHeapManager::PtrHandles> timeInfoCBHandle;
+	std::vector<std::unique_ptr<DescriptorHeapManager::PtrHandles>> timeInfoCBHandle;
 
-	ComPtr<ID3D12Resource> lightInfoCB;
+	ComPtr<ID3D12Resource> lightInfoCB[frameBuffer];
 
-	ComPtr<ID3D12Resource> timeInfoCB;
+	ComPtr<ID3D12Resource> timeInfoCB[frameBuffer];
 
-	D3D12_CONSTANT_BUFFER_VIEW_DESC lightInfoCBView;
+	D3D12_CONSTANT_BUFFER_VIEW_DESC lightInfoCBView[frameBuffer];
 
-	D3D12_CONSTANT_BUFFER_VIEW_DESC timeInfoCBView;
+	D3D12_CONSTANT_BUFFER_VIEW_DESC timeInfoCBView[frameBuffer];
 
 	LightInfo lightInfo;
 
@@ -499,6 +504,7 @@ private:
 	std::vector<std::unique_ptr < DescriptorHeapManager::PtrHandles>> shadowMapHandle;
 
 	int backbuffer_index = 0;
+	int frontbuffer_index = 1;
 
 	UINT currentShadowMapIndex = 0;
 

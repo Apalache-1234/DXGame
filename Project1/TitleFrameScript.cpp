@@ -15,8 +15,8 @@ TitleFrameScript::~TitleFrameScript()
 
 void TitleFrameScript::OnStart()
 {
-	rend = attachFrom->AddComponent<SkinnedRenderer>();
-	col = attachFrom->AddComponent<Collider>();
+	rend = attachFrom.lock()->AddComponent<SkinnedRenderer>();
+	col = attachFrom.lock()->AddComponent<Collider>();
 
 	col->scale = DirectX::XMVectorSet(0.03,0.08 , 0.13,0);
 	col->position = DirectX::XMVectorSet(-0.01,0 , 0,0);
@@ -60,9 +60,9 @@ void TitleFrameScript::OnUpdate()
 	if (flag == START && !isPressed)
 	{
 		rend->ApplyTextureOnMesh(1, Renderer::DIFFUSE, textureLoader->LoadTexture("Textures/START.dds"));
-		attachFrom->SetWorldPosition(DirectX::XMVectorSet(-1.1f, 1.2f, 0.25f, 0));
-		attachFrom->SetWorldScale(DirectX::XMVectorSet(5, 5, 5, 0));
-		attachFrom->SetRotation(DirectX::XMVectorSet(0, 80, 0, 0));
+		attachFrom.lock()->SetWorldPosition(DirectX::XMVectorSet(-1.1f, 1.2f, 0.25f, 0));
+		attachFrom.lock()->SetWorldScale(DirectX::XMVectorSet(5, 5, 5, 0));
+		attachFrom.lock()->SetRotation(DirectX::XMVectorSet(0, 80, 0, 0));
 
 		if (isOnRay && KeyInput::GetInstance().GetKey(Key::MOUSE_LEFT))
 		{
@@ -80,9 +80,9 @@ void TitleFrameScript::OnUpdate()
 	else if(flag == EXIT && !isPressed)
 	{
 		rend->ApplyTextureOnMesh(1, Renderer::DIFFUSE, textureLoader->LoadTexture("Textures/EXIT.dds"));
-		attachFrom->SetWorldPosition(DirectX::XMVectorSet(1.1f, 1.2f, 0.25f, 0));
-		attachFrom->SetWorldScale(DirectX::XMVectorSet(5, 5, 5, 0));
-		attachFrom->SetRotation(DirectX::XMVectorSet(0, 110, 0, 0));
+		attachFrom.lock()->SetWorldPosition(DirectX::XMVectorSet(1.1f, 1.2f, 0.25f, 0));
+		attachFrom.lock()->SetWorldScale(DirectX::XMVectorSet(5, 5, 5, 0));
+		attachFrom.lock()->SetRotation(DirectX::XMVectorSet(0, 110, 0, 0));
 
 		if (isOnRay && KeyInput::GetInstance().GetKey(Key::MOUSE_LEFT))
 		{

@@ -11,7 +11,7 @@ SquareWipeScript::~SquareWipeScript()
 
 void SquareWipeScript::OnStart()
 {
-    rend = attachFrom->AddComponent<UIRenderer>();
+    rend = attachFrom.lock()->AddComponent<UIRenderer>();
 
 	rend->SetImageWidth(Window::width);
 	rend->SetImageHeight(Window::height);

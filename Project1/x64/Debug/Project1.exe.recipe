@@ -49,6 +49,9 @@
       <FullPath>E:\DXGame\x64\Debug\NoiseFilterPixelShader.cso</FullPath>
     </ContentFile>
     <ContentFile>
+      <FullPath>E:\DXGame\x64\Debug\PlaceCardUIPixelShader.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
       <FullPath>E:\DXGame\x64\Debug\PostEffectPixelShader.cso</FullPath>
     </ContentFile>
     <ContentFile>
@@ -56,6 +59,9 @@
     </ContentFile>
     <ContentFile>
       <FullPath>E:\DXGame\x64\Debug\RadicalBlurPixelShader.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>E:\DXGame\x64\Debug\ReadyUIPixelShader.cso</FullPath>
     </ContentFile>
     <ContentFile>
       <FullPath>E:\DXGame\x64\Debug\RendererPixelShader.cso</FullPath>

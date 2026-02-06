@@ -20,6 +20,7 @@ void MeshLoader::Init()
 	LoadMesh("Models/Card.fbx", CARD);
 	LoadMesh("Models/Old_wooden_table_and_chair/Old_wooden_table_and_chair55.fbx", TABLE_AND_CHAIR);
 	LoadMesh("Models/frame/frame.fbx", FRAME);
+	LoadMesh("Models/Carpet/Carpet.fbx", CARPET);
 	LoadMesh("Models/OriginMarker.fbx", DEBUG_ORIGIN);
 	LoadMesh("Models/RayDebug.fbx", DEBUG_RAY);
 }

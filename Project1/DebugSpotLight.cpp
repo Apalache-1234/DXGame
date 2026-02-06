@@ -144,7 +144,7 @@ void DebugSpotLight::InitDebugSpotLightRenderer()
 		auto xQ = DirectX::XMQuaternionRotationAxis(xAxis, atan2(DirectX::XMVectorGetY(dir), DirectX::XMVectorGetX(length)));
 		auto r = yRot * DirectX::XMMatrixRotationQuaternion(xQ);
 
-		auto adjustPos = DirectX::XMVectorAdd(DLList[i]->attachFrom->GetWorldPosition(), DirectX::XMVector3Transform(DirectX::XMVectorScale(Utility::right, DLList[i]->GetLength() / 2), r));
+		auto adjustPos = DirectX::XMVectorAdd(DLList[i]->attachFrom.lock()->GetWorldPosition(), DirectX::XMVector3Transform(DirectX::XMVectorScale(Utility::right, DLList[i]->GetLength() / 2), r));
 
 		auto t = DirectX::XMMatrixTranslationFromVector(adjustPos);
 
@@ -156,7 +156,7 @@ void DebugSpotLight::InitDebugSpotLightRenderer()
 		instances.push_back(inst);
 		lightIndex.emplace_back(-1);
 
-		inst.world = DirectX::XMMatrixScalingFromVector(DirectX::XMVectorScale(DirectX::XMVectorSplatOne(), DLList[i]->GetLength() * 2)) * DirectX::XMMatrixTranslationFromVector(DLList[i]->attachFrom->GetWorldPosition());;
+		inst.world = DirectX::XMMatrixScalingFromVector(DirectX::XMVectorScale(DirectX::XMVectorSplatOne(), DLList[i]->GetLength() * 2)) * DirectX::XMMatrixTranslationFromVector(DLList[i]->attachFrom.lock()->GetWorldPosition());;
 
 		instances.push_back(inst);
 		lightIndex.emplace_back(i);

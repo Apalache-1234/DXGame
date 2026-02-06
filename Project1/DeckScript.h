@@ -52,6 +52,8 @@ public:
 
 	void Init(SIDE side);
 
+	bool IsEmpty();
+
 	Card DrawCard();
 
 	DirectX::XMVECTOR GetTopPos();

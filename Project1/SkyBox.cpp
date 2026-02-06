@@ -21,7 +21,7 @@ void SkyBox::Update()
 
 	auto rotationMat = XMMatrixRotationY(0);
 
-	auto scale_mat = XMMatrixScalingFromVector(attachFrom->GetWorldScale());
+	auto scale_mat = XMMatrixScalingFromVector(attachFrom.lock()->GetWorldScale());
 
 	trans.world = scale_mat * rotationMat * position_mat;
 
@@ -40,7 +40,7 @@ void SkyBox::InitRenderer()
 {
 	CreateTexture();
 
-	attachFrom->SetWorldScale(DirectX::XMVectorSet(90,90,90,0));
+	attachFrom.lock()->SetWorldScale(DirectX::XMVectorSet(90,90,90,0));
 
 	LoadVertexShader(L"SkyBoxVertexShader.cso");
 	LoadPixelShader(L"SkyBoxPixelShader.cso");

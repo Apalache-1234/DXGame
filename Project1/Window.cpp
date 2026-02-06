@@ -56,7 +56,7 @@ bool Window::MainLoop()
 	{
 		if (msg.message == WM_QUIT)
 		{
-			return false; // アプリ終了
+			return false; 
 		}
 		else
 		{
@@ -65,7 +65,7 @@ bool Window::MainLoop()
 		}
 	}
 
-	return true; // ゲーム続行
+	return true; 
 }
 
 bool Window::Init()

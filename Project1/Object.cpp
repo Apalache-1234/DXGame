@@ -80,16 +80,16 @@ void Object::SetParent(std::shared_ptr<Object> obj)
 
 	parent = obj;
 
-	asChildIndex = parent->GetChild().size();
+	asChildIndex = parent.lock()->GetChild().size();
 }
 
 void Object::ResetParent()
 {
 	if (HasParent())
 	{
-		parent->ResetChild(this->GetName());
+		parent.lock()->ResetChild(this->GetName());
 
-		parent = nullptr;
+		parent.lock() = nullptr;
 	}
 }
 
@@ -112,7 +112,7 @@ void Object::ResetChild(int num)
 		return;
 	}
 
-	objsChild[num]->parent = nullptr;
+	objsChild[num]->parent.lock() = nullptr;
 
 	objsChild.erase(objsChild.begin() +  num);
 }
@@ -123,7 +123,7 @@ void Object::ResetChild(std::string name)
 	{
 		if (objsChild[i]->GetName() == name)
 		{
-			objsChild[i]->parent = nullptr;
+			objsChild[i]->parent.lock() = nullptr;
 
 			objsChild.erase(objsChild.begin() + i);
 
@@ -180,19 +180,19 @@ std::string Object::GetName()
 
 std::shared_ptr<Object> Object::GetParent()
 {
-	if (parent == nullptr)
+	if (parent.lock() == nullptr)
 	{
 		std::cout << "e‚ª‘¶Ý‚µ‚Ü‚¹‚ñ" << std::endl;
 
 		return nullptr;
 	}
 
-	return parent;
+	return parent.lock();
 }
 
 bool Object::HasParent()
 {
-	bool hasParent = parent != nullptr;
+	bool hasParent = parent.lock() != nullptr;
 
 	return hasParent;
 }

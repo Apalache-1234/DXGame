@@ -48,26 +48,58 @@ void HandScript::Init(DeckScript::SIDE side)
 
 	for (int i = 0;i < cardEnts.size();i++)
 	{
-		attachFrom->AddChild(cardEnts[i]);
+		attachFrom.lock()->AddChild(cardEnts[i]);
 
 		cardEnts[i]->SetLocalPosition(GetCardLocalPos(i));
 		cardEnts[i]->SetWorldRotation(DirectX::XMVectorSet(0, 180, 0, 0));
 		cardScs.emplace_back(cardEnts[i]->AddComponent<CardScript>());
 
 		cardScs.back()->SetDrawBackTween(&cardTws[i]);
+		cardScs.back()->Init(DeckScript::Card());
 	}
 
-	attachFrom->SetWorldPosition(DirectX::XMVectorSet(0,0,0,0));
+	attachFrom.lock()->SetWorldPosition(DirectX::XMVectorSet(0,0,0,0));
 	if (this->side == DeckScript::CPU)
 	{
-		attachFrom->SetWorldRotation(DirectX::XMVectorSet(0, 180, 0, 0));
+		attachFrom.lock()->SetWorldRotation(DirectX::XMVectorSet(0, 180, 0, 0));
 	}
+
+	auto ent = systemManager->GetEntityByName("TableDeck1");
+	tableDeck1Sc = ent->GetComponent<TableDeckScript>();
+	ent = systemManager->GetEntityByName("TableDeck2");
+	tableDeck2Sc = ent->GetComponent<TableDeckScript>();
 }
 
 void HandScript::OnStart()
 {
 }
 
+std::pair < DeckScript::Card, DirectX::XMVECTOR> HandScript::DrawPlaceableCard()
+{
+	for (int i = 0;i < handNum;i++)
+	{
+		if (tableDeck1Sc->IsPlaceable(cardScs[i]->GetCurrentCard()) || tableDeck2Sc->IsPlaceable(cardScs[i]->GetCurrentCard()))
+		{
+			auto card = cardScs[i]->GetCurrentCard();
+			auto pos = cardScs[i]->attachFrom.lock()->GetWorldPosition();
+
+			cardScs[i]->Init(DeckScript::Card());
+
+			return std::make_pair(card, pos);
+		}
+	}
+	return std::make_pair(DeckScript::Card(), DirectX::XMVectorZero());
+}
+
+bool HandScript::HasPlaceableCard()
+{
+	for (int i = 0;i < handNum;i++)
+	{
+		if (tableDeck1Sc->IsPlaceable(cardScs[i]->GetCurrentCard()) || tableDeck2Sc->IsPlaceable(cardScs[i]->GetCurrentCard()))
+			return true;
+	}
+	return false;
+}
 
 void HandScript::PlaceCard()
 {
@@ -78,14 +110,16 @@ void HandScript::PlaceCard()
 
 	auto card = deckSc->DrawCard();
 
+	if (card.pat == DeckScript::EMPTY)
+		return;
+
 	for (int i = 0;i < handNum;i++)
 	{
-		if (cards[i].pat == DeckScript::EMPTY)
+		if (cardScs[i]->GetCurrentCard().pat == DeckScript::EMPTY)
 		{
-			cards[i] = card;
-
 			cardScs[i]->Init(card);
 
+			cardEnts[i]->SetLocalPosition(cardEnts[i]->GetWorldToLocalPos(deckSc->GetTopPos()));
 
 			cardTws[i] = tweenSystem->DoTween(cardEnts[i]->GetWorldToLocalPos(deckSc->GetTopPos()), GetCardLocalPos(i), EasingType::EaseOutSine , 0.3f);
 
@@ -96,13 +130,28 @@ void HandScript::PlaceCard()
 
 }
 
+bool HandScript::IsAllEmpty()
+{
+	bool empty = true;
+
+	for (int i = 0;i < handNum;i++)
+	{
+		if (cardScs[i]->GetCurrentCard().pat != DeckScript::EMPTY)
+		{
+			empty = false;
+		}
+	}
+
+	return empty;
+}
+
 bool HandScript::IsAnyEmpty()
 {
 	bool empty = false;
 
 	for (int i = 0;i < handNum;i++)
 	{
-		if (cards[i].pat == DeckScript::EMPTY)
+		if (cardScs[i]->GetCurrentCard().pat == DeckScript::EMPTY)
 		{
 			empty = true;
 		}
@@ -121,22 +170,48 @@ shared_ptr<DeckScript> HandScript::GetUsingDeck()
 	return deckSc;
 }
 
+std::pair < DeckScript::Card, DirectX::XMVECTOR> HandScript::DrawRandomCard()
+{
+	auto list = cardScs;
+
+	auto result = std::remove_if(list.begin(), list.end(),
+		[](shared_ptr<CardScript>& e) { return e->GetCurrentCard().pat == DeckScript::EMPTY ; });
+
+	list.erase(result,list.end());
+
+	if (list.empty())
+		return std::make_pair(DeckScript::Card() , DirectX::XMVectorZero());
+
+	int ind = Utility::GetRandomInt(0 , list.size() - 1);
+
+	auto card = list[ind]->GetCurrentCard();
+	auto pos = list[ind]->attachFrom.lock()->GetWorldPosition();
+
+	list[ind]->Init(DeckScript::Card());
+
+	return std::make_pair(card , pos);
+}
+
 void HandScript::OnUpdate()
 {
-	if (KeyInput::GetInstance().GetKey(D))
+	if (gameM == nullptr)
 	{
-		PlaceCard();
+		auto ent = systemManager->GetEntityByName("GameManager");
+
+		gameM = ent->GetComponent<GameManagerScript>();
 	}
 
 	for (int i = 0;i < handNum;i++)
 	{
-		if (cards[i].pat == DeckScript::EMPTY)
-			cardEnts[i]->SetWorldScale(DirectX::XMVectorSet(0, 0, 0, 0));
-		else
-			cardEnts[i]->SetWorldScale(DirectX::XMVectorSet(1, 1, 1, 0));
 		if (cardTws[i] != nullptr && !cardScs[i]->isGrabbed)
 		{
 			cardEnts[i]->SetLocalPosition(cardTws[i]->GetValue());
 		}
+	}
+
+
+	if (IsAnyEmpty() && gameM->GetIsSetupEnd() && !deckSc->IsEmpty())
+	{
+		PlaceCard();
 	}
 }

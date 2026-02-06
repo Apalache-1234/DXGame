@@ -1,5 +1,5 @@
 #include "DeckScript.h"
-#include <random>
+#include "Utility.h"
 
 DeckScript::DeckScript(std::shared_ptr<Entity> ent) : ScriptComponent::ScriptComponent(ent)
 {
@@ -25,7 +25,7 @@ void DeckScript::Init(SIDE side)
 	}
 	else
 	{
-		for (int i = 1;i < 14;i++)
+		for (int i = 1;i < 2;i++)
 		{
 			for (int j = 2;j < 4;j++)
 			{
@@ -36,7 +36,7 @@ void DeckScript::Init(SIDE side)
 
 	ySize = deck.size();
 
-	auto rend = attachFrom->AddComponent<SkinnedRenderer>();
+	auto rend = attachFrom.lock()->AddComponent<SkinnedRenderer>();
 
 	rend->CreateMesh(MeshLoader::CARD);
 	rend->ApplyTextureOnMesh(1 , Renderer::DIFFUSE , textureLoader->LoadTexture("Textures/Cards/back@2x.dds"));
@@ -47,23 +47,23 @@ void DeckScript::Init(SIDE side)
 	if (this->side == DeckScript::CPU)
 		defPos = DirectX::XMVectorSet(5, 1.3f, 2.1, 0);
 
-	attachFrom->SetWorldPosition(defPos);
-	attachFrom->SetWorldRotation(DirectX::XMVectorSet(-180,0,0,0));
+	attachFrom.lock()->SetWorldPosition(defPos);
+	attachFrom.lock()->SetWorldRotation(DirectX::XMVectorSet(-180,0,0,0));
+}
+
+bool DeckScript::IsEmpty()
+{
+	return deck.size() == 0;
 }
 
 DeckScript::Card DeckScript::DrawCard()
 {
 	if (deck.size() == 0)
 	{
-		std::cout << "ƒfƒbƒL‚ª‚à‚¤‚È‚¢" << std::endl;
-		return Card((PATTERN)5 , -1);
+		return Card();
 	}
 
-	random_device rd; 
-	mt19937 gen(rd()); 
-	uniform_int_distribution<> dist(0, deck.size()-1); 
-
-	int val = dist(gen);
+	int val = Utility::GetRandomInt(0, deck.size() - 1);
 
 	auto card = deck[val];
 	deck.erase(deck.begin() + val);
@@ -93,7 +93,7 @@ DeckScript::Card DeckScript::DrawCard()
 
 DirectX::XMVECTOR DeckScript::GetTopPos()
 {
-	return attachFrom->GetWorldPosition();
+	return attachFrom.lock()->GetWorldPosition();
 }
 
 void DeckScript::OnStart()
@@ -102,6 +102,6 @@ void DeckScript::OnStart()
 
 void DeckScript::OnUpdate()
 {
-	attachFrom->SetWorldScale(DirectX::XMVectorSet(deck.size() > 0, deck.size(), deck.size() > 0, 0));
-	attachFrom->SetWorldPosition(DirectX::XMVectorSubtract(defPos , DirectX::XMVectorSet(0,0.0203 * (ySize - deck.size()), 0, 0)));
+	attachFrom.lock()->SetWorldScale(DirectX::XMVectorSet(deck.size() > 0, deck.size(), deck.size() > 0, 0));
+	attachFrom.lock()->SetWorldPosition(DirectX::XMVectorSubtract(defPos , DirectX::XMVectorSet(0,0.0203 * (ySize - deck.size()), 0, 0)));
 }

@@ -54,7 +54,7 @@ void DebugUIRenderer::InitDebugRenderer()
 
 		DirectX::XMFLOAT2 vec = comp[i]->GetResultScale();
 
-		auto t = DirectX::XMMatrixTranslationFromVector(DirectX::XMVectorAdd(comp[i]->attachFrom->GetWorldPosition() , comp[i]->colPosition));
+		auto t = DirectX::XMMatrixTranslationFromVector(DirectX::XMVectorAdd(comp[i]->attachFrom.lock()->GetWorldPosition() , comp[i]->colPosition));
 		auto s = DirectX::XMMatrixScalingFromVector(DirectX::XMVectorMultiply(DirectX::XMLoadFloat2(&vec), comp[i]->colScale));
 
 		inst.world = s * t;

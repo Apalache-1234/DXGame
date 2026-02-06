@@ -63,22 +63,22 @@ Transform UIRenderer::GetTransform()
 {
 	Transform transform;
 
-	auto worldPos = attachFrom->GetWorldPosition();
+	auto worldPos = attachFrom.lock()->GetWorldPosition();
 
 	float posX = DirectX::XMVectorGetX(worldPos);
 	float posY = DirectX::XMVectorGetY(worldPos);
 
 	auto position_mat = XMMatrixTranslation(posX, posY, 0);
 
-	auto worldZ = DirectX::XMVectorGetZ(attachFrom->GetWorldRotation());
-	auto localZ = DirectX::XMVectorGetZ(attachFrom->GetLocalRotation());
+	auto worldZ = DirectX::XMVectorGetZ(attachFrom.lock()->GetWorldRotation());
+	auto localZ = DirectX::XMVectorGetZ(attachFrom.lock()->GetLocalRotation());
 
 	worldZ = DirectX::XMConvertToRadians(worldZ);
 	localZ = DirectX::XMConvertToRadians(localZ);
 
 	auto rotation_mat = DirectX::XMMatrixRotationZ(worldZ + localZ);
 
-	auto scale = attachFrom->GetScale();
+	auto scale = attachFrom.lock()->GetScale();
 
 	float scaleX = DirectX::XMVectorGetX(scale) * imageWidth;
 	float scaleY = DirectX::XMVectorGetY(scale) * imageHeight;
@@ -105,7 +105,7 @@ Transform UIRenderer::GetTransform()
 
 XMFLOAT2 UIRenderer::GetResultScale()
 {
-	auto scale = attachFrom->GetWorldScale();
+	auto scale = attachFrom.lock()->GetWorldScale();
 
 	return XMFLOAT2(imageWidth * DirectX::XMVectorGetX(scale) , imageHeight * DirectX::XMVectorGetY(scale));
 }
@@ -116,7 +116,7 @@ void UIRenderer::CheckPointerInbound()
 
 	auto pointer = input.GetMousePos();
 
-	auto pos = DirectX::XMVectorAdd(attachFrom->GetWorldPosition() , colPosition);
+	auto pos = DirectX::XMVectorAdd(attachFrom.lock()->GetWorldPosition() , colPosition);
 
 	auto scale = GetResultScale();
 
@@ -131,7 +131,7 @@ void UIRenderer::CheckPointerInbound()
 	auto pointX = pointer.x;
 	auto pointY = pointer.y;
 
-	auto scripts = attachFrom->GetComponents<ScriptComponent>();
+	auto scripts = attachFrom.lock()->GetComponents<ScriptComponent>();
 
 	if (x >= pointX && xN <= pointX && y >= pointY && yN <= pointY)
 	{

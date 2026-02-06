@@ -83,7 +83,7 @@ private:
 	std::vector<std::shared_ptr<Object>> objsChild;
 
 	//親のオブジェクトのポインター
-	std::shared_ptr<Object> parent = nullptr;
+	std::weak_ptr<Object> parent;
 
 	bool isDestroyed = false;
 

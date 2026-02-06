@@ -153,6 +153,7 @@
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="ColliderDetection.cpp" />
     <ClCompile Include="Component.cpp" />
+    <ClCompile Include="CPUScript.cpp" />
     <ClCompile Include="DebugDL.cpp" />
     <ClCompile Include="DebugGrids.cpp" />
     <ClCompile Include="DebugOrigin.cpp" />
@@ -169,8 +170,10 @@
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="Flags.cpp" />
     <ClCompile Include="FloorScript.cpp" />
+    <ClCompile Include="GameEndScript.cpp" />
     <ClCompile Include="GameManagerScript.cpp" />
     <ClCompile Include="GameScene.cpp" />
+    <ClCompile Include="GameStartingScript.cpp" />
     <ClCompile Include="GameStartUIScript.cpp" />
     <ClCompile Include="HandScript.cpp" />
     <ClCompile Include="PEEdgeFilter.cpp" />
@@ -179,7 +182,9 @@
     <ClCompile Include="PENoiseFilter.cpp" />
     <ClCompile Include="PERadicalBlur.cpp" />
     <ClCompile Include="PEVerticalGaussianBlur.cpp" />
+    <ClCompile Include="PlaceCardUIScript.cpp" />
     <ClCompile Include="PostEffect.cpp" />
+    <ClCompile Include="ReadyUIScript.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="ScriptComponent.cpp" />
     <ClCompile Include="SquareWipeScript.cpp" />
@@ -337,6 +342,16 @@
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.1</ShaderModel>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.1</ShaderModel>
     </FxCompile>
+    <FxCompile Include="PlaceCardUIPixelShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.1</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.1</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.1</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.1</ShaderModel>
+    </FxCompile>
     <FxCompile Include="PostEffectPixelShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
@@ -366,6 +381,12 @@
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.1</ShaderModel>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.1</ShaderModel>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.1</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="ReadyUIPixelShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
     </FxCompile>
     <FxCompile Include="RendererPixelShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
@@ -481,6 +502,7 @@
     <ClInclude Include="Collider.h" />
     <ClInclude Include="ColliderDetection.h" />
     <ClInclude Include="Component.h" />
+    <ClInclude Include="CPUScript.h" />
     <ClInclude Include="DebugDL.h" />
     <ClInclude Include="DebugGrids.h" />
     <ClInclude Include="DebugOrigin.h" />
@@ -497,8 +519,10 @@
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Flags.h" />
     <ClInclude Include="FloorScript.h" />
+    <ClInclude Include="GameEndScript.h" />
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="GameManagerScript.h" />
+    <ClInclude Include="GameStartingScript.h" />
     <ClInclude Include="GameStartUIScript.h" />
     <ClInclude Include="HandScript.h" />
     <ClInclude Include="ITween.h" />
@@ -506,9 +530,11 @@
     <ClInclude Include="PEHorizonGaussianBlur.h" />
     <ClInclude Include="PENoiseFilter.h" />
     <ClInclude Include="PEVerticalGaussianBlur.h" />
+    <ClInclude Include="PlaceCardUIScript.h" />
     <ClInclude Include="PostEffect.h" />
     <ClInclude Include="PEMosaicFilter.h" />
     <ClInclude Include="PERadicalBlur.h" />
+    <ClInclude Include="ReadyUIScript.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="ScriptComponent.h" />
     <ClInclude Include="SquareWipeScript.h" />

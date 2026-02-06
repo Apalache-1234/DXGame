@@ -106,7 +106,7 @@ void RayCast::ParseRayInteract(DirectX::XMVECTOR p1, DirectX::XMVECTOR p2, Direc
 	auto result = DirectX::XMVectorAdd(p1 , uVec);
 	result = DirectX::XMVectorAdd(result , vVec);
 
-	col->attachFrom->GetComponent<ScriptComponent>()->OnRayCast();
+	col->attachFrom.lock()->GetComponent<ScriptComponent>()->OnRayCast();
 
 	Info info;
 

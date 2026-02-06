@@ -34,7 +34,7 @@ void DebugPointLight::InitDebugPointLightRender()
 	{
 		Instance inst;
 
-		auto t = DirectX::XMMatrixTranslationFromVector(PLList[i]->attachFrom->GetWorldPosition());
+		auto t = DirectX::XMMatrixTranslationFromVector(PLList[i]->attachFrom.lock()->GetWorldPosition());
 
 		auto s = DirectX::XMMatrixScalingFromVector(DirectX::XMVectorScale(DirectX::XMVectorSplatOne(), PLList[i]->GetRadius() * 2));
 

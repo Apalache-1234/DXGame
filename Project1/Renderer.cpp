@@ -78,12 +78,13 @@ Renderer::Renderer(std::shared_ptr<Entity> ent) : Component::Component(ent)
 
 Renderer::~Renderer()
 {
-	auto& dxr = DXRenderSystem::GetInstance();
-
 }
 
 void Renderer::AddRenderCommand(ComPtr<ID3D12GraphicsCommandList>& cmdList, int backbufferIndex)
 {
+	if (attachFrom.lock()->IsDestoroyed())
+		return;
+
 	if (currentCBCount != DXRenderSystem::GetInstance().GetShadowMapNum() + 1)
 	{
 		currentCBCount = DXRenderSystem::GetInstance().GetShadowMapNum() + 1;
@@ -97,8 +98,6 @@ void Renderer::AddRenderCommand(ComPtr<ID3D12GraphicsCommandList>& cmdList, int 
 
 	Update();
 
-	if (DirectX::XMVectorGetX(DirectX::XMVector3Length(attachFrom->GetWorldScale())) == 0)
-		return;
 
 	MapCB(backbufferIndex);
 
@@ -193,6 +192,9 @@ void Renderer::Init()
 
 bool Renderer::InitCBVResource()
 {
+	for (int i = 0;i < constantBuffer.size();i++)
+		DXRenderSystem::GetInstance().SetDeletingResource(constantBuffer[i]);
+
 	constantBuffer.resize(DXRenderSystem::frameBuffer * currentCBCount);
 
 	for (int i = 0; i < constantBuffer.size(); i++)
@@ -256,7 +258,7 @@ bool Renderer::InitCBVResource()
 
 bool Renderer::LinkCBVResourceToDescHeap()
 {
-	cbView.resize(constantBuffer.size());
+	cbView.resize(constantBuffer.size());	
 	cbHandle.resize(constantBuffer.size());
 
 	for (int i = 0; i < constantBuffer.size(); i++)
@@ -276,7 +278,7 @@ bool Renderer::LinkCBVResourceToDescHeap()
 
 void Renderer::ConvertValues()
 {
-	trans.world = attachFrom->GetTRS();
+	trans.world = attachFrom.lock()->GetTRS();
 
 	float colR = DirectX::XMVectorGetX(color);
 	float colG = DirectX::XMVectorGetY(color);
@@ -294,7 +296,7 @@ void Renderer::ConvertValues()
 
 bool Renderer::MapCB(int backBuffer)
 {
-	int frameIndex = backBuffer + 1;
+	int frameIndex = backBuffer ;
 
 	frameIndex = frameIndex % 2;
 
@@ -472,7 +474,7 @@ void Renderer::RegisterTextureSRV()
 
 void Renderer::ApplyTextureOnMesh(int idx , Renderer::TEXTURE_TYPE type , ComPtr<ID3D12Resource> texResource)
 {
-	auto texture_desc = texResource->GetDesc();
+    auto texture_desc = texResource->GetDesc();
 
 	D3D12_SHADER_RESOURCE_VIEW_DESC desc = {};
 

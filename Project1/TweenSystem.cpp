@@ -20,6 +20,11 @@ TweenSystem& TweenSystem::GetInstance()
 	return *instance;
 }
 
+void TweenSystem::Reset()
+{
+	tween.clear();
+}
+
 void TweenSystem::Update()
 {
 	for (auto& t : tween)

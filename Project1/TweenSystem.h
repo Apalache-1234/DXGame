@@ -16,6 +16,8 @@ public:
 
 	static TweenSystem& GetInstance();
 
+	void Reset();
+
 	template<typename T>
 	std::shared_ptr<Tween<T>> DoTween(T from, T to, EasingType type = EasingType::EaseOutSine, float time = 1, bool isOnRealTime = false)
 	{

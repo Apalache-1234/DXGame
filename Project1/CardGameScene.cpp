@@ -10,6 +10,10 @@
 #include "GameManagerScript.h"
 #include "CardTextureScript.h"
 #include "TableDeckScript.h"
+#include "CPUScript.h"
+#include "PlaceCardUIScript.h"
+#include "GameEndScript.h"
+#include "GameStartingScript.h"
 
 
 CardGameScene::CardGameScene(std::string name) : GameScene::GameScene(name)
@@ -27,6 +31,7 @@ void CardGameScene::Load()
 	CreateEntity<SquareWipeScript>("SquareWipe");
 	auto td1 = CreateEntity<TableDeckScript>("TableDeck1");
 	auto td2 = CreateEntity<TableDeckScript>("TableDeck2");
+	CreateEntity<PlaceCardUIScript>("PlaceCardUI");
 
 	td2->SetWorldPosition(DirectX::XMVectorSet(1.5,0.7,0,0));
 	td1->SetWorldPosition(DirectX::XMVectorSet(-1.5, 0.7,0,0));
@@ -46,7 +51,10 @@ void CardGameScene::Load()
 	cDeckSc->Init(DeckScript::CPU);
 	cHandSc->Init(DeckScript::CPU);
 
+	CreateEntity<GameStartingScript>("GameStarting");
 	CreateEntity<GameManagerScript>("GameManager");
+	CreateEntity<CPUScript>("CPU");
+	CreateEntity<GameEndScript>("GameEnd");
 
 	DXRenderSystem::GetInstance().SetAmbientColor(DirectX::XMFLOAT3(0.4f, 0.4f, 0.4f));
 

@@ -13,20 +13,22 @@ void CardScript::Init(DeckScript::Card card)
 {
 	if (card.pat != DeckScript::EMPTY)
 	{
-		attachFrom->SetWorldScale(DirectX::XMVectorSet(1, 1, 1, 0));
+		attachFrom.lock()->SetWorldScale(DirectX::XMVectorSet(1, 1, 1, 0));
 
 		sRend->ApplyTextureOnMesh(1, Renderer::DIFFUSE, cardTexSc->GetCardTexture(card));
 	}
 	else
-		attachFrom->SetWorldScale(DirectX::XMVectorSet(0,0,0,0));
+		attachFrom.lock()->SetWorldScale(DirectX::XMVectorSet(0,0,0,0));
+
+	ver = card;
 }
 
 void CardScript::DrawBack()
 {
-	Utility::Debug(attachFrom->GetLocalPosition());
-	Utility::Debug(handSc->GetCardLocalPos(attachFrom->GetAsChildIndex()));
+	Utility::Debug(attachFrom.lock()->GetLocalPosition());
+	Utility::Debug(handSc->GetCardLocalPos(attachFrom.lock()->GetAsChildIndex()));
 
-	*twDrawBack = tweenSystem->DoTween(attachFrom->GetLocalPosition(), handSc->GetCardLocalPos(attachFrom->GetAsChildIndex()), EasingType::EaseOutSine, 0.2f);;
+	*twDrawBack = tweenSystem->DoTween(attachFrom.lock()->GetLocalPosition(), handSc->GetCardLocalPos(attachFrom.lock()->GetAsChildIndex()), EasingType::EaseOutSine, 0.2f);;
 }
 
 void CardScript::SetDrawBackTween(shared_ptr<Tween<XMVECTOR>>* tw)
@@ -38,19 +40,19 @@ void CardScript::OnStart()
 {
 	auto ent = systemManager->GetEntityByName("CardTex");
 
-	col = attachFrom->AddComponent<Collider>();
+	col = attachFrom.lock()->AddComponent<Collider>();
 	col->scale = DirectX::XMVectorSet(1.26,0.0203, 1.79 , 1);
 
 	cardTexSc = ent->GetComponent<CardTextureScript>();
 
-	sRend = attachFrom->AddComponent<SkinnedRenderer>();
+	sRend = attachFrom.lock()->AddComponent<SkinnedRenderer>();
 	sRend->CreateMesh(MeshLoader::CARD);
 	auto mat = sRend->GetMaterial(1);
 	mat.UVSCALE = XMFLOAT2(-1, 1);
 	sRend->SetMaterial(1, mat);
 	sRend->ApplyTextureOnMesh(0, Renderer::DIFFUSE, textureLoader->LoadTexture("Textures/Cards/back@2x.dds"));
 
-	ent = std::dynamic_pointer_cast<Entity>(attachFrom->GetParent());
+	ent = std::dynamic_pointer_cast<Entity>(attachFrom.lock()->GetParent());
 
 	if (ent != nullptr)
 		handSc = ent->GetComponent<HandScript>();
@@ -158,6 +160,10 @@ bool CardScript::LinkCBVToDescHeap()
 	return true;
 }
 
+DeckScript::Card CardScript::GetCurrentCard()
+{
+	return ver;
+}
 
 DeckScript::SIDE CardScript::GetSide()
 {

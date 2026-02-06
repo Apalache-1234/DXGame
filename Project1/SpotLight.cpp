@@ -21,7 +21,7 @@ float SpotLight::GetLength()
 
 DirectX::XMVECTOR SpotLight::GetPosition()
 {
-	return DirectX::XMVectorAdd(position, attachFrom->GetWorldPosition());
+	return DirectX::XMVectorAdd(position, attachFrom.lock()->GetWorldPosition());
 }
 
 DirectX::XMVECTOR SpotLight::GetRotation()
@@ -41,7 +41,7 @@ DirectX::XMVECTOR SpotLight::GetLightDir()
 
 	local = DirectX::XMQuaternionRotationRollPitchYawFromVector(local);
 
-	auto result = DirectX::XMQuaternionMultiply(local, attachFrom->GetRotationAsQuaternion());
+	auto result = DirectX::XMQuaternionMultiply(local, attachFrom.lock()->GetRotationAsQuaternion());
 
 	return DirectX::XMVector3Rotate(lightDir, result);
 }

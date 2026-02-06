@@ -20,6 +20,7 @@
 #include "DirectionalLight.h"
 #include "SpotLight.h"
 #include "PointLight.h"
+#include "Entity.h"
 #include <map>
 
 DXRenderSystem::DXRenderSystem()
@@ -40,10 +41,7 @@ DXRenderSystem& DXRenderSystem::GetInstance()
 
 bool DXRenderSystem::Init()
 {
-	ComPtr<ID3D12Debug> debug;
-	if (SUCCEEDED(D3D12GetDebugInterface(IID_PPV_ARGS(&debug)))) {
-		debug->EnableDebugLayer();
-	}
+
 
 	bool isSuccess = true;
 
@@ -59,7 +57,7 @@ bool DXRenderSystem::Init()
 
 	isSuccess &= CreateCommandList();
 
-	heapManager = std::make_shared<DescriptorHeapManager>(1000);
+	heapManager = std::make_shared<DescriptorHeapManager>(30000);
 
 	isSuccess &= InitLightInfoCB();
 
@@ -123,7 +121,7 @@ bool DXRenderSystem::Init()
 
 	isSuccess &= CreateRootSignature();
 
-	heapSM.emplace(10000);
+	heapSM.emplace(100);
 
 	CreateShadowMapTextureSRV();
 
@@ -186,6 +184,8 @@ void DXRenderSystem::WaitForRender()
 	cmd_queue->Signal(fence.Get(), cur_value);
 
 	backbuffer_index = swap_chain->GetCurrentBackBufferIndex();
+	frontbuffer_index = swap_chain->GetCurrentBackBufferIndex();
+	frontbuffer_index = frontbuffer_index % 2;
 
 	if (fence->GetCompletedValue() < fence_counter[backbuffer_index])
 	{
@@ -327,15 +327,15 @@ void DXRenderSystem::ResetCommands()
 
 	cmd_list->SetGraphicsRootSignature(rootSig.Get());
 
-	cmd_list->SetGraphicsRootConstantBufferView(7, timeInfoCBView.BufferLocation);
+	cmd_list->SetGraphicsRootConstantBufferView(7, timeInfoCBView[backbuffer_index].BufferLocation);
 
-	cmd_list->SetGraphicsRootConstantBufferView(2, lightInfoCBView.BufferLocation);
+	cmd_list->SetGraphicsRootConstantBufferView(2, lightInfoCBView[backbuffer_index].BufferLocation);
 
-	cmd_list->SetGraphicsRootShaderResourceView(3, DLBuffer->GetGPUVirtualAddress());
+	cmd_list->SetGraphicsRootShaderResourceView(3, DLBuffer[backbuffer_index]->GetGPUVirtualAddress());
 
-	cmd_list->SetGraphicsRootShaderResourceView(4, PLBuffer->GetGPUVirtualAddress());
+	cmd_list->SetGraphicsRootShaderResourceView(4, PLBuffer[backbuffer_index]->GetGPUVirtualAddress());
 
-	cmd_list->SetGraphicsRootShaderResourceView(5, SLBuffer->GetGPUVirtualAddress());
+	cmd_list->SetGraphicsRootShaderResourceView(5, SLBuffer[backbuffer_index]->GetGPUVirtualAddress());
 }
 
 void DXRenderSystem::RenderDLShadowMap(std::shared_ptr<DirectionalLight> dl, int ind, XMMATRIX proj, XMMATRIX view)
@@ -572,6 +572,8 @@ ComPtr<ID3D12Resource> DXRenderSystem::GetShadowMapResource()
 
 void DXRenderSystem::Map()
 {
+	UpdateLightCastingShadowNum();
+
 	MapLLICB();
 
 	MapDLB();
@@ -621,15 +623,18 @@ bool DXRenderSystem::InitLightInfoCB()
 
 	desc.Format = DXGI_FORMAT_UNKNOWN;
 
-	hr = DXRenderSystem::GetInstance().GetDevice()->CreateCommittedResource(
-		&prop,
-		D3D12_HEAP_FLAG_NONE,
-		&desc,
-		D3D12_RESOURCE_STATE_GENERIC_READ,
-		nullptr,
-		IID_PPV_ARGS(lightInfoCB.GetAddressOf())
+	for (int i = 0;i < frameBuffer;i++)
+	{
+		hr = DXRenderSystem::GetInstance().GetDevice()->CreateCommittedResource(
+			&prop,
+			D3D12_HEAP_FLAG_NONE,
+			&desc,
+			D3D12_RESOURCE_STATE_GENERIC_READ,
+			nullptr,
+			IID_PPV_ARGS(lightInfoCB[i].GetAddressOf()));
+	}
 
-	);
+
 
 	if (FAILED(hr))
 	{
@@ -643,13 +648,17 @@ bool DXRenderSystem::InitLightInfoCB()
 
 bool DXRenderSystem::LinkLightInfoCBVToDescHeap()
 {
-	lightInfoCBHandle = std::move(DXRenderSystem::GetInstance().GetHeapManager()->GetHandle());
+	lightInfoCBHandle = std::move(DXRenderSystem::GetInstance().GetHeapManager()->GetSerialHandle(frameBuffer));
 
-	lightInfoCBView.BufferLocation = lightInfoCB->GetGPUVirtualAddress();
+	for (int i = 0;i < frameBuffer;i++)
+	{
+		lightInfoCBView[i].BufferLocation = lightInfoCB[i]->GetGPUVirtualAddress();
 
-	lightInfoCBView.SizeInBytes = sizeof(LightInfo);
+		lightInfoCBView[i].SizeInBytes = sizeof(LightInfo);
 
-	DXRenderSystem::GetInstance().GetDevice()->CreateConstantBufferView(&lightInfoCBView, lightInfoCBHandle->cpuHandle);
+		DXRenderSystem::GetInstance().GetDevice()->CreateConstantBufferView(&lightInfoCBView[i], lightInfoCBHandle[i]->cpuHandle);
+
+	}
 
 	return true;
 }
@@ -683,7 +692,7 @@ bool DXRenderSystem::MapLLICB()
 
 	void* ptr = nullptr;
 
-	hr = lightInfoCB->Map(0, nullptr, &ptr);
+	hr = lightInfoCB[frontbuffer_index]->Map(0, nullptr, &ptr);
 
 	if (FAILED(hr))
 	{
@@ -739,14 +748,19 @@ bool DXRenderSystem::InitDirectionalLightBResource()
 
 	desc.Format = DXGI_FORMAT_UNKNOWN;
 
-	hr = DXRenderSystem::GetInstance().GetDevice()->CreateCommittedResource(
-		&prop,
-		D3D12_HEAP_FLAG_NONE,
-		&desc,
-		D3D12_RESOURCE_STATE_GENERIC_READ,
-		nullptr,
-		IID_PPV_ARGS(DLBuffer.GetAddressOf())
-	);
+
+	for (int i = 0;i < frameBuffer;i++)
+	{
+		hr = DXRenderSystem::GetInstance().GetDevice()->CreateCommittedResource(
+			&prop,
+			D3D12_HEAP_FLAG_NONE,
+			&desc,
+			D3D12_RESOURCE_STATE_GENERIC_READ,
+			nullptr,
+			IID_PPV_ARGS(DLBuffer[i].GetAddressOf())
+		);
+
+	}
 
 	if (FAILED(hr))
 	{
@@ -778,7 +792,7 @@ bool DXRenderSystem::MapDLB()
 
 	void* ptr = nullptr;
 
-	hr = DLBuffer->Map(0, nullptr, &ptr);
+	hr = DLBuffer[frontbuffer_index]->Map(0, nullptr, &ptr);
 
 	if (FAILED(hr))
 	{
@@ -803,9 +817,12 @@ bool DXRenderSystem::InitDLBV()
 	srvDesc.Buffer.StructureByteStride = sizeof(DirLight);
 	srvDesc.Buffer.Flags = D3D12_BUFFER_SRV_FLAG_NONE;
 
-	DLBHandle = std::move(DXRenderSystem::GetInstance().GetHeapManager()->GetHandle());
+	DLBHandle = std::move(DXRenderSystem::GetInstance().GetHeapManager()->GetSerialHandle(frameBuffer));
 
-	DXRenderSystem::GetInstance().GetDevice()->CreateShaderResourceView(DLBuffer.Get(), &srvDesc, DLBHandle->cpuHandle);
+	for (int i = 0;i < frameBuffer;i++)
+	{
+		DXRenderSystem::GetInstance().GetDevice()->CreateShaderResourceView(DLBuffer[i].Get(), &srvDesc, DLBHandle[i]->cpuHandle);
+	}
 
 	return true;
 }
@@ -853,14 +870,17 @@ bool DXRenderSystem::InitPointLightBResource()
 
 	desc.Format = DXGI_FORMAT_UNKNOWN;
 
-	hr = DXRenderSystem::GetInstance().GetDevice()->CreateCommittedResource(
-		&prop,
-		D3D12_HEAP_FLAG_NONE,
-		&desc,
-		D3D12_RESOURCE_STATE_GENERIC_READ,
-		nullptr,
-		IID_PPV_ARGS(PLBuffer.GetAddressOf())
-	);
+	for (int i = 0;i < frameBuffer;i++)
+	{
+		hr = DXRenderSystem::GetInstance().GetDevice()->CreateCommittedResource(
+			&prop,
+			D3D12_HEAP_FLAG_NONE,
+			&desc,
+			D3D12_RESOURCE_STATE_GENERIC_READ,
+			nullptr,
+			IID_PPV_ARGS(PLBuffer[i].GetAddressOf())
+		);
+	}
 
 	if (FAILED(hr))
 	{
@@ -891,7 +911,7 @@ bool DXRenderSystem::MapPLB()
 
 	void* ptr = nullptr;
 
-	hr = PLBuffer->Map(0, nullptr, &ptr);
+	hr = PLBuffer[frontbuffer_index]->Map(0, nullptr, &ptr);
 
 	if (FAILED(hr))
 	{
@@ -915,9 +935,12 @@ bool DXRenderSystem::InitPLBV()
 	srvDesc.Buffer.StructureByteStride = sizeof(PLight);
 	srvDesc.Buffer.Flags = D3D12_BUFFER_SRV_FLAG_NONE;
 
-	PLBHandle = std::move(DXRenderSystem::GetInstance().GetHeapManager()->GetHandle());
+	PLBHandle = std::move(DXRenderSystem::GetInstance().GetHeapManager()->GetSerialHandle(frameBuffer));
 
-	DXRenderSystem::GetInstance().GetDevice()->CreateShaderResourceView(PLBuffer.Get(), &srvDesc, PLBHandle->cpuHandle);
+	for (int i = 0;i < frameBuffer;i++)
+	{
+		DXRenderSystem::GetInstance().GetDevice()->CreateShaderResourceView(PLBuffer[i].Get(), &srvDesc, PLBHandle[i]->cpuHandle);
+	}
 
 	return true;
 }
@@ -964,14 +987,19 @@ bool DXRenderSystem::InitSpotLightBResource()
 
 	desc.Format = DXGI_FORMAT_UNKNOWN;
 
-	hr = DXRenderSystem::GetInstance().GetDevice()->CreateCommittedResource(
-		&prop,
-		D3D12_HEAP_FLAG_NONE,
-		&desc,
-		D3D12_RESOURCE_STATE_GENERIC_READ,
-		nullptr,
-		IID_PPV_ARGS(SLBuffer.GetAddressOf())
-	);
+
+
+	for (int i = 0;i < frameBuffer;i++)
+	{
+		hr = DXRenderSystem::GetInstance().GetDevice()->CreateCommittedResource(
+			&prop,
+			D3D12_HEAP_FLAG_NONE,
+			&desc,
+			D3D12_RESOURCE_STATE_GENERIC_READ,
+			nullptr,
+			IID_PPV_ARGS(SLBuffer[i].GetAddressOf())
+		);
+	}
 
 	if (FAILED(hr))
 	{
@@ -1004,7 +1032,7 @@ bool DXRenderSystem::MapSLB()
 
 	void* ptr = nullptr;
 
-	hr = SLBuffer->Map(0, nullptr, &ptr);
+	hr = SLBuffer[frontbuffer_index]->Map(0, nullptr, &ptr);
 
 	if (FAILED(hr))
 	{
@@ -1027,9 +1055,12 @@ bool DXRenderSystem::InitSLBV()
 	srvDesc.Buffer.StructureByteStride = sizeof(SLight);
 	srvDesc.Buffer.Flags = D3D12_BUFFER_SRV_FLAG_NONE;
 
-	SLBHandle = std::move(DXRenderSystem::GetInstance().GetHeapManager()->GetHandle());
+	SLBHandle = std::move(DXRenderSystem::GetInstance().GetHeapManager()->GetSerialHandle(frameBuffer));
 
-	DXRenderSystem::GetInstance().GetDevice()->CreateShaderResourceView(SLBuffer.Get(), &srvDesc, SLBHandle->cpuHandle);
+	for (int i = 0;i < frameBuffer;i++)
+	{
+		DXRenderSystem::GetInstance().GetDevice()->CreateShaderResourceView(SLBuffer[i].Get(), &srvDesc, SLBHandle[i]->cpuHandle);
+	}
 
 	return true;
 }
@@ -1073,15 +1104,18 @@ bool DXRenderSystem::InitTimeInfoCB()
 
 	desc.Format = DXGI_FORMAT_UNKNOWN;
 
-	hr = DXRenderSystem::GetInstance().GetDevice()->CreateCommittedResource(
-		&prop,
-		D3D12_HEAP_FLAG_NONE,
-		&desc,
-		D3D12_RESOURCE_STATE_GENERIC_READ,
-		nullptr,
-		IID_PPV_ARGS(timeInfoCB.GetAddressOf())
+	for (int i = 0;i < frameBuffer;i++)
+	{
+		hr = DXRenderSystem::GetInstance().GetDevice()->CreateCommittedResource(
+			&prop,
+			D3D12_HEAP_FLAG_NONE,
+			&desc,
+			D3D12_RESOURCE_STATE_GENERIC_READ,
+			nullptr,
+			IID_PPV_ARGS(timeInfoCB[i].GetAddressOf())
 
-	);
+		);
+	}
 
 	if (FAILED(hr))
 	{
@@ -1095,13 +1129,16 @@ bool DXRenderSystem::InitTimeInfoCB()
 
 bool DXRenderSystem::LinkTimeInfoCBVToDescHeap()
 {
-	timeInfoCBHandle = std::move(DXRenderSystem::GetInstance().GetHeapManager()->GetHandle());
+	timeInfoCBHandle = std::move(DXRenderSystem::GetInstance().GetHeapManager()->GetSerialHandle(2));
 
-	timeInfoCBView.BufferLocation = timeInfoCB->GetGPUVirtualAddress();
+	for (int i = 0;i < frameBuffer;i++)
+	{
+		timeInfoCBView[i].BufferLocation = timeInfoCB[i]->GetGPUVirtualAddress();
 
-	timeInfoCBView.SizeInBytes = sizeof(TimeInfo);
+		timeInfoCBView[i].SizeInBytes = sizeof(TimeInfo);
 
-	DXRenderSystem::GetInstance().GetDevice()->CreateConstantBufferView(&timeInfoCBView, timeInfoCBHandle->cpuHandle);
+		DXRenderSystem::GetInstance().GetDevice()->CreateConstantBufferView(&timeInfoCBView[i], timeInfoCBHandle[i]->cpuHandle);
+	}
 
 	return true;
 }
@@ -1117,7 +1154,7 @@ bool DXRenderSystem::MapTICB()
 
 	void* ptr = nullptr;
 
-	hr = timeInfoCB->Map(0, nullptr, &ptr);
+	hr = timeInfoCB[frontbuffer_index]->Map(0, nullptr, &ptr);
 
 	if (FAILED(hr))
 	{
@@ -1133,7 +1170,7 @@ bool DXRenderSystem::MapTICB()
 
 void DXRenderSystem::PrepareForRootSignature()
 {
-	param.resize(14);
+	param.resize(15);
 
 	param[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
 
@@ -1277,14 +1314,22 @@ void DXRenderSystem::PrepareForRootSignature()
 
 	param[13].Descriptor.RegisterSpace = 0;
 
+	param[14].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
+
+	param[14].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
+
+	param[14].Descriptor.ShaderRegister = 35;
+
+	param[14].Descriptor.RegisterSpace = 0;
+
 	D3D12_STATIC_SAMPLER_DESC desSam;
 
 	desSam = {};
 
 	desSam.Filter = D3D12_FILTER_ANISOTROPIC;
 
-	desSam.AddressU = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
-	desSam.AddressV = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
+	desSam.AddressU = D3D12_TEXTURE_ADDRESS_MODE_CLAMP;
+	desSam.AddressV = D3D12_TEXTURE_ADDRESS_MODE_CLAMP;
 	desSam.AddressW = D3D12_TEXTURE_ADDRESS_MODE_CLAMP;
 	desSam.MipLODBias = D3D12_DEFAULT_MIP_LOD_BIAS;
 	desSam.MaxAnisotropy = 4;
@@ -1395,6 +1440,8 @@ void DXRenderSystem::Draw()
 	if (GetShadowMapNum() > 0)
 		RenderShadowMap();
 
+	Map();
+
 	cmd_list->ResourceBarrier(1, &barrier);
 
 	cmd_list->OMSetRenderTargets(1, &msaaRTVHandle->cpuHandle, false, &msaaDSVHandle->cpuHandle);
@@ -1463,8 +1510,31 @@ void DXRenderSystem::Draw()
 	if (deletingHeaps.size() > 0)
 		deletingHeaps.clear();
 
-	if (deletingComps.size() > 0)
-		deletingComps.clear();
+	for (int i = 0;i < deletingEnts.size();i++)
+	{
+		deletingEnts[i].first--;
+	}
+
+	auto it = std::remove_if(deletingEnts.begin(), deletingEnts.end(),
+		[this](const std::pair<int, shared_ptr<Entity>>& e) {
+			
+			return e.first == 0;
+		});
+
+	deletingEnts.erase(it, deletingEnts.end());
+
+	for (int i = 0;i < deletingResources.size();i++)
+	{
+		deletingResources[i].first--;
+	}
+
+	auto it2 = std::remove_if(deletingResources.begin(), deletingResources.end(),
+		[this](const std::pair<int, ComPtr<ID3D12Resource>>& e) {
+
+			return e.first == 0;
+		});
+
+	deletingResources.erase(it2, deletingResources.end());
 }
 
 std::shared_ptr<DescriptorHeapManager> DXRenderSystem::GetHeapManager()
@@ -2101,6 +2171,16 @@ void DXRenderSystem::SetDeletingComps(shared_ptr<Component> comp)
 void DXRenderSystem::SetDeletingComps(std::vector<shared_ptr<Component>> comps)
 {
 	deletingComps.insert(deletingComps.end() , comps.begin() , comps.end());
+}
+
+void DXRenderSystem::SetDeletingEnt(shared_ptr<Entity> ent)
+{
+	deletingEnts.emplace_back(std::make_pair(2 , ent));
+}
+
+void DXRenderSystem::SetDeletingResource(ComPtr<ID3D12Resource> rsc)
+{
+	deletingResources.emplace_back(std::make_pair(2 , rsc));
 }
 
 bool DXRenderSystem::GetIsShadowMapRendering()
