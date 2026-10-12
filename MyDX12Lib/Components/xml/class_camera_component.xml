@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="class_camera_component" kind="class" language="C++" prot="public">
+    <compoundname>CameraComponent</compoundname>
+    <basecompoundref refid="class_component" prot="public" virt="non-virtual">Component</basecompoundref>
+    <includes refid="_camera_component_8h" local="no">CameraComponent.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_camera_component_1af3698bf47b00b0518fa9719e892a0f6f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>CameraComponent::CameraComponent</definition>
+        <argsstring>(std::shared_ptr&lt; Entity &gt; ent)</argsstring>
+        <name>CameraComponent</name>
+        <qualifiedname>CameraComponent::CameraComponent</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; Entity &gt;</type>
+          <declname>ent</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/CameraComponent.h" line="14" column="1" bodyfile="src/CameraComponent.cpp" bodystart="4" bodyend="6"/>
+      </memberdef>
+      <memberdef kind="function" id="class_camera_component_1a977e080c45152719c5e6335cfb0698fc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>CameraComponent::~CameraComponent</definition>
+        <argsstring>()</argsstring>
+        <name>~CameraComponent</name>
+        <qualifiedname>CameraComponent::~CameraComponent</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/CameraComponent.h" line="16" column="1" bodyfile="src/CameraComponent.cpp" bodystart="8" bodyend="10"/>
+      </memberdef>
+      <memberdef kind="function" id="class_camera_component_1aed01e6f0612bd9f463beb11a25fe7596" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void CameraComponent::SetCameraTransform</definition>
+        <argsstring>(DirectX::XMVECTOR position, DirectX::XMVECTOR rotation)</argsstring>
+        <name>SetCameraTransform</name>
+        <qualifiedname>CameraComponent::SetCameraTransform</qualifiedname>
+        <param>
+          <type>DirectX::XMVECTOR</type>
+          <declname>position</declname>
+        </param>
+        <param>
+          <type>DirectX::XMVECTOR</type>
+          <declname>rotation</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/CameraComponent.h" line="18" column="6" bodyfile="src/CameraComponent.cpp" bodystart="12" bodyend="14"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>CameraComponent</label>
+        <link refid="class_camera_component"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>Component</label>
+        <link refid="class_component"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>std::enable_shared_from_this&lt; Component &gt;</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>CameraComponent</label>
+        <link refid="class_camera_component"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>Component</label>
+        <link refid="class_component"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>std::enable_shared_from_this&lt; Component &gt;</label>
+      </node>
+    </collaborationgraph>
+    <location file="include/CameraComponent.h" line="11" column="1" bodyfile="include/CameraComponent.h" bodystart="12" bodyend="21"/>
+    <listofallmembers>
+      <member refid="class_component_1a61954f08c177e4c1ebb17cf8fd3aa56f" prot="public" virt="non-virtual"><scope>CameraComponent</scope><name>attachFrom</name></member>
+      <member refid="class_camera_component_1af3698bf47b00b0518fa9719e892a0f6f" prot="public" virt="non-virtual"><scope>CameraComponent</scope><name>CameraComponent</name></member>
+      <member refid="class_component_1a120d65094802a621c8d804a964cafa9c" prot="public" virt="non-virtual"><scope>CameraComponent</scope><name>Cast</name></member>
+      <member refid="class_component_1a5cba85e33b188bf87ee09f353d7b2fa5" prot="public" virt="non-virtual"><scope>CameraComponent</scope><name>Component</name></member>
+      <member refid="class_component_1a22ed217d642f4566a47c874ac9a63eab" prot="public" virt="virtual"><scope>CameraComponent</scope><name>GetComponentName</name></member>
+      <member refid="class_component_1a2a9968090dabad782f2bbdaf0093be84" prot="public" virt="non-virtual"><scope>CameraComponent</scope><name>GetHash</name></member>
+      <member refid="class_component_1ac0ee67584bdd569c2809495a5843612b" prot="public" virt="non-virtual"><scope>CameraComponent</scope><name>GetLeafIndex</name></member>
+      <member refid="class_component_1a1b25ee28c379d9f0d0c1ecc0df1e6328" prot="public" virt="non-virtual"><scope>CameraComponent</scope><name>GetTreeIndex</name></member>
+      <member refid="class_component_1ad3141017e589ef48d436bc743e15d122" prot="public" virt="virtual"><scope>CameraComponent</scope><name>Init</name></member>
+      <member refid="class_camera_component_1aed01e6f0612bd9f463beb11a25fe7596" prot="public" virt="non-virtual"><scope>CameraComponent</scope><name>SetCameraTransform</name></member>
+      <member refid="class_component_1a053713eb8c3c356263a588fc398da49f" prot="public" virt="non-virtual"><scope>CameraComponent</scope><name>SetHash</name></member>
+      <member refid="class_component_1a93263d6a4c7a133ad05f8b754463d81a" prot="public" virt="non-virtual"><scope>CameraComponent</scope><name>SetIndex</name></member>
+      <member refid="class_camera_component_1a977e080c45152719c5e6335cfb0698fc" prot="public" virt="non-virtual"><scope>CameraComponent</scope><name>~CameraComponent</name></member>
+      <member refid="class_component_1ab8378fa275af98e568a7e91d33d867af" prot="public" virt="virtual"><scope>CameraComponent</scope><name>~Component</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

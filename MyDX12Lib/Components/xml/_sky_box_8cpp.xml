@@ -1,0 +1,200 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="_sky_box_8cpp" kind="file" language="C++">
+    <compoundname>SkyBox.cpp</compoundname>
+    <includes local="yes">PCH/pch.h</includes>
+    <includes refid="_sky_box_8h" local="yes">SkyBox.h</includes>
+    <includes local="yes">Utility.h</includes>
+    <includes local="yes">Camera.h</includes>
+    <incdepgraph>
+      <node id="19">
+        <label>Camera.h</label>
+      </node>
+      <node id="13">
+        <label>D3Dcompiler.h</label>
+      </node>
+      <node id="17">
+        <label>DXRenderSystem.h</label>
+      </node>
+      <node id="14">
+        <label>DirectXMath.h</label>
+      </node>
+      <node id="6">
+        <label>ComponentList.h</label>
+        <link refid="_component_list_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>Component.h</label>
+        <link refid="_component_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>Renderer.h</label>
+        <link refid="_renderer_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>SkyBox.h</label>
+        <link refid="_sky_box_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>src/SkyBox.cpp</label>
+        <link refid="_sky_box_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>MeshLoader.h</label>
+      </node>
+      <node id="2">
+        <label>PCH/pch.h</label>
+      </node>
+      <node id="18">
+        <label>Utility.h</label>
+      </node>
+      <node id="15">
+        <label>Window.h</label>
+      </node>
+      <node id="9">
+        <label>Windows.h</label>
+      </node>
+      <node id="10">
+        <label>d3d12.h</label>
+      </node>
+      <node id="11">
+        <label>d3dx12.h</label>
+      </node>
+      <node id="12">
+        <label>dxgi1_4.h</label>
+      </node>
+      <node id="7">
+        <label>iostream</label>
+      </node>
+      <node id="8">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&quot;PCH/pch.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_sky_box_8h" kindref="compound">SkyBox.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;Utility.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;Camera.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"><ref refid="class_sky_box_1a22a9d3052dedb73d74e51f64bead15ac" kindref="member">SkyBox::SkyBox</ref>(std::shared_ptr&lt;Entity&gt;<sp/>ent)<sp/>:<sp/><ref refid="class_renderer" kindref="compound">Renderer</ref>::<ref refid="class_renderer" kindref="compound">Renderer</ref>(ent)</highlight></codeline>
+<codeline lineno="7"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="8"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"><ref refid="class_sky_box_1aef6a9b7d384358fd2095d1e171d8a997" kindref="member">SkyBox::~SkyBox</ref>()</highlight></codeline>
+<codeline lineno="11"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="12"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_sky_box_1a4eaff320cd36e549128d240ad72cdfc8" kindref="member">SkyBox::Update</ref>()</highlight></codeline>
+<codeline lineno="15"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>position_mat<sp/>=<sp/>XMMatrixTranslationFromVector(DirectX::XMVectorZero());</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rotationMat<sp/>=<sp/>XMMatrixRotationY(0);</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>scale_mat<sp/>=<sp/>XMMatrixScalingFromVector(<ref refid="class_component_1a61954f08c177e4c1ebb17cf8fd3aa56f" kindref="member">attachFrom</ref>.lock()-&gt;GetWorldScale());</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_renderer_1a52f2d07a0df1cb61fd5e27593cf745ec" kindref="member">trans</ref>.world<sp/>=<sp/>scale_mat<sp/>*<sp/>rotationMat<sp/>*<sp/>position_mat;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>camPos<sp/>=<sp/>Camera::GetInstance().GetPosition();</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_renderer_1a52f2d07a0df1cb61fd5e27593cf745ec" kindref="member">trans</ref>.view<sp/>=<sp/>XMMatrixLookAtLH(camPos,<sp/>Camera::GetInstance().GetTargetPos(),<sp/>DirectX::XMVectorSet(0,<sp/>1,<sp/>0,<sp/>0));</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_renderer_1a52f2d07a0df1cb61fd5e27593cf745ec" kindref="member">trans</ref>.view.r[3]<sp/>=<sp/>DirectX::XMVectorSet(0,<sp/>0,<sp/>0,<sp/>0);</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_renderer_1a52f2d07a0df1cb61fd5e27593cf745ec" kindref="member">trans</ref>.projection<sp/>=<sp/>XMMatrixPerspectiveFovLH(Camera::GetInstance().GetFov(),<sp/>Camera::GetInstance().GetAspect(),<sp/>Camera::GetInstance().GetNearZ(),<sp/>Camera::GetInstance().GetFarZ());</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>DirectX::XMStoreFloat4(&amp;<ref refid="class_renderer_1a52f2d07a0df1cb61fd5e27593cf745ec" kindref="member">trans</ref>.color<sp/>,<sp/><ref refid="class_renderer_1ae80ad596f0b476671b1794a6fe8ab2b9" kindref="member">color</ref>)<sp/>;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_sky_box_1ad391a124b30a0336921547e0dc8ef431" kindref="member">SkyBox::InitRenderer</ref>()</highlight></codeline>
+<codeline lineno="36"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>CreateTexture();</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_component_1a61954f08c177e4c1ebb17cf8fd3aa56f" kindref="member">attachFrom</ref>.lock()-&gt;SetWorldScale(DirectX::XMVectorSet(90,90,90,0));</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_renderer_1a11816db1537fb8b768148001f5ad9f6a" kindref="member">LoadVertexShader</ref>(L</highlight><highlight class="stringliteral">&quot;SkyBoxVertexShader.cso&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_renderer_1a408d5fe9090735fa328d8d494cddfa2f" kindref="member">LoadPixelShader</ref>(L</highlight><highlight class="stringliteral">&quot;SkyBoxPixelShader.cso&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>D3D12_DEPTH_STENCIL_DESC<sp/>dsDesc;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>dsDesc.DepthEnable<sp/>=<sp/>TRUE;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>dsDesc.DepthWriteMask<sp/>=<sp/>D3D12_DEPTH_WRITE_MASK_ZERO;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>dsDesc.DepthFunc<sp/>=<sp/>D3D12_COMPARISON_FUNC_LESS_EQUAL;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>dsDesc.StencilEnable<sp/>=<sp/>FALSE;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>dsDesc.StencilReadMask<sp/>=<sp/>D3D12_DEFAULT_STENCIL_READ_MASK;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>dsDesc.StencilWriteMask<sp/>=<sp/>D3D12_DEFAULT_STENCIL_WRITE_MASK;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>dsDesc.FrontFace<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>dsDesc.BackFace<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_renderer_1a813d0f334d299d3ceb2d5dc92563d80a" kindref="member">SetDepthStencilDesc</ref>(dsDesc);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>SkyBox::CreateTexture()</highlight></codeline>
+<codeline lineno="59"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>resource<sp/>=<sp/>TextureLoader::GetInstance().LoadTexture(</highlight><highlight class="stringliteral">&quot;Textures/SkyBox.dds&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>textureDesc<sp/>=<sp/>resource-&gt;GetDesc();</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>D3D12_SHADER_RESOURCE_VIEW_DESC<sp/>desc<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>desc.ViewDimension<sp/>=<sp/>D3D12_SRV_DIMENSION_TEXTURECUBE;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>desc.Format<sp/>=<sp/>textureDesc.Format;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>desc.Shader4ComponentMapping<sp/>=<sp/>D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>desc.TextureCube.MipLevels<sp/>=<sp/>textureDesc.MipLevels;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>desc.TextureCube.MostDetailedMip<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>desc.TextureCube.ResourceMinLODClamp<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_renderer_1a063ae27fa4015a4ad4fd355d1d7a9a2d" kindref="member">ApplyTextureOnMesh</ref>(0,<sp/><ref refid="class_renderer_1ab34659d99f36b87337a22436c694b77aafdf5aea8fe68699a92fc597e0f3aa410" kindref="member">Renderer::DIFFUSE</ref>,<sp/>resource<sp/>,<sp/>desc);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="src/SkyBox.cpp"/>
+  </compounddef>
+</doxygen>

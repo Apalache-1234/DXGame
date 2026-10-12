@@ -1,0 +1,395 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="_square_wipe_script_8h" kind="file" language="C++">
+    <compoundname>SquareWipeScript.h</compoundname>
+    <includes local="no">memory</includes>
+    <includes local="no">typeindex</includes>
+    <includes refid="_script_component_8h" local="yes">ScriptComponent.h</includes>
+    <includes local="yes">Tween.h</includes>
+    <includes refid="_p_e_radical_blur_8h" local="yes">PERadicalBlur.h</includes>
+    <includes refid="_u_i_renderer_8h" local="yes">UIRenderer.h</includes>
+    <includedby refid="_component_list_8cpp" local="yes">ComponentList/src/ComponentList.cpp</includedby>
+    <includedby refid="_game_manager_script_8h" local="yes">Script/include/GameManagerScript.h</includedby>
+    <includedby refid="_hand_script_8h" local="yes">Script/include/HandScript.h</includedby>
+    <includedby refid="_square_wipe_script_8cpp" local="yes">Script/src/SquareWipeScript.cpp</includedby>
+    <incdepgraph>
+      <node id="21">
+        <label>Camera.h</label>
+      </node>
+      <node id="28">
+        <label>D3Dcompiler.h</label>
+      </node>
+      <node id="30">
+        <label>DXRenderSystem.h</label>
+      </node>
+      <node id="17">
+        <label>DirectXMath.h</label>
+      </node>
+      <node id="10">
+        <label>ComponentList.h</label>
+        <link refid="_component_list_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>Script/include/SquareWipeScript.h</label>
+        <link refid="_square_wipe_script_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>Component.h</label>
+        <link refid="_component_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>Light.h</label>
+        <link refid="_light_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="33">
+        <label>PostEffect.h</label>
+        <link refid="_post_effect_8h"/>
+        <childnode refid="24" relation="include">
+        </childnode>
+      </node>
+      <node id="24">
+        <label>Renderer.h</label>
+        <link refid="_renderer_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>ScriptComponent.h</label>
+        <link refid="_script_component_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>DirectionalLight.h</label>
+        <link refid="_directional_light_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="32">
+        <label>PERadicalBlur.h</label>
+        <link refid="_p_e_radical_blur_8h"/>
+        <childnode refid="33" relation="include">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>SkinnedRenderer.h</label>
+        <link refid="_skinned_renderer_8h"/>
+        <childnode refid="24" relation="include">
+        </childnode>
+      </node>
+      <node id="34">
+        <label>UIRenderer.h</label>
+        <link refid="_u_i_renderer_8h"/>
+        <childnode refid="24" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>Entity.h</label>
+      </node>
+      <node id="22">
+        <label>KeyInput.h</label>
+      </node>
+      <node id="13">
+        <label>MeshLoader.h</label>
+      </node>
+      <node id="15">
+        <label>SceneManager.h</label>
+      </node>
+      <node id="14">
+        <label>TextureLoader.h</label>
+      </node>
+      <node id="31">
+        <label>Tween.h</label>
+      </node>
+      <node id="12">
+        <label>TweenSystem.h</label>
+      </node>
+      <node id="18">
+        <label>Utility.h</label>
+      </node>
+      <node id="29">
+        <label>Window.h</label>
+      </node>
+      <node id="11">
+        <label>Windows.h</label>
+      </node>
+      <node id="25">
+        <label>d3d12.h</label>
+      </node>
+      <node id="26">
+        <label>d3dx12.h</label>
+      </node>
+      <node id="27">
+        <label>dxgi1_4.h</label>
+      </node>
+      <node id="7">
+        <label>iostream</label>
+      </node>
+      <node id="6">
+        <label>list</label>
+      </node>
+      <node id="2">
+        <label>memory</label>
+      </node>
+      <node id="3">
+        <label>typeindex</label>
+      </node>
+      <node id="8">
+        <label>unordered_map</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>ComponentList/src/ComponentList.cpp</label>
+        <link refid="_component_list_8cpp"/>
+      </node>
+      <node id="12">
+        <label>Script/include/CPUScript.h</label>
+        <link refid="_c_p_u_script_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>Script/include/CardScript.h</label>
+        <link refid="_card_script_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>Script/include/GameManagerScript.h</label>
+        <link refid="_game_manager_script_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>Script/include/HandScript.h</label>
+        <link refid="_hand_script_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>Script/include/SquareWipeScript.h</label>
+        <link refid="_square_wipe_script_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>Script/src/CPUScript.cpp</label>
+        <link refid="_c_p_u_script_8cpp"/>
+      </node>
+      <node id="5">
+        <label>Script/src/CardScript.cpp</label>
+        <link refid="_card_script_8cpp"/>
+      </node>
+      <node id="10">
+        <label>Script/src/GameEndScript.cpp</label>
+        <link refid="_game_end_script_8cpp"/>
+      </node>
+      <node id="6">
+        <label>Script/src/GameManagerScript.cpp</label>
+        <link refid="_game_manager_script_8cpp"/>
+      </node>
+      <node id="7">
+        <label>Script/src/HandScript.cpp</label>
+        <link refid="_hand_script_8cpp"/>
+      </node>
+      <node id="13">
+        <label>Script/src/SquareWipeScript.cpp</label>
+        <link refid="_square_wipe_script_8cpp"/>
+      </node>
+      <node id="8">
+        <label>Script/src/TableDeckScript.cpp</label>
+        <link refid="_table_deck_script_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="class_square_wipe_script" prot="public">SquareWipeScript</innerclass>
+    <innerclass refid="struct_square_wipe_script_1_1_square_info" prot="private">SquareWipeScript::SquareInfo</innerclass>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#ifndef<sp/>SQUARE_WIPE_SCRIPT_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SQUARE_WIPE_SCRIPT_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;typeindex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_script_component_8h" kindref="compound">ScriptComponent.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;Tween.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_p_e_radical_blur_8h" kindref="compound">PERadicalBlur.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_u_i_renderer_8h" kindref="compound">UIRenderer.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">Entity;</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13" refid="class_square_wipe_script" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_square_wipe_script_1ad6d3700022b46c98747ec8dc0b4fd6ab" kindref="member">SquareWipeScript</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="class_script_component_1a79c3ecd7f476197899c2b41279a40843" kindref="member">ScriptComponent</ref></highlight></codeline>
+<codeline lineno="14"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_square_wipe_script_1ad6d3700022b46c98747ec8dc0b4fd6ab" kindref="member">SquareWipeScript</ref>(std::shared_ptr&lt;Entity&gt;<sp/>ent);</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_square_wipe_script_1ad6d3700022b46c98747ec8dc0b4fd6ab" kindref="member">~SquareWipeScript</ref>();</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_square_wipe_script_1a5410ffb869f43675ee50dd736808cf6a" kindref="member">OnStart</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_square_wipe_script_1a2d095408e2ee1363dbcfdc3c39eacab5" kindref="member">OnUpdate</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_square_wipe_script_1a28fb8ddd47ca8626652901effcf954f9" kindref="member">GetIsWipeEnd</ref>();</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="keyword">alignas</highlight><highlight class="normal">(256)<sp/>SquareInfo</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>XMMATRIX<sp/>rotate<sp/>=<sp/>DirectX::XMMatrixIdentity();</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>scale<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>XMFLOAT3<sp/>pad2;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>SquareInfo<sp/>info;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::shared_ptr&lt;Tween<sp/>&lt;<sp/>float&gt;&gt;&gt;<sp/>tws;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;UIRenderer&gt;<sp/>rend;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isWipeEnd<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>ComPtr&lt;ID3D12Resource&gt;<sp/>CB;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;PtrHandles&gt;<sp/>CBHandle;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>D3D12_CONSTANT_BUFFER_VIEW_DESC<sp/>CBView;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>MapCB();</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>InitCB();</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>LinkCBVToDescHeap();</highlight></codeline>
+<codeline lineno="49"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+    </programlisting>
+    <location file="Script/include/SquareWipeScript.h"/>
+  </compounddef>
+</doxygen>

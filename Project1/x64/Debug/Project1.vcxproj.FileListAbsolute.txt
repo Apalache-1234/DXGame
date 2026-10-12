@@ -1,2 +1,0 @@
-D:\Users\2312031\Documents\DXGame\x64\Debug\assimp-vc142-mtd.dll
-E:\DXGame\x64\Debug\assimp-vc142-mtd.dll

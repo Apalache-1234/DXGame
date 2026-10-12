@@ -1,0 +1,280 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="_debug_point_light_8cpp" kind="file" language="C++">
+    <compoundname>DebugPointLight.cpp</compoundname>
+    <includes local="yes">PCH/pch.h</includes>
+    <includes refid="_debug_point_light_8h" local="yes">DebugPointLight.h</includes>
+    <includes refid="_point_light_8h" local="yes">PointLight.h</includes>
+    <incdepgraph>
+      <node id="13">
+        <label>D3Dcompiler.h</label>
+      </node>
+      <node id="16">
+        <label>DXRenderSystem.h</label>
+      </node>
+      <node id="14">
+        <label>DirectXMath.h</label>
+      </node>
+      <node id="20">
+        <label>ComponentList.h</label>
+        <link refid="_component_list_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>Component.h</label>
+        <link refid="_component_8h"/>
+        <childnode refid="20" relation="include">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>DebugRenderer.h</label>
+        <link refid="_debug_renderer_8h"/>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="28">
+        <label>Light.h</label>
+        <link refid="_light_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>Renderer.h</label>
+        <link refid="_renderer_8h"/>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="24">
+        <label>Collider.h</label>
+        <link refid="_collider_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>DebugPointLight.h</label>
+        <link refid="_debug_point_light_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+      </node>
+      <node id="27">
+        <label>PointLight.h</label>
+        <link refid="_point_light_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>src/Debug/DebugPointLight.cpp</label>
+        <link refid="_debug_point_light_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>Entity.h</label>
+      </node>
+      <node id="22">
+        <label>MeshLoader.h</label>
+      </node>
+      <node id="2">
+        <label>PCH/pch.h</label>
+      </node>
+      <node id="17">
+        <label>Utility.h</label>
+      </node>
+      <node id="15">
+        <label>Window.h</label>
+      </node>
+      <node id="21">
+        <label>Windows.h</label>
+      </node>
+      <node id="10">
+        <label>d3d12.h</label>
+      </node>
+      <node id="11">
+        <label>d3dx12.h</label>
+      </node>
+      <node id="12">
+        <label>dxgi1_4.h</label>
+      </node>
+      <node id="5">
+        <label>iostream</label>
+      </node>
+      <node id="25">
+        <label>list</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="9">
+        <label>sstream</label>
+      </node>
+      <node id="26">
+        <label>unordered_map</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+      <node id="8">
+        <label>windows.h</label>
+      </node>
+    </incdepgraph>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&quot;PCH/pch.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_debug_point_light_8h" kindref="compound">DebugPointLight.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_point_light_8h" kindref="compound">PointLight.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"><ref refid="class_debug_point_light_1adc21be0a070feb414604ebb8b7b10245" kindref="member">DebugPointLight::DebugPointLight</ref>(std::shared_ptr&lt;Entity&gt;<sp/>ent)<sp/>:<sp/><ref refid="class_debug_renderer" kindref="compound">DebugRenderer</ref>::<ref refid="class_debug_renderer" kindref="compound">DebugRenderer</ref>(ent)</highlight></codeline>
+<codeline lineno="6"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="7"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"><ref refid="class_debug_point_light_1ab693f302600ca29392d8bda0df64c03a" kindref="member">DebugPointLight::~DebugPointLight</ref>()</highlight></codeline>
+<codeline lineno="10"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="11"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_debug_point_light_1a6eb24d3f608242fc26424bdaa21edea7" kindref="member">DebugPointLight::Update</ref>()</highlight></codeline>
+<codeline lineno="14"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_debug_point_light_1a575c720c863e35e6d4ff264b8e81e617" kindref="member">InitDebugPointLightRender</ref>();</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!<ref refid="class_debug_renderer_1a8b5547996a687276e7101ada37ae4426" kindref="member">InitIVB</ref>())</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::cerr<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;DebugDLの初期化失敗&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_debug_renderer_1a6a7ff23d2df774d53c6b2c01618e6273" kindref="member">MapDVB</ref>();</highlight></codeline>
+<codeline lineno="21"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_debug_point_light_1a575c720c863e35e6d4ff264b8e81e617" kindref="member">DebugPointLight::InitDebugPointLightRender</ref>()</highlight></codeline>
+<codeline lineno="24"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>PLList<sp/>=<sp/>SystemManager::GetInstance().GetComponentList&lt;PointLight&gt;();</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_debug_renderer_1a1c81815a6bf1ce055d53c773046f281a" kindref="member">instances</ref>.clear();</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>PLList.size();<sp/>i++)</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="struct_debug_renderer_1_1_instance" kindref="compound">Instance</ref><sp/>inst;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>t<sp/>=<sp/>DirectX::XMMatrixTranslationFromVector(PLList[i]-&gt;<ref refid="class_component_1a61954f08c177e4c1ebb17cf8fd3aa56f" kindref="member">attachFrom</ref>.lock()-&gt;GetWorldPosition());</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>s<sp/>=<sp/>DirectX::XMMatrixScalingFromVector(DirectX::XMVectorScale(DirectX::XMVectorSplatOne(),<sp/>PLList[i]-&gt;GetRadius()<sp/>*<sp/>2));</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>inst.world<sp/>=<sp/>s<sp/>*<sp/>t;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>DirectX::XMStoreFloat4(&amp;inst.color,<sp/>PLList[i]-&gt;GetColor());</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_debug_renderer_1a1c81815a6bf1ce055d53c773046f281a" kindref="member">instances</ref>.push_back(inst);</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_renderer_1a9417332e939d71be632e6d81854e8df1" kindref="member">instanceCount</ref><sp/>=<sp/><ref refid="class_debug_renderer_1a1c81815a6bf1ce055d53c773046f281a" kindref="member">instances</ref>.size();</highlight></codeline>
+<codeline lineno="43"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_debug_renderer_1ad23346b1acd3d884cb46e928e37036a5" kindref="member">DebugPointLight::InitDebugRenderer</ref>()</highlight></codeline>
+<codeline lineno="46"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_renderer_1a11816db1537fb8b768148001f5ad9f6a" kindref="member">LoadVertexShader</ref>(L</highlight><highlight class="stringliteral">&quot;DebugPointLightVertexShader.cso&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_renderer_1a408d5fe9090735fa328d8d494cddfa2f" kindref="member">LoadPixelShader</ref>(L</highlight><highlight class="stringliteral">&quot;DebugPointLightPixelShader.cso&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_renderer_1ae6f45f31877b5738313a1dc9cc02155d" kindref="member">CreateRenderPipeline</ref>();</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_renderer_1a18c48b8f8772486e7c9a54087b2f5612" kindref="member">CreateMesh</ref>(MeshLoader::SPHERE);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_debug_point_light_1a575c720c863e35e6d4ff264b8e81e617" kindref="member">InitDebugPointLightRender</ref>();</highlight></codeline>
+<codeline lineno="55"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="src/Debug/DebugPointLight.cpp"/>
+  </compounddef>
+</doxygen>

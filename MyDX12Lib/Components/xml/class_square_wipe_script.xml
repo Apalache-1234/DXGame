@@ -1,0 +1,326 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="class_square_wipe_script" kind="class" language="C++" prot="public">
+    <compoundname>SquareWipeScript</compoundname>
+    <basecompoundref refid="class_script_component" prot="public" virt="non-virtual">ScriptComponent</basecompoundref>
+    <includes refid="_square_wipe_script_8h" local="no">SquareWipeScript.h</includes>
+    <innerclass refid="struct_square_wipe_script_1_1_square_info" prot="private">SquareWipeScript::SquareInfo</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_square_wipe_script_1aa62a75657ac6a5d84198fa980b98e0d5" prot="private" static="no" mutable="no">
+        <type>SquareInfo</type>
+        <definition>SquareInfo SquareWipeScript::info</definition>
+        <argsstring></argsstring>
+        <name>info</name>
+        <qualifiedname>SquareWipeScript::info</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/SquareWipeScript.h" line="34" column="12" bodyfile="Script/include/SquareWipeScript.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_square_wipe_script_1a3d681219c3a2ce3add63b2bf752d056c" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::shared_ptr&lt; Tween&lt; float &gt; &gt; &gt;</type>
+        <definition>std::vector&lt;std::shared_ptr&lt;Tween &lt; float&gt; &gt; &gt; SquareWipeScript::tws</definition>
+        <argsstring></argsstring>
+        <name>tws</name>
+        <qualifiedname>SquareWipeScript::tws</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/SquareWipeScript.h" line="36" column="13" bodyfile="Script/include/SquareWipeScript.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_square_wipe_script_1a193ed947521ce48cc57642de9ba63305" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="class_u_i_renderer" kindref="compound">UIRenderer</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;UIRenderer&gt; SquareWipeScript::rend</definition>
+        <argsstring></argsstring>
+        <name>rend</name>
+        <qualifiedname>SquareWipeScript::rend</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/SquareWipeScript.h" line="38" column="17" bodyfile="Script/include/SquareWipeScript.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_square_wipe_script_1a29867549265c2989bc878648d4f3b288" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool SquareWipeScript::isWipeEnd</definition>
+        <argsstring></argsstring>
+        <name>isWipeEnd</name>
+        <qualifiedname>SquareWipeScript::isWipeEnd</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/SquareWipeScript.h" line="40" column="6" bodyfile="Script/include/SquareWipeScript.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_square_wipe_script_1a80c47fe013d8633de2bf7150d625e1d3" prot="private" static="no" mutable="no">
+        <type>ComPtr&lt; ID3D12Resource &gt;</type>
+        <definition>ComPtr&lt;ID3D12Resource&gt; SquareWipeScript::CB</definition>
+        <argsstring></argsstring>
+        <name>CB</name>
+        <qualifiedname>SquareWipeScript::CB</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/SquareWipeScript.h" line="42" column="8" bodyfile="Script/include/SquareWipeScript.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_square_wipe_script_1a9fea43e1747f53bd510cced5aa987c74" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; PtrHandles &gt;</type>
+        <definition>std::unique_ptr&lt;PtrHandles&gt; SquareWipeScript::CBHandle</definition>
+        <argsstring></argsstring>
+        <name>CBHandle</name>
+        <qualifiedname>SquareWipeScript::CBHandle</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/SquareWipeScript.h" line="43" column="17" bodyfile="Script/include/SquareWipeScript.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_square_wipe_script_1a8d9e56f2187d1f6d5c99768d1efb8dd3" prot="private" static="no" mutable="no">
+        <type>D3D12_CONSTANT_BUFFER_VIEW_DESC</type>
+        <definition>D3D12_CONSTANT_BUFFER_VIEW_DESC SquareWipeScript::CBView</definition>
+        <argsstring></argsstring>
+        <name>CBView</name>
+        <qualifiedname>SquareWipeScript::CBView</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/SquareWipeScript.h" line="44" column="33" bodyfile="Script/include/SquareWipeScript.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_square_wipe_script_1ad6d3700022b46c98747ec8dc0b4fd6ab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>SquareWipeScript::SquareWipeScript</definition>
+        <argsstring>(std::shared_ptr&lt; Entity &gt; ent)</argsstring>
+        <name>SquareWipeScript</name>
+        <qualifiedname>SquareWipeScript::SquareWipeScript</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; Entity &gt;</type>
+          <declname>ent</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/SquareWipeScript.h" line="16" column="1" bodyfile="Script/src/SquareWipeScript.cpp" bodystart="5" bodyend="7"/>
+      </memberdef>
+      <memberdef kind="function" id="class_square_wipe_script_1ad0fce68840e415f5bbedc454bec07a6c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>SquareWipeScript::~SquareWipeScript</definition>
+        <argsstring>()</argsstring>
+        <name>~SquareWipeScript</name>
+        <qualifiedname>SquareWipeScript::~SquareWipeScript</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/SquareWipeScript.h" line="18" column="1" bodyfile="Script/src/SquareWipeScript.cpp" bodystart="9" bodyend="11"/>
+      </memberdef>
+      <memberdef kind="function" id="class_square_wipe_script_1a5410ffb869f43675ee50dd736808cf6a" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void SquareWipeScript::OnStart</definition>
+        <argsstring>() override</argsstring>
+        <name>OnStart</name>
+        <qualifiedname>SquareWipeScript::OnStart</qualifiedname>
+        <reimplements refid="class_script_component_1a74c66e170fed1beca9d8d0ff3e97d647">OnStart</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/SquareWipeScript.h" line="20" column="6" bodyfile="Script/src/SquareWipeScript.cpp" bodystart="13" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="class_square_wipe_script_1a2d095408e2ee1363dbcfdc3c39eacab5" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void SquareWipeScript::OnUpdate</definition>
+        <argsstring>() override</argsstring>
+        <name>OnUpdate</name>
+        <qualifiedname>SquareWipeScript::OnUpdate</qualifiedname>
+        <reimplements refid="class_script_component_1afffbd9e1537019a46798299fced10d09">OnUpdate</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/SquareWipeScript.h" line="22" column="6" bodyfile="Script/src/SquareWipeScript.cpp" bodystart="41" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="class_square_wipe_script_1a28fb8ddd47ca8626652901effcf954f9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool SquareWipeScript::GetIsWipeEnd</definition>
+        <argsstring>()</argsstring>
+        <name>GetIsWipeEnd</name>
+        <qualifiedname>SquareWipeScript::GetIsWipeEnd</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/SquareWipeScript.h" line="24" column="6" bodyfile="Script/src/SquareWipeScript.cpp" bodystart="63" bodyend="66"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="class_square_wipe_script_1a8f453418b5391f54176470c706c1b430" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void SquareWipeScript::MapCB</definition>
+        <argsstring>()</argsstring>
+        <name>MapCB</name>
+        <qualifiedname>SquareWipeScript::MapCB</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/SquareWipeScript.h" line="46" column="6" bodyfile="Script/src/SquareWipeScript.cpp" bodystart="68" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="class_square_wipe_script_1a8650c1aab0e01108a13fce660ddbfb5a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void SquareWipeScript::InitCB</definition>
+        <argsstring>()</argsstring>
+        <name>InitCB</name>
+        <qualifiedname>SquareWipeScript::InitCB</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/SquareWipeScript.h" line="47" column="6" bodyfile="Script/src/SquareWipeScript.cpp" bodystart="86" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="class_square_wipe_script_1a76c8b7bc8ce9528906ee75b3dfbff498" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool SquareWipeScript::LinkCBVToDescHeap</definition>
+        <argsstring>()</argsstring>
+        <name>LinkCBVToDescHeap</name>
+        <qualifiedname>SquareWipeScript::LinkCBVToDescHeap</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/SquareWipeScript.h" line="48" column="6" bodyfile="Script/src/SquareWipeScript.cpp" bodystart="142" bodyend="153"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>Component</label>
+        <link refid="class_component"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>ScriptComponent</label>
+        <link refid="class_script_component"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>SquareWipeScript</label>
+        <link refid="class_square_wipe_script"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>std::enable_shared_from_this&lt; Component &gt;</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>Component</label>
+        <link refid="class_component"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>ScriptComponent</label>
+        <link refid="class_script_component"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>SquareWipeScript</label>
+        <link refid="class_square_wipe_script"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>std::enable_shared_from_this&lt; Component &gt;</label>
+      </node>
+    </collaborationgraph>
+    <location file="Script/include/SquareWipeScript.h" line="13" column="1" bodyfile="Script/include/SquareWipeScript.h" bodystart="14" bodyend="49"/>
+    <listofallmembers>
+      <member refid="class_component_1a61954f08c177e4c1ebb17cf8fd3aa56f" prot="public" virt="non-virtual"><scope>SquareWipeScript</scope><name>attachFrom</name></member>
+      <member refid="class_script_component_1a96e27fa6ec29b4a3fb7a8032d5a27aad" prot="protected" virt="non-virtual"><scope>SquareWipeScript</scope><name>camera</name></member>
+      <member refid="class_component_1a120d65094802a621c8d804a964cafa9c" prot="public" virt="non-virtual"><scope>SquareWipeScript</scope><name>Cast</name></member>
+      <member refid="class_square_wipe_script_1a80c47fe013d8633de2bf7150d625e1d3" prot="private" virt="non-virtual"><scope>SquareWipeScript</scope><name>CB</name></member>
+      <member refid="class_square_wipe_script_1a9fea43e1747f53bd510cced5aa987c74" prot="private" virt="non-virtual"><scope>SquareWipeScript</scope><name>CBHandle</name></member>
+      <member refid="class_square_wipe_script_1a8d9e56f2187d1f6d5c99768d1efb8dd3" prot="private" virt="non-virtual"><scope>SquareWipeScript</scope><name>CBView</name></member>
+      <member refid="class_component_1a5cba85e33b188bf87ee09f353d7b2fa5" prot="public" virt="non-virtual"><scope>SquareWipeScript</scope><name>Component</name></member>
+      <member refid="class_component_1a22ed217d642f4566a47c874ac9a63eab" prot="public" virt="virtual"><scope>SquareWipeScript</scope><name>GetComponentName</name></member>
+      <member refid="class_component_1a2a9968090dabad782f2bbdaf0093be84" prot="public" virt="non-virtual"><scope>SquareWipeScript</scope><name>GetHash</name></member>
+      <member refid="class_square_wipe_script_1a28fb8ddd47ca8626652901effcf954f9" prot="public" virt="non-virtual"><scope>SquareWipeScript</scope><name>GetIsWipeEnd</name></member>
+      <member refid="class_component_1ac0ee67584bdd569c2809495a5843612b" prot="public" virt="non-virtual"><scope>SquareWipeScript</scope><name>GetLeafIndex</name></member>
+      <member refid="class_component_1a1b25ee28c379d9f0d0c1ecc0df1e6328" prot="public" virt="non-virtual"><scope>SquareWipeScript</scope><name>GetTreeIndex</name></member>
+      <member refid="class_square_wipe_script_1aa62a75657ac6a5d84198fa980b98e0d5" prot="private" virt="non-virtual"><scope>SquareWipeScript</scope><name>info</name></member>
+      <member refid="class_script_component_1a2027d87a56d690a2a198d6e15c57f907" prot="public" virt="virtual"><scope>SquareWipeScript</scope><name>Init</name></member>
+      <member refid="class_square_wipe_script_1a8650c1aab0e01108a13fce660ddbfb5a" prot="private" virt="non-virtual"><scope>SquareWipeScript</scope><name>InitCB</name></member>
+      <member refid="class_square_wipe_script_1a29867549265c2989bc878648d4f3b288" prot="private" virt="non-virtual"><scope>SquareWipeScript</scope><name>isWipeEnd</name></member>
+      <member refid="class_square_wipe_script_1a76c8b7bc8ce9528906ee75b3dfbff498" prot="private" virt="non-virtual"><scope>SquareWipeScript</scope><name>LinkCBVToDescHeap</name></member>
+      <member refid="class_square_wipe_script_1a8f453418b5391f54176470c706c1b430" prot="private" virt="non-virtual"><scope>SquareWipeScript</scope><name>MapCB</name></member>
+      <member refid="class_script_component_1a883990ab3b0eb3ed62c8bc85fd4f596d" prot="protected" virt="non-virtual"><scope>SquareWipeScript</scope><name>meshLoader</name></member>
+      <member refid="class_script_component_1aaef3daf7c260c21efa8fd9cde4e5a4a7" prot="public" virt="virtual"><scope>SquareWipeScript</scope><name>OnDestroy</name></member>
+      <member refid="class_script_component_1af30cc5777fe0db148c0f46deffbfa995" prot="public" virt="virtual"><scope>SquareWipeScript</scope><name>OnFixedUpdate</name></member>
+      <member refid="class_script_component_1ad9b2758d768994bc36a42e328157047c" prot="public" virt="virtual"><scope>SquareWipeScript</scope><name>OnMousePointerClick</name></member>
+      <member refid="class_script_component_1a43fad9a126b4df10d450ebda1b0eb958" prot="public" virt="virtual"><scope>SquareWipeScript</scope><name>OnMousePointerIn</name></member>
+      <member refid="class_script_component_1a594aa67f58cfe5dd2e9f9920cfdfcb08" prot="public" virt="virtual"><scope>SquareWipeScript</scope><name>OnMousePointerOn</name></member>
+      <member refid="class_script_component_1a684ce3d22fb83d9ade9db726afb0ca28" prot="public" virt="virtual"><scope>SquareWipeScript</scope><name>OnMousePointerOut</name></member>
+      <member refid="class_script_component_1a3f3a0bbc66f3809a353ae16ff0380a1e" prot="public" virt="virtual"><scope>SquareWipeScript</scope><name>OnRayCast</name></member>
+      <member refid="class_square_wipe_script_1a5410ffb869f43675ee50dd736808cf6a" prot="public" virt="virtual"><scope>SquareWipeScript</scope><name>OnStart</name></member>
+      <member refid="class_square_wipe_script_1a2d095408e2ee1363dbcfdc3c39eacab5" prot="public" virt="virtual"><scope>SquareWipeScript</scope><name>OnUpdate</name></member>
+      <member refid="class_square_wipe_script_1a193ed947521ce48cc57642de9ba63305" prot="private" virt="non-virtual"><scope>SquareWipeScript</scope><name>rend</name></member>
+      <member refid="class_script_component_1a6d517b821cb2239397c4bc9df8935df1" prot="protected" virt="non-virtual"><scope>SquareWipeScript</scope><name>sceneManager</name></member>
+      <member refid="class_script_component_1a79c3ecd7f476197899c2b41279a40843" prot="protected" virt="non-virtual"><scope>SquareWipeScript</scope><name>ScriptComponent</name></member>
+      <member refid="class_component_1a053713eb8c3c356263a588fc398da49f" prot="public" virt="non-virtual"><scope>SquareWipeScript</scope><name>SetHash</name></member>
+      <member refid="class_component_1a93263d6a4c7a133ad05f8b754463d81a" prot="public" virt="non-virtual"><scope>SquareWipeScript</scope><name>SetIndex</name></member>
+      <member refid="class_square_wipe_script_1ad6d3700022b46c98747ec8dc0b4fd6ab" prot="public" virt="non-virtual"><scope>SquareWipeScript</scope><name>SquareWipeScript</name></member>
+      <member refid="class_script_component_1a85aa9f3caec7cadbad5bade77d1a497b" prot="protected" virt="non-virtual"><scope>SquareWipeScript</scope><name>systemManager</name></member>
+      <member refid="class_script_component_1a8da06cfeede85f5294be061a45d78885" prot="protected" virt="non-virtual"><scope>SquareWipeScript</scope><name>textureLoader</name></member>
+      <member refid="class_script_component_1a2dfacd191e367be8e1e667ece474b860" prot="protected" virt="non-virtual"><scope>SquareWipeScript</scope><name>tweenSystem</name></member>
+      <member refid="class_square_wipe_script_1a3d681219c3a2ce3add63b2bf752d056c" prot="private" virt="non-virtual"><scope>SquareWipeScript</scope><name>tws</name></member>
+      <member refid="class_component_1ab8378fa275af98e568a7e91d33d867af" prot="public" virt="virtual"><scope>SquareWipeScript</scope><name>~Component</name></member>
+      <member refid="class_script_component_1a6c266c364bf21d0dddb6d7639500a077" prot="public" virt="virtual"><scope>SquareWipeScript</scope><name>~ScriptComponent</name></member>
+      <member refid="class_square_wipe_script_1ad0fce68840e415f5bbedc454bec07a6c" prot="public" virt="non-virtual"><scope>SquareWipeScript</scope><name>~SquareWipeScript</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,259 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="class_debug_grids" kind="class" language="C++" prot="public">
+    <compoundname>DebugGrids</compoundname>
+    <basecompoundref refid="class_debug_renderer" prot="public" virt="non-virtual">DebugRenderer</basecompoundref>
+    <includes refid="_debug_grids_8h" local="no">DebugGrids.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_debug_grids_1a3032d0cca00c0bf3dfd793259bd5acbf" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int DebugGrids::HorizonNum</definition>
+        <argsstring></argsstring>
+        <name>HorizonNum</name>
+        <qualifiedname>DebugGrids::HorizonNum</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Debug/DebugGrids.h" line="37" column="5" bodyfile="include/Debug/DebugGrids.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_debug_grids_1a08165438b89176409c84e742482ccb0e" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int DebugGrids::VerticalNum</definition>
+        <argsstring></argsstring>
+        <name>VerticalNum</name>
+        <qualifiedname>DebugGrids::VerticalNum</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Debug/DebugGrids.h" line="38" column="5" bodyfile="include/Debug/DebugGrids.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_debug_grids_1a42f5ad64e42ad489f1597060f3beb956" prot="private" static="no" mutable="no">
+        <type>const int</type>
+        <definition>const int DebugGrids::GripsNum</definition>
+        <argsstring></argsstring>
+        <name>GripsNum</name>
+        <qualifiedname>DebugGrids::GripsNum</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Debug/DebugGrids.h" line="40" column="11" bodyfile="include/Debug/DebugGrids.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_debug_grids_1a72061cd146ef3af7d6c55cf3898ddc39" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>DebugGrids::DebugGrids</definition>
+        <argsstring>(std::shared_ptr&lt; Entity &gt; ent)</argsstring>
+        <name>DebugGrids</name>
+        <qualifiedname>DebugGrids::DebugGrids</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; Entity &gt;</type>
+          <declname>ent</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Debug/DebugGrids.h" line="29" column="1" bodyfile="src/Debug/DebugGrids.cpp" bodystart="6" bodyend="8"/>
+      </memberdef>
+      <memberdef kind="function" id="class_debug_grids_1abf336adc9a952cb3a95166bfae0272bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>DebugGrids::~DebugGrids</definition>
+        <argsstring>()</argsstring>
+        <name>~DebugGrids</name>
+        <qualifiedname>DebugGrids::~DebugGrids</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Debug/DebugGrids.h" line="31" column="1" bodyfile="src/Debug/DebugGrids.cpp" bodystart="10" bodyend="12"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_debug_grids_1aaf532436f5e32228eb44519958da3b4c" prot="protected" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void DebugGrids::Update</definition>
+        <argsstring>() override</argsstring>
+        <name>Update</name>
+        <qualifiedname>DebugGrids::Update</qualifiedname>
+        <reimplements refid="class_renderer_1a7cbd30dabcc6cd3b977ae647f6d3f23c">Update</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Debug/DebugGrids.h" line="33" column="6" bodyfile="src/Debug/DebugGrids.cpp" bodystart="43" bodyend="90"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="class_debug_grids_1aad33b4f35a03a15e673ce995bd6e8d07" prot="private" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void DebugGrids::InitDebugRenderer</definition>
+        <argsstring>() override</argsstring>
+        <name>InitDebugRenderer</name>
+        <qualifiedname>DebugGrids::InitDebugRenderer</qualifiedname>
+        <reimplements refid="class_debug_renderer_1ad23346b1acd3d884cb46e928e37036a5">InitDebugRenderer</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Debug/DebugGrids.h" line="35" column="6" bodyfile="src/Debug/DebugGrids.cpp" bodystart="92" bodyend="134"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="4">
+        <label>Component</label>
+        <link refid="class_component"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>DebugGrids</label>
+        <link refid="class_debug_grids"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>DebugRenderer</label>
+        <link refid="class_debug_renderer"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>Renderer</label>
+        <link refid="class_renderer"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>std::enable_shared_from_this&lt; Component &gt;</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="4">
+        <label>Component</label>
+        <link refid="class_component"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>DebugGrids</label>
+        <link refid="class_debug_grids"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>DebugRenderer</label>
+        <link refid="class_debug_renderer"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>Renderer</label>
+        <link refid="class_renderer"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>std::enable_shared_from_this&lt; Component &gt;</label>
+      </node>
+    </collaborationgraph>
+    <location file="include/Debug/DebugGrids.h" line="26" column="1" bodyfile="include/Debug/DebugGrids.h" bodystart="27" bodyend="41"/>
+    <listofallmembers>
+      <member refid="class_renderer_1adc4a2598dcf439e9651d53fb8a9c8eaa" prot="protected" virt="virtual" ambiguityscope="DebugRenderer::Renderer::"><scope>DebugGrids</scope><name>AddCommand</name></member>
+      <member refid="class_renderer_1a371e146fbbbd2274dafa4fd5526e3fdd" prot="public" virt="non-virtual"><scope>DebugGrids</scope><name>AddCommandListFunction</name></member>
+      <member refid="class_renderer_1af930cefb3ea41ef2808605698cad4bbd" prot="protected" virt="non-virtual"><scope>DebugGrids</scope><name>AddInputElementDesc</name></member>
+      <member refid="class_renderer_1a8b9fdeeecb7b6c37cfba79bc85841db5" prot="public" virt="virtual"><scope>DebugGrids</scope><name>AddRenderCommand</name></member>
+      <member refid="class_renderer_1aa726cdc916f149d8bb40a6fde9d25a63" prot="protected" virt="non-virtual"><scope>DebugGrids</scope><name>AddRenderPipeline</name></member>
+      <member refid="class_renderer_1a063ae27fa4015a4ad4fd355d1d7a9a2d" prot="public" virt="non-virtual"><scope>DebugGrids</scope><name>ApplyTextureOnMesh</name></member>
+      <member refid="class_renderer_1a177d22a97104d76e1cb249008c8c3148" prot="public" virt="non-virtual"><scope>DebugGrids</scope><name>ApplyTextureOnMesh</name></member>
+      <member refid="class_component_1a61954f08c177e4c1ebb17cf8fd3aa56f" prot="public" virt="non-virtual"><scope>DebugGrids</scope><name>attachFrom</name></member>
+      <member refid="class_component_1a120d65094802a621c8d804a964cafa9c" prot="public" virt="non-virtual"><scope>DebugGrids</scope><name>Cast</name></member>
+      <member refid="class_renderer_1a7832117cb87326278a00ba0648feb440" prot="protected" virt="non-virtual"><scope>DebugGrids</scope><name>cbHandle</name></member>
+      <member refid="class_renderer_1a9b39eecb49896cdc063229aa3a8086f6" prot="protected" virt="non-virtual"><scope>DebugGrids</scope><name>cbView</name></member>
+      <member refid="class_renderer_1ab1ba84cc82cec719d474ed837fddaa12" prot="protected" virt="non-virtual"><scope>DebugGrids</scope><name>ChangeRenderPipeline</name></member>
+      <member refid="class_renderer_1ae80ad596f0b476671b1794a6fe8ab2b9" prot="public" virt="non-virtual"><scope>DebugGrids</scope><name>color</name></member>
+      <member refid="class_component_1a5cba85e33b188bf87ee09f353d7b2fa5" prot="public" virt="non-virtual"><scope>DebugGrids</scope><name>Component</name></member>
+      <member refid="class_renderer_1ab64318c35f8f266b8c36efbc41c2f943" prot="protected" virt="non-virtual"><scope>DebugGrids</scope><name>constantBuffer</name></member>
+      <member refid="class_renderer_1ab34659d99f36b87337a22436c694b77aa922dcc1fbe0210fff37a5c12e51c73bb" prot="public" virt="non-virtual"><scope>DebugGrids</scope><name>CountLast</name></member>
+      <member refid="class_renderer_1a18c48b8f8772486e7c9a54087b2f5612" prot="public" virt="non-virtual"><scope>DebugGrids</scope><name>CreateMesh</name></member>
+      <member refid="class_renderer_1ae6f45f31877b5738313a1dc9cc02155d" prot="public" virt="non-virtual"><scope>DebugGrids</scope><name>CreateRenderPipeline</name></member>
+      <member refid="class_renderer_1aa94ee482132c778a9eebca26e55a8759" prot="protected" virt="non-virtual"><scope>DebugGrids</scope><name>currentCBCount</name></member>
+      <member refid="class_renderer_1a332ce1ec861cc52aebf95fe1ece25e35" prot="protected" virt="non-virtual"><scope>DebugGrids</scope><name>currentMeshType</name></member>
+      <member refid="class_debug_grids_1a72061cd146ef3af7d6c55cf3898ddc39" prot="public" virt="non-virtual"><scope>DebugGrids</scope><name>DebugGrids</name></member>
+      <member refid="class_debug_renderer_1a1ebe78b3469a8f1490fcad38dece3d54" prot="protected" virt="non-virtual"><scope>DebugGrids</scope><name>DebugRenderer</name></member>
+      <member refid="class_renderer_1ab34659d99f36b87337a22436c694b77aafdf5aea8fe68699a92fc597e0f3aa410" prot="public" virt="non-virtual"><scope>DebugGrids</scope><name>DIFFUSE</name></member>
+      <member refid="class_component_1a22ed217d642f4566a47c874ac9a63eab" prot="public" virt="virtual"><scope>DebugGrids</scope><name>GetComponentName</name></member>
+      <member refid="class_renderer_1ad2ca3f47525a336279d7a3e9cd225155" prot="public" virt="non-virtual"><scope>DebugGrids</scope><name>GetCurrentMeshType</name></member>
+      <member refid="class_renderer_1a2a9bb6274d6c2bd7b1373a5218c04d1e" prot="protected" virt="non-virtual"><scope>DebugGrids</scope><name>GetDefaultPipelineDesc</name></member>
+      <member refid="class_component_1a2a9968090dabad782f2bbdaf0093be84" prot="public" virt="non-virtual"><scope>DebugGrids</scope><name>GetHash</name></member>
+      <member refid="class_component_1ac0ee67584bdd569c2809495a5843612b" prot="public" virt="non-virtual"><scope>DebugGrids</scope><name>GetLeafIndex</name></member>
+      <member refid="class_renderer_1a1e75024955af72f3c9dbadc96c10281f" prot="public" virt="non-virtual"><scope>DebugGrids</scope><name>GetMaterial</name></member>
+      <member refid="class_renderer_1a0f84f3368c4efbf49fdce3b3373baac2" prot="public" virt="non-virtual"><scope>DebugGrids</scope><name>GetMeshNameList</name></member>
+      <member refid="class_renderer_1ad77abbe0720398802884bfa581e89191" prot="protected" virt="non-virtual"><scope>DebugGrids</scope><name>GetPrimitiveType</name></member>
+      <member refid="class_renderer_1a34068a389335bc378379c7d3209732e6" prot="public" virt="non-virtual"><scope>DebugGrids</scope><name>GetTextureCPUHandle</name></member>
+      <member refid="class_renderer_1aae81abf8b1e97079d33df77b4757df44" prot="public" virt="non-virtual"><scope>DebugGrids</scope><name>GetTextureGPUHandle</name></member>
+      <member refid="class_component_1a1b25ee28c379d9f0d0c1ecc0df1e6328" prot="public" virt="non-virtual"><scope>DebugGrids</scope><name>GetTreeIndex</name></member>
+      <member refid="class_debug_grids_1a42f5ad64e42ad489f1597060f3beb956" prot="private" virt="non-virtual"><scope>DebugGrids</scope><name>GripsNum</name></member>
+      <member refid="class_debug_grids_1a3032d0cca00c0bf3dfd793259bd5acbf" prot="private" virt="non-virtual"><scope>DebugGrids</scope><name>HorizonNum</name></member>
+      <member refid="class_renderer_1ac0ef6dd4baa52d630c273b23c812d51f" prot="protected" virt="non-virtual"><scope>DebugGrids</scope><name>hr</name></member>
+      <member refid="class_renderer_1ad92446fb0350d8537dcd2f01150b0efb" prot="public" virt="virtual"><scope>DebugGrids</scope><name>Init</name></member>
+      <member refid="class_debug_grids_1aad33b4f35a03a15e673ce995bd6e8d07" prot="private" virt="virtual"><scope>DebugGrids</scope><name>InitDebugRenderer</name></member>
+      <member refid="class_renderer_1a91339beb7c8d7127d80406fc95191467" prot="protected" virt="virtual"><scope>DebugGrids</scope><name>InitInCreateMesh</name></member>
+      <member refid="class_debug_renderer_1a8b5547996a687276e7101ada37ae4426" prot="protected" virt="non-virtual"><scope>DebugGrids</scope><name>InitIVB</name></member>
+      <member refid="class_renderer_1a9417332e939d71be632e6d81854e8df1" prot="protected" virt="non-virtual"><scope>DebugGrids</scope><name>instanceCount</name></member>
+      <member refid="class_debug_renderer_1a1c81815a6bf1ce055d53c773046f281a" prot="protected" virt="non-virtual"><scope>DebugGrids</scope><name>instances</name></member>
+      <member refid="class_renderer_1adcb0d20572ce6fe825df04fa0788b2ab" prot="protected" virt="non-virtual"><scope>DebugGrids</scope><name>isPipelineAlreadyCreated</name></member>
+      <member refid="class_debug_renderer_1af2e5b28a8763fb6a5f73a80ef298e4e3" prot="protected" virt="non-virtual"><scope>DebugGrids</scope><name>IVBV</name></member>
+      <member refid="class_renderer_1a408d5fe9090735fa328d8d494cddfa2f" prot="public" virt="non-virtual"><scope>DebugGrids</scope><name>LoadPixelShader</name></member>
+      <member refid="class_renderer_1a11816db1537fb8b768148001f5ad9f6a" prot="public" virt="non-virtual"><scope>DebugGrids</scope><name>LoadVertexShader</name></member>
+      <member refid="class_debug_renderer_1a6a7ff23d2df774d53c6b2c01618e6273" prot="protected" virt="non-virtual"><scope>DebugGrids</scope><name>MapDVB</name></member>
+      <member refid="class_renderer_1ab4e7d5df234bc02ae6587744e97fb4c9" prot="protected" virt="non-virtual"><scope>DebugGrids</scope><name>materialHandle</name></member>
+      <member refid="class_renderer_1a400d0869b9758ed5ec0ab248e2736024" prot="protected" virt="non-virtual"><scope>DebugGrids</scope><name>materialResource</name></member>
+      <member refid="class_renderer_1aebb08c6ad0f141810462711e9afb3d69" prot="protected" virt="non-virtual"><scope>DebugGrids</scope><name>mats</name></member>
+      <member refid="class_renderer_1a08dd8b2ddddde6917db844ccc964a7fc" prot="protected" virt="non-virtual"><scope>DebugGrids</scope><name>meshData</name></member>
+      <member refid="class_renderer_1ab34659d99f36b87337a22436c694b77aae429abe859bc1468cb76df92556daffc" prot="public" virt="non-virtual"><scope>DebugGrids</scope><name>NORMAL</name></member>
+      <member refid="class_renderer_1aced37542105905c8620cc0e81bef741d" prot="protected" virt="non-virtual"><scope>DebugGrids</scope><name>PrepareForRenderPipeline</name></member>
+      <member refid="class_renderer_1a3e79920a8fb355dbb2eb24bdc0623bb7" prot="protected" virt="non-virtual"><scope>DebugGrids</scope><name>Renderer</name></member>
+      <member refid="class_renderer_1a813d0f334d299d3ceb2d5dc92563d80a" prot="protected" virt="non-virtual"><scope>DebugGrids</scope><name>SetDepthStencilDesc</name></member>
+      <member refid="class_component_1a053713eb8c3c356263a588fc398da49f" prot="public" virt="non-virtual"><scope>DebugGrids</scope><name>SetHash</name></member>
+      <member refid="class_component_1a93263d6a4c7a133ad05f8b754463d81a" prot="public" virt="non-virtual"><scope>DebugGrids</scope><name>SetIndex</name></member>
+      <member refid="class_renderer_1a28d3dc05ad44bca091f1a27bafccc189" prot="public" virt="non-virtual"><scope>DebugGrids</scope><name>SetMaterial</name></member>
+      <member refid="class_renderer_1aa7101ddc3d282a9f36821b36b46e303a" prot="protected" virt="non-virtual"><scope>DebugGrids</scope><name>SetPrimitiveType</name></member>
+      <member refid="class_renderer_1aa0c95bbe27b96ae5e957205a4aaba80b" prot="protected" virt="non-virtual"><scope>DebugGrids</scope><name>SetRasterizerDesc</name></member>
+      <member refid="class_renderer_1ae0b48c95af9c03c0eed1edd30c8d9b32" prot="protected" virt="non-virtual"><scope>DebugGrids</scope><name>SetRTBDesc</name></member>
+      <member refid="class_renderer_1a8a71c03908e1318fd4a76155e9489005" prot="protected" virt="non-virtual"><scope>DebugGrids</scope><name>texHandles</name></member>
+      <member refid="class_renderer_1ab34659d99f36b87337a22436c694b77a" prot="public" virt="non-virtual"><scope>DebugGrids</scope><name>TEXTURE_TYPE</name></member>
+      <member refid="class_renderer_1a52f2d07a0df1cb61fd5e27593cf745ec" prot="protected" virt="non-virtual"><scope>DebugGrids</scope><name>trans</name></member>
+      <member refid="class_debug_grids_1aaf532436f5e32228eb44519958da3b4c" prot="protected" virt="virtual"><scope>DebugGrids</scope><name>Update</name></member>
+      <member refid="class_debug_grids_1a08165438b89176409c84e742482ccb0e" prot="private" virt="non-virtual"><scope>DebugGrids</scope><name>VerticalNum</name></member>
+      <member refid="class_component_1ab8378fa275af98e568a7e91d33d867af" prot="public" virt="virtual"><scope>DebugGrids</scope><name>~Component</name></member>
+      <member refid="class_debug_grids_1abf336adc9a952cb3a95166bfae0272bf" prot="public" virt="non-virtual"><scope>DebugGrids</scope><name>~DebugGrids</name></member>
+      <member refid="class_debug_renderer_1a4374b7c1ce3ee04f86f6f910c82aff09" prot="public" virt="virtual"><scope>DebugGrids</scope><name>~DebugRenderer</name></member>
+      <member refid="class_renderer_1afeee408862d5bd6255a6882d47e6d5cd" prot="public" virt="non-virtual"><scope>DebugGrids</scope><name>~Renderer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,34 @@
+{
+    "IsChild": false,
+    "LocalPosition": {
+        "X": 0.0,
+        "Y": 2.5,
+        "Z": 0.0
+    },
+    "LocalRotation": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0
+    },
+    "LocalScale": {
+        "X": 1.0,
+        "Y": 1.0,
+        "Z": 1.0
+    },
+    "ParentName": "",
+    "WorldPosition": {
+        "X": 0.0,
+        "Y": 2.5,
+        "Z": 0.0
+    },
+    "WorldRotation": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0
+    },
+    "WorldScale": {
+        "X": 1.0,
+        "Y": 1.0,
+        "Z": 1.0
+    }
+}

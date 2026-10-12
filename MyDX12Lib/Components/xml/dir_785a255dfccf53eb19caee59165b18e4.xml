@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="dir_785a255dfccf53eb19caee59165b18e4" kind="dir">
+    <compoundname>Script/src</compoundname>
+    <innerfile refid="_card_script_8cpp">CardScript.cpp</innerfile>
+    <innerfile refid="_card_texture_script_8cpp">CardTextureScript.cpp</innerfile>
+    <innerfile refid="_c_p_u_script_8cpp">CPUScript.cpp</innerfile>
+    <innerfile refid="_deck_script_8cpp">DeckScript.cpp</innerfile>
+    <innerfile refid="_floor_script_8cpp">FloorScript.cpp</innerfile>
+    <innerfile refid="_game_end_script_8cpp">GameEndScript.cpp</innerfile>
+    <innerfile refid="_game_manager_script_8cpp">GameManagerScript.cpp</innerfile>
+    <innerfile refid="_game_starting_script_8cpp">GameStartingScript.cpp</innerfile>
+    <innerfile refid="_game_start_u_i_script_8cpp">GameStartUIScript.cpp</innerfile>
+    <innerfile refid="_hand_script_8cpp">HandScript.cpp</innerfile>
+    <innerfile refid="_place_card_u_i_script_8cpp">PlaceCardUIScript.cpp</innerfile>
+    <innerfile refid="_ready_u_i_script_8cpp">ReadyUIScript.cpp</innerfile>
+    <innerfile refid="_square_wipe_script_8cpp">SquareWipeScript.cpp</innerfile>
+    <innerfile refid="_table_and_chair_script_8cpp">TableAndChairScript.cpp</innerfile>
+    <innerfile refid="_table_deck_script_8cpp">TableDeckScript.cpp</innerfile>
+    <innerfile refid="_title_card_script_8cpp">TitleCardScript.cpp</innerfile>
+    <innerfile refid="_title_frame_script_8cpp">TitleFrameScript.cpp</innerfile>
+    <innerfile refid="_title_noise_script_8cpp">TitleNoiseScript.cpp</innerfile>
+    <innerfile refid="_title_spot_light_script_8cpp">TitleSpotLightScript.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="Script/src/"/>
+  </compounddef>
+</doxygen>

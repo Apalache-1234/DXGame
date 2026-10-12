@@ -1,0 +1,342 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="class_collider" kind="class" language="C++" prot="public">
+    <compoundname>Collider</compoundname>
+    <basecompoundref refid="class_component" prot="public" virt="non-virtual">Component</basecompoundref>
+    <includes refid="_collider_8h" local="no">Collider.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="class_collider_1aaf711504401d9e2edfa19d3c89b340af" prot="public" static="no" strong="no">
+        <type></type>
+        <name>ColliderType</name>
+        <qualifiedname>Collider::ColliderType</qualifiedname>
+        <enumvalue id="class_collider_1aaf711504401d9e2edfa19d3c89b340afaa43be0cff46759a81b05f37eb78da788" prot="public">
+          <name>Cube</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_collider_1aaf711504401d9e2edfa19d3c89b340afa832e3186475a61e69bcaadcc2f78e5ad" prot="public">
+          <name>Sphere</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Collider.h" line="18" column="1" bodyfile="include/Collider.h" bodystart="19" bodyend="19"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_collider_1a25f5cd8132a2104ec813938a2cdec784" prot="public" static="no" mutable="no">
+        <type>DirectX::XMVECTOR</type>
+        <definition>DirectX::XMVECTOR Collider::position</definition>
+        <argsstring></argsstring>
+        <name>position</name>
+        <qualifiedname>Collider::position</qualifiedname>
+        <initializer>= DirectX::XMVectorSet(0,0,0,0)</initializer>
+        <briefdescription>
+<para>コライダーの位置 </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Collider.h" line="44" column="19" bodyfile="include/Collider.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_collider_1a158c6ee6c175e119e23ce4e79eb1bfa8" prot="public" static="no" mutable="no">
+        <type>DirectX::XMVECTOR</type>
+        <definition>DirectX::XMVECTOR Collider::scale</definition>
+        <argsstring></argsstring>
+        <name>scale</name>
+        <qualifiedname>Collider::scale</qualifiedname>
+        <initializer>= DirectX::XMVectorSet(1, 1, 1, 0)</initializer>
+        <briefdescription>
+<para>コライダーの大きさ </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Collider.h" line="49" column="19" bodyfile="include/Collider.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_collider_1a93e181cc68e11762cceb29bd48ffbb17" prot="public" static="no" mutable="no">
+        <type>DirectX::XMVECTOR</type>
+        <definition>DirectX::XMVECTOR Collider::rot</definition>
+        <argsstring></argsstring>
+        <name>rot</name>
+        <qualifiedname>Collider::rot</qualifiedname>
+        <initializer>= DirectX::XMVectorSet(0, 0, 0, 0)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Collider.h" line="51" column="19" bodyfile="include/Collider.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_collider_1ad67edfb6dc7832cde3726e09ca717975" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool Collider::isColliding</definition>
+        <argsstring></argsstring>
+        <name>isColliding</name>
+        <qualifiedname>Collider::isColliding</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Collider.h" line="53" column="6" bodyfile="include/Collider.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_collider_1aacf40c5636b3c5c9fdc38a53c9b45af5" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; DirectX::XMVECTOR &gt;</type>
+        <definition>std::vector&lt;DirectX::XMVECTOR&gt; Collider::verticesPos</definition>
+        <argsstring></argsstring>
+        <name>verticesPos</name>
+        <qualifiedname>Collider::verticesPos</qualifiedname>
+        <briefdescription>
+<para>頂点座標 </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Collider.h" line="58" column="13" bodyfile="include/Collider.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_collider_1a3d9d63c5d6678707a7d2cbe1e462b3fb" prot="private" static="no" mutable="no">
+        <type><ref refid="class_collider_1aaf711504401d9e2edfa19d3c89b340af" kindref="member">ColliderType</ref></type>
+        <definition>ColliderType Collider::currentType</definition>
+        <argsstring></argsstring>
+        <name>currentType</name>
+        <qualifiedname>Collider::currentType</qualifiedname>
+        <initializer>= <ref refid="class_collider_1aaf711504401d9e2edfa19d3c89b340afaa43be0cff46759a81b05f37eb78da788" kindref="member">Cube</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Collider.h" line="60" column="14" bodyfile="include/Collider.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_collider_1a3b373527f20d5f6b3fc45818f3a0f286" prot="private" static="no" mutable="no">
+        <type>MeshLoader::MeshData *</type>
+        <definition>MeshLoader::MeshData* Collider::mesh</definition>
+        <argsstring></argsstring>
+        <name>mesh</name>
+        <qualifiedname>Collider::mesh</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Collider.h" line="62" column="22" bodyfile="include/Collider.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_collider_1a037578012c112824eb87a2cba77cd05f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>Collider::Collider</definition>
+        <argsstring>(std::shared_ptr&lt; Entity &gt; ent)</argsstring>
+        <name>Collider</name>
+        <qualifiedname>Collider::Collider</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; Entity &gt;</type>
+          <declname>ent</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Collider.h" line="21" column="1" bodyfile="src/Collider.cpp" bodystart="7" bodyend="10"/>
+      </memberdef>
+      <memberdef kind="function" id="class_collider_1a564acde9860f875a32a6638c573d87be" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>Collider::~Collider</definition>
+        <argsstring>()</argsstring>
+        <name>~Collider</name>
+        <qualifiedname>Collider::~Collider</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Collider.h" line="23" column="1" bodyfile="src/Collider.cpp" bodystart="12" bodyend="14"/>
+      </memberdef>
+      <memberdef kind="function" id="class_collider_1a9526e25fb3dae81c1ec87c77076217d3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; DirectX::XMVECTOR &gt;</type>
+        <definition>std::vector&lt; DirectX::XMVECTOR &gt; Collider::GetCurrentVerticesPos</definition>
+        <argsstring>()</argsstring>
+        <name>GetCurrentVerticesPos</name>
+        <qualifiedname>Collider::GetCurrentVerticesPos</qualifiedname>
+        <briefdescription>
+<para>コライダーの位置や大きさ、そしてこれをつけているエンティティーの位置や大きさに考慮して計算された結果の頂点座標を配列で返す </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>調整後の頂点座標</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Collider.h" line="29" column="13" bodyfile="src/Collider.cpp" bodystart="16" bodyend="26"/>
+      </memberdef>
+      <memberdef kind="function" id="class_collider_1a4e4c19417eed9bde8a919a66983bb899" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>DirectX::XMMATRIX</type>
+        <definition>DirectX::XMMATRIX Collider::GetTRSMatrix</definition>
+        <argsstring>()</argsstring>
+        <name>GetTRSMatrix</name>
+        <qualifiedname>Collider::GetTRSMatrix</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Collider.h" line="31" column="19" bodyfile="src/Collider.cpp" bodystart="28" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="class_collider_1a515a6cc5988878812fc41b3b08508525" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Collider::SetColliderType</definition>
+        <argsstring>(ColliderType type)</argsstring>
+        <name>SetColliderType</name>
+        <qualifiedname>Collider::SetColliderType</qualifiedname>
+        <param>
+          <type><ref refid="class_collider_1aaf711504401d9e2edfa19d3c89b340af" kindref="member">ColliderType</ref></type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Collider.h" line="33" column="6" bodyfile="src/Collider.cpp" bodystart="46" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="class_collider_1a9ff9921b753ca1decc915604829406f5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_collider_1aaf711504401d9e2edfa19d3c89b340af" kindref="member">ColliderType</ref></type>
+        <definition>Collider::ColliderType Collider::GetColliderType</definition>
+        <argsstring>()</argsstring>
+        <name>GetColliderType</name>
+        <qualifiedname>Collider::GetColliderType</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Collider.h" line="35" column="14" bodyfile="src/Collider.cpp" bodystart="71" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="class_collider_1af968ee929e9d1c82ed984dba26777db7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>DirectX::XMVECTOR</type>
+        <definition>DirectX::XMVECTOR Collider::GetRotQuaternion</definition>
+        <argsstring>()</argsstring>
+        <name>GetRotQuaternion</name>
+        <qualifiedname>Collider::GetRotQuaternion</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Collider.h" line="37" column="19" bodyfile="src/Collider.cpp" bodystart="76" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="class_collider_1a8ae32fd17e4b07d25eca73a527b32ce7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; std::vector&lt; int &gt;, std::vector&lt; DirectX::XMVECTOR &gt; &gt;</type>
+        <definition>std::pair&lt; std::vector&lt; int &gt;, std::vector&lt; DirectX::XMVECTOR &gt; &gt; Collider::GetTriangles</definition>
+        <argsstring>()</argsstring>
+        <name>GetTriangles</name>
+        <qualifiedname>Collider::GetTriangles</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Collider.h" line="39" column="12" bodyfile="src/Collider.cpp" bodystart="95" bodyend="103"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>Collider</label>
+        <link refid="class_collider"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>Component</label>
+        <link refid="class_component"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>std::enable_shared_from_this&lt; Component &gt;</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>Collider</label>
+        <link refid="class_collider"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>Component</label>
+        <link refid="class_component"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>std::enable_shared_from_this&lt; Component &gt;</label>
+      </node>
+    </collaborationgraph>
+    <location file="include/Collider.h" line="15" column="1" bodyfile="include/Collider.h" bodystart="16" bodyend="63"/>
+    <listofallmembers>
+      <member refid="class_component_1a61954f08c177e4c1ebb17cf8fd3aa56f" prot="public" virt="non-virtual"><scope>Collider</scope><name>attachFrom</name></member>
+      <member refid="class_component_1a120d65094802a621c8d804a964cafa9c" prot="public" virt="non-virtual"><scope>Collider</scope><name>Cast</name></member>
+      <member refid="class_collider_1a037578012c112824eb87a2cba77cd05f" prot="public" virt="non-virtual"><scope>Collider</scope><name>Collider</name></member>
+      <member refid="class_collider_1aaf711504401d9e2edfa19d3c89b340af" prot="public" virt="non-virtual"><scope>Collider</scope><name>ColliderType</name></member>
+      <member refid="class_component_1a5cba85e33b188bf87ee09f353d7b2fa5" prot="public" virt="non-virtual"><scope>Collider</scope><name>Component</name></member>
+      <member refid="class_collider_1aaf711504401d9e2edfa19d3c89b340afaa43be0cff46759a81b05f37eb78da788" prot="public" virt="non-virtual"><scope>Collider</scope><name>Cube</name></member>
+      <member refid="class_collider_1a3d9d63c5d6678707a7d2cbe1e462b3fb" prot="private" virt="non-virtual"><scope>Collider</scope><name>currentType</name></member>
+      <member refid="class_collider_1a9ff9921b753ca1decc915604829406f5" prot="public" virt="non-virtual"><scope>Collider</scope><name>GetColliderType</name></member>
+      <member refid="class_component_1a22ed217d642f4566a47c874ac9a63eab" prot="public" virt="virtual"><scope>Collider</scope><name>GetComponentName</name></member>
+      <member refid="class_collider_1a9526e25fb3dae81c1ec87c77076217d3" prot="public" virt="non-virtual"><scope>Collider</scope><name>GetCurrentVerticesPos</name></member>
+      <member refid="class_component_1a2a9968090dabad782f2bbdaf0093be84" prot="public" virt="non-virtual"><scope>Collider</scope><name>GetHash</name></member>
+      <member refid="class_component_1ac0ee67584bdd569c2809495a5843612b" prot="public" virt="non-virtual"><scope>Collider</scope><name>GetLeafIndex</name></member>
+      <member refid="class_collider_1af968ee929e9d1c82ed984dba26777db7" prot="public" virt="non-virtual"><scope>Collider</scope><name>GetRotQuaternion</name></member>
+      <member refid="class_component_1a1b25ee28c379d9f0d0c1ecc0df1e6328" prot="public" virt="non-virtual"><scope>Collider</scope><name>GetTreeIndex</name></member>
+      <member refid="class_collider_1a8ae32fd17e4b07d25eca73a527b32ce7" prot="public" virt="non-virtual"><scope>Collider</scope><name>GetTriangles</name></member>
+      <member refid="class_collider_1a4e4c19417eed9bde8a919a66983bb899" prot="public" virt="non-virtual"><scope>Collider</scope><name>GetTRSMatrix</name></member>
+      <member refid="class_component_1ad3141017e589ef48d436bc743e15d122" prot="public" virt="virtual"><scope>Collider</scope><name>Init</name></member>
+      <member refid="class_collider_1ad67edfb6dc7832cde3726e09ca717975" prot="public" virt="non-virtual"><scope>Collider</scope><name>isColliding</name></member>
+      <member refid="class_collider_1a3b373527f20d5f6b3fc45818f3a0f286" prot="private" virt="non-virtual"><scope>Collider</scope><name>mesh</name></member>
+      <member refid="class_collider_1a25f5cd8132a2104ec813938a2cdec784" prot="public" virt="non-virtual"><scope>Collider</scope><name>position</name></member>
+      <member refid="class_collider_1a93e181cc68e11762cceb29bd48ffbb17" prot="public" virt="non-virtual"><scope>Collider</scope><name>rot</name></member>
+      <member refid="class_collider_1a158c6ee6c175e119e23ce4e79eb1bfa8" prot="public" virt="non-virtual"><scope>Collider</scope><name>scale</name></member>
+      <member refid="class_collider_1a515a6cc5988878812fc41b3b08508525" prot="public" virt="non-virtual"><scope>Collider</scope><name>SetColliderType</name></member>
+      <member refid="class_component_1a053713eb8c3c356263a588fc398da49f" prot="public" virt="non-virtual"><scope>Collider</scope><name>SetHash</name></member>
+      <member refid="class_component_1a93263d6a4c7a133ad05f8b754463d81a" prot="public" virt="non-virtual"><scope>Collider</scope><name>SetIndex</name></member>
+      <member refid="class_collider_1aaf711504401d9e2edfa19d3c89b340afa832e3186475a61e69bcaadcc2f78e5ad" prot="public" virt="non-virtual"><scope>Collider</scope><name>Sphere</name></member>
+      <member refid="class_collider_1aacf40c5636b3c5c9fdc38a53c9b45af5" prot="private" virt="non-virtual"><scope>Collider</scope><name>verticesPos</name></member>
+      <member refid="class_collider_1a564acde9860f875a32a6638c573d87be" prot="public" virt="non-virtual"><scope>Collider</scope><name>~Collider</name></member>
+      <member refid="class_component_1ab8378fa275af98e568a7e91d33d867af" prot="public" virt="virtual"><scope>Collider</scope><name>~Component</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

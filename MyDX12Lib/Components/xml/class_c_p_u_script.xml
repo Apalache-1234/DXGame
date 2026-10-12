@@ -1,0 +1,310 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="class_c_p_u_script" kind="class" language="C++" prot="public">
+    <compoundname>CPUScript</compoundname>
+    <basecompoundref refid="class_script_component" prot="public" virt="non-virtual">ScriptComponent</basecompoundref>
+    <includes refid="_c_p_u_script_8h" local="no">CPUScript.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_c_p_u_script_1a018998fd2cd5db9e246e2ad8927cbc1d" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="class_hand_script" kindref="compound">HandScript</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;HandScript&gt; CPUScript::cHandSc</definition>
+        <argsstring></argsstring>
+        <name>cHandSc</name>
+        <qualifiedname>CPUScript::cHandSc</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/CPUScript.h" line="28" column="17" bodyfile="Script/include/CPUScript.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_c_p_u_script_1ada90e2e5cfd0ac6604748923ed53c175" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="class_deck_script" kindref="compound">DeckScript</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;DeckScript&gt; CPUScript::cDeckSc</definition>
+        <argsstring></argsstring>
+        <name>cDeckSc</name>
+        <qualifiedname>CPUScript::cDeckSc</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/CPUScript.h" line="29" column="17" bodyfile="Script/include/CPUScript.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_c_p_u_script_1a161069c30cbb9e158df242b844820f76" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="class_table_deck_script" kindref="compound">TableDeckScript</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;TableDeckScript&gt; CPUScript::tableDeck1Sc</definition>
+        <argsstring></argsstring>
+        <name>tableDeck1Sc</name>
+        <qualifiedname>CPUScript::tableDeck1Sc</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/CPUScript.h" line="31" column="18" bodyfile="Script/include/CPUScript.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_c_p_u_script_1a6fc0dcb9236c1a1b67ac471f938e265a" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="class_table_deck_script" kindref="compound">TableDeckScript</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;TableDeckScript&gt; CPUScript::tableDeck2Sc</definition>
+        <argsstring></argsstring>
+        <name>tableDeck2Sc</name>
+        <qualifiedname>CPUScript::tableDeck2Sc</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/CPUScript.h" line="32" column="18" bodyfile="Script/include/CPUScript.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_c_p_u_script_1a61167acff969f3aee7b3f5e5819b76b6" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="class_place_card_u_i_script" kindref="compound">PlaceCardUIScript</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;PlaceCardUIScript&gt; CPUScript::placeCardUISc</definition>
+        <argsstring></argsstring>
+        <name>placeCardUISc</name>
+        <qualifiedname>CPUScript::placeCardUISc</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/CPUScript.h" line="34" column="18" bodyfile="Script/include/CPUScript.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_c_p_u_script_1afeea3fe434581fba98cf5507fc4fd5a3" prot="private" static="no" mutable="no">
+        <type>shared_ptr&lt; <ref refid="class_game_manager_script" kindref="compound">GameManagerScript</ref> &gt;</type>
+        <definition>shared_ptr&lt;GameManagerScript&gt; CPUScript::gameM</definition>
+        <argsstring></argsstring>
+        <name>gameM</name>
+        <qualifiedname>CPUScript::gameM</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/CPUScript.h" line="36" column="12" bodyfile="Script/include/CPUScript.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_c_p_u_script_1a0811aaeade341e598f5ed3f0b2238112" prot="private" static="no" mutable="no">
+        <type>Material</type>
+        <definition>Material CPUScript::mat</definition>
+        <argsstring></argsstring>
+        <name>mat</name>
+        <qualifiedname>CPUScript::mat</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/CPUScript.h" line="39" column="10" bodyfile="Script/include/CPUScript.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_c_p_u_script_1ab294eac518b5899f1f9c6cfe26747113" prot="private" static="no" mutable="no">
+        <type>float</type>
+        <definition>float CPUScript::thinkInterval1</definition>
+        <argsstring></argsstring>
+        <name>thinkInterval1</name>
+        <qualifiedname>CPUScript::thinkInterval1</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/CPUScript.h" line="41" column="7" bodyfile="Script/include/CPUScript.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_c_p_u_script_1a7563bbe0d5dbb05b7a141efde2b7341f" prot="private" static="no" mutable="no">
+        <type>float</type>
+        <definition>float CPUScript::thinkInterval2</definition>
+        <argsstring></argsstring>
+        <name>thinkInterval2</name>
+        <qualifiedname>CPUScript::thinkInterval2</qualifiedname>
+        <initializer>= 4</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/CPUScript.h" line="42" column="7" bodyfile="Script/include/CPUScript.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_c_p_u_script_1ad0dc268a073edb9fbafddc7d75ba5f51" prot="private" static="no" mutable="no">
+        <type>float</type>
+        <definition>float CPUScript::collapsedTime</definition>
+        <argsstring></argsstring>
+        <name>collapsedTime</name>
+        <qualifiedname>CPUScript::collapsedTime</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/CPUScript.h" line="44" column="7" bodyfile="Script/include/CPUScript.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_c_p_u_script_1a342f5134dc4f9e87f9b55f29a59ff203" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>CPUScript::CPUScript</definition>
+        <argsstring>(std::shared_ptr&lt; Entity &gt; ent)</argsstring>
+        <name>CPUScript</name>
+        <qualifiedname>CPUScript::CPUScript</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; Entity &gt;</type>
+          <declname>ent</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/CPUScript.h" line="19" column="1" bodyfile="Script/src/CPUScript.cpp" bodystart="7" bodyend="9"/>
+      </memberdef>
+      <memberdef kind="function" id="class_c_p_u_script_1a2b291609953de401cd4fa4d2e0bfcecf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>CPUScript::~CPUScript</definition>
+        <argsstring>()</argsstring>
+        <name>~CPUScript</name>
+        <qualifiedname>CPUScript::~CPUScript</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/CPUScript.h" line="21" column="1" bodyfile="Script/src/CPUScript.cpp" bodystart="11" bodyend="13"/>
+      </memberdef>
+      <memberdef kind="function" id="class_c_p_u_script_1a4fbd571c982adf6da7f8dc767e4e15e8" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void CPUScript::OnStart</definition>
+        <argsstring>() override</argsstring>
+        <name>OnStart</name>
+        <qualifiedname>CPUScript::OnStart</qualifiedname>
+        <reimplements refid="class_script_component_1a74c66e170fed1beca9d8d0ff3e97d647">OnStart</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/CPUScript.h" line="23" column="6" bodyfile="Script/src/CPUScript.cpp" bodystart="15" bodyend="27"/>
+      </memberdef>
+      <memberdef kind="function" id="class_c_p_u_script_1aa98b62ad6b36ca4fc67732e5703f3b87" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void CPUScript::OnUpdate</definition>
+        <argsstring>() override</argsstring>
+        <name>OnUpdate</name>
+        <qualifiedname>CPUScript::OnUpdate</qualifiedname>
+        <reimplements refid="class_script_component_1afffbd9e1537019a46798299fced10d09">OnUpdate</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/CPUScript.h" line="25" column="6" bodyfile="Script/src/CPUScript.cpp" bodystart="29" bodyend="66"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>CPUScript</label>
+        <link refid="class_c_p_u_script"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>Component</label>
+        <link refid="class_component"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>ScriptComponent</label>
+        <link refid="class_script_component"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>std::enable_shared_from_this&lt; Component &gt;</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>CPUScript</label>
+        <link refid="class_c_p_u_script"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>Component</label>
+        <link refid="class_component"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>ScriptComponent</label>
+        <link refid="class_script_component"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>std::enable_shared_from_this&lt; Component &gt;</label>
+      </node>
+    </collaborationgraph>
+    <location file="Script/include/CPUScript.h" line="16" column="1" bodyfile="Script/include/CPUScript.h" bodystart="17" bodyend="45"/>
+    <listofallmembers>
+      <member refid="class_component_1a61954f08c177e4c1ebb17cf8fd3aa56f" prot="public" virt="non-virtual"><scope>CPUScript</scope><name>attachFrom</name></member>
+      <member refid="class_script_component_1a96e27fa6ec29b4a3fb7a8032d5a27aad" prot="protected" virt="non-virtual"><scope>CPUScript</scope><name>camera</name></member>
+      <member refid="class_component_1a120d65094802a621c8d804a964cafa9c" prot="public" virt="non-virtual"><scope>CPUScript</scope><name>Cast</name></member>
+      <member refid="class_c_p_u_script_1ada90e2e5cfd0ac6604748923ed53c175" prot="private" virt="non-virtual"><scope>CPUScript</scope><name>cDeckSc</name></member>
+      <member refid="class_c_p_u_script_1a018998fd2cd5db9e246e2ad8927cbc1d" prot="private" virt="non-virtual"><scope>CPUScript</scope><name>cHandSc</name></member>
+      <member refid="class_c_p_u_script_1ad0dc268a073edb9fbafddc7d75ba5f51" prot="private" virt="non-virtual"><scope>CPUScript</scope><name>collapsedTime</name></member>
+      <member refid="class_component_1a5cba85e33b188bf87ee09f353d7b2fa5" prot="public" virt="non-virtual"><scope>CPUScript</scope><name>Component</name></member>
+      <member refid="class_c_p_u_script_1a342f5134dc4f9e87f9b55f29a59ff203" prot="public" virt="non-virtual"><scope>CPUScript</scope><name>CPUScript</name></member>
+      <member refid="class_c_p_u_script_1afeea3fe434581fba98cf5507fc4fd5a3" prot="private" virt="non-virtual"><scope>CPUScript</scope><name>gameM</name></member>
+      <member refid="class_component_1a22ed217d642f4566a47c874ac9a63eab" prot="public" virt="virtual"><scope>CPUScript</scope><name>GetComponentName</name></member>
+      <member refid="class_component_1a2a9968090dabad782f2bbdaf0093be84" prot="public" virt="non-virtual"><scope>CPUScript</scope><name>GetHash</name></member>
+      <member refid="class_component_1ac0ee67584bdd569c2809495a5843612b" prot="public" virt="non-virtual"><scope>CPUScript</scope><name>GetLeafIndex</name></member>
+      <member refid="class_component_1a1b25ee28c379d9f0d0c1ecc0df1e6328" prot="public" virt="non-virtual"><scope>CPUScript</scope><name>GetTreeIndex</name></member>
+      <member refid="class_script_component_1a2027d87a56d690a2a198d6e15c57f907" prot="public" virt="virtual"><scope>CPUScript</scope><name>Init</name></member>
+      <member refid="class_c_p_u_script_1a0811aaeade341e598f5ed3f0b2238112" prot="private" virt="non-virtual"><scope>CPUScript</scope><name>mat</name></member>
+      <member refid="class_script_component_1a883990ab3b0eb3ed62c8bc85fd4f596d" prot="protected" virt="non-virtual"><scope>CPUScript</scope><name>meshLoader</name></member>
+      <member refid="class_script_component_1aaef3daf7c260c21efa8fd9cde4e5a4a7" prot="public" virt="virtual"><scope>CPUScript</scope><name>OnDestroy</name></member>
+      <member refid="class_script_component_1af30cc5777fe0db148c0f46deffbfa995" prot="public" virt="virtual"><scope>CPUScript</scope><name>OnFixedUpdate</name></member>
+      <member refid="class_script_component_1ad9b2758d768994bc36a42e328157047c" prot="public" virt="virtual"><scope>CPUScript</scope><name>OnMousePointerClick</name></member>
+      <member refid="class_script_component_1a43fad9a126b4df10d450ebda1b0eb958" prot="public" virt="virtual"><scope>CPUScript</scope><name>OnMousePointerIn</name></member>
+      <member refid="class_script_component_1a594aa67f58cfe5dd2e9f9920cfdfcb08" prot="public" virt="virtual"><scope>CPUScript</scope><name>OnMousePointerOn</name></member>
+      <member refid="class_script_component_1a684ce3d22fb83d9ade9db726afb0ca28" prot="public" virt="virtual"><scope>CPUScript</scope><name>OnMousePointerOut</name></member>
+      <member refid="class_script_component_1a3f3a0bbc66f3809a353ae16ff0380a1e" prot="public" virt="virtual"><scope>CPUScript</scope><name>OnRayCast</name></member>
+      <member refid="class_c_p_u_script_1a4fbd571c982adf6da7f8dc767e4e15e8" prot="public" virt="virtual"><scope>CPUScript</scope><name>OnStart</name></member>
+      <member refid="class_c_p_u_script_1aa98b62ad6b36ca4fc67732e5703f3b87" prot="public" virt="virtual"><scope>CPUScript</scope><name>OnUpdate</name></member>
+      <member refid="class_c_p_u_script_1a61167acff969f3aee7b3f5e5819b76b6" prot="private" virt="non-virtual"><scope>CPUScript</scope><name>placeCardUISc</name></member>
+      <member refid="class_script_component_1a6d517b821cb2239397c4bc9df8935df1" prot="protected" virt="non-virtual"><scope>CPUScript</scope><name>sceneManager</name></member>
+      <member refid="class_script_component_1a79c3ecd7f476197899c2b41279a40843" prot="protected" virt="non-virtual"><scope>CPUScript</scope><name>ScriptComponent</name></member>
+      <member refid="class_component_1a053713eb8c3c356263a588fc398da49f" prot="public" virt="non-virtual"><scope>CPUScript</scope><name>SetHash</name></member>
+      <member refid="class_component_1a93263d6a4c7a133ad05f8b754463d81a" prot="public" virt="non-virtual"><scope>CPUScript</scope><name>SetIndex</name></member>
+      <member refid="class_script_component_1a85aa9f3caec7cadbad5bade77d1a497b" prot="protected" virt="non-virtual"><scope>CPUScript</scope><name>systemManager</name></member>
+      <member refid="class_c_p_u_script_1a161069c30cbb9e158df242b844820f76" prot="private" virt="non-virtual"><scope>CPUScript</scope><name>tableDeck1Sc</name></member>
+      <member refid="class_c_p_u_script_1a6fc0dcb9236c1a1b67ac471f938e265a" prot="private" virt="non-virtual"><scope>CPUScript</scope><name>tableDeck2Sc</name></member>
+      <member refid="class_script_component_1a8da06cfeede85f5294be061a45d78885" prot="protected" virt="non-virtual"><scope>CPUScript</scope><name>textureLoader</name></member>
+      <member refid="class_c_p_u_script_1ab294eac518b5899f1f9c6cfe26747113" prot="private" virt="non-virtual"><scope>CPUScript</scope><name>thinkInterval1</name></member>
+      <member refid="class_c_p_u_script_1a7563bbe0d5dbb05b7a141efde2b7341f" prot="private" virt="non-virtual"><scope>CPUScript</scope><name>thinkInterval2</name></member>
+      <member refid="class_script_component_1a2dfacd191e367be8e1e667ece474b860" prot="protected" virt="non-virtual"><scope>CPUScript</scope><name>tweenSystem</name></member>
+      <member refid="class_component_1ab8378fa275af98e568a7e91d33d867af" prot="public" virt="virtual"><scope>CPUScript</scope><name>~Component</name></member>
+      <member refid="class_c_p_u_script_1a2b291609953de401cd4fa4d2e0bfcecf" prot="public" virt="non-virtual"><scope>CPUScript</scope><name>~CPUScript</name></member>
+      <member refid="class_script_component_1a6c266c364bf21d0dddb6d7639500a077" prot="public" virt="virtual"><scope>CPUScript</scope><name>~ScriptComponent</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

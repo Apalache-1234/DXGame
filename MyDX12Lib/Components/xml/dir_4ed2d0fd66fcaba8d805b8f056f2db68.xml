@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="dir_4ed2d0fd66fcaba8d805b8f056f2db68" kind="dir">
+    <compoundname>src/PostEffect</compoundname>
+    <innerfile refid="_p_e_edge_filter_8cpp">PEEdgeFilter.cpp</innerfile>
+    <innerfile refid="_p_e_horizon_gaussian_blur_8cpp">PEHorizonGaussianBlur.cpp</innerfile>
+    <innerfile refid="_p_e_mosaic_filter_8cpp">PEMosaicFilter.cpp</innerfile>
+    <innerfile refid="_p_e_noise_filter_8cpp">PENoiseFilter.cpp</innerfile>
+    <innerfile refid="_p_e_radical_blur_8cpp">PERadicalBlur.cpp</innerfile>
+    <innerfile refid="_p_e_vertical_gaussian_blur_8cpp">PEVerticalGaussianBlur.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/PostEffect/"/>
+  </compounddef>
+</doxygen>

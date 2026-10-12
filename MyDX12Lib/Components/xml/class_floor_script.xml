@@ -1,0 +1,187 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="class_floor_script" kind="class" language="C++" prot="public">
+    <compoundname>FloorScript</compoundname>
+    <basecompoundref refid="class_script_component" prot="public" virt="non-virtual">ScriptComponent</basecompoundref>
+    <includes refid="_floor_script_8h" local="no">FloorScript.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_floor_script_1a6f972df1e0f4a5eb9144b7ed5068d439" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="class_skinned_renderer" kindref="compound">SkinnedRenderer</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;SkinnedRenderer&gt; FloorScript::sRend</definition>
+        <argsstring></argsstring>
+        <name>sRend</name>
+        <qualifiedname>FloorScript::sRend</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/FloorScript.h" line="23" column="17" bodyfile="Script/include/FloorScript.h" bodystart="23" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_floor_script_1a3330f9c6dbc3151b55b7f852189245e3" prot="private" static="no" mutable="no">
+        <type>Material</type>
+        <definition>Material FloorScript::mat</definition>
+        <argsstring></argsstring>
+        <name>mat</name>
+        <qualifiedname>FloorScript::mat</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/FloorScript.h" line="25" column="10" bodyfile="Script/include/FloorScript.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_floor_script_1a7e691fb9ee4e9b7c0eeff908e1e2c562" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>FloorScript::FloorScript</definition>
+        <argsstring>(std::shared_ptr&lt; Entity &gt; ent)</argsstring>
+        <name>FloorScript</name>
+        <qualifiedname>FloorScript::FloorScript</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; Entity &gt;</type>
+          <declname>ent</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/FloorScript.h" line="14" column="1" bodyfile="Script/src/FloorScript.cpp" bodystart="6" bodyend="8"/>
+      </memberdef>
+      <memberdef kind="function" id="class_floor_script_1ae04c2088e095bfb7872d723bae1643cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>FloorScript::~FloorScript</definition>
+        <argsstring>()</argsstring>
+        <name>~FloorScript</name>
+        <qualifiedname>FloorScript::~FloorScript</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/FloorScript.h" line="16" column="1" bodyfile="Script/src/FloorScript.cpp" bodystart="10" bodyend="12"/>
+      </memberdef>
+      <memberdef kind="function" id="class_floor_script_1aa103b9b016c1b03ff9661b291edc9408" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void FloorScript::OnStart</definition>
+        <argsstring>() override</argsstring>
+        <name>OnStart</name>
+        <qualifiedname>FloorScript::OnStart</qualifiedname>
+        <reimplements refid="class_script_component_1a74c66e170fed1beca9d8d0ff3e97d647">OnStart</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/FloorScript.h" line="18" column="6" bodyfile="Script/src/FloorScript.cpp" bodystart="14" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="class_floor_script_1a29199aa0a35fd4f6fc1514f044d94f6e" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void FloorScript::OnUpdate</definition>
+        <argsstring>() override</argsstring>
+        <name>OnUpdate</name>
+        <qualifiedname>FloorScript::OnUpdate</qualifiedname>
+        <reimplements refid="class_script_component_1afffbd9e1537019a46798299fced10d09">OnUpdate</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/FloorScript.h" line="20" column="6" bodyfile="Script/src/FloorScript.cpp" bodystart="45" bodyend="64"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>Component</label>
+        <link refid="class_component"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>FloorScript</label>
+        <link refid="class_floor_script"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>ScriptComponent</label>
+        <link refid="class_script_component"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>std::enable_shared_from_this&lt; Component &gt;</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>Component</label>
+        <link refid="class_component"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>FloorScript</label>
+        <link refid="class_floor_script"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>ScriptComponent</label>
+        <link refid="class_script_component"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>std::enable_shared_from_this&lt; Component &gt;</label>
+      </node>
+    </collaborationgraph>
+    <location file="Script/include/FloorScript.h" line="11" column="1" bodyfile="Script/include/FloorScript.h" bodystart="12" bodyend="26"/>
+    <listofallmembers>
+      <member refid="class_component_1a61954f08c177e4c1ebb17cf8fd3aa56f" prot="public" virt="non-virtual"><scope>FloorScript</scope><name>attachFrom</name></member>
+      <member refid="class_script_component_1a96e27fa6ec29b4a3fb7a8032d5a27aad" prot="protected" virt="non-virtual"><scope>FloorScript</scope><name>camera</name></member>
+      <member refid="class_component_1a120d65094802a621c8d804a964cafa9c" prot="public" virt="non-virtual"><scope>FloorScript</scope><name>Cast</name></member>
+      <member refid="class_component_1a5cba85e33b188bf87ee09f353d7b2fa5" prot="public" virt="non-virtual"><scope>FloorScript</scope><name>Component</name></member>
+      <member refid="class_floor_script_1a7e691fb9ee4e9b7c0eeff908e1e2c562" prot="public" virt="non-virtual"><scope>FloorScript</scope><name>FloorScript</name></member>
+      <member refid="class_component_1a22ed217d642f4566a47c874ac9a63eab" prot="public" virt="virtual"><scope>FloorScript</scope><name>GetComponentName</name></member>
+      <member refid="class_component_1a2a9968090dabad782f2bbdaf0093be84" prot="public" virt="non-virtual"><scope>FloorScript</scope><name>GetHash</name></member>
+      <member refid="class_component_1ac0ee67584bdd569c2809495a5843612b" prot="public" virt="non-virtual"><scope>FloorScript</scope><name>GetLeafIndex</name></member>
+      <member refid="class_component_1a1b25ee28c379d9f0d0c1ecc0df1e6328" prot="public" virt="non-virtual"><scope>FloorScript</scope><name>GetTreeIndex</name></member>
+      <member refid="class_script_component_1a2027d87a56d690a2a198d6e15c57f907" prot="public" virt="virtual"><scope>FloorScript</scope><name>Init</name></member>
+      <member refid="class_floor_script_1a3330f9c6dbc3151b55b7f852189245e3" prot="private" virt="non-virtual"><scope>FloorScript</scope><name>mat</name></member>
+      <member refid="class_script_component_1a883990ab3b0eb3ed62c8bc85fd4f596d" prot="protected" virt="non-virtual"><scope>FloorScript</scope><name>meshLoader</name></member>
+      <member refid="class_script_component_1aaef3daf7c260c21efa8fd9cde4e5a4a7" prot="public" virt="virtual"><scope>FloorScript</scope><name>OnDestroy</name></member>
+      <member refid="class_script_component_1af30cc5777fe0db148c0f46deffbfa995" prot="public" virt="virtual"><scope>FloorScript</scope><name>OnFixedUpdate</name></member>
+      <member refid="class_script_component_1ad9b2758d768994bc36a42e328157047c" prot="public" virt="virtual"><scope>FloorScript</scope><name>OnMousePointerClick</name></member>
+      <member refid="class_script_component_1a43fad9a126b4df10d450ebda1b0eb958" prot="public" virt="virtual"><scope>FloorScript</scope><name>OnMousePointerIn</name></member>
+      <member refid="class_script_component_1a594aa67f58cfe5dd2e9f9920cfdfcb08" prot="public" virt="virtual"><scope>FloorScript</scope><name>OnMousePointerOn</name></member>
+      <member refid="class_script_component_1a684ce3d22fb83d9ade9db726afb0ca28" prot="public" virt="virtual"><scope>FloorScript</scope><name>OnMousePointerOut</name></member>
+      <member refid="class_script_component_1a3f3a0bbc66f3809a353ae16ff0380a1e" prot="public" virt="virtual"><scope>FloorScript</scope><name>OnRayCast</name></member>
+      <member refid="class_floor_script_1aa103b9b016c1b03ff9661b291edc9408" prot="public" virt="virtual"><scope>FloorScript</scope><name>OnStart</name></member>
+      <member refid="class_floor_script_1a29199aa0a35fd4f6fc1514f044d94f6e" prot="public" virt="virtual"><scope>FloorScript</scope><name>OnUpdate</name></member>
+      <member refid="class_script_component_1a6d517b821cb2239397c4bc9df8935df1" prot="protected" virt="non-virtual"><scope>FloorScript</scope><name>sceneManager</name></member>
+      <member refid="class_script_component_1a79c3ecd7f476197899c2b41279a40843" prot="protected" virt="non-virtual"><scope>FloorScript</scope><name>ScriptComponent</name></member>
+      <member refid="class_component_1a053713eb8c3c356263a588fc398da49f" prot="public" virt="non-virtual"><scope>FloorScript</scope><name>SetHash</name></member>
+      <member refid="class_component_1a93263d6a4c7a133ad05f8b754463d81a" prot="public" virt="non-virtual"><scope>FloorScript</scope><name>SetIndex</name></member>
+      <member refid="class_floor_script_1a6f972df1e0f4a5eb9144b7ed5068d439" prot="private" virt="non-virtual"><scope>FloorScript</scope><name>sRend</name></member>
+      <member refid="class_script_component_1a85aa9f3caec7cadbad5bade77d1a497b" prot="protected" virt="non-virtual"><scope>FloorScript</scope><name>systemManager</name></member>
+      <member refid="class_script_component_1a8da06cfeede85f5294be061a45d78885" prot="protected" virt="non-virtual"><scope>FloorScript</scope><name>textureLoader</name></member>
+      <member refid="class_script_component_1a2dfacd191e367be8e1e667ece474b860" prot="protected" virt="non-virtual"><scope>FloorScript</scope><name>tweenSystem</name></member>
+      <member refid="class_component_1ab8378fa275af98e568a7e91d33d867af" prot="public" virt="virtual"><scope>FloorScript</scope><name>~Component</name></member>
+      <member refid="class_floor_script_1ae04c2088e095bfb7872d723bae1643cd" prot="public" virt="non-virtual"><scope>FloorScript</scope><name>~FloorScript</name></member>
+      <member refid="class_script_component_1a6c266c364bf21d0dddb6d7639500a077" prot="public" virt="virtual"><scope>FloorScript</scope><name>~ScriptComponent</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

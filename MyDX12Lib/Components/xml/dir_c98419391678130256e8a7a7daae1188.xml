@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="dir_c98419391678130256e8a7a7daae1188" kind="dir">
+    <compoundname>Script/include</compoundname>
+    <innerfile refid="_card_script_8h">CardScript.h</innerfile>
+    <innerfile refid="_card_texture_script_8h">CardTextureScript.h</innerfile>
+    <innerfile refid="_c_p_u_script_8h">CPUScript.h</innerfile>
+    <innerfile refid="_deck_script_8h">DeckScript.h</innerfile>
+    <innerfile refid="_floor_script_8h">FloorScript.h</innerfile>
+    <innerfile refid="_game_end_script_8h">GameEndScript.h</innerfile>
+    <innerfile refid="_game_manager_script_8h">GameManagerScript.h</innerfile>
+    <innerfile refid="_game_starting_script_8h">GameStartingScript.h</innerfile>
+    <innerfile refid="_game_start_u_i_script_8h">GameStartUIScript.h</innerfile>
+    <innerfile refid="_hand_script_8h">HandScript.h</innerfile>
+    <innerfile refid="_place_card_u_i_script_8h">PlaceCardUIScript.h</innerfile>
+    <innerfile refid="_ready_u_i_script_8h">ReadyUIScript.h</innerfile>
+    <innerfile refid="_square_wipe_script_8h">SquareWipeScript.h</innerfile>
+    <innerfile refid="_table_and_chair_script_8h">TableAndChairScript.h</innerfile>
+    <innerfile refid="_table_deck_script_8h">TableDeckScript.h</innerfile>
+    <innerfile refid="_title_card_script_8h">TitleCardScript.h</innerfile>
+    <innerfile refid="_title_frame_script_8h">TitleFrameScript.h</innerfile>
+    <innerfile refid="_title_noise_script_8h">TitleNoiseScript.h</innerfile>
+    <innerfile refid="_title_spot_light_script_8h">TitleSpotLightScript.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="Script/include/"/>
+  </compounddef>
+</doxygen>

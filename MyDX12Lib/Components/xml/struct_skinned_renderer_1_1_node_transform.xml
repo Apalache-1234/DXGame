@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="struct_skinned_renderer_1_1_node_transform" kind="struct" language="C++" prot="private">
+    <compoundname>SkinnedRenderer::NodeTransform</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_skinned_renderer_1_1_node_transform_1a1cb5d6b4d93a56680891182b6e1cc786" prot="public" static="no" mutable="no">
+        <type>DirectX::XMMATRIX</type>
+        <definition>DirectX::XMMATRIX SkinnedRenderer::NodeTransform::transform</definition>
+        <argsstring></argsstring>
+        <name>transform</name>
+        <qualifiedname>SkinnedRenderer::NodeTransform::transform</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/SkinnedRenderer.h" line="47" column="19" bodyfile="include/SkinnedRenderer.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/SkinnedRenderer.h" line="45" column="1" bodyfile="include/SkinnedRenderer.h" bodystart="46" bodyend="48"/>
+    <listofallmembers>
+      <member refid="struct_skinned_renderer_1_1_node_transform_1a1cb5d6b4d93a56680891182b6e1cc786" prot="public" virt="non-virtual"><scope>SkinnedRenderer::NodeTransform</scope><name>transform</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

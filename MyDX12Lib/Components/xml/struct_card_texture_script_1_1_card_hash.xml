@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="struct_card_texture_script_1_1_card_hash" kind="struct" language="C++" prot="private">
+    <compoundname>CardTextureScript::CardHash</compoundname>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="struct_card_texture_script_1_1_card_hash_1a209b44dc38156945e7d5127b8a6e34fe" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t CardTextureScript::CardHash::operator()</definition>
+        <argsstring>(const DeckScript::Card &amp;k) const</argsstring>
+        <name>operator()</name>
+        <qualifiedname>CardTextureScript::CardHash::operator()</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_deck_script_1_1_card" kindref="compound">DeckScript::Card</ref> &amp;</type>
+          <declname>k</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/CardTextureScript.h" line="26" column="13" bodyfile="Script/include/CardTextureScript.h" bodystart="26" bodyend="28"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="Script/include/CardTextureScript.h" line="25" column="1" bodyfile="Script/include/CardTextureScript.h" bodystart="25" bodyend="29"/>
+    <listofallmembers>
+      <member refid="struct_card_texture_script_1_1_card_hash_1a209b44dc38156945e7d5127b8a6e34fe" prot="public" virt="non-virtual"><scope>CardTextureScript::CardHash</scope><name>operator()</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,174 @@
+#ifndef UTILITY_H
+#define UTILITY_H
+
+#include <iostream>
+#include <DirectXMath.h>
+#include <assimp/matrix4x4.h>
+#include <random>
+#include <Windows.h>
+#include <d3dx12.h>
+#include <DirectXMath.h>
+#include <json_fwd.hpp>
+#undef TRANSPARENT
+#undef GetClassName
+
+using namespace DirectX;
+using namespace Microsoft::WRL;
+
+namespace Utility
+{
+    enum class SaveVecNum
+    {
+        Double = 2,
+        Triple,
+        Quad
+    };
+
+    inline const DirectX::XMVECTOR zero3D = DirectX::XMVectorSet(0, 0, 0, 0);
+
+    inline const DirectX::XMVECTOR up = DirectX::XMVectorSet(0, 1, 0, 0);
+    inline const DirectX::XMVECTOR down = DirectX::XMVectorSet(0, -1, 0, 0);
+    inline const DirectX::XMVECTOR right = DirectX::XMVectorSet(1, 0, 0, 0);
+    inline const DirectX::XMVECTOR left = DirectX::XMVectorSet(-1, 0, 0, 0);
+    inline const DirectX::XMVECTOR forward = DirectX::XMVectorSet(0, 0, 1, 0);
+    inline const DirectX::XMVECTOR backward = DirectX::XMVectorSet(0, 0, -1, 0);
+
+    inline constexpr float ep = 1e-3f;
+
+    inline constexpr float PI = 3.14;
+
+    DirectX::XMMATRIX ConvertAiMatrix4x4ToXMMATRIX(aiMatrix4x4 mat);
+
+    /// <summary>
+    /// ベクトルをJsonに書き込む
+    /// </summary>
+    /// <param name="name">そのベクトルに名付けたい名前</param>
+    /// <param name="vec">ベクトル</param>
+    /// <param name="vecNum">保存したいベクトルの値の数</param>
+    /// <returns>書き込まれた後のjsonを返す</returns>
+    nlohmann::json SaveVectorToJson(nlohmann::json& json , std::string_view name , DirectX::XMVECTOR vec , SaveVecNum vecNum = SaveVecNum::Triple);
+    nlohmann::json SaveVectorToJson(nlohmann::json& json , std::string_view name , DirectX::XMFLOAT2 vec);
+    nlohmann::json SaveVectorToJson(nlohmann::json& json , std::string_view name , DirectX::XMFLOAT3 vec);
+    nlohmann::json SaveVectorToJson(nlohmann::json& json , std::string_view name , DirectX::XMFLOAT4 vec);
+
+    /// <summary>
+    /// 読み込んだJsonのベクトルを返す
+    /// </summary>
+    /// <param name="name">そのベクトルに名付けた名前</param>
+    /// <param name="vecNum">保存したいベクトルの値の数</param>
+    /// <returns>指定のJsonのベクトル</returns>
+    DirectX::XMVECTOR LoadJsonToVec(const nlohmann::json& json, std::string_view name, SaveVecNum vecNum = SaveVecNum::Triple);
+
+    DirectX::XMFLOAT2 LoadJsonToFloat2(const nlohmann::json& json, std::string_view name);
+
+    DirectX::XMFLOAT3 LoadJsonToFloat3(const nlohmann::json& json, std::string_view name);
+
+    DirectX::XMFLOAT4 LoadJsonToFloat4(const nlohmann::json& json, std::string_view name);
+
+    int GetRandomInt(int min, int max);
+
+    void Debug(const std::string text);
+
+    void Debug(const DirectX::XMVECTOR xm);
+
+    void Debug(const DirectX::XMFLOAT3 xm);
+
+    void Debug(const DirectX::XMMATRIX xm);
+
+    UINT Align256(UINT size);
+
+    DirectX::XMMATRIX CreateTransMat(const DirectX::XMVECTOR xm1, const DirectX::XMVECTOR xm2, const DirectX::XMVECTOR xm3);
+
+    DirectX::XMVECTOR GetZYXMultiplyQuaternion(DirectX::XMVECTOR x, DirectX::XMVECTOR y , DirectX::XMVECTOR z);
+}
+
+struct alignas(256) Transform
+{
+    //ワールド変換行列
+    DirectX::XMMATRIX world;
+
+    //ビュー行列
+    DirectX::XMMATRIX view;
+
+    //投影行列
+    DirectX::XMMATRIX projection;
+
+    //メッシュに適用する色
+    DirectX::XMFLOAT4 color;
+};
+
+struct alignas(256) LightInfo
+{
+    DirectX::XMFLOAT3 ambientLightColor;
+
+    float padding1;
+
+    XMFLOAT4 DirectionalLightNum;
+
+    XMFLOAT4 PointLightNum;
+
+    XMFLOAT4 SpotLightNum;
+
+    XMVECTOR cameraPos;
+
+    float cascadeShadowCount;
+
+    XMFLOAT3 padding2;
+
+    XMFLOAT3 cascadeShadowDist;
+
+    float padding3;
+
+    XMFLOAT3 fogColor;
+
+    float padding4;
+
+    float fogRange;
+
+    XMFLOAT3 padding5;
+
+    float fogFlag;
+
+    XMFLOAT3 padding6;
+};
+
+struct alignas(256) TimeInfo
+{
+    float GameTime = 0;
+
+    DirectX::XMFLOAT3 padding1;
+
+    float GameDeltaTime = 0;
+
+    DirectX::XMFLOAT3 padding2;
+
+    float RealTime = 0;
+
+    DirectX::XMFLOAT3 padding3;
+
+    float RealDeltaTime = 0;
+
+    DirectX::XMFLOAT3 padding4;
+};
+
+enum class SamplerType
+{
+    DEFAULT,
+    SHADOW_MAP
+};
+
+struct Material
+{
+    DirectX::XMFLOAT3 DIFFUSE = DirectX::XMFLOAT3(1,1,1);
+    DirectX::XMFLOAT3 SPECULAR = DirectX::XMFLOAT3(1, 1, 1);
+    DirectX::XMFLOAT3 AMBIENT = DirectX::XMFLOAT3(1, 1, 1);
+    DirectX::XMFLOAT3 REFLECTIVE = DirectX::XMFLOAT3(1, 1, 1);
+    float REFLECTIVE_POW = 100;
+    DirectX::XMFLOAT3 TRANSPARENT = DirectX::XMFLOAT3(1, 1, 1);
+    DirectX::XMFLOAT3 EMISSIVE = DirectX::XMFLOAT3(1, 1, 1);
+    DirectX::XMFLOAT2 UVPOS = XMFLOAT2(0,0);
+    DirectX::XMFLOAT2 UVSCALE = XMFLOAT2(1, 1);
+    DirectX::XMFLOAT4 TEXELSIZE = XMFLOAT4(123, 123, 123, 123);
+};
+
+#endif

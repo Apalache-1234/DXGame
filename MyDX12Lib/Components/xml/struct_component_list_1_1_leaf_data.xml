@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="struct_component_list_1_1_leaf_data" kind="struct" language="C++" prot="public">
+    <compoundname>ComponentList::LeafData</compoundname>
+    <includes refid="_component_list_8h" local="no">ComponentList.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_component_list_1_1_leaf_data_1a0bb43f7df31c1237a28a914179801009" prot="public" static="no" mutable="no">
+        <type>UINT32</type>
+        <definition>UINT32 ComponentList::LeafData::hash</definition>
+        <argsstring></argsstring>
+        <name>hash</name>
+        <qualifiedname>ComponentList::LeafData::hash</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ComponentList/include/ComponentList.h" line="170" column="16" bodyfile="ComponentList/include/ComponentList.h" bodystart="170" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_component_list_1_1_leaf_data_1ab156f832ee463851e57c0a4dfb7f4947" prot="public" static="no" mutable="no">
+        <type>INT32</type>
+        <definition>INT32 ComponentList::LeafData::parentIndex</definition>
+        <argsstring></argsstring>
+        <name>parentIndex</name>
+        <qualifiedname>ComponentList::LeafData::parentIndex</qualifiedname>
+        <initializer>= -1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ComponentList/include/ComponentList.h" line="171" column="15" bodyfile="ComponentList/include/ComponentList.h" bodystart="171" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="ComponentList/include/ComponentList.h" line="168" column="5" bodyfile="ComponentList/include/ComponentList.h" bodystart="169" bodyend="172"/>
+    <listofallmembers>
+      <member refid="struct_component_list_1_1_leaf_data_1a0bb43f7df31c1237a28a914179801009" prot="public" virt="non-virtual"><scope>ComponentList::LeafData</scope><name>hash</name></member>
+      <member refid="struct_component_list_1_1_leaf_data_1ab156f832ee463851e57c0a4dfb7f4947" prot="public" virt="non-virtual"><scope>ComponentList::LeafData</scope><name>parentIndex</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

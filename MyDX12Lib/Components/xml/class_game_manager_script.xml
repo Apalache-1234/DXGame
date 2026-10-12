@@ -1,0 +1,556 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="class_game_manager_script" kind="class" language="C++" prot="public">
+    <compoundname>GameManagerScript</compoundname>
+    <basecompoundref refid="class_script_component" prot="public" virt="non-virtual">ScriptComponent</basecompoundref>
+    <includes refid="_game_manager_script_8h" local="no">GameManagerScript.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="class_game_manager_script_1abd7a36ff2ee965ff09d34881f09932b6" prot="public" static="no" strong="no">
+        <type></type>
+        <name>RESULT</name>
+        <qualifiedname>GameManagerScript::RESULT</qualifiedname>
+        <enumvalue id="class_game_manager_script_1abd7a36ff2ee965ff09d34881f09932b6abe9d2fee726d5b522193ef6a3299e533" prot="public">
+          <name>PLAYER_W</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_game_manager_script_1abd7a36ff2ee965ff09d34881f09932b6a279ee1cc95ae64e1e1db936198e46ee8" prot="public">
+          <name>DRAW</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_game_manager_script_1abd7a36ff2ee965ff09d34881f09932b6a6d632f5b66f498b064a5494bc4a17633" prot="public">
+          <name>CPU_W</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_game_manager_script_1abd7a36ff2ee965ff09d34881f09932b6a2a5df105e51ba6d263452d59bb5c0246" prot="public">
+          <name>NOT_YET</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/GameManagerScript.h" line="22" column="1" bodyfile="Script/include/GameManagerScript.h" bodystart="23" bodyend="25"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_game_manager_script_1a68d025a03e663d3c504d3ae35e503da4" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool GameManagerScript::isSetupEnd</definition>
+        <argsstring></argsstring>
+        <name>isSetupEnd</name>
+        <qualifiedname>GameManagerScript::isSetupEnd</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/GameManagerScript.h" line="52" column="6" bodyfile="Script/include/GameManagerScript.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_game_manager_script_1a2f17bc9f366e26346331d5c57a7036e2" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool GameManagerScript::isGameFinished</definition>
+        <argsstring></argsstring>
+        <name>isGameFinished</name>
+        <qualifiedname>GameManagerScript::isGameFinished</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/GameManagerScript.h" line="53" column="6" bodyfile="Script/include/GameManagerScript.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_game_manager_script_1a0c307a61bf5ba6eb9312e2243e341faf" prot="private" static="no" mutable="no">
+        <type>float</type>
+        <definition>float GameManagerScript::startDrawTime</definition>
+        <argsstring></argsstring>
+        <name>startDrawTime</name>
+        <qualifiedname>GameManagerScript::startDrawTime</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/GameManagerScript.h" line="55" column="7" bodyfile="Script/include/GameManagerScript.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_game_manager_script_1ae418ca74e5ab4b2d907ceb0403b8c0bb" prot="private" static="no" mutable="no">
+        <type>const float</type>
+        <definition>const float GameManagerScript::drawInterval</definition>
+        <argsstring></argsstring>
+        <name>drawInterval</name>
+        <qualifiedname>GameManagerScript::drawInterval</qualifiedname>
+        <initializer>= 0.2f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/GameManagerScript.h" line="57" column="13" bodyfile="Script/include/GameManagerScript.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_game_manager_script_1a9aaa6425d8b9a72d4275059c6d4eb426" prot="private" static="no" mutable="no">
+        <type>UINT</type>
+        <definition>UINT GameManagerScript::drawNum</definition>
+        <argsstring></argsstring>
+        <name>drawNum</name>
+        <qualifiedname>GameManagerScript::drawNum</qualifiedname>
+        <initializer>= 7</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/GameManagerScript.h" line="59" column="6" bodyfile="Script/include/GameManagerScript.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_game_manager_script_1af7aa7df255dbc5ecdf7468b4f28cf4d6" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; Entity &gt;</type>
+        <definition>std::shared_ptr&lt;Entity&gt; GameManagerScript::selectCard</definition>
+        <argsstring></argsstring>
+        <name>selectCard</name>
+        <qualifiedname>GameManagerScript::selectCard</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/GameManagerScript.h" line="61" column="17" bodyfile="Script/include/GameManagerScript.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_game_manager_script_1a186c412e6b262994982286dabdaa8e9b" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="class_square_wipe_script" kindref="compound">SquareWipeScript</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;SquareWipeScript&gt; GameManagerScript::wipeSc</definition>
+        <argsstring></argsstring>
+        <name>wipeSc</name>
+        <qualifiedname>GameManagerScript::wipeSc</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/GameManagerScript.h" line="63" column="17" bodyfile="Script/include/GameManagerScript.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_game_manager_script_1a2d73cf9b2b6da36d712c7b63cd713ebf" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="class_hand_script" kindref="compound">HandScript</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;HandScript&gt; GameManagerScript::pHandSc</definition>
+        <argsstring></argsstring>
+        <name>pHandSc</name>
+        <qualifiedname>GameManagerScript::pHandSc</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/GameManagerScript.h" line="64" column="18" bodyfile="Script/include/GameManagerScript.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_game_manager_script_1a7c06402965285239516d5a49f1863e24" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="class_deck_script" kindref="compound">DeckScript</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;DeckScript&gt; GameManagerScript::pDeckSc</definition>
+        <argsstring></argsstring>
+        <name>pDeckSc</name>
+        <qualifiedname>GameManagerScript::pDeckSc</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/GameManagerScript.h" line="65" column="18" bodyfile="Script/include/GameManagerScript.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_game_manager_script_1a5f13070e88f5caf657a64b2faac6114c" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="class_hand_script" kindref="compound">HandScript</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;HandScript&gt; GameManagerScript::cHandSc</definition>
+        <argsstring></argsstring>
+        <name>cHandSc</name>
+        <qualifiedname>GameManagerScript::cHandSc</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/GameManagerScript.h" line="66" column="18" bodyfile="Script/include/GameManagerScript.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_game_manager_script_1a27523e1f54a358bf2b22d4e41929db4d" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="class_deck_script" kindref="compound">DeckScript</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;DeckScript&gt; GameManagerScript::cDeckSc</definition>
+        <argsstring></argsstring>
+        <name>cDeckSc</name>
+        <qualifiedname>GameManagerScript::cDeckSc</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/GameManagerScript.h" line="67" column="18" bodyfile="Script/include/GameManagerScript.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_game_manager_script_1a8aa80d2b1fc82ebcb8f6d8daaa0184ab" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="class_table_deck_script" kindref="compound">TableDeckScript</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;TableDeckScript&gt; GameManagerScript::tableDeck1Sc</definition>
+        <argsstring></argsstring>
+        <name>tableDeck1Sc</name>
+        <qualifiedname>GameManagerScript::tableDeck1Sc</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/GameManagerScript.h" line="68" column="18" bodyfile="Script/include/GameManagerScript.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_game_manager_script_1a8067e8305493fea62a6572319362ae75" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="class_table_deck_script" kindref="compound">TableDeckScript</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;TableDeckScript&gt; GameManagerScript::tableDeck2Sc</definition>
+        <argsstring></argsstring>
+        <name>tableDeck2Sc</name>
+        <qualifiedname>GameManagerScript::tableDeck2Sc</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/GameManagerScript.h" line="69" column="18" bodyfile="Script/include/GameManagerScript.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_game_manager_script_1afcb9aa60707b2acab30af67f4869eb0a" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="class_game_starting_script" kindref="compound">GameStartingScript</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;GameStartingScript&gt; GameManagerScript::gameStartingSc</definition>
+        <argsstring></argsstring>
+        <name>gameStartingSc</name>
+        <qualifiedname>GameManagerScript::gameStartingSc</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/GameManagerScript.h" line="71" column="17" bodyfile="Script/include/GameManagerScript.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_game_manager_script_1a23f3d0edc95b93b5debcac8a43b6697c" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="class_place_card_u_i_script" kindref="compound">PlaceCardUIScript</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;PlaceCardUIScript&gt; GameManagerScript::placeCardUISc</definition>
+        <argsstring></argsstring>
+        <name>placeCardUISc</name>
+        <qualifiedname>GameManagerScript::placeCardUISc</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/GameManagerScript.h" line="73" column="17" bodyfile="Script/include/GameManagerScript.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_game_manager_script_1af07eb1338414f467dd10631b7926552f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>GameManagerScript::GameManagerScript</definition>
+        <argsstring>(std::shared_ptr&lt; Entity &gt; ent)</argsstring>
+        <name>GameManagerScript</name>
+        <qualifiedname>GameManagerScript::GameManagerScript</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; Entity &gt;</type>
+          <declname>ent</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/GameManagerScript.h" line="27" column="1" bodyfile="Script/src/GameManagerScript.cpp" bodystart="9" bodyend="11"/>
+      </memberdef>
+      <memberdef kind="function" id="class_game_manager_script_1abbef5134ef40b1a800d299a5520f9cc1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>GameManagerScript::~GameManagerScript</definition>
+        <argsstring>()</argsstring>
+        <name>~GameManagerScript</name>
+        <qualifiedname>GameManagerScript::~GameManagerScript</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/GameManagerScript.h" line="29" column="1" bodyfile="Script/src/GameManagerScript.cpp" bodystart="13" bodyend="15"/>
+      </memberdef>
+      <memberdef kind="function" id="class_game_manager_script_1a531a2b0187da55c04f8b5e4d08bd5605" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void GameManagerScript::OnStart</definition>
+        <argsstring>() override</argsstring>
+        <name>OnStart</name>
+        <qualifiedname>GameManagerScript::OnStart</qualifiedname>
+        <reimplements refid="class_script_component_1a74c66e170fed1beca9d8d0ff3e97d647">OnStart</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/GameManagerScript.h" line="31" column="6" bodyfile="Script/src/GameManagerScript.cpp" bodystart="17" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="class_game_manager_script_1a84adfa99a8b060c844c7b22e89c281b2" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void GameManagerScript::OnUpdate</definition>
+        <argsstring>() override</argsstring>
+        <name>OnUpdate</name>
+        <qualifiedname>GameManagerScript::OnUpdate</qualifiedname>
+        <reimplements refid="class_script_component_1afffbd9e1537019a46798299fced10d09">OnUpdate</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/GameManagerScript.h" line="33" column="6" bodyfile="Script/src/GameManagerScript.cpp" bodystart="102" bodyend="220"/>
+      </memberdef>
+      <memberdef kind="function" id="class_game_manager_script_1a53bb821e02e106a850ad23e9c0b77226" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_deck_script_1_1_card" kindref="compound">DeckScript::Card</ref></type>
+        <definition>DeckScript::Card GameManagerScript::GetCurrentCard</definition>
+        <argsstring>()</argsstring>
+        <name>GetCurrentCard</name>
+        <qualifiedname>GameManagerScript::GetCurrentCard</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/GameManagerScript.h" line="35" column="18" bodyfile="Script/src/GameManagerScript.cpp" bodystart="233" bodyend="236"/>
+      </memberdef>
+      <memberdef kind="function" id="class_game_manager_script_1a3a8a411f7fb0bfe664e89a6acde76db2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_deck_script_1_1_card" kindref="compound">DeckScript::Card</ref></type>
+        <definition>DeckScript::Card GameManagerScript::DrawCurrentCard</definition>
+        <argsstring>()</argsstring>
+        <name>DrawCurrentCard</name>
+        <qualifiedname>GameManagerScript::DrawCurrentCard</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/GameManagerScript.h" line="37" column="18" bodyfile="Script/src/GameManagerScript.cpp" bodystart="222" bodyend="231"/>
+      </memberdef>
+      <memberdef kind="function" id="class_game_manager_script_1aff843485b5dfcf5eaf41f0a496ebda54" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>DirectX::XMVECTOR</type>
+        <definition>DirectX::XMVECTOR GameManagerScript::GetCurrectCardPos</definition>
+        <argsstring>()</argsstring>
+        <name>GetCurrectCardPos</name>
+        <qualifiedname>GameManagerScript::GetCurrectCardPos</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/GameManagerScript.h" line="39" column="19" bodyfile="Script/src/GameManagerScript.cpp" bodystart="44" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="class_game_manager_script_1a9af06f9d6c38cd0b2320344e1040f8a0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_game_manager_script_1abd7a36ff2ee965ff09d34881f09932b6" kindref="member">GameManagerScript::RESULT</ref></type>
+        <definition>GameManagerScript::RESULT GameManagerScript::CheckIsAllEmptyEachSide</definition>
+        <argsstring>()</argsstring>
+        <name>CheckIsAllEmptyEachSide</name>
+        <qualifiedname>GameManagerScript::CheckIsAllEmptyEachSide</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/GameManagerScript.h" line="41" column="27" bodyfile="Script/src/GameManagerScript.cpp" bodystart="90" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="class_game_manager_script_1ac35d0db6aa1108c4d8d4205e9eb46f21" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool GameManagerScript::GetIsGrabbedCard</definition>
+        <argsstring>()</argsstring>
+        <name>GetIsGrabbedCard</name>
+        <qualifiedname>GameManagerScript::GetIsGrabbedCard</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/GameManagerScript.h" line="43" column="6" bodyfile="Script/src/GameManagerScript.cpp" bodystart="238" bodyend="241"/>
+      </memberdef>
+      <memberdef kind="function" id="class_game_manager_script_1a99504a21654daf8ccb458fae6e50bcb1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool GameManagerScript::GetIsSetupEnd</definition>
+        <argsstring>()</argsstring>
+        <name>GetIsSetupEnd</name>
+        <qualifiedname>GameManagerScript::GetIsSetupEnd</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/GameManagerScript.h" line="45" column="6" bodyfile="Script/src/GameManagerScript.cpp" bodystart="85" bodyend="88"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="class_game_manager_script_1a3232cebc802180874dd0d7073d179f5e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void GameManagerScript::EndGame</definition>
+        <argsstring>()</argsstring>
+        <name>EndGame</name>
+        <qualifiedname>GameManagerScript::EndGame</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/GameManagerScript.h" line="48" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="class_game_manager_script_1a9b4da94b4013ffc96ac807551bffb745" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void GameManagerScript::PlaceCardsOnTableDecks</definition>
+        <argsstring>()</argsstring>
+        <name>PlaceCardsOnTableDecks</name>
+        <qualifiedname>GameManagerScript::PlaceCardsOnTableDecks</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/GameManagerScript.h" line="50" column="6" bodyfile="Script/src/GameManagerScript.cpp" bodystart="52" bodyend="83"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>Component</label>
+        <link refid="class_component"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>GameManagerScript</label>
+        <link refid="class_game_manager_script"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>ScriptComponent</label>
+        <link refid="class_script_component"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>std::enable_shared_from_this&lt; Component &gt;</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>Component</label>
+        <link refid="class_component"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>GameManagerScript</label>
+        <link refid="class_game_manager_script"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>ScriptComponent</label>
+        <link refid="class_script_component"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>std::enable_shared_from_this&lt; Component &gt;</label>
+      </node>
+    </collaborationgraph>
+    <location file="Script/include/GameManagerScript.h" line="19" column="1" bodyfile="Script/include/GameManagerScript.h" bodystart="20" bodyend="74"/>
+    <listofallmembers>
+      <member refid="class_component_1a61954f08c177e4c1ebb17cf8fd3aa56f" prot="public" virt="non-virtual"><scope>GameManagerScript</scope><name>attachFrom</name></member>
+      <member refid="class_script_component_1a96e27fa6ec29b4a3fb7a8032d5a27aad" prot="protected" virt="non-virtual"><scope>GameManagerScript</scope><name>camera</name></member>
+      <member refid="class_component_1a120d65094802a621c8d804a964cafa9c" prot="public" virt="non-virtual"><scope>GameManagerScript</scope><name>Cast</name></member>
+      <member refid="class_game_manager_script_1a27523e1f54a358bf2b22d4e41929db4d" prot="private" virt="non-virtual"><scope>GameManagerScript</scope><name>cDeckSc</name></member>
+      <member refid="class_game_manager_script_1a5f13070e88f5caf657a64b2faac6114c" prot="private" virt="non-virtual"><scope>GameManagerScript</scope><name>cHandSc</name></member>
+      <member refid="class_game_manager_script_1a9af06f9d6c38cd0b2320344e1040f8a0" prot="public" virt="non-virtual"><scope>GameManagerScript</scope><name>CheckIsAllEmptyEachSide</name></member>
+      <member refid="class_component_1a5cba85e33b188bf87ee09f353d7b2fa5" prot="public" virt="non-virtual"><scope>GameManagerScript</scope><name>Component</name></member>
+      <member refid="class_game_manager_script_1abd7a36ff2ee965ff09d34881f09932b6a6d632f5b66f498b064a5494bc4a17633" prot="public" virt="non-virtual"><scope>GameManagerScript</scope><name>CPU_W</name></member>
+      <member refid="class_game_manager_script_1abd7a36ff2ee965ff09d34881f09932b6a279ee1cc95ae64e1e1db936198e46ee8" prot="public" virt="non-virtual"><scope>GameManagerScript</scope><name>DRAW</name></member>
+      <member refid="class_game_manager_script_1a3a8a411f7fb0bfe664e89a6acde76db2" prot="public" virt="non-virtual"><scope>GameManagerScript</scope><name>DrawCurrentCard</name></member>
+      <member refid="class_game_manager_script_1ae418ca74e5ab4b2d907ceb0403b8c0bb" prot="private" virt="non-virtual"><scope>GameManagerScript</scope><name>drawInterval</name></member>
+      <member refid="class_game_manager_script_1a9aaa6425d8b9a72d4275059c6d4eb426" prot="private" virt="non-virtual"><scope>GameManagerScript</scope><name>drawNum</name></member>
+      <member refid="class_game_manager_script_1a3232cebc802180874dd0d7073d179f5e" prot="private" virt="non-virtual"><scope>GameManagerScript</scope><name>EndGame</name></member>
+      <member refid="class_game_manager_script_1af07eb1338414f467dd10631b7926552f" prot="public" virt="non-virtual"><scope>GameManagerScript</scope><name>GameManagerScript</name></member>
+      <member refid="class_game_manager_script_1afcb9aa60707b2acab30af67f4869eb0a" prot="private" virt="non-virtual"><scope>GameManagerScript</scope><name>gameStartingSc</name></member>
+      <member refid="class_component_1a22ed217d642f4566a47c874ac9a63eab" prot="public" virt="virtual"><scope>GameManagerScript</scope><name>GetComponentName</name></member>
+      <member refid="class_game_manager_script_1aff843485b5dfcf5eaf41f0a496ebda54" prot="public" virt="non-virtual"><scope>GameManagerScript</scope><name>GetCurrectCardPos</name></member>
+      <member refid="class_game_manager_script_1a53bb821e02e106a850ad23e9c0b77226" prot="public" virt="non-virtual"><scope>GameManagerScript</scope><name>GetCurrentCard</name></member>
+      <member refid="class_component_1a2a9968090dabad782f2bbdaf0093be84" prot="public" virt="non-virtual"><scope>GameManagerScript</scope><name>GetHash</name></member>
+      <member refid="class_game_manager_script_1ac35d0db6aa1108c4d8d4205e9eb46f21" prot="public" virt="non-virtual"><scope>GameManagerScript</scope><name>GetIsGrabbedCard</name></member>
+      <member refid="class_game_manager_script_1a99504a21654daf8ccb458fae6e50bcb1" prot="public" virt="non-virtual"><scope>GameManagerScript</scope><name>GetIsSetupEnd</name></member>
+      <member refid="class_component_1ac0ee67584bdd569c2809495a5843612b" prot="public" virt="non-virtual"><scope>GameManagerScript</scope><name>GetLeafIndex</name></member>
+      <member refid="class_component_1a1b25ee28c379d9f0d0c1ecc0df1e6328" prot="public" virt="non-virtual"><scope>GameManagerScript</scope><name>GetTreeIndex</name></member>
+      <member refid="class_script_component_1a2027d87a56d690a2a198d6e15c57f907" prot="public" virt="virtual"><scope>GameManagerScript</scope><name>Init</name></member>
+      <member refid="class_game_manager_script_1a2f17bc9f366e26346331d5c57a7036e2" prot="private" virt="non-virtual"><scope>GameManagerScript</scope><name>isGameFinished</name></member>
+      <member refid="class_game_manager_script_1a68d025a03e663d3c504d3ae35e503da4" prot="private" virt="non-virtual"><scope>GameManagerScript</scope><name>isSetupEnd</name></member>
+      <member refid="class_script_component_1a883990ab3b0eb3ed62c8bc85fd4f596d" prot="protected" virt="non-virtual"><scope>GameManagerScript</scope><name>meshLoader</name></member>
+      <member refid="class_game_manager_script_1abd7a36ff2ee965ff09d34881f09932b6a2a5df105e51ba6d263452d59bb5c0246" prot="public" virt="non-virtual"><scope>GameManagerScript</scope><name>NOT_YET</name></member>
+      <member refid="class_script_component_1aaef3daf7c260c21efa8fd9cde4e5a4a7" prot="public" virt="virtual"><scope>GameManagerScript</scope><name>OnDestroy</name></member>
+      <member refid="class_script_component_1af30cc5777fe0db148c0f46deffbfa995" prot="public" virt="virtual"><scope>GameManagerScript</scope><name>OnFixedUpdate</name></member>
+      <member refid="class_script_component_1ad9b2758d768994bc36a42e328157047c" prot="public" virt="virtual"><scope>GameManagerScript</scope><name>OnMousePointerClick</name></member>
+      <member refid="class_script_component_1a43fad9a126b4df10d450ebda1b0eb958" prot="public" virt="virtual"><scope>GameManagerScript</scope><name>OnMousePointerIn</name></member>
+      <member refid="class_script_component_1a594aa67f58cfe5dd2e9f9920cfdfcb08" prot="public" virt="virtual"><scope>GameManagerScript</scope><name>OnMousePointerOn</name></member>
+      <member refid="class_script_component_1a684ce3d22fb83d9ade9db726afb0ca28" prot="public" virt="virtual"><scope>GameManagerScript</scope><name>OnMousePointerOut</name></member>
+      <member refid="class_script_component_1a3f3a0bbc66f3809a353ae16ff0380a1e" prot="public" virt="virtual"><scope>GameManagerScript</scope><name>OnRayCast</name></member>
+      <member refid="class_game_manager_script_1a531a2b0187da55c04f8b5e4d08bd5605" prot="public" virt="virtual"><scope>GameManagerScript</scope><name>OnStart</name></member>
+      <member refid="class_game_manager_script_1a84adfa99a8b060c844c7b22e89c281b2" prot="public" virt="virtual"><scope>GameManagerScript</scope><name>OnUpdate</name></member>
+      <member refid="class_game_manager_script_1a7c06402965285239516d5a49f1863e24" prot="private" virt="non-virtual"><scope>GameManagerScript</scope><name>pDeckSc</name></member>
+      <member refid="class_game_manager_script_1a2d73cf9b2b6da36d712c7b63cd713ebf" prot="private" virt="non-virtual"><scope>GameManagerScript</scope><name>pHandSc</name></member>
+      <member refid="class_game_manager_script_1a9b4da94b4013ffc96ac807551bffb745" prot="private" virt="non-virtual"><scope>GameManagerScript</scope><name>PlaceCardsOnTableDecks</name></member>
+      <member refid="class_game_manager_script_1a23f3d0edc95b93b5debcac8a43b6697c" prot="private" virt="non-virtual"><scope>GameManagerScript</scope><name>placeCardUISc</name></member>
+      <member refid="class_game_manager_script_1abd7a36ff2ee965ff09d34881f09932b6abe9d2fee726d5b522193ef6a3299e533" prot="public" virt="non-virtual"><scope>GameManagerScript</scope><name>PLAYER_W</name></member>
+      <member refid="class_game_manager_script_1abd7a36ff2ee965ff09d34881f09932b6" prot="public" virt="non-virtual"><scope>GameManagerScript</scope><name>RESULT</name></member>
+      <member refid="class_script_component_1a6d517b821cb2239397c4bc9df8935df1" prot="protected" virt="non-virtual"><scope>GameManagerScript</scope><name>sceneManager</name></member>
+      <member refid="class_script_component_1a79c3ecd7f476197899c2b41279a40843" prot="protected" virt="non-virtual"><scope>GameManagerScript</scope><name>ScriptComponent</name></member>
+      <member refid="class_game_manager_script_1af7aa7df255dbc5ecdf7468b4f28cf4d6" prot="private" virt="non-virtual"><scope>GameManagerScript</scope><name>selectCard</name></member>
+      <member refid="class_component_1a053713eb8c3c356263a588fc398da49f" prot="public" virt="non-virtual"><scope>GameManagerScript</scope><name>SetHash</name></member>
+      <member refid="class_component_1a93263d6a4c7a133ad05f8b754463d81a" prot="public" virt="non-virtual"><scope>GameManagerScript</scope><name>SetIndex</name></member>
+      <member refid="class_game_manager_script_1a0c307a61bf5ba6eb9312e2243e341faf" prot="private" virt="non-virtual"><scope>GameManagerScript</scope><name>startDrawTime</name></member>
+      <member refid="class_script_component_1a85aa9f3caec7cadbad5bade77d1a497b" prot="protected" virt="non-virtual"><scope>GameManagerScript</scope><name>systemManager</name></member>
+      <member refid="class_game_manager_script_1a8aa80d2b1fc82ebcb8f6d8daaa0184ab" prot="private" virt="non-virtual"><scope>GameManagerScript</scope><name>tableDeck1Sc</name></member>
+      <member refid="class_game_manager_script_1a8067e8305493fea62a6572319362ae75" prot="private" virt="non-virtual"><scope>GameManagerScript</scope><name>tableDeck2Sc</name></member>
+      <member refid="class_script_component_1a8da06cfeede85f5294be061a45d78885" prot="protected" virt="non-virtual"><scope>GameManagerScript</scope><name>textureLoader</name></member>
+      <member refid="class_script_component_1a2dfacd191e367be8e1e667ece474b860" prot="protected" virt="non-virtual"><scope>GameManagerScript</scope><name>tweenSystem</name></member>
+      <member refid="class_game_manager_script_1a186c412e6b262994982286dabdaa8e9b" prot="private" virt="non-virtual"><scope>GameManagerScript</scope><name>wipeSc</name></member>
+      <member refid="class_component_1ab8378fa275af98e568a7e91d33d867af" prot="public" virt="virtual"><scope>GameManagerScript</scope><name>~Component</name></member>
+      <member refid="class_game_manager_script_1abbef5134ef40b1a800d299a5520f9cc1" prot="public" virt="non-virtual"><scope>GameManagerScript</scope><name>~GameManagerScript</name></member>
+      <member refid="class_script_component_1a6c266c364bf21d0dddb6d7639500a077" prot="public" virt="virtual"><scope>GameManagerScript</scope><name>~ScriptComponent</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

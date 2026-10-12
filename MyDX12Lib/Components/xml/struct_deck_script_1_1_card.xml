@@ -1,0 +1,105 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="struct_deck_script_1_1_card" kind="struct" language="C++" prot="public">
+    <compoundname>DeckScript::Card</compoundname>
+    <includes refid="_deck_script_8h" local="no">DeckScript.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_deck_script_1_1_card_1a29f54af988246d2d3fc28d3ba2dc5e63" prot="public" static="no" mutable="no">
+        <type><ref refid="class_deck_script_1a95819c2deca4f14ad7302c2598210a94" kindref="member">PATTERN</ref></type>
+        <definition>PATTERN DeckScript::Card::pat</definition>
+        <argsstring></argsstring>
+        <name>pat</name>
+        <qualifiedname>DeckScript::Card::pat</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/DeckScript.h" line="28" column="9" bodyfile="Script/include/DeckScript.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_deck_script_1_1_card_1a894415e0f6b200dbb31222886e64c800" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int DeckScript::Card::num</definition>
+        <argsstring></argsstring>
+        <name>num</name>
+        <qualifiedname>DeckScript::Card::num</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/DeckScript.h" line="30" column="5" bodyfile="Script/include/DeckScript.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="struct_deck_script_1_1_card_1abf91aae2f8e007265e12a20fa187ccd7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>DeckScript::Card::Card</definition>
+        <argsstring>(PATTERN pat, int num)</argsstring>
+        <name>Card</name>
+        <qualifiedname>DeckScript::Card::Card</qualifiedname>
+        <param>
+          <type><ref refid="class_deck_script_1a95819c2deca4f14ad7302c2598210a94" kindref="member">PATTERN</ref></type>
+          <declname>pat</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>num</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/DeckScript.h" line="32" column="1" bodyfile="Script/include/DeckScript.h" bodystart="32" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_deck_script_1_1_card_1af076ad55e2bd08dfe904fdb4633c750f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>DeckScript::Card::Card</definition>
+        <argsstring>()</argsstring>
+        <name>Card</name>
+        <qualifiedname>DeckScript::Card::Card</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/DeckScript.h" line="38" column="1" bodyfile="Script/include/DeckScript.h" bodystart="38" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_deck_script_1_1_card_1a71aa50b197f4a3c3263de20301530c58" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool DeckScript::Card::operator==</definition>
+        <argsstring>(const Card &amp;other) const</argsstring>
+        <name>operator==</name>
+        <qualifiedname>DeckScript::Card::operator==</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_deck_script_1_1_card_1abf91aae2f8e007265e12a20fa187ccd7" kindref="member">Card</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/DeckScript.h" line="44" column="6" bodyfile="Script/include/DeckScript.h" bodystart="44" bodyend="46"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="Script/include/DeckScript.h" line="26" column="1" bodyfile="Script/include/DeckScript.h" bodystart="27" bodyend="47"/>
+    <listofallmembers>
+      <member refid="struct_deck_script_1_1_card_1abf91aae2f8e007265e12a20fa187ccd7" prot="public" virt="non-virtual"><scope>DeckScript::Card</scope><name>Card</name></member>
+      <member refid="struct_deck_script_1_1_card_1af076ad55e2bd08dfe904fdb4633c750f" prot="public" virt="non-virtual"><scope>DeckScript::Card</scope><name>Card</name></member>
+      <member refid="struct_deck_script_1_1_card_1a894415e0f6b200dbb31222886e64c800" prot="public" virt="non-virtual"><scope>DeckScript::Card</scope><name>num</name></member>
+      <member refid="struct_deck_script_1_1_card_1a71aa50b197f4a3c3263de20301530c58" prot="public" virt="non-virtual"><scope>DeckScript::Card</scope><name>operator==</name></member>
+      <member refid="struct_deck_script_1_1_card_1a29f54af988246d2d3fc28d3ba2dc5e63" prot="public" virt="non-virtual"><scope>DeckScript::Card</scope><name>pat</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

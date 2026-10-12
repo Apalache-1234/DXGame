@@ -1,0 +1,539 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="_light_8h" kind="file" language="C++">
+    <compoundname>Light.h</compoundname>
+    <includes local="no">memory</includes>
+    <includes local="no">DirectXMath.h</includes>
+    <includes refid="_component_8h" local="yes">Component.h</includes>
+    <includedby refid="_directional_light_8h" local="yes">include/DirectionalLight.h</includedby>
+    <includedby refid="_point_light_8h" local="yes">include/PointLight.h</includedby>
+    <includedby refid="_spot_light_8h" local="yes">include/SpotLight.h</includedby>
+    <includedby refid="_light_8cpp" local="yes">src/Base/Light.cpp</includedby>
+    <incdepgraph>
+      <node id="3">
+        <label>DirectXMath.h</label>
+      </node>
+      <node id="5">
+        <label>ComponentList.h</label>
+        <link refid="_component_list_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>Component.h</label>
+        <link refid="_component_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/Base/Light.h</label>
+        <link refid="_light_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>Windows.h</label>
+      </node>
+      <node id="6">
+        <label>iostream</label>
+      </node>
+      <node id="2">
+        <label>memory</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="3">
+        <label>ComponentList/src/ComponentList.cpp</label>
+        <link refid="_component_list_8cpp"/>
+      </node>
+      <node id="5">
+        <label>Script/include/CPUScript.h</label>
+        <link refid="_c_p_u_script_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>Script/include/CardScript.h</label>
+        <link refid="_card_script_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>Script/include/CardTextureScript.h</label>
+        <link refid="_card_texture_script_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>Script/include/DeckScript.h</label>
+        <link refid="_deck_script_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>Script/include/FloorScript.h</label>
+        <link refid="_floor_script_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>Script/include/GameEndScript.h</label>
+        <link refid="_game_end_script_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>Script/include/GameManagerScript.h</label>
+        <link refid="_game_manager_script_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>Script/include/GameStartUIScript.h</label>
+        <link refid="_game_start_u_i_script_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+      </node>
+      <node id="26">
+        <label>Script/include/GameStartingScript.h</label>
+        <link refid="_game_starting_script_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>Script/include/HandScript.h</label>
+        <link refid="_hand_script_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="28">
+        <label>Script/include/PlaceCardUIScript.h</label>
+        <link refid="_place_card_u_i_script_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+      </node>
+      <node id="30">
+        <label>Script/include/ReadyUIScript.h</label>
+        <link refid="_ready_u_i_script_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+      </node>
+      <node id="32">
+        <label>Script/include/SquareWipeScript.h</label>
+        <link refid="_square_wipe_script_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+      </node>
+      <node id="34">
+        <label>Script/include/TableAndChairScript.h</label>
+        <link refid="_table_and_chair_script_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>Script/include/TableDeckScript.h</label>
+        <link refid="_table_deck_script_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="36">
+        <label>Script/include/TitleCardScript.h</label>
+        <link refid="_title_card_script_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+      </node>
+      <node id="38">
+        <label>Script/include/TitleFrameScript.h</label>
+        <link refid="_title_frame_script_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+      </node>
+      <node id="39">
+        <label>Script/include/TitleNoiseScript.h</label>
+        <link refid="_title_noise_script_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="40" relation="include">
+        </childnode>
+      </node>
+      <node id="41">
+        <label>Script/include/TitleSpotLightScript.h</label>
+        <link refid="_title_spot_light_script_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="42" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>Script/src/CPUScript.cpp</label>
+        <link refid="_c_p_u_script_8cpp"/>
+      </node>
+      <node id="8">
+        <label>Script/src/CardScript.cpp</label>
+        <link refid="_card_script_8cpp"/>
+      </node>
+      <node id="17">
+        <label>Script/src/CardTextureScript.cpp</label>
+        <link refid="_card_texture_script_8cpp"/>
+      </node>
+      <node id="19">
+        <label>Script/src/DeckScript.cpp</label>
+        <link refid="_deck_script_8cpp"/>
+      </node>
+      <node id="21">
+        <label>Script/src/FloorScript.cpp</label>
+        <link refid="_floor_script_8cpp"/>
+      </node>
+      <node id="15">
+        <label>Script/src/GameEndScript.cpp</label>
+        <link refid="_game_end_script_8cpp"/>
+      </node>
+      <node id="9">
+        <label>Script/src/GameManagerScript.cpp</label>
+        <link refid="_game_manager_script_8cpp"/>
+      </node>
+      <node id="24">
+        <label>Script/src/GameStartUIScript.cpp</label>
+        <link refid="_game_start_u_i_script_8cpp"/>
+      </node>
+      <node id="27">
+        <label>Script/src/GameStartingScript.cpp</label>
+        <link refid="_game_starting_script_8cpp"/>
+      </node>
+      <node id="10">
+        <label>Script/src/HandScript.cpp</label>
+        <link refid="_hand_script_8cpp"/>
+      </node>
+      <node id="29">
+        <label>Script/src/PlaceCardUIScript.cpp</label>
+        <link refid="_place_card_u_i_script_8cpp"/>
+      </node>
+      <node id="31">
+        <label>Script/src/ReadyUIScript.cpp</label>
+        <link refid="_ready_u_i_script_8cpp"/>
+      </node>
+      <node id="33">
+        <label>Script/src/SquareWipeScript.cpp</label>
+        <link refid="_square_wipe_script_8cpp"/>
+      </node>
+      <node id="35">
+        <label>Script/src/TableAndChairScript.cpp</label>
+        <link refid="_table_and_chair_script_8cpp"/>
+      </node>
+      <node id="11">
+        <label>Script/src/TableDeckScript.cpp</label>
+        <link refid="_table_deck_script_8cpp"/>
+      </node>
+      <node id="37">
+        <label>Script/src/TitleCardScript.cpp</label>
+        <link refid="_title_card_script_8cpp"/>
+      </node>
+      <node id="25">
+        <label>Script/src/TitleFrameScript.cpp</label>
+        <link refid="_title_frame_script_8cpp"/>
+      </node>
+      <node id="40">
+        <label>Script/src/TitleNoiseScript.cpp</label>
+        <link refid="_title_noise_script_8cpp"/>
+      </node>
+      <node id="42">
+        <label>Script/src/TitleSpotLightScript.cpp</label>
+        <link refid="_title_spot_light_script_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/Base/Light.h</label>
+        <link refid="_light_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="48" relation="include">
+        </childnode>
+        <childnode refid="51" relation="include">
+        </childnode>
+        <childnode refid="54" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>include/Base/ScriptComponent.h</label>
+        <link refid="_script_component_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+        <childnode refid="39" relation="include">
+        </childnode>
+        <childnode refid="41" relation="include">
+        </childnode>
+        <childnode refid="43" relation="include">
+        </childnode>
+        <childnode refid="44" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/DirectionalLight.h</label>
+        <link refid="_directional_light_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="45" relation="include">
+        </childnode>
+        <childnode refid="46" relation="include">
+        </childnode>
+        <childnode refid="47" relation="include">
+        </childnode>
+      </node>
+      <node id="48">
+        <label>include/PointLight.h</label>
+        <link refid="_point_light_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="45" relation="include">
+        </childnode>
+        <childnode refid="49" relation="include">
+        </childnode>
+        <childnode refid="50" relation="include">
+        </childnode>
+      </node>
+      <node id="51">
+        <label>include/SpotLight.h</label>
+        <link refid="_spot_light_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="45" relation="include">
+        </childnode>
+        <childnode refid="52" relation="include">
+        </childnode>
+        <childnode refid="53" relation="include">
+        </childnode>
+      </node>
+      <node id="54">
+        <label>src/Base/Light.cpp</label>
+        <link refid="_light_8cpp"/>
+      </node>
+      <node id="45">
+        <label>src/Base/Renderer.cpp</label>
+        <link refid="_renderer_8cpp"/>
+      </node>
+      <node id="43">
+        <label>src/Base/ScriptComponent.cpp</label>
+        <link refid="_script_component_8cpp"/>
+      </node>
+      <node id="46">
+        <label>src/Debug/DebugDirectionalLight.cpp</label>
+        <link refid="_debug_directional_light_8cpp"/>
+      </node>
+      <node id="49">
+        <label>src/Debug/DebugPointLight.cpp</label>
+        <link refid="_debug_point_light_8cpp"/>
+      </node>
+      <node id="52">
+        <label>src/Debug/DebugSpotLight.cpp</label>
+        <link refid="_debug_spot_light_8cpp"/>
+      </node>
+      <node id="47">
+        <label>src/DirectionalLight.cpp</label>
+        <link refid="_directional_light_8cpp"/>
+      </node>
+      <node id="50">
+        <label>src/PointLight.cpp</label>
+        <link refid="_point_light_8cpp"/>
+      </node>
+      <node id="53">
+        <label>src/SpotLight.cpp</label>
+        <link refid="_spot_light_8cpp"/>
+      </node>
+      <node id="44">
+        <label>src/UIRenderer.cpp</label>
+        <link refid="_u_i_renderer_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="class_light" prot="public">Light</innerclass>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#ifndef<sp/>LIGHT_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>LIGHT_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;DirectXMath.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_component_8h" kindref="compound">Component.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">Entity;</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10" refid="class_light" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_light_1aeab62d33e52a0e0413701e627f76adfd" kindref="member">Light</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="class_component_1a5cba85e33b188bf87ee09f353d7b2fa5" kindref="member">Component</ref></highlight></codeline>
+<codeline lineno="11"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_light_1aeab62d33e52a0e0413701e627f76adfd" kindref="member">~Light</ref>();</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="class_light_1a22d65826c51e2e891f3bd85ee5606d3c" kindref="member">GetPower</ref>();</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/>DirectX::XMVECTOR<sp/><ref refid="class_light_1aeae27f8b40c5e2632705d4d2f1e80896" kindref="member">GetColor</ref>();</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_light_1aca5344fc1cf49b8450afba55d1171681" kindref="member">SetPower</ref>(</highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>pow);</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_light_1a5b94e136b1c1d167d8831aec36717a68" kindref="member">SetColor</ref>(DirectX::XMVECTOR<sp/>col);</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_light_1ab3cd94e295f7701c26a6e416ced2e8bc" kindref="member">SetIsCastShadow</ref>(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>val);</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_light_1a44883e730b17f97411021d47b958dc7e" kindref="member">GetIsCastShadow</ref>();</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_light_1a1ed95a758c802dbd54df80caeca4256d" kindref="member">SetShadowMapIndex</ref>(UINT<sp/>ind);</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>UINT<sp/><ref refid="class_light_1ae835856d6b27b6e84d5172bf6a3d2e45" kindref="member">GetShadowMapIndex</ref>();</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_light_1aeab62d33e52a0e0413701e627f76adfd" kindref="member">Light</ref>(std::shared_ptr&lt;Entity&gt;<sp/>ent);</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>power<sp/>=<sp/>0.5f;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>UINT<sp/>shadowMapIndex<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isCastShadow<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>DirectX::XMVECTOR<sp/>color<sp/>=<sp/>DirectX::XMVectorSet(0.6,<sp/>0.5,<sp/>0.5,<sp/>1);</highlight></codeline>
+<codeline lineno="41"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+    </programlisting>
+    <location file="include/Base/Light.h"/>
+  </compounddef>
+</doxygen>

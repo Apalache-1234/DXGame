@@ -1,0 +1,38 @@
+{
+    "Components": [
+        2198297612,
+        848175905
+    ],
+    "IsChild": false,
+    "LocalPosition": {
+        "X": 0.0,
+        "Y": -4.050000190734863,
+        "Z": 0.0
+    },
+    "LocalRotation": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0
+    },
+    "LocalScale": {
+        "X": 50.0,
+        "Y": 1.0,
+        "Z": 50.0
+    },
+    "ParentName": "",
+    "WorldPosition": {
+        "X": 0.0,
+        "Y": -4.050000190734863,
+        "Z": 0.0
+    },
+    "WorldRotation": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0
+    },
+    "WorldScale": {
+        "X": 50.0,
+        "Y": 1.0,
+        "Z": 50.0
+    }
+}

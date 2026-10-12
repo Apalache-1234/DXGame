@@ -1,0 +1,735 @@
+#include "PCH/pch.h"
+#include "Entity.h"
+#include "Utility.h"
+#include "SkinnedRenderer.h"
+#include "DXRenderSystem.h"
+#include "ScriptComponent.h"
+#include "ComponentList.h"
+#include "json.hpp"
+#include <fstream>
+
+
+namespace
+{
+	constexpr std::string_view jsonName = "EntParam.json";
+	constexpr std::string_view WorldPosKey = "WorldPosition";
+	constexpr std::string_view LocalPosKey = "LocalPosition";
+	constexpr std::string_view WorldRotKey = "WorldRotation";
+	constexpr std::string_view LocalRotKey = "LocalRotation";
+	constexpr std::string_view WorldScaleKey = "WorldScale";
+	constexpr std::string_view LocalScaleKey = "LocalScale";
+}
+
+Entity::Entity(const std::string& name) : Object::Object(name)
+{
+	worldPosition = DirectX::XMVectorSet(0,0,0,0);
+
+	localPosition = DirectX::XMVectorSet(0, 0, 0, 0);
+
+	worldScale = DirectX::XMVectorSet(1, 1, 1, 0);
+
+	localScale = DirectX::XMVectorSet(1, 1, 1, 0);
+
+	worldRotation = DirectX::XMVectorSet(0, 0, 0, 0);
+
+	localRotation = DirectX::XMVectorSet(0, 0, 0, 0);
+}
+
+Entity::~Entity()
+{
+	std::cout << GetName() << "‚ª”jŠü‚³‚ê‚½" << std::endl;
+
+	auto scripts = GetComponents<ScriptComponent>();
+
+	for (auto script : scripts)
+	{
+		script->OnDestroy();
+	}
+
+	RemoveAllComponent();
+}
+
+void Entity::SaveJson(const std::string scenePath)
+{
+	nlohmann::json data;
+
+	Utility::SaveVectorToJson(data, WorldPosKey, GetWorldPosition(), Utility::SaveVecNum::Triple);
+	Utility::SaveVectorToJson(data, LocalPosKey, GetLocalPosition(), Utility::SaveVecNum::Triple);
+	Utility::SaveVectorToJson(data, WorldRotKey, GetWorldRotation(), Utility::SaveVecNum::Triple);
+	Utility::SaveVectorToJson(data, LocalRotKey, GetLocalRotation(), Utility::SaveVecNum::Triple);
+	Utility::SaveVectorToJson(data, WorldScaleKey, GetWorldScale(), Utility::SaveVecNum::Triple);
+	Utility::SaveVectorToJson(data, LocalScaleKey, GetLocalScale(), Utility::SaveVecNum::Triple);
+
+	data["IsChild"] = HasParent();
+
+	data["ParentName"] = HasParent() ? GetParent()->GetName() : "";
+
+	std::string path = std::format("{}{}{}" ,scenePath , "/" , GetName());
+
+	filesystem::create_directories(path);
+
+	const auto& compList = GetComponents();
+
+	for (auto& comp : compList)
+	{
+		string compName = comp->GetComponentName();
+
+		std::string compPath = std::format("{}{}{}" ,path , "/" , compName);
+		filesystem::create_directories(compPath);
+		data["Components"].push_back(comp->GetHash());
+	}
+
+	path = std::format("{}{}{}" , path, "/", jsonName);
+
+	std::ofstream jsonData(path);
+
+	jsonData << data.dump(4);
+	jsonData.close();
+}
+
+void Entity::LoadJson(const std::string scenePath)
+{
+	nlohmann::json data;
+
+	std::string path = std::format("{}{}{}{}{}" , scenePath, "/", GetName(),"/" , jsonName);
+
+	std::ifstream jsonData(path);
+
+	if (jsonData.is_open())
+	{
+		jsonData >> data;
+		jsonData.close();
+
+		if (data.value("IsChild", false))
+		{
+			const auto& entParent = SystemManager::GetInstance().GetEntityByName(data.value("ParentName", ""));
+
+			if (entParent)
+			{
+				entParent->AddChild(shared_from_this());
+			}
+		}
+
+		SetWorldPosition(Utility::LoadJsonToVec(data, WorldPosKey));
+		SetLocalPosition(Utility::LoadJsonToVec(data, LocalPosKey));
+		SetWorldRotation(Utility::LoadJsonToVec(data, WorldRotKey));
+		SetWorldRotation(Utility::LoadJsonToVec(data, LocalRotKey));
+		SetWorldScale(Utility::LoadJsonToVec(data, WorldScaleKey));
+		SetLocalScale(Utility::LoadJsonToVec(data, LocalScaleKey));
+
+		for (UINT32 hash : data["Components"])
+		{
+			ComponentList::SetComponent(std::static_pointer_cast<Entity>(shared_from_this()), hash);
+		}
+	}
+}
+
+void Entity::SetDelete(const std::type_index ti)
+{
+	auto& comp = components[ti];
+
+	DXRenderSystem::GetInstance().SetDeletingComps(comp);
+}
+
+void Entity::Init()
+{
+	SetWorldPosition(DirectX::XMVectorZero());
+	SetLocalPosition(DirectX::XMVectorZero());
+
+	SetWorldScale(DirectX::XMVectorSplatOne());
+	SetLocalScale(DirectX::XMVectorSplatOne());
+
+	SetWorldRotation(DirectX::XMVectorZero());
+	SetLocalRotation(DirectX::XMVectorZero());
+
+	rotation = XMVectorZero();
+
+	RemoveAllComponent();
+}
+
+void Entity::RemoveAllComponent()
+{
+	components.clear();
+
+	compLists.clear();
+}
+
+DirectX::XMMATRIX Entity::GetTRS()
+{
+	auto position_mat = XMMatrixTranslationFromVector(GetWorldPosition());
+
+	auto rotation_mat = DirectX::XMMatrixRotationQuaternion(GetRotationAsQuaternion());
+
+	auto scale_mat = XMMatrixScalingFromVector(GetScale());
+
+	return scale_mat * rotation_mat * position_mat;
+
+}
+
+DirectX::XMVECTOR Entity::GetWorldPosition()
+{
+	return worldPosition;
+}
+
+DirectX::XMVECTOR Entity::GetLocalPosition()
+{
+	if (HasParent())
+		return localPosition;
+	else
+		return worldPosition;
+}
+
+DirectX::XMVECTOR Entity::GetWorldScale()
+{
+	return worldScale;
+}
+
+DirectX::XMVECTOR Entity::GetLocalScale()
+{
+	if (HasParent())
+		return localScale;
+	else
+		return worldScale;
+}
+
+DirectX::XMVECTOR Entity::GetScale()
+{
+	auto scale = GetWorldScale();
+
+	float scaleX = DirectX::XMVectorGetX(scale);
+	float scaleY = DirectX::XMVectorGetY(scale);
+	float scaleZ = DirectX::XMVectorGetZ(scale);
+
+	if (HasParent())
+	{
+		scale = GetLocalScale();
+
+		scaleX *= DirectX::XMVectorGetX(scale);
+		scaleY *= DirectX::XMVectorGetY(scale);
+		scaleZ *= DirectX::XMVectorGetZ(scale);
+	}
+
+	return DirectX::XMVectorSet(scaleX, scaleY, scaleZ, 0);
+}
+
+DirectX::XMVECTOR Entity::GetWorldRotation()
+{
+	return worldRotation;
+}
+
+DirectX::XMVECTOR Entity::GetWorldQuaternion()
+{
+	DirectX::XMVECTOR resultQ = DirectX::XMVectorSet(0, 0, 0, 0);
+
+	auto rotation = GetWorldRotation();
+
+	float rotX = XMConvertToRadians(DirectX::XMVectorGetX(rotation));
+	float rotY = XMConvertToRadians(DirectX::XMVectorGetY(rotation));
+	float rotZ = XMConvertToRadians(DirectX::XMVectorGetZ(rotation));
+
+	auto XQuaternion = DirectX::XMQuaternionRotationAxis(DirectX::XMVectorSet(1, 0, 0, 0), rotX);
+	auto YQuaternion = DirectX::XMQuaternionRotationAxis(DirectX::XMVectorSet(0, 1, 0, 0), rotY);
+	auto ZQuaternion = DirectX::XMQuaternionRotationAxis(DirectX::XMVectorSet(0, 0, 1, 0), rotZ);
+
+	resultQ = Utility::GetZYXMultiplyQuaternion(XQuaternion, YQuaternion, ZQuaternion);
+
+	return resultQ;
+}
+
+DirectX::XMVECTOR Entity::GetLocalRotation()
+{
+	return localRotation;
+}
+
+DirectX::XMVECTOR Entity::GetLocalQuaternion()
+{
+	DirectX::XMVECTOR resultQ = DirectX::XMVectorSet(0, 0, 0, 0);
+
+	auto rotation = GetLocalRotation();
+
+	float rotX = XMConvertToRadians(DirectX::XMVectorGetX(rotation));
+	float rotY = XMConvertToRadians(DirectX::XMVectorGetY(rotation));
+	float rotZ = XMConvertToRadians(DirectX::XMVectorGetZ(rotation));
+
+	auto XQuaternion = DirectX::XMQuaternionRotationAxis(GetRight(), rotX);
+	auto YQuaternion = DirectX::XMQuaternionRotationAxis(GetUp(), rotY);
+	auto ZQuaternion = DirectX::XMQuaternionRotationAxis(GetForward(), rotZ);
+
+	resultQ = Utility::GetZYXMultiplyQuaternion(XQuaternion, YQuaternion, ZQuaternion);
+
+	return resultQ;
+}
+
+DirectX::XMVECTOR Entity::GetRight()
+{
+	return right;
+}
+
+DirectX::XMVECTOR Entity::GetUp()
+{
+	return up;
+}
+
+DirectX::XMVECTOR Entity::GetForward()
+{
+	return forward;
+}
+
+DirectX::XMVECTOR Entity::GetLocalToWorldPos(DirectX::XMVECTOR pos)
+{
+	DirectX::XMMATRIX localMat;
+
+	DirectX::XMVECTOR transPosition;
+
+	if (HasParent())
+	{
+	    std:shared_ptr<Entity> ent = std::dynamic_pointer_cast<Entity>(GetParent());
+
+		if (ent != nullptr)
+		{
+			localMat = Utility::CreateTransMat(ent->right, ent->up, ent->forward);
+
+			transPosition = DirectX::XMVector3Transform(pos, XMMatrixInverse(nullptr, localMat));
+
+		    return DirectX::XMVectorAdd(ent->worldPosition, transPosition);
+		}
+	}
+	else
+	{
+		return pos;
+	}
+
+	return DirectX::g_XMZero;
+}
+
+DirectX::XMVECTOR Entity::GetWorldToLocalPos(DirectX::XMVECTOR pos)
+{
+	DirectX::XMMATRIX localMat;
+
+	DirectX::XMVECTOR transPosition;
+
+	if (HasParent())
+	{
+	    std:shared_ptr<Entity> ent = std::dynamic_pointer_cast<Entity>(GetParent());
+
+		if (ent != nullptr)
+		{
+			auto subVec = DirectX::XMVectorSubtract(pos, ent->GetWorldPosition());
+
+			localMat = Utility::CreateTransMat(ent->right, ent->up, ent->forward);
+
+			transPosition = DirectX::XMVector3Transform(subVec, localMat);
+
+			return transPosition;
+		}
+		else
+			return worldPosition;
+	}
+	else
+	{
+		return worldPosition;
+	}
+
+	return DirectX::g_XMZero;
+}
+
+void Entity::SetWorldPosition(DirectX::XMVECTOR position)
+{
+	worldPosition = position;
+
+	DirectX::XMMATRIX localMat;
+
+	DirectX::XMVECTOR transPosition;
+
+	if (HasParent())
+	{
+    	std:shared_ptr<Entity> ent = std::dynamic_pointer_cast<Entity>(GetParent());
+
+		if (ent != nullptr)
+		{
+			auto subVec = DirectX::XMVectorSubtract(worldPosition, ent->GetWorldPosition());
+
+			localMat = Utility::CreateTransMat(ent->right, ent->up, ent->forward);
+
+			transPosition = DirectX::XMVector3Transform(subVec, localMat);
+
+			localPosition = transPosition;
+		}
+		else
+			localPosition = worldPosition;
+	}
+	else
+	{
+		localPosition = worldPosition;
+	}
+
+		
+	if (HasChild())
+	{
+		for (auto obj : GetChild())
+		{
+	    	std::shared_ptr<Entity> ent = std::dynamic_pointer_cast<Entity>(obj);
+
+
+			if (ent != nullptr)
+			{
+				localMat = Utility::CreateTransMat(this->right, this->up, this->forward);
+
+				transPosition = DirectX::XMVector3Transform(ent->GetLocalPosition(), XMMatrixInverse(nullptr, localMat));
+
+				ent->SetWorldPosition(DirectX::XMVectorAdd(worldPosition, transPosition));
+			}
+		}
+	}
+
+}
+
+DirectX::XMVECTOR QuaternionToEulerZYX(DirectX::XMVECTOR q)
+{
+	float qx = DirectX::XMVectorGetX(q);
+	float qy = DirectX::XMVectorGetY(q);
+	float qz = DirectX::XMVectorGetZ(q);
+	float qw = DirectX::XMVectorGetW(q);
+
+	float sinr_cosp = 2.0f * (qw * qx + qy * qz);
+	float cosr_cosp = 1.0f - 2.0f * (qx * qx + qy * qy);
+	float x = std::atan2(sinr_cosp, cosr_cosp); 
+
+	float sinp = 2.0f * (qw * qy - qz * qx);
+	float y;
+	if (std::abs(sinp) >= 1)
+		y = std::copysign(DirectX::XM_PI / 2.0f, sinp); 
+	else
+		y = std::asin(sinp);
+
+	float siny_cosp = 2.0f * (qw * qz + qx * qy);
+	float cosy_cosp = 1.0f - 2.0f * (qy * qy + qz * qz);
+	float z = std::atan2(siny_cosp, cosy_cosp); 
+
+	return DirectX::XMVectorSet(
+		DirectX::XMConvertToDegrees(x), 
+		DirectX::XMConvertToDegrees(y), 
+		DirectX::XMConvertToDegrees(z), 
+		0.0f
+	);
+}
+
+void Entity::SetQuaternion(DirectX::XMVECTOR q)
+{
+	auto result = DirectX::XMQuaternionMultiply(GetRotationAsQuaternion(), q);
+
+	rotation = QuaternionToEulerZYX(result);
+}
+
+DirectX::XMVECTOR Entity::GetRotation()
+{
+	return rotation;
+}
+
+DirectX::XMVECTOR Entity::GetRotationAsQuaternion()
+{
+	DirectX::XMVECTOR resultQ = DirectX::XMVectorSet(0, 0, 0, 0);
+
+	float rotX = XMConvertToRadians(DirectX::XMVectorGetX(rotation));
+	float rotY = XMConvertToRadians(DirectX::XMVectorGetY(rotation));
+	float rotZ = XMConvertToRadians(DirectX::XMVectorGetZ(rotation));
+
+	auto XQuaternion = DirectX::XMQuaternionRotationAxis(DirectX::XMVectorSet(1, 0, 0, 0), rotX);
+	auto YQuaternion = DirectX::XMQuaternionRotationAxis(DirectX::XMVectorSet(0, 1, 0, 0), rotY);
+	auto ZQuaternion = DirectX::XMQuaternionRotationAxis(DirectX::XMVectorSet(0, 0, 1, 0), rotZ);
+
+	resultQ = Utility::GetZYXMultiplyQuaternion(XQuaternion, YQuaternion, ZQuaternion);
+
+	return resultQ;
+}
+
+
+
+void Entity::SetLocalPosition(DirectX::XMVECTOR position)
+{
+	localPosition = position;
+
+	DirectX::XMMATRIX localMat;
+
+	DirectX::XMVECTOR transPosition;
+
+	if (HasParent())
+	{
+	    std:shared_ptr<Entity> ent = std::dynamic_pointer_cast<Entity>(GetParent());
+
+		if (ent != nullptr)
+		{
+			localMat = Utility::CreateTransMat(ent->right, ent->up, ent->forward);
+
+			transPosition = DirectX::XMVector3Transform(GetLocalPosition(), XMMatrixInverse(nullptr, localMat));
+
+			SetWorldPosition(DirectX::XMVectorAdd(ent->worldPosition, transPosition));
+		}
+	}
+	else
+	{
+		SetWorldPosition(position);
+	}
+
+	if (HasChild())
+	{
+		for (auto obj : GetChild())
+		{
+			for (auto obj : GetChild())
+			{
+				std::shared_ptr<Entity> ent = std::dynamic_pointer_cast<Entity>(obj);
+
+				if (ent != nullptr)
+				{
+					localMat = Utility::CreateTransMat(this->right, this->up, this->forward);
+
+					transPosition = DirectX::XMVector3Transform(ent->GetLocalPosition(), XMMatrixInverse(nullptr, localMat));
+
+					ent->SetWorldPosition(DirectX::XMVectorAdd(worldPosition, transPosition));
+				}
+			}
+		}
+	}
+}
+
+void Entity::SetWorldScale(DirectX::XMVECTOR scale)
+{
+	auto prevScale = worldScale;
+
+	worldScale = scale;
+
+	if (!HasParent())
+		localScale = worldScale;
+	else
+	{
+	    std:shared_ptr<Entity> ent = std::dynamic_pointer_cast<Entity>(GetParent());
+
+		if (ent != nullptr)
+		{
+			if (DirectX::XMVector3Equal(DirectX::XMVectorZero(), ent->GetWorldScale()))
+			{
+				localScale = DirectX::XMVectorSet(Utility::ep, Utility::ep, Utility::ep, Utility::ep);
+			}
+			else
+				localScale = DirectX::XMVectorDivide(worldScale, ent->GetWorldScale());
+		}
+		else
+			localScale = worldScale;
+	}
+
+	if (HasChild())
+	{
+		for (auto obj : GetChild())
+		{
+			for (auto obj : GetChild())
+			{
+				std::shared_ptr<Entity> ent = std::dynamic_pointer_cast<Entity>(obj);
+
+				DirectX::XMVECTOR offset;
+
+				if (ent != nullptr)
+				{
+					auto subVec = ent->GetLocalPosition();
+
+					auto magnitudeX = subVec.m128_f32[0] / prevScale.m128_f32[0];
+					auto magnitudeY = subVec.m128_f32[1] / prevScale.m128_f32[1];
+					auto magnitudeZ = subVec.m128_f32[2] / prevScale.m128_f32[2];
+
+					offset = DirectX::XMVectorSet(magnitudeX * worldScale.m128_f32[0], magnitudeY * worldScale.m128_f32[1], magnitudeZ * worldScale.m128_f32[2], 0);
+
+					if (DirectX::XMVector3IsNaN(offset))
+						offset = DirectX::XMVectorZero();
+
+					ent->SetLocalPosition(offset);
+
+					auto subScale = DirectX::XMVectorAdd(scale, -prevScale);
+
+					ent->SetWorldScale(DirectX::XMVectorAdd(ent->GetWorldScale() , subScale));
+				}
+			}
+		}
+	}
+}
+
+void Entity::SetLocalScale(DirectX::XMVECTOR scale)
+{
+	localScale = scale;
+}
+
+void Entity::SetWorldRotation(DirectX::XMVECTOR rotation)
+{
+	worldRotation = rotation;
+
+	auto subRot = DirectX::XMVectorSubtract(worldRotation , prevWorldRotation);
+
+	auto rotX = DirectX::XMConvertToRadians(DirectX::XMVectorGetX(subRot));
+	auto rotY = DirectX::XMConvertToRadians(DirectX::XMVectorGetY(subRot));
+	auto rotZ = DirectX::XMConvertToRadians(DirectX::XMVectorGetZ(subRot));
+
+	SetQuaternion(DirectX::XMQuaternionRotationAxis(Utility::right, rotX));
+	SetQuaternion(DirectX::XMQuaternionRotationAxis(Utility::up, rotY));
+	SetQuaternion(DirectX::XMQuaternionRotationAxis(Utility::forward, rotZ));
+
+	if (HasChild())
+	{
+		for (auto obj : GetChild())
+		{
+			std::shared_ptr<Entity> ent = std::dynamic_pointer_cast<Entity>(obj);
+
+			if (ent != nullptr)
+			{
+
+				ent->SetWorldRotation(GetWorldRotation());
+			}
+		}
+	}
+
+	AdjustDirectionVector();
+
+	prevWorldRotation = worldRotation;
+}
+
+void Entity::SetLocalRotation(DirectX::XMVECTOR rotation)
+{
+	localRotation = rotation;
+
+	auto subRot = DirectX::XMVectorSubtract(localRotation, prevLocalRotation);
+
+	auto rotX = DirectX::XMConvertToRadians(DirectX::XMVectorGetX(subRot));
+	auto rotY = DirectX::XMConvertToRadians(DirectX::XMVectorGetY(subRot));
+	auto rotZ = DirectX::XMConvertToRadians(DirectX::XMVectorGetZ(subRot));
+
+	SetQuaternion(DirectX::XMQuaternionRotationAxis(right, rotX));
+	SetQuaternion(DirectX::XMQuaternionRotationAxis(up, rotY));
+	SetQuaternion(DirectX::XMQuaternionRotationAxis(forward, rotZ));
+
+	if (HasChild())
+	{
+		for (auto obj : GetChild())
+		{
+			std::shared_ptr<Entity> ent = std::dynamic_pointer_cast<Entity>(obj);
+
+			if (ent != nullptr)
+			{
+				ent->SetLocalRotation(GetLocalRotation());
+			}
+		}
+	}
+
+	AdjustDirectionVector();
+
+	prevLocalRotation = localRotation;
+}
+
+void Entity::SetRotation(DirectX::XMVECTOR rot)
+{
+	rotation = rot;
+
+	if (HasChild())
+	{
+		for (auto obj : GetChild())
+		{
+			std::shared_ptr<Entity> ent = std::dynamic_pointer_cast<Entity>(obj);
+
+			if (ent != nullptr)
+			{
+				ent->SetRotation(GetRotation());
+			}
+		}
+	}
+
+	AdjustDirectionVector();
+}
+
+void Entity::AddWorldPosition(DirectX::XMVECTOR position)
+{
+	auto pos = GetWorldPosition();
+
+	auto result = DirectX::XMVectorAdd(pos, position);
+
+	SetWorldPosition(result);
+}
+
+void Entity::AddLocalPosition(DirectX::XMVECTOR position)
+{
+	auto pos = GetLocalPosition();
+
+	auto result = DirectX::XMVectorAdd(pos, position);
+
+	SetLocalPosition(result);
+}
+
+void Entity::AddWorldRotation(DirectX::XMVECTOR rotation)
+{
+	auto rot = GetWorldRotation();
+
+	auto result = DirectX::XMVectorAdd(rot, rotation);
+
+	SetWorldRotation(result);
+}
+
+void Entity::AddLocalRotation(DirectX::XMVECTOR rotation)
+{
+	auto rot = GetLocalRotation();
+
+	auto result = DirectX::XMVectorAdd(rot, rotation);
+
+	SetLocalRotation(result);
+}
+
+void Entity::AddWorldScale(DirectX::XMVECTOR scale)
+{
+	auto sc = GetWorldScale();
+
+	auto result = DirectX::XMVectorAdd(sc, scale);
+
+	SetWorldScale(result);
+}
+
+void Entity::Destroy()
+{
+	Object::Destroy();
+}
+
+void Entity::AddLocalScale(DirectX::XMVECTOR scale)
+{
+	auto sc = GetLocalScale();
+
+	auto result = DirectX::XMVectorAdd(sc, scale);
+
+	SetLocalScale(result);
+}
+
+void Entity::AdjustDirectionVector()
+{
+	XMVECTOR rotation = GetRotationAsQuaternion();
+
+	right = XMVector3Rotate(XMVectorSet(1, 0, 0, 0), rotation);
+	up = XMVector3Rotate(XMVectorSet(0, 1, 0, 0), rotation);
+	forward = XMVector3Rotate(XMVectorSet(0, 0, 1, 0), rotation);
+
+	if (!HasChild())
+		return;
+
+	for (auto obj : GetChild())
+	{
+		std::shared_ptr<Entity> ent = std::dynamic_pointer_cast<Entity>(obj);
+
+		if (ent != nullptr)
+		{
+			auto rightTemp = DirectX::XMVectorScale(right, DirectX::XMVectorGetX(ent->GetLocalPosition()));
+			auto upTemp = DirectX::XMVectorScale(up, DirectX::XMVectorGetY(ent->GetLocalPosition()));
+			auto forwardTemp = DirectX::XMVectorScale(forward, DirectX::XMVectorGetZ(ent->GetLocalPosition()));
+
+			auto resultVec = DirectX::XMVectorAdd(rightTemp, upTemp);
+			resultVec = DirectX::XMVectorAdd(resultVec, forwardTemp);
+
+			ent->SetWorldPosition(DirectX::XMVectorAdd(GetWorldPosition(), resultVec));
+		}
+	}
+}
+
+std::vector<std::shared_ptr<Component>> Entity::GetComponents()
+{
+	return compLists;
+}

@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="struct_p_e_horizon_gaussian_blur_1_1_gaussian_blur_info" kind="struct" language="C++" prot="private">
+    <compoundname>PEHorizonGaussianBlur::GaussianBlurInfo</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_p_e_horizon_gaussian_blur_1_1_gaussian_blur_info_1a29be75e7ef1325caed984095ea90138e" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float PEHorizonGaussianBlur::GaussianBlurInfo::sigma</definition>
+        <argsstring></argsstring>
+        <name>sigma</name>
+        <qualifiedname>PEHorizonGaussianBlur::GaussianBlurInfo::sigma</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/PostEffect/PEHorizonGaussianBlur.h" line="27" column="15" bodyfile="include/PostEffect/PEHorizonGaussianBlur.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_p_e_horizon_gaussian_blur_1_1_gaussian_blur_info_1af1c83973217863410b1949c76c3d503f" prot="public" static="no" mutable="no">
+        <type>XMFLOAT3</type>
+        <definition>XMFLOAT3 PEHorizonGaussianBlur::GaussianBlurInfo::padding1</definition>
+        <argsstring></argsstring>
+        <name>padding1</name>
+        <qualifiedname>PEHorizonGaussianBlur::GaussianBlurInfo::padding1</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/PostEffect/PEHorizonGaussianBlur.h" line="28" column="18" bodyfile="include/PostEffect/PEHorizonGaussianBlur.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_p_e_horizon_gaussian_blur_1_1_gaussian_blur_info_1a9ec3cf5c4eb62e54b1b8a5d614f7667f" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float PEHorizonGaussianBlur::GaussianBlurInfo::kernelRadius</definition>
+        <argsstring></argsstring>
+        <name>kernelRadius</name>
+        <qualifiedname>PEHorizonGaussianBlur::GaussianBlurInfo::kernelRadius</qualifiedname>
+        <initializer>= 4</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/PostEffect/PEHorizonGaussianBlur.h" line="29" column="15" bodyfile="include/PostEffect/PEHorizonGaussianBlur.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_p_e_horizon_gaussian_blur_1_1_gaussian_blur_info_1a61e7406ac5eaa462be94ef1f097a77fe" prot="public" static="no" mutable="no">
+        <type>XMFLOAT3</type>
+        <definition>XMFLOAT3 PEHorizonGaussianBlur::GaussianBlurInfo::padding2</definition>
+        <argsstring></argsstring>
+        <name>padding2</name>
+        <qualifiedname>PEHorizonGaussianBlur::GaussianBlurInfo::padding2</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/PostEffect/PEHorizonGaussianBlur.h" line="30" column="18" bodyfile="include/PostEffect/PEHorizonGaussianBlur.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/PostEffect/PEHorizonGaussianBlur.h" line="25" column="5" bodyfile="include/PostEffect/PEHorizonGaussianBlur.h" bodystart="26" bodyend="31"/>
+    <listofallmembers>
+      <member refid="struct_p_e_horizon_gaussian_blur_1_1_gaussian_blur_info_1a9ec3cf5c4eb62e54b1b8a5d614f7667f" prot="public" virt="non-virtual"><scope>PEHorizonGaussianBlur::GaussianBlurInfo</scope><name>kernelRadius</name></member>
+      <member refid="struct_p_e_horizon_gaussian_blur_1_1_gaussian_blur_info_1af1c83973217863410b1949c76c3d503f" prot="public" virt="non-virtual"><scope>PEHorizonGaussianBlur::GaussianBlurInfo</scope><name>padding1</name></member>
+      <member refid="struct_p_e_horizon_gaussian_blur_1_1_gaussian_blur_info_1a61e7406ac5eaa462be94ef1f097a77fe" prot="public" virt="non-virtual"><scope>PEHorizonGaussianBlur::GaussianBlurInfo</scope><name>padding2</name></member>
+      <member refid="struct_p_e_horizon_gaussian_blur_1_1_gaussian_blur_info_1a29be75e7ef1325caed984095ea90138e" prot="public" virt="non-virtual"><scope>PEHorizonGaussianBlur::GaussianBlurInfo</scope><name>sigma</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

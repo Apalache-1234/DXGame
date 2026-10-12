@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="struct_component_list_1_1_type_data" kind="struct" language="C++" prot="public">
+    <compoundname>ComponentList::TypeData</compoundname>
+    <includes refid="_component_list_8h" local="no">ComponentList.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_component_list_1_1_type_data_1a9154138dd32ce9f0564bfb59da4d811a" prot="public" static="no" mutable="no">
+        <type>UINT32</type>
+        <definition>UINT32 ComponentList::TypeData::hash</definition>
+        <argsstring></argsstring>
+        <name>hash</name>
+        <qualifiedname>ComponentList::TypeData::hash</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ComponentList/include/ComponentList.h" line="258" column="16" bodyfile="ComponentList/include/ComponentList.h" bodystart="258" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_component_list_1_1_type_data_1aac392a904bdf86ebd88f064caef17be8" prot="public" static="no" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view ComponentList::TypeData::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>ComponentList::TypeData::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ComponentList/include/ComponentList.h" line="259" column="26" bodyfile="ComponentList/include/ComponentList.h" bodystart="259" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="ComponentList/include/ComponentList.h" line="256" column="5" bodyfile="ComponentList/include/ComponentList.h" bodystart="257" bodyend="260"/>
+    <listofallmembers>
+      <member refid="struct_component_list_1_1_type_data_1a9154138dd32ce9f0564bfb59da4d811a" prot="public" virt="non-virtual"><scope>ComponentList::TypeData</scope><name>hash</name></member>
+      <member refid="struct_component_list_1_1_type_data_1aac392a904bdf86ebd88f064caef17be8" prot="public" virt="non-virtual"><scope>ComponentList::TypeData</scope><name>name</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="dir_4961c8de99392bd99dc3f230c3659fa7" kind="dir">
+    <compoundname>Components/include</compoundname>
+    <innerdir refid="dir_fc030f06a56ee272fe323bd29c556d12">Components/include/Base</innerdir>
+    <innerdir refid="dir_6412c0f6fbfc6a09bf9b62b4de3c2fa9">Components/include/Debug</innerdir>
+    <innerdir refid="dir_19b619d8dae976d8a58da24544da106b">Components/include/PostEffect</innerdir>
+    <innerfile refid="_camera_component_8h">CameraComponent.h</innerfile>
+    <innerfile refid="_collider_8h">Collider.h</innerfile>
+    <innerfile refid="_directional_light_8h">DirectionalLight.h</innerfile>
+    <innerfile refid="_point_light_8h">PointLight.h</innerfile>
+    <innerfile refid="_rigidbody_8h">Rigidbody.h</innerfile>
+    <innerfile refid="_skinned_renderer_8h">SkinnedRenderer.h</innerfile>
+    <innerfile refid="_sky_box_8h">SkyBox.h</innerfile>
+    <innerfile refid="_spot_light_8h">SpotLight.h</innerfile>
+    <innerfile refid="_u_i_renderer_8h">UIRenderer.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="Components/include/"/>
+  </compounddef>
+</doxygen>

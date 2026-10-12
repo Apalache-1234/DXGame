@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="dir_2e4532cc4bed0c225a1368cacb69421a" kind="dir">
+    <compoundname>Components/src</compoundname>
+    <innerdir refid="dir_631f67696d83e53bfa81eb248a341675">Components/src/Base</innerdir>
+    <innerdir refid="dir_a00e268ec88c1a90808452b2aa21481f">Components/src/Debug</innerdir>
+    <innerdir refid="dir_dc7d0f48aaba5270feca51a7daae4552">Components/src/PostEffect</innerdir>
+    <innerfile refid="_camera_component_8cpp">CameraComponent.cpp</innerfile>
+    <innerfile refid="_collider_8cpp">Collider.cpp</innerfile>
+    <innerfile refid="_directional_light_8cpp">DirectionalLight.cpp</innerfile>
+    <innerfile refid="_point_light_8cpp">PointLight.cpp</innerfile>
+    <innerfile refid="_rigidbody_8cpp">Rigidbody.cpp</innerfile>
+    <innerfile refid="_skinned_renderer_8cpp">SkinnedRenderer.cpp</innerfile>
+    <innerfile refid="_sky_box_8cpp">SkyBox.cpp</innerfile>
+    <innerfile refid="_spot_light_8cpp">SpotLight.cpp</innerfile>
+    <innerfile refid="_u_i_renderer_8cpp">UIRenderer.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="Components/src/"/>
+  </compounddef>
+</doxygen>

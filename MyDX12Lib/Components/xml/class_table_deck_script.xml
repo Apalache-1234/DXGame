@@ -1,0 +1,505 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="class_table_deck_script" kind="class" language="C++" prot="public">
+    <compoundname>TableDeckScript</compoundname>
+    <basecompoundref refid="class_script_component" prot="public" virt="non-virtual">ScriptComponent</basecompoundref>
+    <includes refid="_table_deck_script_8h" local="no">TableDeckScript.h</includes>
+    <innerclass refid="struct_table_deck_script_1_1_card_info" prot="private">TableDeckScript::CardInfo</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_table_deck_script_1af14e44abf1250bcc58bcd091aeb2068e" prot="private" static="no" mutable="no">
+        <type>shared_ptr&lt; <ref refid="class_card_texture_script" kindref="compound">CardTextureScript</ref> &gt;</type>
+        <definition>shared_ptr&lt;CardTextureScript&gt; TableDeckScript::cardTex</definition>
+        <argsstring></argsstring>
+        <name>cardTex</name>
+        <qualifiedname>TableDeckScript::cardTex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/TableDeckScript.h" line="41" column="12" bodyfile="Script/include/TableDeckScript.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_table_deck_script_1a400abd58541e44a1e24df1f44c576433" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="class_skinned_renderer" kindref="compound">SkinnedRenderer</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;SkinnedRenderer&gt; TableDeckScript::sRend</definition>
+        <argsstring></argsstring>
+        <name>sRend</name>
+        <qualifiedname>TableDeckScript::sRend</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/TableDeckScript.h" line="43" column="17" bodyfile="Script/include/TableDeckScript.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_table_deck_script_1ad7e2145761dbc912fa6c2795d01fff33" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="class_game_manager_script" kindref="compound">GameManagerScript</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;GameManagerScript&gt; TableDeckScript::gameM</definition>
+        <argsstring></argsstring>
+        <name>gameM</name>
+        <qualifiedname>TableDeckScript::gameM</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/TableDeckScript.h" line="45" column="17" bodyfile="Script/include/TableDeckScript.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_table_deck_script_1aa30bde6236605c5674ff39ba64d8e305" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="struct_deck_script_1_1_card" kindref="compound">DeckScript::Card</ref> &gt;</type>
+        <definition>std::vector&lt; DeckScript::Card&gt; TableDeckScript::cards</definition>
+        <argsstring></argsstring>
+        <name>cards</name>
+        <qualifiedname>TableDeckScript::cards</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/TableDeckScript.h" line="47" column="13" bodyfile="Script/include/TableDeckScript.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_table_deck_script_1ab76ded4a55dbecd5c12be936363f8fce" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::shared_ptr&lt; Tween&lt; XMVECTOR &gt; &gt; &gt;</type>
+        <definition>std::vector&lt; std::shared_ptr&lt;Tween &lt; XMVECTOR&gt; &gt; &gt; TableDeckScript::tws</definition>
+        <argsstring></argsstring>
+        <name>tws</name>
+        <qualifiedname>TableDeckScript::tws</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/TableDeckScript.h" line="49" column="14" bodyfile="Script/include/TableDeckScript.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_table_deck_script_1a08a62e2138875130e77b502307b8b79a" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; shared_ptr&lt; Entity &gt; &gt;</type>
+        <definition>std::vector&lt;shared_ptr&lt;Entity&gt; &gt; TableDeckScript::cardPool</definition>
+        <argsstring></argsstring>
+        <name>cardPool</name>
+        <qualifiedname>TableDeckScript::cardPool</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/TableDeckScript.h" line="51" column="13" bodyfile="Script/include/TableDeckScript.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_table_deck_script_1a75484b4a7c08ecf57269491b1f4905e0" prot="private" static="no" mutable="no">
+        <type>CardInfo</type>
+        <definition>CardInfo TableDeckScript::info</definition>
+        <argsstring></argsstring>
+        <name>info</name>
+        <qualifiedname>TableDeckScript::info</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/TableDeckScript.h" line="53" column="10" bodyfile="Script/include/TableDeckScript.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_table_deck_script_1aa310694c80ead837271170bf094a0ac1" prot="private" static="no" mutable="no">
+        <type>UINT</type>
+        <definition>UINT TableDeckScript::cardNum</definition>
+        <argsstring></argsstring>
+        <name>cardNum</name>
+        <qualifiedname>TableDeckScript::cardNum</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/TableDeckScript.h" line="55" column="6" bodyfile="Script/include/TableDeckScript.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_table_deck_script_1ac5e8d3d04756c789324308bf45f420a5" prot="private" static="no" mutable="no">
+        <type>UINT</type>
+        <definition>UINT TableDeckScript::curPool</definition>
+        <argsstring></argsstring>
+        <name>curPool</name>
+        <qualifiedname>TableDeckScript::curPool</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/TableDeckScript.h" line="57" column="6" bodyfile="Script/include/TableDeckScript.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_table_deck_script_1a731e0b2e0d80fd6f3ea3a184fc0629b9" prot="private" static="no" mutable="no">
+        <type>const UINT</type>
+        <definition>const UINT TableDeckScript::pool</definition>
+        <argsstring></argsstring>
+        <name>pool</name>
+        <qualifiedname>TableDeckScript::pool</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/TableDeckScript.h" line="58" column="12" bodyfile="Script/include/TableDeckScript.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_table_deck_script_1a4de1aded65eeb0e507b2ff7029def1e3" prot="private" static="no" mutable="no">
+        <type><ref refid="struct_deck_script_1_1_card" kindref="compound">DeckScript::Card</ref></type>
+        <definition>DeckScript::Card TableDeckScript::currentTopCard</definition>
+        <argsstring></argsstring>
+        <name>currentTopCard</name>
+        <qualifiedname>TableDeckScript::currentTopCard</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/TableDeckScript.h" line="60" column="18" bodyfile="Script/include/TableDeckScript.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_table_deck_script_1a1ae15ae9dd2aa0c21aea9348330972c3" prot="private" static="no" mutable="no">
+        <type>ComPtr&lt; ID3D12Resource &gt;</type>
+        <definition>ComPtr&lt;ID3D12Resource&gt; TableDeckScript::CB</definition>
+        <argsstring></argsstring>
+        <name>CB</name>
+        <qualifiedname>TableDeckScript::CB</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/TableDeckScript.h" line="68" column="8" bodyfile="Script/include/TableDeckScript.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_table_deck_script_1a51275196aab51ca1e752392d475d16cf" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; PtrHandles &gt;</type>
+        <definition>std::unique_ptr&lt;PtrHandles&gt; TableDeckScript::CBHandle</definition>
+        <argsstring></argsstring>
+        <name>CBHandle</name>
+        <qualifiedname>TableDeckScript::CBHandle</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/TableDeckScript.h" line="69" column="17" bodyfile="Script/include/TableDeckScript.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_table_deck_script_1ae6848cb228a618ba553ebb3f449edc3f" prot="private" static="no" mutable="no">
+        <type>D3D12_CONSTANT_BUFFER_VIEW_DESC</type>
+        <definition>D3D12_CONSTANT_BUFFER_VIEW_DESC TableDeckScript::CBView</definition>
+        <argsstring></argsstring>
+        <name>CBView</name>
+        <qualifiedname>TableDeckScript::CBView</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/TableDeckScript.h" line="70" column="33" bodyfile="Script/include/TableDeckScript.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_table_deck_script_1a5b9175dca1eec042b8367d3bf221d76a" prot="private" static="no" mutable="no">
+        <type>Material</type>
+        <definition>Material TableDeckScript::mat</definition>
+        <argsstring></argsstring>
+        <name>mat</name>
+        <qualifiedname>TableDeckScript::mat</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/TableDeckScript.h" line="72" column="10" bodyfile="Script/include/TableDeckScript.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_table_deck_script_1a29d1c96e8f17c2e4c381053de0e8d924" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TableDeckScript::TableDeckScript</definition>
+        <argsstring>(std::shared_ptr&lt; Entity &gt; ent)</argsstring>
+        <name>TableDeckScript</name>
+        <qualifiedname>TableDeckScript::TableDeckScript</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; Entity &gt;</type>
+          <declname>ent</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/TableDeckScript.h" line="17" column="1" bodyfile="Script/src/TableDeckScript.cpp" bodystart="8" bodyend="10"/>
+      </memberdef>
+      <memberdef kind="function" id="class_table_deck_script_1aca51e49511110cb0dc320815dad70802" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TableDeckScript::~TableDeckScript</definition>
+        <argsstring>()</argsstring>
+        <name>~TableDeckScript</name>
+        <qualifiedname>TableDeckScript::~TableDeckScript</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/TableDeckScript.h" line="19" column="1" bodyfile="Script/src/TableDeckScript.cpp" bodystart="12" bodyend="14"/>
+      </memberdef>
+      <memberdef kind="function" id="class_table_deck_script_1ad637b25a2ec73bd154a725e9e91f6b82" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void TableDeckScript::OnStart</definition>
+        <argsstring>() override</argsstring>
+        <name>OnStart</name>
+        <qualifiedname>TableDeckScript::OnStart</qualifiedname>
+        <reimplements refid="class_script_component_1a74c66e170fed1beca9d8d0ff3e97d647">OnStart</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/TableDeckScript.h" line="21" column="6" bodyfile="Script/src/TableDeckScript.cpp" bodystart="16" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="class_table_deck_script_1a909a627411f7f01a525a91eef3b2d7c3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void TableDeckScript::PlaceCard</definition>
+        <argsstring>(DeckScript::Card card, DirectX::XMVECTOR fromPos)</argsstring>
+        <name>PlaceCard</name>
+        <qualifiedname>TableDeckScript::PlaceCard</qualifiedname>
+        <param>
+          <type><ref refid="struct_deck_script_1_1_card" kindref="compound">DeckScript::Card</ref></type>
+          <declname>card</declname>
+        </param>
+        <param>
+          <type>DirectX::XMVECTOR</type>
+          <declname>fromPos</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/TableDeckScript.h" line="23" column="6" bodyfile="Script/src/TableDeckScript.cpp" bodystart="64" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="class_table_deck_script_1abeb233919fb60692e52e76055f21498c" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void TableDeckScript::OnUpdate</definition>
+        <argsstring>() override</argsstring>
+        <name>OnUpdate</name>
+        <qualifiedname>TableDeckScript::OnUpdate</qualifiedname>
+        <reimplements refid="class_script_component_1afffbd9e1537019a46798299fced10d09">OnUpdate</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/TableDeckScript.h" line="25" column="6" bodyfile="Script/src/TableDeckScript.cpp" bodystart="220" bodyend="232"/>
+      </memberdef>
+      <memberdef kind="function" id="class_table_deck_script_1abdfc9c9d085e885704f9ffe4fefe811f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool TableDeckScript::GetIsOnRayCast</definition>
+        <argsstring>()</argsstring>
+        <name>GetIsOnRayCast</name>
+        <qualifiedname>TableDeckScript::GetIsOnRayCast</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/TableDeckScript.h" line="27" column="10" bodyfile="Script/src/TableDeckScript.cpp" bodystart="234" bodyend="237"/>
+      </memberdef>
+      <memberdef kind="function" id="class_table_deck_script_1a53955b80350fef05e99d60f9fd093f61" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void TableDeckScript::OnRayCast</definition>
+        <argsstring>() override</argsstring>
+        <name>OnRayCast</name>
+        <qualifiedname>TableDeckScript::OnRayCast</qualifiedname>
+        <reimplements refid="class_script_component_1a3f3a0bbc66f3809a353ae16ff0380a1e">OnRayCast</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/TableDeckScript.h" line="29" column="6" bodyfile="Script/src/TableDeckScript.cpp" bodystart="212" bodyend="218"/>
+      </memberdef>
+      <memberdef kind="function" id="class_table_deck_script_1a048063857fc0ffd905f41896d75e27ca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool TableDeckScript::IsPlaceable</definition>
+        <argsstring>(DeckScript::Card card)</argsstring>
+        <name>IsPlaceable</name>
+        <qualifiedname>TableDeckScript::IsPlaceable</qualifiedname>
+        <param>
+          <type><ref refid="struct_deck_script_1_1_card" kindref="compound">DeckScript::Card</ref></type>
+          <declname>card</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/TableDeckScript.h" line="31" column="6" bodyfile="Script/src/TableDeckScript.cpp" bodystart="186" bodyend="210"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="class_table_deck_script_1aa1492e3fd057f8b2960dec78088ce096" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void TableDeckScript::MapCB</definition>
+        <argsstring>()</argsstring>
+        <name>MapCB</name>
+        <qualifiedname>TableDeckScript::MapCB</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/TableDeckScript.h" line="62" column="6" bodyfile="Script/src/TableDeckScript.cpp" bodystart="99" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="class_table_deck_script_1a85f22d0b95b67edb9b70ba268681185b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void TableDeckScript::InitCB</definition>
+        <argsstring>()</argsstring>
+        <name>InitCB</name>
+        <qualifiedname>TableDeckScript::InitCB</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/TableDeckScript.h" line="64" column="6" bodyfile="Script/src/TableDeckScript.cpp" bodystart="117" bodyend="171"/>
+      </memberdef>
+      <memberdef kind="function" id="class_table_deck_script_1a39eeb1d3c186b057ca8b48aae74d4e39" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool TableDeckScript::LinkCBVToDescHeap</definition>
+        <argsstring>()</argsstring>
+        <name>LinkCBVToDescHeap</name>
+        <qualifiedname>TableDeckScript::LinkCBVToDescHeap</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/TableDeckScript.h" line="66" column="6" bodyfile="Script/src/TableDeckScript.cpp" bodystart="173" bodyend="184"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>Component</label>
+        <link refid="class_component"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>ScriptComponent</label>
+        <link refid="class_script_component"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>TableDeckScript</label>
+        <link refid="class_table_deck_script"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>std::enable_shared_from_this&lt; Component &gt;</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>Component</label>
+        <link refid="class_component"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>ScriptComponent</label>
+        <link refid="class_script_component"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>TableDeckScript</label>
+        <link refid="class_table_deck_script"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>std::enable_shared_from_this&lt; Component &gt;</label>
+      </node>
+    </collaborationgraph>
+    <location file="Script/include/TableDeckScript.h" line="14" column="1" bodyfile="Script/include/TableDeckScript.h" bodystart="15" bodyend="73"/>
+    <listofallmembers>
+      <member refid="class_component_1a61954f08c177e4c1ebb17cf8fd3aa56f" prot="public" virt="non-virtual"><scope>TableDeckScript</scope><name>attachFrom</name></member>
+      <member refid="class_script_component_1a96e27fa6ec29b4a3fb7a8032d5a27aad" prot="protected" virt="non-virtual"><scope>TableDeckScript</scope><name>camera</name></member>
+      <member refid="class_table_deck_script_1aa310694c80ead837271170bf094a0ac1" prot="private" virt="non-virtual"><scope>TableDeckScript</scope><name>cardNum</name></member>
+      <member refid="class_table_deck_script_1a08a62e2138875130e77b502307b8b79a" prot="private" virt="non-virtual"><scope>TableDeckScript</scope><name>cardPool</name></member>
+      <member refid="class_table_deck_script_1aa30bde6236605c5674ff39ba64d8e305" prot="private" virt="non-virtual"><scope>TableDeckScript</scope><name>cards</name></member>
+      <member refid="class_table_deck_script_1af14e44abf1250bcc58bcd091aeb2068e" prot="private" virt="non-virtual"><scope>TableDeckScript</scope><name>cardTex</name></member>
+      <member refid="class_component_1a120d65094802a621c8d804a964cafa9c" prot="public" virt="non-virtual"><scope>TableDeckScript</scope><name>Cast</name></member>
+      <member refid="class_table_deck_script_1a1ae15ae9dd2aa0c21aea9348330972c3" prot="private" virt="non-virtual"><scope>TableDeckScript</scope><name>CB</name></member>
+      <member refid="class_table_deck_script_1a51275196aab51ca1e752392d475d16cf" prot="private" virt="non-virtual"><scope>TableDeckScript</scope><name>CBHandle</name></member>
+      <member refid="class_table_deck_script_1ae6848cb228a618ba553ebb3f449edc3f" prot="private" virt="non-virtual"><scope>TableDeckScript</scope><name>CBView</name></member>
+      <member refid="class_component_1a5cba85e33b188bf87ee09f353d7b2fa5" prot="public" virt="non-virtual"><scope>TableDeckScript</scope><name>Component</name></member>
+      <member refid="class_table_deck_script_1ac5e8d3d04756c789324308bf45f420a5" prot="private" virt="non-virtual"><scope>TableDeckScript</scope><name>curPool</name></member>
+      <member refid="class_table_deck_script_1a4de1aded65eeb0e507b2ff7029def1e3" prot="private" virt="non-virtual"><scope>TableDeckScript</scope><name>currentTopCard</name></member>
+      <member refid="class_table_deck_script_1ad7e2145761dbc912fa6c2795d01fff33" prot="private" virt="non-virtual"><scope>TableDeckScript</scope><name>gameM</name></member>
+      <member refid="class_component_1a22ed217d642f4566a47c874ac9a63eab" prot="public" virt="virtual"><scope>TableDeckScript</scope><name>GetComponentName</name></member>
+      <member refid="class_component_1a2a9968090dabad782f2bbdaf0093be84" prot="public" virt="non-virtual"><scope>TableDeckScript</scope><name>GetHash</name></member>
+      <member refid="class_table_deck_script_1abdfc9c9d085e885704f9ffe4fefe811f" prot="public" virt="non-virtual"><scope>TableDeckScript</scope><name>GetIsOnRayCast</name></member>
+      <member refid="class_component_1ac0ee67584bdd569c2809495a5843612b" prot="public" virt="non-virtual"><scope>TableDeckScript</scope><name>GetLeafIndex</name></member>
+      <member refid="class_component_1a1b25ee28c379d9f0d0c1ecc0df1e6328" prot="public" virt="non-virtual"><scope>TableDeckScript</scope><name>GetTreeIndex</name></member>
+      <member refid="class_table_deck_script_1a75484b4a7c08ecf57269491b1f4905e0" prot="private" virt="non-virtual"><scope>TableDeckScript</scope><name>info</name></member>
+      <member refid="class_script_component_1a2027d87a56d690a2a198d6e15c57f907" prot="public" virt="virtual"><scope>TableDeckScript</scope><name>Init</name></member>
+      <member refid="class_table_deck_script_1a85f22d0b95b67edb9b70ba268681185b" prot="private" virt="non-virtual"><scope>TableDeckScript</scope><name>InitCB</name></member>
+      <member refid="class_table_deck_script_1a048063857fc0ffd905f41896d75e27ca" prot="public" virt="non-virtual"><scope>TableDeckScript</scope><name>IsPlaceable</name></member>
+      <member refid="class_table_deck_script_1a39eeb1d3c186b057ca8b48aae74d4e39" prot="private" virt="non-virtual"><scope>TableDeckScript</scope><name>LinkCBVToDescHeap</name></member>
+      <member refid="class_table_deck_script_1aa1492e3fd057f8b2960dec78088ce096" prot="private" virt="non-virtual"><scope>TableDeckScript</scope><name>MapCB</name></member>
+      <member refid="class_table_deck_script_1a5b9175dca1eec042b8367d3bf221d76a" prot="private" virt="non-virtual"><scope>TableDeckScript</scope><name>mat</name></member>
+      <member refid="class_script_component_1a883990ab3b0eb3ed62c8bc85fd4f596d" prot="protected" virt="non-virtual"><scope>TableDeckScript</scope><name>meshLoader</name></member>
+      <member refid="class_script_component_1aaef3daf7c260c21efa8fd9cde4e5a4a7" prot="public" virt="virtual"><scope>TableDeckScript</scope><name>OnDestroy</name></member>
+      <member refid="class_script_component_1af30cc5777fe0db148c0f46deffbfa995" prot="public" virt="virtual"><scope>TableDeckScript</scope><name>OnFixedUpdate</name></member>
+      <member refid="class_script_component_1ad9b2758d768994bc36a42e328157047c" prot="public" virt="virtual"><scope>TableDeckScript</scope><name>OnMousePointerClick</name></member>
+      <member refid="class_script_component_1a43fad9a126b4df10d450ebda1b0eb958" prot="public" virt="virtual"><scope>TableDeckScript</scope><name>OnMousePointerIn</name></member>
+      <member refid="class_script_component_1a594aa67f58cfe5dd2e9f9920cfdfcb08" prot="public" virt="virtual"><scope>TableDeckScript</scope><name>OnMousePointerOn</name></member>
+      <member refid="class_script_component_1a684ce3d22fb83d9ade9db726afb0ca28" prot="public" virt="virtual"><scope>TableDeckScript</scope><name>OnMousePointerOut</name></member>
+      <member refid="class_table_deck_script_1a53955b80350fef05e99d60f9fd093f61" prot="public" virt="virtual"><scope>TableDeckScript</scope><name>OnRayCast</name></member>
+      <member refid="class_table_deck_script_1ad637b25a2ec73bd154a725e9e91f6b82" prot="public" virt="virtual"><scope>TableDeckScript</scope><name>OnStart</name></member>
+      <member refid="class_table_deck_script_1abeb233919fb60692e52e76055f21498c" prot="public" virt="virtual"><scope>TableDeckScript</scope><name>OnUpdate</name></member>
+      <member refid="class_table_deck_script_1a909a627411f7f01a525a91eef3b2d7c3" prot="public" virt="non-virtual"><scope>TableDeckScript</scope><name>PlaceCard</name></member>
+      <member refid="class_table_deck_script_1a731e0b2e0d80fd6f3ea3a184fc0629b9" prot="private" virt="non-virtual"><scope>TableDeckScript</scope><name>pool</name></member>
+      <member refid="class_script_component_1a6d517b821cb2239397c4bc9df8935df1" prot="protected" virt="non-virtual"><scope>TableDeckScript</scope><name>sceneManager</name></member>
+      <member refid="class_script_component_1a79c3ecd7f476197899c2b41279a40843" prot="protected" virt="non-virtual"><scope>TableDeckScript</scope><name>ScriptComponent</name></member>
+      <member refid="class_component_1a053713eb8c3c356263a588fc398da49f" prot="public" virt="non-virtual"><scope>TableDeckScript</scope><name>SetHash</name></member>
+      <member refid="class_component_1a93263d6a4c7a133ad05f8b754463d81a" prot="public" virt="non-virtual"><scope>TableDeckScript</scope><name>SetIndex</name></member>
+      <member refid="class_table_deck_script_1a400abd58541e44a1e24df1f44c576433" prot="private" virt="non-virtual"><scope>TableDeckScript</scope><name>sRend</name></member>
+      <member refid="class_script_component_1a85aa9f3caec7cadbad5bade77d1a497b" prot="protected" virt="non-virtual"><scope>TableDeckScript</scope><name>systemManager</name></member>
+      <member refid="class_table_deck_script_1a29d1c96e8f17c2e4c381053de0e8d924" prot="public" virt="non-virtual"><scope>TableDeckScript</scope><name>TableDeckScript</name></member>
+      <member refid="class_script_component_1a8da06cfeede85f5294be061a45d78885" prot="protected" virt="non-virtual"><scope>TableDeckScript</scope><name>textureLoader</name></member>
+      <member refid="class_script_component_1a2dfacd191e367be8e1e667ece474b860" prot="protected" virt="non-virtual"><scope>TableDeckScript</scope><name>tweenSystem</name></member>
+      <member refid="class_table_deck_script_1ab76ded4a55dbecd5c12be936363f8fce" prot="private" virt="non-virtual"><scope>TableDeckScript</scope><name>tws</name></member>
+      <member refid="class_component_1ab8378fa275af98e568a7e91d33d867af" prot="public" virt="virtual"><scope>TableDeckScript</scope><name>~Component</name></member>
+      <member refid="class_script_component_1a6c266c364bf21d0dddb6d7639500a077" prot="public" virt="virtual"><scope>TableDeckScript</scope><name>~ScriptComponent</name></member>
+      <member refid="class_table_deck_script_1aca51e49511110cb0dc320815dad70802" prot="public" virt="non-virtual"><scope>TableDeckScript</scope><name>~TableDeckScript</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,1454 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="class_renderer" kind="class" language="C++" prot="public">
+    <compoundname>Renderer</compoundname>
+    <basecompoundref refid="class_component" prot="public" virt="non-virtual">Component</basecompoundref>
+    <derivedcompoundref refid="class_debug_renderer" prot="public" virt="non-virtual">DebugRenderer</derivedcompoundref>
+    <derivedcompoundref refid="class_post_effect" prot="public" virt="non-virtual">PostEffect</derivedcompoundref>
+    <derivedcompoundref refid="class_skinned_renderer" prot="public" virt="non-virtual">SkinnedRenderer</derivedcompoundref>
+    <derivedcompoundref refid="class_sky_box" prot="public" virt="non-virtual">SkyBox</derivedcompoundref>
+    <derivedcompoundref refid="class_u_i_renderer" prot="public" virt="non-virtual">UIRenderer</derivedcompoundref>
+    <includes refid="_renderer_8h" local="no">Renderer.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="class_renderer_1ab34659d99f36b87337a22436c694b77a" prot="public" static="no" strong="no">
+        <type></type>
+        <name>TEXTURE_TYPE</name>
+        <qualifiedname>Renderer::TEXTURE_TYPE</qualifiedname>
+        <enumvalue id="class_renderer_1ab34659d99f36b87337a22436c694b77aafdf5aea8fe68699a92fc597e0f3aa410" prot="public">
+          <name>DIFFUSE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_renderer_1ab34659d99f36b87337a22436c694b77aae429abe859bc1468cb76df92556daffc" prot="public">
+          <name>NORMAL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_renderer_1ab34659d99f36b87337a22436c694b77aa922dcc1fbe0210fff37a5c12e51c73bb" prot="public">
+          <name>CountLast</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/Renderer.h" line="27" column="1" bodyfile="include/Base/Renderer.h" bodystart="28" bodyend="32"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_renderer_1ae80ad596f0b476671b1794a6fe8ab2b9" prot="public" static="no" mutable="no">
+        <type>DirectX::XMVECTOR</type>
+        <definition>DirectX::XMVECTOR Renderer::color</definition>
+        <argsstring></argsstring>
+        <name>color</name>
+        <qualifiedname>Renderer::color</qualifiedname>
+        <initializer>= DirectX::XMVectorSet(1, 1, 1, 1)</initializer>
+        <briefdescription>
+<para>そのメッシュのカラーを決める </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/Renderer.h" line="54" column="19" bodyfile="include/Base/Renderer.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_renderer_1a9417332e939d71be632e6d81854e8df1" prot="protected" static="no" mutable="no">
+        <type>int</type>
+        <definition>int Renderer::instanceCount</definition>
+        <argsstring></argsstring>
+        <name>instanceCount</name>
+        <qualifiedname>Renderer::instanceCount</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/Renderer.h" line="111" column="5" bodyfile="include/Base/Renderer.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_renderer_1adcb0d20572ce6fe825df04fa0788b2ab" prot="protected" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool Renderer::isPipelineAlreadyCreated</definition>
+        <argsstring></argsstring>
+        <name>isPipelineAlreadyCreated</name>
+        <qualifiedname>Renderer::isPipelineAlreadyCreated</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/Renderer.h" line="113" column="6" bodyfile="include/Base/Renderer.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_renderer_1ac0ef6dd4baa52d630c273b23c812d51f" prot="protected" static="no" mutable="no">
+        <type>HRESULT</type>
+        <definition>HRESULT Renderer::hr</definition>
+        <argsstring></argsstring>
+        <name>hr</name>
+        <qualifiedname>Renderer::hr</qualifiedname>
+        <briefdescription>
+<para>WinAPI系の関数の可否を格納する変数 </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/Renderer.h" line="118" column="9" bodyfile="include/Base/Renderer.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_renderer_1a08dd8b2ddddde6917db844ccc964a7fc" prot="protected" static="no" mutable="no">
+        <type>MeshLoader::MeshData *</type>
+        <definition>MeshLoader::MeshData* Renderer::meshData</definition>
+        <argsstring></argsstring>
+        <name>meshData</name>
+        <qualifiedname>Renderer::meshData</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/Renderer.h" line="120" column="22" bodyfile="include/Base/Renderer.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_renderer_1a332ce1ec861cc52aebf95fe1ece25e35" prot="protected" static="no" mutable="no">
+        <type>MeshLoader::MESHTYPE</type>
+        <definition>MeshLoader::MESHTYPE Renderer::currentMeshType</definition>
+        <argsstring></argsstring>
+        <name>currentMeshType</name>
+        <qualifiedname>Renderer::currentMeshType</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/Renderer.h" line="122" column="22" bodyfile="include/Base/Renderer.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_renderer_1ab64318c35f8f266b8c36efbc41c2f943" prot="protected" static="no" mutable="no">
+        <type>std::vector&lt; ComPtr&lt; ID3D12Resource &gt; &gt;</type>
+        <definition>std::vector&lt;ComPtr&lt;ID3D12Resource&gt; &gt; Renderer::constantBuffer</definition>
+        <argsstring></argsstring>
+        <name>constantBuffer</name>
+        <qualifiedname>Renderer::constantBuffer</qualifiedname>
+        <briefdescription>
+<para>バックバッファ込みのコンスタントバッファのリソース </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/Renderer.h" line="127" column="13" bodyfile="include/Base/Renderer.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_renderer_1aa94ee482132c778a9eebca26e55a8759" prot="protected" static="no" mutable="no">
+        <type>UINT</type>
+        <definition>UINT Renderer::currentCBCount</definition>
+        <argsstring></argsstring>
+        <name>currentCBCount</name>
+        <qualifiedname>Renderer::currentCBCount</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/Renderer.h" line="129" column="6" bodyfile="include/Base/Renderer.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_renderer_1a9b39eecb49896cdc063229aa3a8086f6" prot="protected" static="no" mutable="no">
+        <type>std::vector&lt; D3D12_CONSTANT_BUFFER_VIEW_DESC &gt;</type>
+        <definition>std::vector&lt;D3D12_CONSTANT_BUFFER_VIEW_DESC&gt; Renderer::cbView</definition>
+        <argsstring></argsstring>
+        <name>cbView</name>
+        <qualifiedname>Renderer::cbView</qualifiedname>
+        <briefdescription>
+<para>バックバッファ込みのコンスタントバッファビュー </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/Renderer.h" line="134" column="13" bodyfile="include/Base/Renderer.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_renderer_1a7832117cb87326278a00ba0648feb440" prot="protected" static="no" mutable="no">
+        <type>std::vector&lt; std::unique_ptr&lt; PtrHandles &gt; &gt;</type>
+        <definition>std::vector&lt;std::unique_ptr&lt;PtrHandles&gt; &gt; Renderer::cbHandle</definition>
+        <argsstring></argsstring>
+        <name>cbHandle</name>
+        <qualifiedname>Renderer::cbHandle</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/Renderer.h" line="136" column="13" bodyfile="include/Base/Renderer.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_renderer_1ab4e7d5df234bc02ae6587744e97fb4c9" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; PtrHandles &gt;</type>
+        <definition>std::unique_ptr&lt;PtrHandles&gt; Renderer::materialHandle</definition>
+        <argsstring></argsstring>
+        <name>materialHandle</name>
+        <qualifiedname>Renderer::materialHandle</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/Renderer.h" line="138" column="17" bodyfile="include/Base/Renderer.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_renderer_1a400d0869b9758ed5ec0ab248e2736024" prot="protected" static="no" mutable="no">
+        <type>ComPtr&lt; ID3D12Resource &gt;</type>
+        <definition>ComPtr&lt;ID3D12Resource&gt; Renderer::materialResource</definition>
+        <argsstring></argsstring>
+        <name>materialResource</name>
+        <qualifiedname>Renderer::materialResource</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/Renderer.h" line="139" column="8" bodyfile="include/Base/Renderer.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_renderer_1a8a71c03908e1318fd4a76155e9489005" prot="protected" static="no" mutable="no">
+        <type>std::vector&lt; std::unique_ptr&lt; PtrHandles &gt; &gt;</type>
+        <definition>std::vector&lt;std::unique_ptr&lt;PtrHandles&gt; &gt; Renderer::texHandles</definition>
+        <argsstring></argsstring>
+        <name>texHandles</name>
+        <qualifiedname>Renderer::texHandles</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/Renderer.h" line="141" column="13" bodyfile="include/Base/Renderer.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_renderer_1a52f2d07a0df1cb61fd5e27593cf745ec" prot="protected" static="no" mutable="no">
+        <type>Transform</type>
+        <definition>Transform Renderer::trans</definition>
+        <argsstring></argsstring>
+        <name>trans</name>
+        <qualifiedname>Renderer::trans</qualifiedname>
+        <briefdescription>
+<para>変換行列とカラーを格納するTransform変数 </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/Renderer.h" line="146" column="11" bodyfile="include/Base/Renderer.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_renderer_1aebb08c6ad0f141810462711e9afb3d69" prot="protected" static="no" mutable="no">
+        <type>std::vector&lt; Material &gt;</type>
+        <definition>std::vector&lt;Material&gt; Renderer::mats</definition>
+        <argsstring></argsstring>
+        <name>mats</name>
+        <qualifiedname>Renderer::mats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/Renderer.h" line="148" column="13" bodyfile="include/Base/Renderer.h" bodystart="148" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_renderer_1a3195f14a9ac7e7c8bf5ab6f92819bbcd" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::function&lt; void(ComPtr&lt; ID3D12GraphicsCommandList &gt;)&gt; &gt;</type>
+        <definition>std::vector&lt;std::function&lt; void(ComPtr&lt;ID3D12GraphicsCommandList&gt;)&gt; &gt; Renderer::cmdFuncs</definition>
+        <argsstring></argsstring>
+        <name>cmdFuncs</name>
+        <qualifiedname>Renderer::cmdFuncs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/Renderer.h" line="150" column="13" bodyfile="include/Base/Renderer.h" bodystart="150" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_renderer_1ae0c1e8db9c4f2660b78d8fbe6bb66799" prot="private" static="no" mutable="no">
+        <type>D3D12_PRIMITIVE_TOPOLOGY</type>
+        <definition>D3D12_PRIMITIVE_TOPOLOGY Renderer::primitiveType</definition>
+        <argsstring></argsstring>
+        <name>primitiveType</name>
+        <qualifiedname>Renderer::primitiveType</qualifiedname>
+        <initializer>= D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/Renderer.h" line="152" column="26" bodyfile="include/Base/Renderer.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_renderer_1a82cc08e1f5f5c20a24efd32b12439068" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; ComPtr&lt; ID3D12PipelineState &gt; &gt;</type>
+        <definition>std::vector&lt;ComPtr&lt;ID3D12PipelineState&gt; &gt; Renderer::pipeline</definition>
+        <argsstring></argsstring>
+        <name>pipeline</name>
+        <qualifiedname>Renderer::pipeline</qualifiedname>
+        <briefdescription>
+<para>レンダーパイプラインのCOM </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/Renderer.h" line="157" column="13" bodyfile="include/Base/Renderer.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_renderer_1aa4fe052462016b3535fc1c507a333159" prot="private" static="no" mutable="no">
+        <type>ComPtr&lt; ID3D12PipelineState &gt;</type>
+        <definition>ComPtr&lt;ID3D12PipelineState&gt; Renderer::currentPipeline</definition>
+        <argsstring></argsstring>
+        <name>currentPipeline</name>
+        <qualifiedname>Renderer::currentPipeline</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/Renderer.h" line="159" column="8" bodyfile="include/Base/Renderer.h" bodystart="159" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_renderer_1a7f11ecf36ae42d291fea649efd3a86ce" prot="private" static="no" mutable="no">
+        <type>ComPtr&lt; ID3D12PipelineState &gt;</type>
+        <definition>ComPtr&lt;ID3D12PipelineState&gt; Renderer::shadowMapPipeline</definition>
+        <argsstring></argsstring>
+        <name>shadowMapPipeline</name>
+        <qualifiedname>Renderer::shadowMapPipeline</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/Renderer.h" line="161" column="8" bodyfile="include/Base/Renderer.h" bodystart="161" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_renderer_1a2e42c6cd3ecdf146d29dc7df37c9e686" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; D3D12_INPUT_ELEMENT_DESC &gt;</type>
+        <definition>std::vector&lt;D3D12_INPUT_ELEMENT_DESC&gt; Renderer::descElement</definition>
+        <argsstring></argsstring>
+        <name>descElement</name>
+        <qualifiedname>Renderer::descElement</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/Renderer.h" line="163" column="13" bodyfile="include/Base/Renderer.h" bodystart="163" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_renderer_1a44ce31ebe3db80d73684d375e9868b75" prot="private" static="no" mutable="no">
+        <type>D3D12_RASTERIZER_DESC</type>
+        <definition>D3D12_RASTERIZER_DESC Renderer::descRas</definition>
+        <argsstring></argsstring>
+        <name>descRas</name>
+        <qualifiedname>Renderer::descRas</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/Renderer.h" line="165" column="23" bodyfile="include/Base/Renderer.h" bodystart="165" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_renderer_1a4735e8c974a5b036b291ef4957b85774" prot="private" static="no" mutable="no">
+        <type>D3D12_RENDER_TARGET_BLEND_DESC</type>
+        <definition>D3D12_RENDER_TARGET_BLEND_DESC Renderer::descRtBlend</definition>
+        <argsstring></argsstring>
+        <name>descRtBlend</name>
+        <qualifiedname>Renderer::descRtBlend</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/Renderer.h" line="167" column="32" bodyfile="include/Base/Renderer.h" bodystart="167" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_renderer_1a09e5864af7b368e3e9fff2c973dfdc85" prot="private" static="no" mutable="no">
+        <type>ComPtr&lt; ID3DBlob &gt;</type>
+        <definition>ComPtr&lt;ID3DBlob&gt; Renderer::vsBlob</definition>
+        <argsstring></argsstring>
+        <name>vsBlob</name>
+        <qualifiedname>Renderer::vsBlob</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/Renderer.h" line="169" column="8" bodyfile="include/Base/Renderer.h" bodystart="169" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_renderer_1ad3a381d537b586fee31793a640050af8" prot="private" static="no" mutable="no">
+        <type>ComPtr&lt; ID3DBlob &gt;</type>
+        <definition>ComPtr&lt;ID3DBlob&gt; Renderer::psBlob</definition>
+        <argsstring></argsstring>
+        <name>psBlob</name>
+        <qualifiedname>Renderer::psBlob</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/Renderer.h" line="171" column="8" bodyfile="include/Base/Renderer.h" bodystart="171" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_renderer_1a3e252b2ee5a2a812c10e1fc58c26a403" prot="private" static="no" mutable="no">
+        <type>D3D12_BLEND_DESC</type>
+        <definition>D3D12_BLEND_DESC Renderer::descBlend</definition>
+        <argsstring></argsstring>
+        <name>descBlend</name>
+        <qualifiedname>Renderer::descBlend</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/Renderer.h" line="173" column="18" bodyfile="include/Base/Renderer.h" bodystart="173" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_renderer_1a3d2b3a00f68db7185c30eb5ec04473d4" prot="private" static="no" mutable="no">
+        <type>D3D12_DEPTH_STENCIL_DESC</type>
+        <definition>D3D12_DEPTH_STENCIL_DESC Renderer::dsDesc</definition>
+        <argsstring></argsstring>
+        <name>dsDesc</name>
+        <qualifiedname>Renderer::dsDesc</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/Renderer.h" line="175" column="26" bodyfile="include/Base/Renderer.h" bodystart="175" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_renderer_1afeee408862d5bd6255a6882d47e6d5cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>Renderer::~Renderer</definition>
+        <argsstring>()</argsstring>
+        <name>~Renderer</name>
+        <qualifiedname>Renderer::~Renderer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/Renderer.h" line="34" column="5" bodyfile="src/Base/Renderer.cpp" bodystart="80" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="class_renderer_1ad92446fb0350d8537dcd2f01150b0efb" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void Renderer::Init</definition>
+        <argsstring>() override</argsstring>
+        <name>Init</name>
+        <qualifiedname>Renderer::Init</qualifiedname>
+        <reimplements refid="class_component_1ad3141017e589ef48d436bc743e15d122">Init</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/Renderer.h" line="36" column="6" bodyfile="src/Base/Renderer.cpp" bodystart="168" bodyend="192"/>
+      </memberdef>
+      <memberdef kind="function" id="class_renderer_1a8b9fdeeecb7b6c37cfba79bc85841db5" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void Renderer::AddRenderCommand</definition>
+        <argsstring>(ComPtr&lt; ID3D12GraphicsCommandList &gt; &amp;cmdList, int backBufferIndex)</argsstring>
+        <name>AddRenderCommand</name>
+        <qualifiedname>Renderer::AddRenderCommand</qualifiedname>
+        <param>
+          <type>ComPtr&lt; ID3D12GraphicsCommandList &gt; &amp;</type>
+          <declname>cmdList</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>backBufferIndex</declname>
+        </param>
+        <briefdescription>
+<para>メッシュを描画するレンダーコマンドをコマンドリストに格納する </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cmdList</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>格納するコマンドリスト</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>backBufferIndex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>現在のバックバッファのインデックス</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/Renderer.h" line="43" column="14" bodyfile="src/Base/Renderer.cpp" bodystart="84" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="function" id="class_renderer_1a0f84f3368c4efbf49fdce3b3373baac2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; Renderer::GetMeshNameList</definition>
+        <argsstring>()</argsstring>
+        <name>GetMeshNameList</name>
+        <qualifiedname>Renderer::GetMeshNameList</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/Renderer.h" line="45" column="13" bodyfile="src/Base/Renderer.cpp" bodystart="617" bodyend="627"/>
+      </memberdef>
+      <memberdef kind="function" id="class_renderer_1a1e75024955af72f3c9dbadc96c10281f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Material &amp;</type>
+        <definition>Material &amp; Renderer::GetMaterial</definition>
+        <argsstring>(int idx)</argsstring>
+        <name>GetMaterial</name>
+        <qualifiedname>Renderer::GetMaterial</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>idx</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/Renderer.h" line="47" column="10" bodyfile="src/Base/Renderer.cpp" bodystart="663" bodyend="666"/>
+      </memberdef>
+      <memberdef kind="function" id="class_renderer_1a28d3dc05ad44bca091f1a27bafccc189" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Renderer::SetMaterial</definition>
+        <argsstring>(int idx, const Material &amp;mat)</argsstring>
+        <name>SetMaterial</name>
+        <qualifiedname>Renderer::SetMaterial</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>idx</declname>
+        </param>
+        <param>
+          <type>const Material &amp;</type>
+          <declname>mat</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/Renderer.h" line="49" column="6" bodyfile="src/Base/Renderer.cpp" bodystart="668" bodyend="671"/>
+      </memberdef>
+      <memberdef kind="function" id="class_renderer_1ad2ca3f47525a336279d7a3e9cd225155" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>MeshLoader::MESHTYPE</type>
+        <definition>MeshLoader::MESHTYPE Renderer::GetCurrentMeshType</definition>
+        <argsstring>()</argsstring>
+        <name>GetCurrentMeshType</name>
+        <qualifiedname>Renderer::GetCurrentMeshType</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/Renderer.h" line="56" column="22" bodyfile="src/Base/Renderer.cpp" bodystart="844" bodyend="847"/>
+      </memberdef>
+      <memberdef kind="function" id="class_renderer_1aae81abf8b1e97079d33df77b4757df44" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>D3D12_GPU_DESCRIPTOR_HANDLE</type>
+        <definition>D3D12_GPU_DESCRIPTOR_HANDLE Renderer::GetTextureGPUHandle</definition>
+        <argsstring>(int idx, Renderer::TEXTURE_TYPE type)</argsstring>
+        <name>GetTextureGPUHandle</name>
+        <qualifiedname>Renderer::GetTextureGPUHandle</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>idx</declname>
+        </param>
+        <param>
+          <type><ref refid="class_renderer_1ab34659d99f36b87337a22436c694b77a" kindref="member">Renderer::TEXTURE_TYPE</ref></type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/Renderer.h" line="58" column="29" bodyfile="src/Base/Renderer.cpp" bodystart="673" bodyend="676"/>
+      </memberdef>
+      <memberdef kind="function" id="class_renderer_1a34068a389335bc378379c7d3209732e6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>D3D12_CPU_DESCRIPTOR_HANDLE</type>
+        <definition>D3D12_CPU_DESCRIPTOR_HANDLE Renderer::GetTextureCPUHandle</definition>
+        <argsstring>(int idx, Renderer::TEXTURE_TYPE type)</argsstring>
+        <name>GetTextureCPUHandle</name>
+        <qualifiedname>Renderer::GetTextureCPUHandle</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>idx</declname>
+        </param>
+        <param>
+          <type><ref refid="class_renderer_1ab34659d99f36b87337a22436c694b77a" kindref="member">Renderer::TEXTURE_TYPE</ref></type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/Renderer.h" line="59" column="29" bodyfile="src/Base/Renderer.cpp" bodystart="678" bodyend="681"/>
+      </memberdef>
+      <memberdef kind="function" id="class_renderer_1a18c48b8f8772486e7c9a54087b2f5612" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool Renderer::CreateMesh</definition>
+        <argsstring>(const MeshLoader::MESHTYPE type)</argsstring>
+        <name>CreateMesh</name>
+        <qualifiedname>Renderer::CreateMesh</qualifiedname>
+        <param>
+          <type>const MeshLoader::MESHTYPE</type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/Renderer.h" line="61" column="6" bodyfile="src/Base/Renderer.cpp" bodystart="508" bodyend="532"/>
+      </memberdef>
+      <memberdef kind="function" id="class_renderer_1a063ae27fa4015a4ad4fd355d1d7a9a2d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Renderer::ApplyTextureOnMesh</definition>
+        <argsstring>(int idx, Renderer::TEXTURE_TYPE type, ComPtr&lt; ID3D12Resource &gt; texResource)</argsstring>
+        <name>ApplyTextureOnMesh</name>
+        <qualifiedname>Renderer::ApplyTextureOnMesh</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>idx</declname>
+        </param>
+        <param>
+          <type><ref refid="class_renderer_1ab34659d99f36b87337a22436c694b77a" kindref="member">Renderer::TEXTURE_TYPE</ref></type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>ComPtr&lt; ID3D12Resource &gt;</type>
+          <declname>texResource</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/Renderer.h" line="63" column="6" bodyfile="src/Base/Renderer.cpp" bodystart="477" bodyend="497"/>
+      </memberdef>
+      <memberdef kind="function" id="class_renderer_1a177d22a97104d76e1cb249008c8c3148" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Renderer::ApplyTextureOnMesh</definition>
+        <argsstring>(int idx, Renderer::TEXTURE_TYPE type, ComPtr&lt; ID3D12Resource &gt; texResource, D3D12_SHADER_RESOURCE_VIEW_DESC desc)</argsstring>
+        <name>ApplyTextureOnMesh</name>
+        <qualifiedname>Renderer::ApplyTextureOnMesh</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>idx</declname>
+        </param>
+        <param>
+          <type><ref refid="class_renderer_1ab34659d99f36b87337a22436c694b77a" kindref="member">Renderer::TEXTURE_TYPE</ref></type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>ComPtr&lt; ID3D12Resource &gt;</type>
+          <declname>texResource</declname>
+        </param>
+        <param>
+          <type>D3D12_SHADER_RESOURCE_VIEW_DESC</type>
+          <declname>desc</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/Renderer.h" line="65" column="6" bodyfile="src/Base/Renderer.cpp" bodystart="499" bodyend="506"/>
+      </memberdef>
+      <memberdef kind="function" id="class_renderer_1a11816db1537fb8b768148001f5ad9f6a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Renderer::LoadVertexShader</definition>
+        <argsstring>(LPCWSTR vsName)</argsstring>
+        <name>LoadVertexShader</name>
+        <qualifiedname>Renderer::LoadVertexShader</qualifiedname>
+        <param>
+          <type>LPCWSTR</type>
+          <declname>vsName</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/Renderer.h" line="67" column="6" bodyfile="src/Base/Renderer.cpp" bodystart="629" bodyend="644"/>
+      </memberdef>
+      <memberdef kind="function" id="class_renderer_1a408d5fe9090735fa328d8d494cddfa2f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Renderer::LoadPixelShader</definition>
+        <argsstring>(LPCWSTR psName)</argsstring>
+        <name>LoadPixelShader</name>
+        <qualifiedname>Renderer::LoadPixelShader</qualifiedname>
+        <param>
+          <type>LPCWSTR</type>
+          <declname>psName</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/Renderer.h" line="69" column="6" bodyfile="src/Base/Renderer.cpp" bodystart="646" bodyend="661"/>
+      </memberdef>
+      <memberdef kind="function" id="class_renderer_1ae6f45f31877b5738313a1dc9cc02155d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool Renderer::CreateRenderPipeline</definition>
+        <argsstring>()</argsstring>
+        <name>CreateRenderPipeline</name>
+        <qualifiedname>Renderer::CreateRenderPipeline</qualifiedname>
+        <briefdescription>
+<para>レンダーパイプラインを作成する </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>正常に終了したらtrueを返す</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/Renderer.h" line="75" column="6" bodyfile="src/Base/Renderer.cpp" bodystart="777" bodyend="813"/>
+      </memberdef>
+      <memberdef kind="function" id="class_renderer_1a371e146fbbbd2274dafa4fd5526e3fdd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Renderer::AddCommandListFunction</definition>
+        <argsstring>(std::function&lt; void(ComPtr&lt; ID3D12GraphicsCommandList &gt;)&gt; f)</argsstring>
+        <name>AddCommandListFunction</name>
+        <qualifiedname>Renderer::AddCommandListFunction</qualifiedname>
+        <param>
+          <type>std::function&lt; void(ComPtr&lt; ID3D12GraphicsCommandList &gt;)&gt;</type>
+          <declname>f</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/Renderer.h" line="77" column="6" bodyfile="src/Base/Renderer.cpp" bodystart="547" bodyend="550"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_renderer_1a3e79920a8fb355dbb2eb24bdc0623bb7" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>Renderer::Renderer</definition>
+        <argsstring>(std::shared_ptr&lt; Entity &gt; ent)</argsstring>
+        <name>Renderer</name>
+        <qualifiedname>Renderer::Renderer</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; Entity &gt;</type>
+          <declname>ent</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/Renderer.h" line="79" column="1" bodyfile="src/Base/Renderer.cpp" bodystart="76" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="class_renderer_1a7cbd30dabcc6cd3b977ae647f6d3f23c" prot="protected" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void Renderer::Update</definition>
+        <argsstring>()</argsstring>
+        <name>Update</name>
+        <qualifiedname>Renderer::Update</qualifiedname>
+        <reimplementedby refid="class_debug_collider_1a27d64153df01d5e8e03def86bcba9300">Update</reimplementedby>
+        <reimplementedby refid="class_debug_directional_light_1a7f3c4020834b3caabd0ff7d758e81a57">Update</reimplementedby>
+        <reimplementedby refid="class_debug_grids_1aaf532436f5e32228eb44519958da3b4c">Update</reimplementedby>
+        <reimplementedby refid="class_debug_origin_1a2bcf65f79b8a3e178dac6198ca88d9ee">Update</reimplementedby>
+        <reimplementedby refid="class_debug_point_light_1a6eb24d3f608242fc26424bdaa21edea7">Update</reimplementedby>
+        <reimplementedby refid="class_debug_ray_cast_1a335dced788e166f2ecb52b5ce10d7886">Update</reimplementedby>
+        <reimplementedby refid="class_debug_spot_light_1a594b9bbc530182b781dfd100aaed7e5d">Update</reimplementedby>
+        <reimplementedby refid="class_debug_u_i_renderer_1a6db28f845e1ecbf67b5acc96f0db85bf">Update</reimplementedby>
+        <reimplementedby refid="class_post_effect_1a2f3963988774713d839b35bebafb2de0">Update</reimplementedby>
+        <reimplementedby refid="class_skinned_renderer_1a57c68e67e10e53e8b9fde82163d41d47">Update</reimplementedby>
+        <reimplementedby refid="class_sky_box_1a4eaff320cd36e549128d240ad72cdfc8">Update</reimplementedby>
+        <reimplementedby refid="class_u_i_renderer_1a96d5ce8381ec3354ebb49ed1e49b532d">Update</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/Renderer.h" line="81" column="14" bodyfile="src/Base/Renderer.cpp" bodystart="539" bodyend="541"/>
+      </memberdef>
+      <memberdef kind="function" id="class_renderer_1a26908c44f59e89bdedace76d6b2b1ff4" prot="protected" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void Renderer::InitRenderer</definition>
+        <argsstring>()</argsstring>
+        <name>InitRenderer</name>
+        <qualifiedname>Renderer::InitRenderer</qualifiedname>
+        <reimplementedby refid="class_debug_renderer_1ae72cc7d8366af19ea6119c7c1e4a3255">InitRenderer</reimplementedby>
+        <reimplementedby refid="class_post_effect_1a2b78c69a6f45a5108cc68e4f8c278d15">InitRenderer</reimplementedby>
+        <reimplementedby refid="class_skinned_renderer_1a01344adc524ae85b43c8920cb6205515">InitRenderer</reimplementedby>
+        <reimplementedby refid="class_sky_box_1ad391a124b30a0336921547e0dc8ef431">InitRenderer</reimplementedby>
+        <reimplementedby refid="class_u_i_renderer_1ac528f8a768905e7dfb7ce4ebc6734570">InitRenderer</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/Renderer.h" line="83" column="14" bodyfile="src/Base/Renderer.cpp" bodystart="543" bodyend="545"/>
+      </memberdef>
+      <memberdef kind="function" id="class_renderer_1a91339beb7c8d7127d80406fc95191467" prot="protected" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void Renderer::InitInCreateMesh</definition>
+        <argsstring>()</argsstring>
+        <name>InitInCreateMesh</name>
+        <qualifiedname>Renderer::InitInCreateMesh</qualifiedname>
+        <reimplementedby refid="class_skinned_renderer_1a5fa91c275f2b1ba221e2d1a2ccb8c242">InitInCreateMesh</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/Renderer.h" line="85" column="14" bodyfile="src/Base/Renderer.cpp" bodystart="534" bodyend="537"/>
+      </memberdef>
+      <memberdef kind="function" id="class_renderer_1aa7101ddc3d282a9f36821b36b46e303a" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Renderer::SetPrimitiveType</definition>
+        <argsstring>(D3D12_PRIMITIVE_TOPOLOGY type)</argsstring>
+        <name>SetPrimitiveType</name>
+        <qualifiedname>Renderer::SetPrimitiveType</qualifiedname>
+        <param>
+          <type>D3D12_PRIMITIVE_TOPOLOGY</type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/Renderer.h" line="87" column="6" bodyfile="src/Base/Renderer.cpp" bodystart="552" bodyend="557"/>
+      </memberdef>
+      <memberdef kind="function" id="class_renderer_1ad77abbe0720398802884bfa581e89191" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>D3D12_PRIMITIVE_TOPOLOGY</type>
+        <definition>D3D12_PRIMITIVE_TOPOLOGY Renderer::GetPrimitiveType</definition>
+        <argsstring>()</argsstring>
+        <name>GetPrimitiveType</name>
+        <qualifiedname>Renderer::GetPrimitiveType</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/Renderer.h" line="89" column="26" bodyfile="src/Base/Renderer.cpp" bodystart="559" bodyend="562"/>
+      </memberdef>
+      <memberdef kind="function" id="class_renderer_1a2a9bb6274d6c2bd7b1373a5218c04d1e" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>D3D12_GRAPHICS_PIPELINE_STATE_DESC</type>
+        <definition>D3D12_GRAPHICS_PIPELINE_STATE_DESC Renderer::GetDefaultPipelineDesc</definition>
+        <argsstring>()</argsstring>
+        <name>GetDefaultPipelineDesc</name>
+        <qualifiedname>Renderer::GetDefaultPipelineDesc</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/Renderer.h" line="91" column="36" bodyfile="src/Base/Renderer.cpp" bodystart="564" bodyend="600"/>
+      </memberdef>
+      <memberdef kind="function" id="class_renderer_1af930cefb3ea41ef2808605698cad4bbd" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Renderer::AddInputElementDesc</definition>
+        <argsstring>(D3D12_INPUT_ELEMENT_DESC desc)</argsstring>
+        <name>AddInputElementDesc</name>
+        <qualifiedname>Renderer::AddInputElementDesc</qualifiedname>
+        <param>
+          <type>D3D12_INPUT_ELEMENT_DESC</type>
+          <declname>desc</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/Renderer.h" line="93" column="6" bodyfile="src/Base/Renderer.cpp" bodystart="602" bodyend="605"/>
+      </memberdef>
+      <memberdef kind="function" id="class_renderer_1ac9336d05cc8a2bb6c57138f2d303439c" prot="protected" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void Renderer::AddCommand</definition>
+        <argsstring>(ComPtr&lt; ID3D12GraphicsCommandList &gt; cmdList)</argsstring>
+        <name>AddCommand</name>
+        <qualifiedname>Renderer::AddCommand</qualifiedname>
+        <reimplementedby refid="class_debug_renderer_1ac03486f4dd2c1699754c13af617faee1">AddCommand</reimplementedby>
+        <reimplementedby refid="class_debug_spot_light_1ad0f3eccb3c55fe6d9076ad080ff693a8">AddCommand</reimplementedby>
+        <reimplementedby refid="class_post_effect_1a8f9ee29fcee5f8deb706cee533834806">AddCommand</reimplementedby>
+        <reimplementedby refid="class_skinned_renderer_1a1f76bcf8265c7dd3617d21f829d8444b">AddCommand</reimplementedby>
+        <param>
+          <type>ComPtr&lt; ID3D12GraphicsCommandList &gt;</type>
+          <declname>cmdList</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/Renderer.h" line="95" column="14" bodyfile="src/Base/Renderer.cpp" bodystart="158" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="function" id="class_renderer_1adc4a2598dcf439e9651d53fb8a9c8eaa" prot="protected" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void Renderer::AddCommand</definition>
+        <argsstring>(ComPtr&lt; ID3D12GraphicsCommandList &gt; cmdList, UINT meshInd)</argsstring>
+        <name>AddCommand</name>
+        <qualifiedname>Renderer::AddCommand</qualifiedname>
+        <reimplementedby refid="class_skinned_renderer_1a0c4d7c98ebd99758b295fd0f7838ffde">AddCommand</reimplementedby>
+        <param>
+          <type>ComPtr&lt; ID3D12GraphicsCommandList &gt;</type>
+          <declname>cmdList</declname>
+        </param>
+        <param>
+          <type>UINT</type>
+          <declname>meshInd</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/Renderer.h" line="97" column="14" bodyfile="src/Base/Renderer.cpp" bodystart="163" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="class_renderer_1aced37542105905c8620cc0e81bef741d" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Renderer::PrepareForRenderPipeline</definition>
+        <argsstring>()</argsstring>
+        <name>PrepareForRenderPipeline</name>
+        <qualifiedname>Renderer::PrepareForRenderPipeline</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/Renderer.h" line="99" column="6" bodyfile="src/Base/Renderer.cpp" bodystart="688" bodyend="775"/>
+      </memberdef>
+      <memberdef kind="function" id="class_renderer_1aa726cdc916f149d8bb40a6fde9d25a63" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool Renderer::AddRenderPipeline</definition>
+        <argsstring>(D3D12_GRAPHICS_PIPELINE_STATE_DESC desc)</argsstring>
+        <name>AddRenderPipeline</name>
+        <qualifiedname>Renderer::AddRenderPipeline</qualifiedname>
+        <param>
+          <type>D3D12_GRAPHICS_PIPELINE_STATE_DESC</type>
+          <declname>desc</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/Renderer.h" line="101" column="6" bodyfile="src/Base/Renderer.cpp" bodystart="815" bodyend="831"/>
+      </memberdef>
+      <memberdef kind="function" id="class_renderer_1ab1ba84cc82cec719d474ed837fddaa12" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Renderer::ChangeRenderPipeline</definition>
+        <argsstring>(int idx)</argsstring>
+        <name>ChangeRenderPipeline</name>
+        <qualifiedname>Renderer::ChangeRenderPipeline</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>idx</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/Renderer.h" line="103" column="6" bodyfile="src/Base/Renderer.cpp" bodystart="833" bodyend="842"/>
+      </memberdef>
+      <memberdef kind="function" id="class_renderer_1aa0c95bbe27b96ae5e957205a4aaba80b" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Renderer::SetRasterizerDesc</definition>
+        <argsstring>(D3D12_RASTERIZER_DESC desc)</argsstring>
+        <name>SetRasterizerDesc</name>
+        <qualifiedname>Renderer::SetRasterizerDesc</qualifiedname>
+        <param>
+          <type>D3D12_RASTERIZER_DESC</type>
+          <declname>desc</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/Renderer.h" line="105" column="6" bodyfile="src/Base/Renderer.cpp" bodystart="607" bodyend="610"/>
+      </memberdef>
+      <memberdef kind="function" id="class_renderer_1ae0b48c95af9c03c0eed1edd30c8d9b32" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Renderer::SetRTBDesc</definition>
+        <argsstring>(D3D12_RENDER_TARGET_BLEND_DESC desc)</argsstring>
+        <name>SetRTBDesc</name>
+        <qualifiedname>Renderer::SetRTBDesc</qualifiedname>
+        <param>
+          <type>D3D12_RENDER_TARGET_BLEND_DESC</type>
+          <declname>desc</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/Renderer.h" line="107" column="6" bodyfile="src/Base/Renderer.cpp" bodystart="612" bodyend="615"/>
+      </memberdef>
+      <memberdef kind="function" id="class_renderer_1a813d0f334d299d3ceb2d5dc92563d80a" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Renderer::SetDepthStencilDesc</definition>
+        <argsstring>(D3D12_DEPTH_STENCIL_DESC desc)</argsstring>
+        <name>SetDepthStencilDesc</name>
+        <qualifiedname>Renderer::SetDepthStencilDesc</qualifiedname>
+        <param>
+          <type>D3D12_DEPTH_STENCIL_DESC</type>
+          <declname>desc</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/Renderer.h" line="109" column="6" bodyfile="src/Base/Renderer.cpp" bodystart="683" bodyend="686"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="class_renderer_1a84f853b6063815768dcfcd1d7e2f8763" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool Renderer::InitCBVResource</definition>
+        <argsstring>()</argsstring>
+        <name>InitCBVResource</name>
+        <qualifiedname>Renderer::InitCBVResource</qualifiedname>
+        <briefdescription>
+<para>コンスタントバッファビューのリソースを作成する </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>正常に終了したらtrueを返す</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/Renderer.h" line="181" column="6" bodyfile="src/Base/Renderer.cpp" bodystart="194" bodyend="258"/>
+      </memberdef>
+      <memberdef kind="function" id="class_renderer_1a85e12d41b97b8030d72a0b329f9e9bea" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool Renderer::InitMaterialResource</definition>
+        <argsstring>()</argsstring>
+        <name>InitMaterialResource</name>
+        <qualifiedname>Renderer::InitMaterialResource</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/Renderer.h" line="183" column="6" bodyfile="src/Base/Renderer.cpp" bodystart="336" bodyend="393"/>
+      </memberdef>
+      <memberdef kind="function" id="class_renderer_1ae5b35aeca82b3c1a24726bd957d6cc19" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool Renderer::MapMB</definition>
+        <argsstring>()</argsstring>
+        <name>MapMB</name>
+        <qualifiedname>Renderer::MapMB</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/Renderer.h" line="185" column="6" bodyfile="src/Base/Renderer.cpp" bodystart="395" bodyend="411"/>
+      </memberdef>
+      <memberdef kind="function" id="class_renderer_1a47c046c64542a80ddf91234f56162a4a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool Renderer::InitSRVForMaterialResource</definition>
+        <argsstring>()</argsstring>
+        <name>InitSRVForMaterialResource</name>
+        <qualifiedname>Renderer::InitSRVForMaterialResource</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/Renderer.h" line="187" column="6" bodyfile="src/Base/Renderer.cpp" bodystart="413" bodyend="428"/>
+      </memberdef>
+      <memberdef kind="function" id="class_renderer_1a6eaa0351f11163b67471c433641a243f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool Renderer::LinkCBVResourceToDescHeap</definition>
+        <argsstring>()</argsstring>
+        <name>LinkCBVResourceToDescHeap</name>
+        <qualifiedname>Renderer::LinkCBVResourceToDescHeap</qualifiedname>
+        <briefdescription>
+<para>コンスタントバッファのリソースをビューを通じてデスクリプタヒープに登録する </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>正常に終了したらtrueを返す</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/Renderer.h" line="193" column="6" bodyfile="src/Base/Renderer.cpp" bodystart="260" bodyend="277"/>
+      </memberdef>
+      <memberdef kind="function" id="class_renderer_1ab420171d311bd8e1724b18392a5454a9" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Renderer::CreateSRV</definition>
+        <argsstring>(ComPtr&lt; ID3D12Resource &gt; texResource, D3D12_CPU_DESCRIPTOR_HANDLE handle)</argsstring>
+        <name>CreateSRV</name>
+        <qualifiedname>Renderer::CreateSRV</qualifiedname>
+        <param>
+          <type>ComPtr&lt; ID3D12Resource &gt;</type>
+          <declname>texResource</declname>
+        </param>
+        <param>
+          <type>D3D12_CPU_DESCRIPTOR_HANDLE</type>
+          <declname>handle</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/Renderer.h" line="195" column="6" bodyfile="src/Base/Renderer.cpp" bodystart="430" bodyend="449"/>
+      </memberdef>
+      <memberdef kind="function" id="class_renderer_1ab05dabde0c059b1d4694c3267da154af" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Renderer::RegisterTextureSRV</definition>
+        <argsstring>()</argsstring>
+        <name>RegisterTextureSRV</name>
+        <qualifiedname>Renderer::RegisterTextureSRV</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/Renderer.h" line="197" column="6" bodyfile="src/Base/Renderer.cpp" bodystart="451" bodyend="475"/>
+      </memberdef>
+      <memberdef kind="function" id="class_renderer_1a82a1e2da282107116a6b2d618874e1d9" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Renderer::ConvertValues</definition>
+        <argsstring>()</argsstring>
+        <name>ConvertValues</name>
+        <qualifiedname>Renderer::ConvertValues</qualifiedname>
+        <briefdescription>
+<para>座標行列を作成する </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/Renderer.h" line="202" column="6" bodyfile="src/Base/Renderer.cpp" bodystart="280" bodyend="296"/>
+      </memberdef>
+      <memberdef kind="function" id="class_renderer_1aa702ec2f86a5bd23c2a121d338a601c5" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool Renderer::MapCB</definition>
+        <argsstring>(int backBuffer)</argsstring>
+        <name>MapCB</name>
+        <qualifiedname>Renderer::MapCB</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>backBuffer</declname>
+        </param>
+        <briefdescription>
+<para>コンスタントバッファをマッピングしてGPUに座標行列などを入力する </para>
+        </briefdescription>
+        <detaileddescription>
+<para>returns&gt;正常に終了したらtrueを返す</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/Renderer.h" line="208" column="6" bodyfile="src/Base/Renderer.cpp" bodystart="298" bodyend="334"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>Component</label>
+        <link refid="class_component"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>DebugCollider</label>
+        <link refid="class_debug_collider"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>DebugDirectionalLight</label>
+        <link refid="class_debug_directional_light"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>DebugGrids</label>
+        <link refid="class_debug_grids"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>DebugOrigin</label>
+        <link refid="class_debug_origin"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>DebugPointLight</label>
+        <link refid="class_debug_point_light"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>DebugRayCast</label>
+        <link refid="class_debug_ray_cast"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>DebugRenderer</label>
+        <link refid="class_debug_renderer"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>DebugSpotLight</label>
+        <link refid="class_debug_spot_light"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>DebugUIRenderer</label>
+        <link refid="class_debug_u_i_renderer"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>PEEdgeFilter</label>
+        <link refid="class_p_e_edge_filter"/>
+        <childnode refid="13" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>PEHorizonGaussianBlur</label>
+        <link refid="class_p_e_horizon_gaussian_blur"/>
+        <childnode refid="13" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>PEMosaicFilter</label>
+        <link refid="class_p_e_mosaic_filter"/>
+        <childnode refid="13" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>PENoiseFilter</label>
+        <link refid="class_p_e_noise_filter"/>
+        <childnode refid="13" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>PERadicalBlur</label>
+        <link refid="class_p_e_radical_blur"/>
+        <childnode refid="13" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>PEVerticalGaussianBlur</label>
+        <link refid="class_p_e_vertical_gaussian_blur"/>
+        <childnode refid="13" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>PostEffect</label>
+        <link refid="class_post_effect"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>Renderer</label>
+        <link refid="class_renderer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>SkinnedRenderer</label>
+        <link refid="class_skinned_renderer"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>SkyBox</label>
+        <link refid="class_sky_box"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>UIRenderer</label>
+        <link refid="class_u_i_renderer"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>std::enable_shared_from_this&lt; Component &gt;</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>Component</label>
+        <link refid="class_component"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>Renderer</label>
+        <link refid="class_renderer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>std::enable_shared_from_this&lt; Component &gt;</label>
+      </node>
+    </collaborationgraph>
+    <location file="include/Base/Renderer.h" line="22" column="1" bodyfile="include/Base/Renderer.h" bodystart="23" bodyend="209"/>
+    <listofallmembers>
+      <member refid="class_renderer_1ac9336d05cc8a2bb6c57138f2d303439c" prot="protected" virt="virtual"><scope>Renderer</scope><name>AddCommand</name></member>
+      <member refid="class_renderer_1adc4a2598dcf439e9651d53fb8a9c8eaa" prot="protected" virt="virtual"><scope>Renderer</scope><name>AddCommand</name></member>
+      <member refid="class_renderer_1a371e146fbbbd2274dafa4fd5526e3fdd" prot="public" virt="non-virtual"><scope>Renderer</scope><name>AddCommandListFunction</name></member>
+      <member refid="class_renderer_1af930cefb3ea41ef2808605698cad4bbd" prot="protected" virt="non-virtual"><scope>Renderer</scope><name>AddInputElementDesc</name></member>
+      <member refid="class_renderer_1a8b9fdeeecb7b6c37cfba79bc85841db5" prot="public" virt="virtual"><scope>Renderer</scope><name>AddRenderCommand</name></member>
+      <member refid="class_renderer_1aa726cdc916f149d8bb40a6fde9d25a63" prot="protected" virt="non-virtual"><scope>Renderer</scope><name>AddRenderPipeline</name></member>
+      <member refid="class_renderer_1a063ae27fa4015a4ad4fd355d1d7a9a2d" prot="public" virt="non-virtual"><scope>Renderer</scope><name>ApplyTextureOnMesh</name></member>
+      <member refid="class_renderer_1a177d22a97104d76e1cb249008c8c3148" prot="public" virt="non-virtual"><scope>Renderer</scope><name>ApplyTextureOnMesh</name></member>
+      <member refid="class_component_1a61954f08c177e4c1ebb17cf8fd3aa56f" prot="public" virt="non-virtual"><scope>Renderer</scope><name>attachFrom</name></member>
+      <member refid="class_component_1a120d65094802a621c8d804a964cafa9c" prot="public" virt="non-virtual"><scope>Renderer</scope><name>Cast</name></member>
+      <member refid="class_renderer_1a7832117cb87326278a00ba0648feb440" prot="protected" virt="non-virtual"><scope>Renderer</scope><name>cbHandle</name></member>
+      <member refid="class_renderer_1a9b39eecb49896cdc063229aa3a8086f6" prot="protected" virt="non-virtual"><scope>Renderer</scope><name>cbView</name></member>
+      <member refid="class_renderer_1ab1ba84cc82cec719d474ed837fddaa12" prot="protected" virt="non-virtual"><scope>Renderer</scope><name>ChangeRenderPipeline</name></member>
+      <member refid="class_renderer_1a3195f14a9ac7e7c8bf5ab6f92819bbcd" prot="private" virt="non-virtual"><scope>Renderer</scope><name>cmdFuncs</name></member>
+      <member refid="class_renderer_1ae80ad596f0b476671b1794a6fe8ab2b9" prot="public" virt="non-virtual"><scope>Renderer</scope><name>color</name></member>
+      <member refid="class_component_1a5cba85e33b188bf87ee09f353d7b2fa5" prot="public" virt="non-virtual"><scope>Renderer</scope><name>Component</name></member>
+      <member refid="class_renderer_1ab64318c35f8f266b8c36efbc41c2f943" prot="protected" virt="non-virtual"><scope>Renderer</scope><name>constantBuffer</name></member>
+      <member refid="class_renderer_1a82a1e2da282107116a6b2d618874e1d9" prot="private" virt="non-virtual"><scope>Renderer</scope><name>ConvertValues</name></member>
+      <member refid="class_renderer_1ab34659d99f36b87337a22436c694b77aa922dcc1fbe0210fff37a5c12e51c73bb" prot="public" virt="non-virtual"><scope>Renderer</scope><name>CountLast</name></member>
+      <member refid="class_renderer_1a18c48b8f8772486e7c9a54087b2f5612" prot="public" virt="non-virtual"><scope>Renderer</scope><name>CreateMesh</name></member>
+      <member refid="class_renderer_1ae6f45f31877b5738313a1dc9cc02155d" prot="public" virt="non-virtual"><scope>Renderer</scope><name>CreateRenderPipeline</name></member>
+      <member refid="class_renderer_1ab420171d311bd8e1724b18392a5454a9" prot="private" virt="non-virtual"><scope>Renderer</scope><name>CreateSRV</name></member>
+      <member refid="class_renderer_1aa94ee482132c778a9eebca26e55a8759" prot="protected" virt="non-virtual"><scope>Renderer</scope><name>currentCBCount</name></member>
+      <member refid="class_renderer_1a332ce1ec861cc52aebf95fe1ece25e35" prot="protected" virt="non-virtual"><scope>Renderer</scope><name>currentMeshType</name></member>
+      <member refid="class_renderer_1aa4fe052462016b3535fc1c507a333159" prot="private" virt="non-virtual"><scope>Renderer</scope><name>currentPipeline</name></member>
+      <member refid="class_renderer_1a3e252b2ee5a2a812c10e1fc58c26a403" prot="private" virt="non-virtual"><scope>Renderer</scope><name>descBlend</name></member>
+      <member refid="class_renderer_1a2e42c6cd3ecdf146d29dc7df37c9e686" prot="private" virt="non-virtual"><scope>Renderer</scope><name>descElement</name></member>
+      <member refid="class_renderer_1a44ce31ebe3db80d73684d375e9868b75" prot="private" virt="non-virtual"><scope>Renderer</scope><name>descRas</name></member>
+      <member refid="class_renderer_1a4735e8c974a5b036b291ef4957b85774" prot="private" virt="non-virtual"><scope>Renderer</scope><name>descRtBlend</name></member>
+      <member refid="class_renderer_1ab34659d99f36b87337a22436c694b77aafdf5aea8fe68699a92fc597e0f3aa410" prot="public" virt="non-virtual"><scope>Renderer</scope><name>DIFFUSE</name></member>
+      <member refid="class_renderer_1a3d2b3a00f68db7185c30eb5ec04473d4" prot="private" virt="non-virtual"><scope>Renderer</scope><name>dsDesc</name></member>
+      <member refid="class_component_1a22ed217d642f4566a47c874ac9a63eab" prot="public" virt="virtual"><scope>Renderer</scope><name>GetComponentName</name></member>
+      <member refid="class_renderer_1ad2ca3f47525a336279d7a3e9cd225155" prot="public" virt="non-virtual"><scope>Renderer</scope><name>GetCurrentMeshType</name></member>
+      <member refid="class_renderer_1a2a9bb6274d6c2bd7b1373a5218c04d1e" prot="protected" virt="non-virtual"><scope>Renderer</scope><name>GetDefaultPipelineDesc</name></member>
+      <member refid="class_component_1a2a9968090dabad782f2bbdaf0093be84" prot="public" virt="non-virtual"><scope>Renderer</scope><name>GetHash</name></member>
+      <member refid="class_component_1ac0ee67584bdd569c2809495a5843612b" prot="public" virt="non-virtual"><scope>Renderer</scope><name>GetLeafIndex</name></member>
+      <member refid="class_renderer_1a1e75024955af72f3c9dbadc96c10281f" prot="public" virt="non-virtual"><scope>Renderer</scope><name>GetMaterial</name></member>
+      <member refid="class_renderer_1a0f84f3368c4efbf49fdce3b3373baac2" prot="public" virt="non-virtual"><scope>Renderer</scope><name>GetMeshNameList</name></member>
+      <member refid="class_renderer_1ad77abbe0720398802884bfa581e89191" prot="protected" virt="non-virtual"><scope>Renderer</scope><name>GetPrimitiveType</name></member>
+      <member refid="class_renderer_1a34068a389335bc378379c7d3209732e6" prot="public" virt="non-virtual"><scope>Renderer</scope><name>GetTextureCPUHandle</name></member>
+      <member refid="class_renderer_1aae81abf8b1e97079d33df77b4757df44" prot="public" virt="non-virtual"><scope>Renderer</scope><name>GetTextureGPUHandle</name></member>
+      <member refid="class_component_1a1b25ee28c379d9f0d0c1ecc0df1e6328" prot="public" virt="non-virtual"><scope>Renderer</scope><name>GetTreeIndex</name></member>
+      <member refid="class_renderer_1ac0ef6dd4baa52d630c273b23c812d51f" prot="protected" virt="non-virtual"><scope>Renderer</scope><name>hr</name></member>
+      <member refid="class_renderer_1ad92446fb0350d8537dcd2f01150b0efb" prot="public" virt="virtual"><scope>Renderer</scope><name>Init</name></member>
+      <member refid="class_renderer_1a84f853b6063815768dcfcd1d7e2f8763" prot="private" virt="non-virtual"><scope>Renderer</scope><name>InitCBVResource</name></member>
+      <member refid="class_renderer_1a91339beb7c8d7127d80406fc95191467" prot="protected" virt="virtual"><scope>Renderer</scope><name>InitInCreateMesh</name></member>
+      <member refid="class_renderer_1a85e12d41b97b8030d72a0b329f9e9bea" prot="private" virt="non-virtual"><scope>Renderer</scope><name>InitMaterialResource</name></member>
+      <member refid="class_renderer_1a26908c44f59e89bdedace76d6b2b1ff4" prot="protected" virt="virtual"><scope>Renderer</scope><name>InitRenderer</name></member>
+      <member refid="class_renderer_1a47c046c64542a80ddf91234f56162a4a" prot="private" virt="non-virtual"><scope>Renderer</scope><name>InitSRVForMaterialResource</name></member>
+      <member refid="class_renderer_1a9417332e939d71be632e6d81854e8df1" prot="protected" virt="non-virtual"><scope>Renderer</scope><name>instanceCount</name></member>
+      <member refid="class_renderer_1adcb0d20572ce6fe825df04fa0788b2ab" prot="protected" virt="non-virtual"><scope>Renderer</scope><name>isPipelineAlreadyCreated</name></member>
+      <member refid="class_renderer_1a6eaa0351f11163b67471c433641a243f" prot="private" virt="non-virtual"><scope>Renderer</scope><name>LinkCBVResourceToDescHeap</name></member>
+      <member refid="class_renderer_1a408d5fe9090735fa328d8d494cddfa2f" prot="public" virt="non-virtual"><scope>Renderer</scope><name>LoadPixelShader</name></member>
+      <member refid="class_renderer_1a11816db1537fb8b768148001f5ad9f6a" prot="public" virt="non-virtual"><scope>Renderer</scope><name>LoadVertexShader</name></member>
+      <member refid="class_renderer_1aa702ec2f86a5bd23c2a121d338a601c5" prot="private" virt="non-virtual"><scope>Renderer</scope><name>MapCB</name></member>
+      <member refid="class_renderer_1ae5b35aeca82b3c1a24726bd957d6cc19" prot="private" virt="non-virtual"><scope>Renderer</scope><name>MapMB</name></member>
+      <member refid="class_renderer_1ab4e7d5df234bc02ae6587744e97fb4c9" prot="protected" virt="non-virtual"><scope>Renderer</scope><name>materialHandle</name></member>
+      <member refid="class_renderer_1a400d0869b9758ed5ec0ab248e2736024" prot="protected" virt="non-virtual"><scope>Renderer</scope><name>materialResource</name></member>
+      <member refid="class_renderer_1aebb08c6ad0f141810462711e9afb3d69" prot="protected" virt="non-virtual"><scope>Renderer</scope><name>mats</name></member>
+      <member refid="class_renderer_1a08dd8b2ddddde6917db844ccc964a7fc" prot="protected" virt="non-virtual"><scope>Renderer</scope><name>meshData</name></member>
+      <member refid="class_renderer_1ab34659d99f36b87337a22436c694b77aae429abe859bc1468cb76df92556daffc" prot="public" virt="non-virtual"><scope>Renderer</scope><name>NORMAL</name></member>
+      <member refid="class_renderer_1a82cc08e1f5f5c20a24efd32b12439068" prot="private" virt="non-virtual"><scope>Renderer</scope><name>pipeline</name></member>
+      <member refid="class_renderer_1aced37542105905c8620cc0e81bef741d" prot="protected" virt="non-virtual"><scope>Renderer</scope><name>PrepareForRenderPipeline</name></member>
+      <member refid="class_renderer_1ae0c1e8db9c4f2660b78d8fbe6bb66799" prot="private" virt="non-virtual"><scope>Renderer</scope><name>primitiveType</name></member>
+      <member refid="class_renderer_1ad3a381d537b586fee31793a640050af8" prot="private" virt="non-virtual"><scope>Renderer</scope><name>psBlob</name></member>
+      <member refid="class_renderer_1ab05dabde0c059b1d4694c3267da154af" prot="private" virt="non-virtual"><scope>Renderer</scope><name>RegisterTextureSRV</name></member>
+      <member refid="class_renderer_1a3e79920a8fb355dbb2eb24bdc0623bb7" prot="protected" virt="non-virtual"><scope>Renderer</scope><name>Renderer</name></member>
+      <member refid="class_renderer_1a813d0f334d299d3ceb2d5dc92563d80a" prot="protected" virt="non-virtual"><scope>Renderer</scope><name>SetDepthStencilDesc</name></member>
+      <member refid="class_component_1a053713eb8c3c356263a588fc398da49f" prot="public" virt="non-virtual"><scope>Renderer</scope><name>SetHash</name></member>
+      <member refid="class_component_1a93263d6a4c7a133ad05f8b754463d81a" prot="public" virt="non-virtual"><scope>Renderer</scope><name>SetIndex</name></member>
+      <member refid="class_renderer_1a28d3dc05ad44bca091f1a27bafccc189" prot="public" virt="non-virtual"><scope>Renderer</scope><name>SetMaterial</name></member>
+      <member refid="class_renderer_1aa7101ddc3d282a9f36821b36b46e303a" prot="protected" virt="non-virtual"><scope>Renderer</scope><name>SetPrimitiveType</name></member>
+      <member refid="class_renderer_1aa0c95bbe27b96ae5e957205a4aaba80b" prot="protected" virt="non-virtual"><scope>Renderer</scope><name>SetRasterizerDesc</name></member>
+      <member refid="class_renderer_1ae0b48c95af9c03c0eed1edd30c8d9b32" prot="protected" virt="non-virtual"><scope>Renderer</scope><name>SetRTBDesc</name></member>
+      <member refid="class_renderer_1a7f11ecf36ae42d291fea649efd3a86ce" prot="private" virt="non-virtual"><scope>Renderer</scope><name>shadowMapPipeline</name></member>
+      <member refid="class_renderer_1a8a71c03908e1318fd4a76155e9489005" prot="protected" virt="non-virtual"><scope>Renderer</scope><name>texHandles</name></member>
+      <member refid="class_renderer_1ab34659d99f36b87337a22436c694b77a" prot="public" virt="non-virtual"><scope>Renderer</scope><name>TEXTURE_TYPE</name></member>
+      <member refid="class_renderer_1a52f2d07a0df1cb61fd5e27593cf745ec" prot="protected" virt="non-virtual"><scope>Renderer</scope><name>trans</name></member>
+      <member refid="class_renderer_1a7cbd30dabcc6cd3b977ae647f6d3f23c" prot="protected" virt="virtual"><scope>Renderer</scope><name>Update</name></member>
+      <member refid="class_renderer_1a09e5864af7b368e3e9fff2c973dfdc85" prot="private" virt="non-virtual"><scope>Renderer</scope><name>vsBlob</name></member>
+      <member refid="class_component_1ab8378fa275af98e568a7e91d33d867af" prot="public" virt="virtual"><scope>Renderer</scope><name>~Component</name></member>
+      <member refid="class_renderer_1afeee408862d5bd6255a6882d47e6d5cd" prot="public" virt="non-virtual"><scope>Renderer</scope><name>~Renderer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

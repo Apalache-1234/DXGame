@@ -1,0 +1,749 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="class_skinned_renderer" kind="class" language="C++" prot="public">
+    <compoundname>SkinnedRenderer</compoundname>
+    <basecompoundref refid="class_renderer" prot="public" virt="non-virtual">Renderer</basecompoundref>
+    <includes refid="_skinned_renderer_8h" local="no">SkinnedRenderer.h</includes>
+    <innerclass refid="struct_skinned_renderer_1_1_node_transform" prot="private">SkinnedRenderer::NodeTransform</innerclass>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_skinned_renderer_1aca4f01087d73d5e69653f4c84b6232c0" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool SkinnedRenderer::isAnimPlaying</definition>
+        <argsstring></argsstring>
+        <name>isAnimPlaying</name>
+        <qualifiedname>SkinnedRenderer::isAnimPlaying</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/SkinnedRenderer.h" line="29" column="6" bodyfile="include/SkinnedRenderer.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_skinned_renderer_1a8f67c9b6e89ecf3c9113296ef569f9eb" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float SkinnedRenderer::animSpeed</definition>
+        <argsstring></argsstring>
+        <name>animSpeed</name>
+        <qualifiedname>SkinnedRenderer::animSpeed</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/SkinnedRenderer.h" line="31" column="7" bodyfile="include/SkinnedRenderer.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_skinned_renderer_1a4a2103fd1dea5999bed2c5da1b5c321f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool SkinnedRenderer::animLoop</definition>
+        <argsstring></argsstring>
+        <name>animLoop</name>
+        <qualifiedname>SkinnedRenderer::animLoop</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/SkinnedRenderer.h" line="33" column="6" bodyfile="include/SkinnedRenderer.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_skinned_renderer_1a3a5974d894b3b9875dee5092591e952c" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; NodeTransform * &gt;</type>
+        <definition>std::vector&lt;NodeTransform*&gt; SkinnedRenderer::mappedData</definition>
+        <argsstring></argsstring>
+        <name>mappedData</name>
+        <qualifiedname>SkinnedRenderer::mappedData</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/SkinnedRenderer.h" line="50" column="13" bodyfile="include/SkinnedRenderer.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_skinned_renderer_1a052b7b09f37a2f22cac3014e36f88ccf" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; ComPtr&lt; ID3D12Resource &gt; &gt;</type>
+        <definition>std::vector&lt;ComPtr&lt;ID3D12Resource&gt; &gt; SkinnedRenderer::nodeTransformBuffer</definition>
+        <argsstring></argsstring>
+        <name>nodeTransformBuffer</name>
+        <qualifiedname>SkinnedRenderer::nodeTransformBuffer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/SkinnedRenderer.h" line="52" column="13" bodyfile="include/SkinnedRenderer.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_skinned_renderer_1aeddc611f1fe9c020f8cec7d151268539" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; PtrHandles &gt;</type>
+        <definition>std::unique_ptr&lt;PtrHandles&gt; SkinnedRenderer::boneHandle</definition>
+        <argsstring></argsstring>
+        <name>boneHandle</name>
+        <qualifiedname>SkinnedRenderer::boneHandle</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/SkinnedRenderer.h" line="54" column="17" bodyfile="include/SkinnedRenderer.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_skinned_renderer_1acba4b730d58b60fcd850db072ff19e8e" prot="private" static="no" mutable="no">
+        <type>ComPtr&lt; ID3D12Resource &gt;</type>
+        <definition>ComPtr&lt;ID3D12Resource&gt; SkinnedRenderer::boneBuffer</definition>
+        <argsstring></argsstring>
+        <name>boneBuffer</name>
+        <qualifiedname>SkinnedRenderer::boneBuffer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/SkinnedRenderer.h" line="56" column="8" bodyfile="include/SkinnedRenderer.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_skinned_renderer_1a129c656b7d8e8aa4a5d7af768b345f04" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int SkinnedRenderer::boneBufferParamNum</definition>
+        <argsstring></argsstring>
+        <name>boneBufferParamNum</name>
+        <qualifiedname>SkinnedRenderer::boneBufferParamNum</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/SkinnedRenderer.h" line="58" column="5" bodyfile="include/SkinnedRenderer.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_skinned_renderer_1a8fe2e7dbd39a483f55ea98a851f497b0" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int SkinnedRenderer::nodeTransformBufferParamNum</definition>
+        <argsstring></argsstring>
+        <name>nodeTransformBufferParamNum</name>
+        <qualifiedname>SkinnedRenderer::nodeTransformBufferParamNum</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/SkinnedRenderer.h" line="59" column="5" bodyfile="include/SkinnedRenderer.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_skinned_renderer_1abb74406ab1038459c59d8c0d2ee3b8f1" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; XMMATRIX &gt;</type>
+        <definition>std::vector&lt;XMMATRIX&gt; SkinnedRenderer::finalBoneMats</definition>
+        <argsstring></argsstring>
+        <name>finalBoneMats</name>
+        <qualifiedname>SkinnedRenderer::finalBoneMats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/SkinnedRenderer.h" line="61" column="13" bodyfile="include/SkinnedRenderer.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_skinned_renderer_1aaa33abcf6962ff8d846477b8617bd3d4" prot="private" static="no" mutable="no">
+        <type>float</type>
+        <definition>float SkinnedRenderer::animTimeCur</definition>
+        <argsstring></argsstring>
+        <name>animTimeCur</name>
+        <qualifiedname>SkinnedRenderer::animTimeCur</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/SkinnedRenderer.h" line="63" column="7" bodyfile="include/SkinnedRenderer.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_skinned_renderer_1ad664862e8cd69ece8f4d7c60c8ac9d03" prot="private" static="no" mutable="no">
+        <type>float</type>
+        <definition>float SkinnedRenderer::animTime</definition>
+        <argsstring></argsstring>
+        <name>animTime</name>
+        <qualifiedname>SkinnedRenderer::animTime</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/SkinnedRenderer.h" line="65" column="7" bodyfile="include/SkinnedRenderer.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_skinned_renderer_1a165731a3fbae0187d3d731dde7196921" prot="private" static="no" mutable="no">
+        <type>UINT</type>
+        <definition>UINT SkinnedRenderer::animIndex</definition>
+        <argsstring></argsstring>
+        <name>animIndex</name>
+        <qualifiedname>SkinnedRenderer::animIndex</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/SkinnedRenderer.h" line="67" column="6" bodyfile="include/SkinnedRenderer.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_skinned_renderer_1a1b01113c953f4e236e7e26028108b67f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>SkinnedRenderer::SkinnedRenderer</definition>
+        <argsstring>(std::shared_ptr&lt; Entity &gt; ent)</argsstring>
+        <name>SkinnedRenderer</name>
+        <qualifiedname>SkinnedRenderer::SkinnedRenderer</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; Entity &gt;</type>
+          <declname>ent</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/SkinnedRenderer.h" line="11" column="1" bodyfile="src/SkinnedRenderer.cpp" bodystart="6" bodyend="9"/>
+      </memberdef>
+      <memberdef kind="function" id="class_skinned_renderer_1aeaf2f8b11ae815e087a4928d68ae245e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>SkinnedRenderer::~SkinnedRenderer</definition>
+        <argsstring>()</argsstring>
+        <name>~SkinnedRenderer</name>
+        <qualifiedname>SkinnedRenderer::~SkinnedRenderer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/SkinnedRenderer.h" line="13" column="1" bodyfile="src/SkinnedRenderer.cpp" bodystart="11" bodyend="14"/>
+      </memberdef>
+      <memberdef kind="function" id="class_skinned_renderer_1a9c87fc4fbee09817601e3ea1f78faf89" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void SkinnedRenderer::StartAnimation</definition>
+        <argsstring>(UINT index, float speed, bool isLoop)</argsstring>
+        <name>StartAnimation</name>
+        <qualifiedname>SkinnedRenderer::StartAnimation</qualifiedname>
+        <param>
+          <type>UINT</type>
+          <declname>index</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>speed</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>isLoop</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/SkinnedRenderer.h" line="15" column="6" bodyfile="src/SkinnedRenderer.cpp" bodystart="441" bodyend="456"/>
+      </memberdef>
+      <memberdef kind="function" id="class_skinned_renderer_1a93163ec96412fc16f9a9463c939cda21" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float SkinnedRenderer::GetAnimCurrentTime</definition>
+        <argsstring>()</argsstring>
+        <name>GetAnimCurrentTime</name>
+        <qualifiedname>SkinnedRenderer::GetAnimCurrentTime</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/SkinnedRenderer.h" line="17" column="7" bodyfile="src/SkinnedRenderer.cpp" bodystart="365" bodyend="368"/>
+      </memberdef>
+      <memberdef kind="function" id="class_skinned_renderer_1a4e5c27a4f4e5ff78330c406ff8aa6c19" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float SkinnedRenderer::GetAnimTime</definition>
+        <argsstring>()</argsstring>
+        <name>GetAnimTime</name>
+        <qualifiedname>SkinnedRenderer::GetAnimTime</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/SkinnedRenderer.h" line="19" column="7" bodyfile="src/SkinnedRenderer.cpp" bodystart="370" bodyend="373"/>
+      </memberdef>
+      <memberdef kind="function" id="class_skinned_renderer_1a6924de21ece527c7c3e194cf96c85a1e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int SkinnedRenderer::GetAnimIndex</definition>
+        <argsstring>()</argsstring>
+        <name>GetAnimIndex</name>
+        <qualifiedname>SkinnedRenderer::GetAnimIndex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/SkinnedRenderer.h" line="21" column="5" bodyfile="src/SkinnedRenderer.cpp" bodystart="375" bodyend="378"/>
+      </memberdef>
+      <memberdef kind="function" id="class_skinned_renderer_1a245098249f53a61646f71c89f3f0beab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void SkinnedRenderer::SetAnimTime</definition>
+        <argsstring>(float time)</argsstring>
+        <name>SetAnimTime</name>
+        <qualifiedname>SkinnedRenderer::SetAnimTime</qualifiedname>
+        <param>
+          <type>float</type>
+          <declname>time</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/SkinnedRenderer.h" line="23" column="6" bodyfile="src/SkinnedRenderer.cpp" bodystart="434" bodyend="439"/>
+      </memberdef>
+      <memberdef kind="function" id="class_skinned_renderer_1ab8e8bed78911a50f3d7b742ade17928b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; string &gt;</type>
+        <definition>std::vector&lt; string &gt; SkinnedRenderer::GetAnimationNameList</definition>
+        <argsstring>()</argsstring>
+        <name>GetAnimationNameList</name>
+        <qualifiedname>SkinnedRenderer::GetAnimationNameList</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/SkinnedRenderer.h" line="25" column="13" bodyfile="src/SkinnedRenderer.cpp" bodystart="458" bodyend="468"/>
+      </memberdef>
+      <memberdef kind="function" id="class_skinned_renderer_1acaeb640b37735e9d75edda2e6c30497b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void SkinnedRenderer::ResetAnimationStatue</definition>
+        <argsstring>()</argsstring>
+        <name>ResetAnimationStatue</name>
+        <qualifiedname>SkinnedRenderer::ResetAnimationStatue</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/SkinnedRenderer.h" line="27" column="6" bodyfile="src/SkinnedRenderer.cpp" bodystart="470" bodyend="496"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_skinned_renderer_1a01344adc524ae85b43c8920cb6205515" prot="protected" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void SkinnedRenderer::InitRenderer</definition>
+        <argsstring>() override</argsstring>
+        <name>InitRenderer</name>
+        <qualifiedname>SkinnedRenderer::InitRenderer</qualifiedname>
+        <reimplements refid="class_renderer_1a26908c44f59e89bdedace76d6b2b1ff4">InitRenderer</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/SkinnedRenderer.h" line="35" column="6" bodyfile="src/SkinnedRenderer.cpp" bodystart="498" bodyend="521"/>
+      </memberdef>
+      <memberdef kind="function" id="class_skinned_renderer_1a57c68e67e10e53e8b9fde82163d41d47" prot="protected" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void SkinnedRenderer::Update</definition>
+        <argsstring>() override</argsstring>
+        <name>Update</name>
+        <qualifiedname>SkinnedRenderer::Update</qualifiedname>
+        <reimplements refid="class_renderer_1a7cbd30dabcc6cd3b977ae647f6d3f23c">Update</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/SkinnedRenderer.h" line="37" column="6" bodyfile="src/SkinnedRenderer.cpp" bodystart="523" bodyend="550"/>
+      </memberdef>
+      <memberdef kind="function" id="class_skinned_renderer_1a5fa91c275f2b1ba221e2d1a2ccb8c242" prot="protected" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void SkinnedRenderer::InitInCreateMesh</definition>
+        <argsstring>() override</argsstring>
+        <name>InitInCreateMesh</name>
+        <qualifiedname>SkinnedRenderer::InitInCreateMesh</qualifiedname>
+        <reimplements refid="class_renderer_1a91339beb7c8d7127d80406fc95191467">InitInCreateMesh</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/SkinnedRenderer.h" line="39" column="6" bodyfile="src/SkinnedRenderer.cpp" bodystart="567" bodyend="570"/>
+      </memberdef>
+      <memberdef kind="function" id="class_skinned_renderer_1a1f76bcf8265c7dd3617d21f829d8444b" prot="protected" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void SkinnedRenderer::AddCommand</definition>
+        <argsstring>(ComPtr&lt; ID3D12GraphicsCommandList &gt; cmdList) override</argsstring>
+        <name>AddCommand</name>
+        <qualifiedname>SkinnedRenderer::AddCommand</qualifiedname>
+        <reimplements refid="class_renderer_1ac9336d05cc8a2bb6c57138f2d303439c">AddCommand</reimplements>
+        <param>
+          <type>ComPtr&lt; ID3D12GraphicsCommandList &gt;</type>
+          <declname>cmdList</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/SkinnedRenderer.h" line="41" column="6" bodyfile="src/SkinnedRenderer.cpp" bodystart="16" bodyend="21"/>
+      </memberdef>
+      <memberdef kind="function" id="class_skinned_renderer_1a0c4d7c98ebd99758b295fd0f7838ffde" prot="protected" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void SkinnedRenderer::AddCommand</definition>
+        <argsstring>(ComPtr&lt; ID3D12GraphicsCommandList &gt; cmdList, UINT meshInd) override</argsstring>
+        <name>AddCommand</name>
+        <qualifiedname>SkinnedRenderer::AddCommand</qualifiedname>
+        <reimplements refid="class_renderer_1adc4a2598dcf439e9651d53fb8a9c8eaa">AddCommand</reimplements>
+        <param>
+          <type>ComPtr&lt; ID3D12GraphicsCommandList &gt;</type>
+          <declname>cmdList</declname>
+        </param>
+        <param>
+          <type>UINT</type>
+          <declname>meshInd</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/SkinnedRenderer.h" line="43" column="6" bodyfile="src/SkinnedRenderer.cpp" bodystart="23" bodyend="26"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="class_skinned_renderer_1a3b81a65dfb8066c5f25c55727b682ff3" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool SkinnedRenderer::InitBoneResource</definition>
+        <argsstring>()</argsstring>
+        <name>InitBoneResource</name>
+        <qualifiedname>SkinnedRenderer::InitBoneResource</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/SkinnedRenderer.h" line="69" column="6" bodyfile="src/SkinnedRenderer.cpp" bodystart="28" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="class_skinned_renderer_1a031a189de2f5633253f448e4db31ebaf" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool SkinnedRenderer::MapBB</definition>
+        <argsstring>()</argsstring>
+        <name>MapBB</name>
+        <qualifiedname>SkinnedRenderer::MapBB</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/SkinnedRenderer.h" line="71" column="6" bodyfile="src/SkinnedRenderer.cpp" bodystart="89" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="class_skinned_renderer_1a5ed139aa62d20e09fd6037fce7ed2f5c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool SkinnedRenderer::InitSRVForBoneBuffer</definition>
+        <argsstring>()</argsstring>
+        <name>InitSRVForBoneBuffer</name>
+        <qualifiedname>SkinnedRenderer::InitSRVForBoneBuffer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/SkinnedRenderer.h" line="73" column="6" bodyfile="src/SkinnedRenderer.cpp" bodystart="109" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="class_skinned_renderer_1af7bd5ff475c67fb8a4d2f42728d49474" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void SkinnedRenderer::ReadHierarchyNode</definition>
+        <argsstring>(aiNode &amp;node, const aiMatrix4x4 &amp;parentMat)</argsstring>
+        <name>ReadHierarchyNode</name>
+        <qualifiedname>SkinnedRenderer::ReadHierarchyNode</qualifiedname>
+        <param>
+          <type>aiNode &amp;</type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type>const aiMatrix4x4 &amp;</type>
+          <declname>parentMat</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/SkinnedRenderer.h" line="75" column="6" bodyfile="src/SkinnedRenderer.cpp" bodystart="272" bodyend="291"/>
+      </memberdef>
+      <memberdef kind="function" id="class_skinned_renderer_1a8acf93c0526a81559c28fa3316b3a2be" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void SkinnedRenderer::ReadHierarchyNode</definition>
+        <argsstring>(float animationTime, aiNode &amp;node, aiMatrix4x4 &amp;parentMat, aiAnimation &amp;anim)</argsstring>
+        <name>ReadHierarchyNode</name>
+        <qualifiedname>SkinnedRenderer::ReadHierarchyNode</qualifiedname>
+        <param>
+          <type>float</type>
+          <declname>animationTime</declname>
+        </param>
+        <param>
+          <type>aiNode &amp;</type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type>aiMatrix4x4 &amp;</type>
+          <declname>parentMat</declname>
+        </param>
+        <param>
+          <type>aiAnimation &amp;</type>
+          <declname>anim</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/SkinnedRenderer.h" line="77" column="6" bodyfile="src/SkinnedRenderer.cpp" bodystart="293" bodyend="340"/>
+      </memberdef>
+      <memberdef kind="function" id="class_skinned_renderer_1ab5ece7937c948b20f06c5c3731c9b514" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void SkinnedRenderer::CreateNodeTransformBuffer</definition>
+        <argsstring>()</argsstring>
+        <name>CreateNodeTransformBuffer</name>
+        <qualifiedname>SkinnedRenderer::CreateNodeTransformBuffer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/SkinnedRenderer.h" line="79" column="6" bodyfile="src/SkinnedRenderer.cpp" bodystart="382" bodyend="402"/>
+      </memberdef>
+      <memberdef kind="function" id="class_skinned_renderer_1aa59929076ac45714314b7a4b918326ad" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void SkinnedRenderer::InitNodeTransformBuffer</definition>
+        <argsstring>(aiNode &amp;node, const aiMatrix4x4 &amp;parentMat)</argsstring>
+        <name>InitNodeTransformBuffer</name>
+        <qualifiedname>SkinnedRenderer::InitNodeTransformBuffer</qualifiedname>
+        <param>
+          <type>aiNode &amp;</type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type>const aiMatrix4x4 &amp;</type>
+          <declname>parentMat</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/SkinnedRenderer.h" line="81" column="6" bodyfile="src/SkinnedRenderer.cpp" bodystart="404" bodyend="432"/>
+      </memberdef>
+      <memberdef kind="function" id="class_skinned_renderer_1aa80d02727bc3e30051b7959103b35bb6" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void SkinnedRenderer::InitNodeTransFormBuffer</definition>
+        <argsstring>()</argsstring>
+        <name>InitNodeTransFormBuffer</name>
+        <qualifiedname>SkinnedRenderer::InitNodeTransFormBuffer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/SkinnedRenderer.h" line="83" column="6" bodyfile="src/SkinnedRenderer.cpp" bodystart="552" bodyend="564"/>
+      </memberdef>
+      <memberdef kind="function" id="class_skinned_renderer_1ad3595fbb20ef8285fa086f6a640bbe77" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void SkinnedRenderer::ProcessAnimation</definition>
+        <argsstring>(float time)</argsstring>
+        <name>ProcessAnimation</name>
+        <qualifiedname>SkinnedRenderer::ProcessAnimation</qualifiedname>
+        <param>
+          <type>float</type>
+          <declname>time</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/SkinnedRenderer.h" line="85" column="6" bodyfile="src/SkinnedRenderer.cpp" bodystart="342" bodyend="363"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>Component</label>
+        <link refid="class_component"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>Renderer</label>
+        <link refid="class_renderer"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>SkinnedRenderer</label>
+        <link refid="class_skinned_renderer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>std::enable_shared_from_this&lt; Component &gt;</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>Component</label>
+        <link refid="class_component"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>Renderer</label>
+        <link refid="class_renderer"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>SkinnedRenderer</label>
+        <link refid="class_skinned_renderer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>std::enable_shared_from_this&lt; Component &gt;</label>
+      </node>
+    </collaborationgraph>
+    <location file="include/SkinnedRenderer.h" line="6" column="1" bodyfile="include/SkinnedRenderer.h" bodystart="7" bodyend="86"/>
+    <listofallmembers>
+      <member refid="class_skinned_renderer_1a1f76bcf8265c7dd3617d21f829d8444b" prot="protected" virt="virtual"><scope>SkinnedRenderer</scope><name>AddCommand</name></member>
+      <member refid="class_skinned_renderer_1a0c4d7c98ebd99758b295fd0f7838ffde" prot="protected" virt="virtual"><scope>SkinnedRenderer</scope><name>AddCommand</name></member>
+      <member refid="class_renderer_1a371e146fbbbd2274dafa4fd5526e3fdd" prot="public" virt="non-virtual"><scope>SkinnedRenderer</scope><name>AddCommandListFunction</name></member>
+      <member refid="class_renderer_1af930cefb3ea41ef2808605698cad4bbd" prot="protected" virt="non-virtual"><scope>SkinnedRenderer</scope><name>AddInputElementDesc</name></member>
+      <member refid="class_renderer_1a8b9fdeeecb7b6c37cfba79bc85841db5" prot="public" virt="virtual"><scope>SkinnedRenderer</scope><name>AddRenderCommand</name></member>
+      <member refid="class_renderer_1aa726cdc916f149d8bb40a6fde9d25a63" prot="protected" virt="non-virtual"><scope>SkinnedRenderer</scope><name>AddRenderPipeline</name></member>
+      <member refid="class_skinned_renderer_1a165731a3fbae0187d3d731dde7196921" prot="private" virt="non-virtual"><scope>SkinnedRenderer</scope><name>animIndex</name></member>
+      <member refid="class_skinned_renderer_1a4a2103fd1dea5999bed2c5da1b5c321f" prot="public" virt="non-virtual"><scope>SkinnedRenderer</scope><name>animLoop</name></member>
+      <member refid="class_skinned_renderer_1a8f67c9b6e89ecf3c9113296ef569f9eb" prot="public" virt="non-virtual"><scope>SkinnedRenderer</scope><name>animSpeed</name></member>
+      <member refid="class_skinned_renderer_1ad664862e8cd69ece8f4d7c60c8ac9d03" prot="private" virt="non-virtual"><scope>SkinnedRenderer</scope><name>animTime</name></member>
+      <member refid="class_skinned_renderer_1aaa33abcf6962ff8d846477b8617bd3d4" prot="private" virt="non-virtual"><scope>SkinnedRenderer</scope><name>animTimeCur</name></member>
+      <member refid="class_renderer_1a063ae27fa4015a4ad4fd355d1d7a9a2d" prot="public" virt="non-virtual"><scope>SkinnedRenderer</scope><name>ApplyTextureOnMesh</name></member>
+      <member refid="class_renderer_1a177d22a97104d76e1cb249008c8c3148" prot="public" virt="non-virtual"><scope>SkinnedRenderer</scope><name>ApplyTextureOnMesh</name></member>
+      <member refid="class_component_1a61954f08c177e4c1ebb17cf8fd3aa56f" prot="public" virt="non-virtual"><scope>SkinnedRenderer</scope><name>attachFrom</name></member>
+      <member refid="class_skinned_renderer_1acba4b730d58b60fcd850db072ff19e8e" prot="private" virt="non-virtual"><scope>SkinnedRenderer</scope><name>boneBuffer</name></member>
+      <member refid="class_skinned_renderer_1a129c656b7d8e8aa4a5d7af768b345f04" prot="private" virt="non-virtual"><scope>SkinnedRenderer</scope><name>boneBufferParamNum</name></member>
+      <member refid="class_skinned_renderer_1aeddc611f1fe9c020f8cec7d151268539" prot="private" virt="non-virtual"><scope>SkinnedRenderer</scope><name>boneHandle</name></member>
+      <member refid="class_component_1a120d65094802a621c8d804a964cafa9c" prot="public" virt="non-virtual"><scope>SkinnedRenderer</scope><name>Cast</name></member>
+      <member refid="class_renderer_1a7832117cb87326278a00ba0648feb440" prot="protected" virt="non-virtual"><scope>SkinnedRenderer</scope><name>cbHandle</name></member>
+      <member refid="class_renderer_1a9b39eecb49896cdc063229aa3a8086f6" prot="protected" virt="non-virtual"><scope>SkinnedRenderer</scope><name>cbView</name></member>
+      <member refid="class_renderer_1ab1ba84cc82cec719d474ed837fddaa12" prot="protected" virt="non-virtual"><scope>SkinnedRenderer</scope><name>ChangeRenderPipeline</name></member>
+      <member refid="class_renderer_1ae80ad596f0b476671b1794a6fe8ab2b9" prot="public" virt="non-virtual"><scope>SkinnedRenderer</scope><name>color</name></member>
+      <member refid="class_component_1a5cba85e33b188bf87ee09f353d7b2fa5" prot="public" virt="non-virtual"><scope>SkinnedRenderer</scope><name>Component</name></member>
+      <member refid="class_renderer_1ab64318c35f8f266b8c36efbc41c2f943" prot="protected" virt="non-virtual"><scope>SkinnedRenderer</scope><name>constantBuffer</name></member>
+      <member refid="class_renderer_1ab34659d99f36b87337a22436c694b77aa922dcc1fbe0210fff37a5c12e51c73bb" prot="public" virt="non-virtual"><scope>SkinnedRenderer</scope><name>CountLast</name></member>
+      <member refid="class_renderer_1a18c48b8f8772486e7c9a54087b2f5612" prot="public" virt="non-virtual"><scope>SkinnedRenderer</scope><name>CreateMesh</name></member>
+      <member refid="class_skinned_renderer_1ab5ece7937c948b20f06c5c3731c9b514" prot="private" virt="non-virtual"><scope>SkinnedRenderer</scope><name>CreateNodeTransformBuffer</name></member>
+      <member refid="class_renderer_1ae6f45f31877b5738313a1dc9cc02155d" prot="public" virt="non-virtual"><scope>SkinnedRenderer</scope><name>CreateRenderPipeline</name></member>
+      <member refid="class_renderer_1aa94ee482132c778a9eebca26e55a8759" prot="protected" virt="non-virtual"><scope>SkinnedRenderer</scope><name>currentCBCount</name></member>
+      <member refid="class_renderer_1a332ce1ec861cc52aebf95fe1ece25e35" prot="protected" virt="non-virtual"><scope>SkinnedRenderer</scope><name>currentMeshType</name></member>
+      <member refid="class_renderer_1ab34659d99f36b87337a22436c694b77aafdf5aea8fe68699a92fc597e0f3aa410" prot="public" virt="non-virtual"><scope>SkinnedRenderer</scope><name>DIFFUSE</name></member>
+      <member refid="class_skinned_renderer_1abb74406ab1038459c59d8c0d2ee3b8f1" prot="private" virt="non-virtual"><scope>SkinnedRenderer</scope><name>finalBoneMats</name></member>
+      <member refid="class_skinned_renderer_1ab8e8bed78911a50f3d7b742ade17928b" prot="public" virt="non-virtual"><scope>SkinnedRenderer</scope><name>GetAnimationNameList</name></member>
+      <member refid="class_skinned_renderer_1a93163ec96412fc16f9a9463c939cda21" prot="public" virt="non-virtual"><scope>SkinnedRenderer</scope><name>GetAnimCurrentTime</name></member>
+      <member refid="class_skinned_renderer_1a6924de21ece527c7c3e194cf96c85a1e" prot="public" virt="non-virtual"><scope>SkinnedRenderer</scope><name>GetAnimIndex</name></member>
+      <member refid="class_skinned_renderer_1a4e5c27a4f4e5ff78330c406ff8aa6c19" prot="public" virt="non-virtual"><scope>SkinnedRenderer</scope><name>GetAnimTime</name></member>
+      <member refid="class_component_1a22ed217d642f4566a47c874ac9a63eab" prot="public" virt="virtual"><scope>SkinnedRenderer</scope><name>GetComponentName</name></member>
+      <member refid="class_renderer_1ad2ca3f47525a336279d7a3e9cd225155" prot="public" virt="non-virtual"><scope>SkinnedRenderer</scope><name>GetCurrentMeshType</name></member>
+      <member refid="class_renderer_1a2a9bb6274d6c2bd7b1373a5218c04d1e" prot="protected" virt="non-virtual"><scope>SkinnedRenderer</scope><name>GetDefaultPipelineDesc</name></member>
+      <member refid="class_component_1a2a9968090dabad782f2bbdaf0093be84" prot="public" virt="non-virtual"><scope>SkinnedRenderer</scope><name>GetHash</name></member>
+      <member refid="class_component_1ac0ee67584bdd569c2809495a5843612b" prot="public" virt="non-virtual"><scope>SkinnedRenderer</scope><name>GetLeafIndex</name></member>
+      <member refid="class_renderer_1a1e75024955af72f3c9dbadc96c10281f" prot="public" virt="non-virtual"><scope>SkinnedRenderer</scope><name>GetMaterial</name></member>
+      <member refid="class_renderer_1a0f84f3368c4efbf49fdce3b3373baac2" prot="public" virt="non-virtual"><scope>SkinnedRenderer</scope><name>GetMeshNameList</name></member>
+      <member refid="class_renderer_1ad77abbe0720398802884bfa581e89191" prot="protected" virt="non-virtual"><scope>SkinnedRenderer</scope><name>GetPrimitiveType</name></member>
+      <member refid="class_renderer_1a34068a389335bc378379c7d3209732e6" prot="public" virt="non-virtual"><scope>SkinnedRenderer</scope><name>GetTextureCPUHandle</name></member>
+      <member refid="class_renderer_1aae81abf8b1e97079d33df77b4757df44" prot="public" virt="non-virtual"><scope>SkinnedRenderer</scope><name>GetTextureGPUHandle</name></member>
+      <member refid="class_component_1a1b25ee28c379d9f0d0c1ecc0df1e6328" prot="public" virt="non-virtual"><scope>SkinnedRenderer</scope><name>GetTreeIndex</name></member>
+      <member refid="class_renderer_1ac0ef6dd4baa52d630c273b23c812d51f" prot="protected" virt="non-virtual"><scope>SkinnedRenderer</scope><name>hr</name></member>
+      <member refid="class_renderer_1ad92446fb0350d8537dcd2f01150b0efb" prot="public" virt="virtual"><scope>SkinnedRenderer</scope><name>Init</name></member>
+      <member refid="class_skinned_renderer_1a3b81a65dfb8066c5f25c55727b682ff3" prot="private" virt="non-virtual"><scope>SkinnedRenderer</scope><name>InitBoneResource</name></member>
+      <member refid="class_skinned_renderer_1a5fa91c275f2b1ba221e2d1a2ccb8c242" prot="protected" virt="virtual"><scope>SkinnedRenderer</scope><name>InitInCreateMesh</name></member>
+      <member refid="class_skinned_renderer_1aa80d02727bc3e30051b7959103b35bb6" prot="private" virt="non-virtual"><scope>SkinnedRenderer</scope><name>InitNodeTransFormBuffer</name></member>
+      <member refid="class_skinned_renderer_1aa59929076ac45714314b7a4b918326ad" prot="private" virt="non-virtual"><scope>SkinnedRenderer</scope><name>InitNodeTransformBuffer</name></member>
+      <member refid="class_skinned_renderer_1a01344adc524ae85b43c8920cb6205515" prot="protected" virt="virtual"><scope>SkinnedRenderer</scope><name>InitRenderer</name></member>
+      <member refid="class_skinned_renderer_1a5ed139aa62d20e09fd6037fce7ed2f5c" prot="private" virt="non-virtual"><scope>SkinnedRenderer</scope><name>InitSRVForBoneBuffer</name></member>
+      <member refid="class_renderer_1a9417332e939d71be632e6d81854e8df1" prot="protected" virt="non-virtual"><scope>SkinnedRenderer</scope><name>instanceCount</name></member>
+      <member refid="class_skinned_renderer_1aca4f01087d73d5e69653f4c84b6232c0" prot="public" virt="non-virtual"><scope>SkinnedRenderer</scope><name>isAnimPlaying</name></member>
+      <member refid="class_renderer_1adcb0d20572ce6fe825df04fa0788b2ab" prot="protected" virt="non-virtual"><scope>SkinnedRenderer</scope><name>isPipelineAlreadyCreated</name></member>
+      <member refid="class_renderer_1a408d5fe9090735fa328d8d494cddfa2f" prot="public" virt="non-virtual"><scope>SkinnedRenderer</scope><name>LoadPixelShader</name></member>
+      <member refid="class_renderer_1a11816db1537fb8b768148001f5ad9f6a" prot="public" virt="non-virtual"><scope>SkinnedRenderer</scope><name>LoadVertexShader</name></member>
+      <member refid="class_skinned_renderer_1a031a189de2f5633253f448e4db31ebaf" prot="private" virt="non-virtual"><scope>SkinnedRenderer</scope><name>MapBB</name></member>
+      <member refid="class_skinned_renderer_1a3a5974d894b3b9875dee5092591e952c" prot="private" virt="non-virtual"><scope>SkinnedRenderer</scope><name>mappedData</name></member>
+      <member refid="class_renderer_1ab4e7d5df234bc02ae6587744e97fb4c9" prot="protected" virt="non-virtual"><scope>SkinnedRenderer</scope><name>materialHandle</name></member>
+      <member refid="class_renderer_1a400d0869b9758ed5ec0ab248e2736024" prot="protected" virt="non-virtual"><scope>SkinnedRenderer</scope><name>materialResource</name></member>
+      <member refid="class_renderer_1aebb08c6ad0f141810462711e9afb3d69" prot="protected" virt="non-virtual"><scope>SkinnedRenderer</scope><name>mats</name></member>
+      <member refid="class_renderer_1a08dd8b2ddddde6917db844ccc964a7fc" prot="protected" virt="non-virtual"><scope>SkinnedRenderer</scope><name>meshData</name></member>
+      <member refid="class_skinned_renderer_1a052b7b09f37a2f22cac3014e36f88ccf" prot="private" virt="non-virtual"><scope>SkinnedRenderer</scope><name>nodeTransformBuffer</name></member>
+      <member refid="class_skinned_renderer_1a8fe2e7dbd39a483f55ea98a851f497b0" prot="private" virt="non-virtual"><scope>SkinnedRenderer</scope><name>nodeTransformBufferParamNum</name></member>
+      <member refid="class_renderer_1ab34659d99f36b87337a22436c694b77aae429abe859bc1468cb76df92556daffc" prot="public" virt="non-virtual"><scope>SkinnedRenderer</scope><name>NORMAL</name></member>
+      <member refid="class_renderer_1aced37542105905c8620cc0e81bef741d" prot="protected" virt="non-virtual"><scope>SkinnedRenderer</scope><name>PrepareForRenderPipeline</name></member>
+      <member refid="class_skinned_renderer_1ad3595fbb20ef8285fa086f6a640bbe77" prot="private" virt="non-virtual"><scope>SkinnedRenderer</scope><name>ProcessAnimation</name></member>
+      <member refid="class_skinned_renderer_1af7bd5ff475c67fb8a4d2f42728d49474" prot="private" virt="non-virtual"><scope>SkinnedRenderer</scope><name>ReadHierarchyNode</name></member>
+      <member refid="class_skinned_renderer_1a8acf93c0526a81559c28fa3316b3a2be" prot="private" virt="non-virtual"><scope>SkinnedRenderer</scope><name>ReadHierarchyNode</name></member>
+      <member refid="class_renderer_1a3e79920a8fb355dbb2eb24bdc0623bb7" prot="protected" virt="non-virtual"><scope>SkinnedRenderer</scope><name>Renderer</name></member>
+      <member refid="class_skinned_renderer_1acaeb640b37735e9d75edda2e6c30497b" prot="public" virt="non-virtual"><scope>SkinnedRenderer</scope><name>ResetAnimationStatue</name></member>
+      <member refid="class_skinned_renderer_1a245098249f53a61646f71c89f3f0beab" prot="public" virt="non-virtual"><scope>SkinnedRenderer</scope><name>SetAnimTime</name></member>
+      <member refid="class_renderer_1a813d0f334d299d3ceb2d5dc92563d80a" prot="protected" virt="non-virtual"><scope>SkinnedRenderer</scope><name>SetDepthStencilDesc</name></member>
+      <member refid="class_component_1a053713eb8c3c356263a588fc398da49f" prot="public" virt="non-virtual"><scope>SkinnedRenderer</scope><name>SetHash</name></member>
+      <member refid="class_component_1a93263d6a4c7a133ad05f8b754463d81a" prot="public" virt="non-virtual"><scope>SkinnedRenderer</scope><name>SetIndex</name></member>
+      <member refid="class_renderer_1a28d3dc05ad44bca091f1a27bafccc189" prot="public" virt="non-virtual"><scope>SkinnedRenderer</scope><name>SetMaterial</name></member>
+      <member refid="class_renderer_1aa7101ddc3d282a9f36821b36b46e303a" prot="protected" virt="non-virtual"><scope>SkinnedRenderer</scope><name>SetPrimitiveType</name></member>
+      <member refid="class_renderer_1aa0c95bbe27b96ae5e957205a4aaba80b" prot="protected" virt="non-virtual"><scope>SkinnedRenderer</scope><name>SetRasterizerDesc</name></member>
+      <member refid="class_renderer_1ae0b48c95af9c03c0eed1edd30c8d9b32" prot="protected" virt="non-virtual"><scope>SkinnedRenderer</scope><name>SetRTBDesc</name></member>
+      <member refid="class_skinned_renderer_1a1b01113c953f4e236e7e26028108b67f" prot="public" virt="non-virtual"><scope>SkinnedRenderer</scope><name>SkinnedRenderer</name></member>
+      <member refid="class_skinned_renderer_1a9c87fc4fbee09817601e3ea1f78faf89" prot="public" virt="non-virtual"><scope>SkinnedRenderer</scope><name>StartAnimation</name></member>
+      <member refid="class_renderer_1a8a71c03908e1318fd4a76155e9489005" prot="protected" virt="non-virtual"><scope>SkinnedRenderer</scope><name>texHandles</name></member>
+      <member refid="class_renderer_1ab34659d99f36b87337a22436c694b77a" prot="public" virt="non-virtual"><scope>SkinnedRenderer</scope><name>TEXTURE_TYPE</name></member>
+      <member refid="class_renderer_1a52f2d07a0df1cb61fd5e27593cf745ec" prot="protected" virt="non-virtual"><scope>SkinnedRenderer</scope><name>trans</name></member>
+      <member refid="class_skinned_renderer_1a57c68e67e10e53e8b9fde82163d41d47" prot="protected" virt="virtual"><scope>SkinnedRenderer</scope><name>Update</name></member>
+      <member refid="class_component_1ab8378fa275af98e568a7e91d33d867af" prot="public" virt="virtual"><scope>SkinnedRenderer</scope><name>~Component</name></member>
+      <member refid="class_renderer_1afeee408862d5bd6255a6882d47e6d5cd" prot="public" virt="non-virtual"><scope>SkinnedRenderer</scope><name>~Renderer</name></member>
+      <member refid="class_skinned_renderer_1aeaf2f8b11ae815e087a4928d68ae245e" prot="public" virt="non-virtual"><scope>SkinnedRenderer</scope><name>~SkinnedRenderer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

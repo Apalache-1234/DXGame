@@ -1,0 +1,300 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="_floor_script_8cpp" kind="file" language="C++">
+    <compoundname>FloorScript.cpp</compoundname>
+    <includes local="yes">PCH/pch.h</includes>
+    <includes refid="_floor_script_8h" local="yes">FloorScript.h</includes>
+    <includes local="yes">RayCast.h</includes>
+    <includes local="yes">KeyInput.h</includes>
+    <incdepgraph>
+      <node id="23">
+        <label>Camera.h</label>
+      </node>
+      <node id="30">
+        <label>D3Dcompiler.h</label>
+      </node>
+      <node id="32">
+        <label>DXRenderSystem.h</label>
+      </node>
+      <node id="19">
+        <label>DirectXMath.h</label>
+      </node>
+      <node id="12">
+        <label>ComponentList.h</label>
+        <link refid="_component_list_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>FloorScript.h</label>
+        <link refid="_floor_script_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>Script/src/FloorScript.cpp</label>
+        <link refid="_floor_script_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>Component.h</label>
+        <link refid="_component_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>Light.h</label>
+        <link refid="_light_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="26">
+        <label>Renderer.h</label>
+        <link refid="_renderer_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>ScriptComponent.h</label>
+        <link refid="_script_component_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>DirectionalLight.h</label>
+        <link refid="_directional_light_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="25">
+        <label>SkinnedRenderer.h</label>
+        <link refid="_skinned_renderer_8h"/>
+        <childnode refid="26" relation="include">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>Entity.h</label>
+      </node>
+      <node id="24">
+        <label>KeyInput.h</label>
+      </node>
+      <node id="15">
+        <label>MeshLoader.h</label>
+      </node>
+      <node id="2">
+        <label>PCH/pch.h</label>
+      </node>
+      <node id="34">
+        <label>RayCast.h</label>
+      </node>
+      <node id="17">
+        <label>SceneManager.h</label>
+      </node>
+      <node id="16">
+        <label>TextureLoader.h</label>
+      </node>
+      <node id="33">
+        <label>Tween.h</label>
+      </node>
+      <node id="14">
+        <label>TweenSystem.h</label>
+      </node>
+      <node id="20">
+        <label>Utility.h</label>
+      </node>
+      <node id="31">
+        <label>Window.h</label>
+      </node>
+      <node id="13">
+        <label>Windows.h</label>
+      </node>
+      <node id="27">
+        <label>d3d12.h</label>
+      </node>
+      <node id="28">
+        <label>d3dx12.h</label>
+      </node>
+      <node id="29">
+        <label>dxgi1_4.h</label>
+      </node>
+      <node id="9">
+        <label>iostream</label>
+      </node>
+      <node id="8">
+        <label>list</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="5">
+        <label>typeindex</label>
+      </node>
+      <node id="10">
+        <label>unordered_map</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&quot;PCH/pch.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_floor_script_8h" kindref="compound">FloorScript.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;RayCast.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;KeyInput.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"><ref refid="class_floor_script_1a7e691fb9ee4e9b7c0eeff908e1e2c562" kindref="member">FloorScript::FloorScript</ref>(std::shared_ptr&lt;Entity&gt;<sp/>ent)<sp/>:<sp/><ref refid="class_script_component" kindref="compound">ScriptComponent</ref>::<ref refid="class_script_component" kindref="compound">ScriptComponent</ref>(ent)</highlight></codeline>
+<codeline lineno="7"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="8"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"><ref refid="class_floor_script_1ae04c2088e095bfb7872d723bae1643cd" kindref="member">FloorScript::~FloorScript</ref>()</highlight></codeline>
+<codeline lineno="11"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="12"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_floor_script_1aa103b9b016c1b03ff9661b291edc9408" kindref="member">FloorScript::OnStart</ref>()</highlight></codeline>
+<codeline lineno="15"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_component_1a61954f08c177e4c1ebb17cf8fd3aa56f" kindref="member">attachFrom</ref>.lock()-&gt;AddComponent&lt;SkinnedRenderer&gt;();</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_component_1a61954f08c177e4c1ebb17cf8fd3aa56f" kindref="member">attachFrom</ref>.lock()-&gt;SetWorldPosition(DirectX::XMVectorSet(0,0,0,1));</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_component_1a61954f08c177e4c1ebb17cf8fd3aa56f" kindref="member">attachFrom</ref>.lock()-&gt;SetWorldScale(DirectX::XMVectorSet(50,1,50,1));</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/>sRend<sp/>=<sp/><ref refid="class_component_1a61954f08c177e4c1ebb17cf8fd3aa56f" kindref="member">attachFrom</ref>.lock()-&gt;GetComponent&lt;SkinnedRenderer&gt;();</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/>sRend-&gt;ApplyTextureOnMesh(0,<sp/><ref refid="class_renderer_1ab34659d99f36b87337a22436c694b77aafdf5aea8fe68699a92fc597e0f3aa410" kindref="member">Renderer::TEXTURE_TYPE::DIFFUSE</ref>,<sp/><ref refid="class_script_component_1a8da06cfeede85f5294be061a45d78885" kindref="member">textureLoader</ref>-&gt;LoadTexture(</highlight><highlight class="stringliteral">&quot;Textures/Floor.dds&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/>sRend-&gt;ApplyTextureOnMesh(0,<sp/><ref refid="class_renderer_1ab34659d99f36b87337a22436c694b77aae429abe859bc1468cb76df92556daffc" kindref="member">Renderer::TEXTURE_TYPE::NORMAL</ref>,<sp/><ref refid="class_script_component_1a8da06cfeede85f5294be061a45d78885" kindref="member">textureLoader</ref>-&gt;LoadTexture(</highlight><highlight class="stringliteral">&quot;Textures/FloorN.dds&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>mat<sp/>=<sp/>sRend-&gt;GetMaterial(0);</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>mat.UVSCALE<sp/>=<sp/>XMFLOAT2(10,10);</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>sRend-&gt;SetMaterial(0<sp/>,<sp/>mat);</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="class_script_component_1a6d517b821cb2239397c4bc9df8935df1" kindref="member">sceneManager</ref>-&gt;GetCurrentGameScene()-&gt;GetName()<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;CardGameScene&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mat.UVSCALE<sp/>=<sp/>XMFLOAT2(1,<sp/>1);</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sRend-&gt;SetMaterial(0,<sp/>mat);</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_component_1a61954f08c177e4c1ebb17cf8fd3aa56f" kindref="member">attachFrom</ref>.lock()-&gt;SetWorldScale(DirectX::XMVectorSet(20,<sp/>1,<sp/>20,<sp/>1));</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sRend-&gt;CreateMesh(MeshLoader::CARPET);</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="43"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_floor_script_1a29199aa0a35fd4f6fc1514f044d94f6e" kindref="member">FloorScript::OnUpdate</ref>()</highlight></codeline>
+<codeline lineno="46"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="class_script_component_1a6d517b821cb2239397c4bc9df8935df1" kindref="member">sceneManager</ref>-&gt;GetCurrentGameScene()-&gt;GetName()<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;TitleScene&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mat<sp/>=<sp/>sRend-&gt;GetMaterial(0);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mat.UVPOS<sp/>=<sp/>XMFLOAT2(0,<sp/><ref refid="class_script_component_1a85aa9f3caec7cadbad5bade77d1a497b" kindref="member">systemManager</ref>-&gt;GetGameTime()<sp/>*<sp/>0.05f);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sRend-&gt;SetMaterial(0,<sp/>mat);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>mousePos<sp/>=<sp/>KeyInput::GetInstance().GetMousePos();</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>mousePosXm<sp/>=<sp/>DirectX::XMLoadFloat2(&amp;mousePos);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>dir<sp/>=<sp/>DirectX::XMVectorSubtract(Camera::GetInstance().GetPosScreenToWorld(mousePosXm),<sp/>Camera::GetInstance().GetPosition());</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>RayCast(Camera::GetInstance().GetPosition(),<sp/>DirectX::XMVector3Normalize(dir),<sp/>100);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="64"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="Script/src/FloorScript.cpp"/>
+  </compounddef>
+</doxygen>

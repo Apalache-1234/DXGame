@@ -9,10 +9,10 @@
 *.exe
 *.dll
 *.ilk
+*.pch
 bin/
 obj/
 !OriginMarker.fbx
 !RayDebug.fbx
 !Plane.fbx
 !Pl1ane.fbx
-

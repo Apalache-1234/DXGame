@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="dir_4814b1a558d470c33d85e65dbde02eaa" kind="dir">
+    <compoundname>src/Base</compoundname>
+    <innerfile refid="_component_8cpp">Component.cpp</innerfile>
+    <innerfile refid="_debug_renderer_8cpp">DebugRenderer.cpp</innerfile>
+    <innerfile refid="_light_8cpp">Light.cpp</innerfile>
+    <innerfile refid="_post_effect_8cpp">PostEffect.cpp</innerfile>
+    <innerfile refid="_renderer_8cpp">Renderer.cpp</innerfile>
+    <innerfile refid="_script_component_8cpp">ScriptComponent.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/Base/"/>
+  </compounddef>
+</doxygen>

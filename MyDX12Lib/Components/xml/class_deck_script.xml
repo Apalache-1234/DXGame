@@ -1,0 +1,374 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="class_deck_script" kind="class" language="C++" prot="public">
+    <compoundname>DeckScript</compoundname>
+    <basecompoundref refid="class_script_component" prot="public" virt="non-virtual">ScriptComponent</basecompoundref>
+    <includes refid="_deck_script_8h" local="no">DeckScript.h</includes>
+    <innerclass refid="struct_deck_script_1_1_card" prot="public">DeckScript::Card</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="class_deck_script_1a95819c2deca4f14ad7302c2598210a94" prot="public" static="no" strong="no">
+        <type></type>
+        <name>PATTERN</name>
+        <qualifiedname>DeckScript::PATTERN</qualifiedname>
+        <enumvalue id="class_deck_script_1a95819c2deca4f14ad7302c2598210a94a7f92dde54e2afd8df7074cb80076d4f7" prot="public">
+          <name>HEART</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_deck_script_1a95819c2deca4f14ad7302c2598210a94a615b690fe10c2128eee20677c981bfc8" prot="public">
+          <name>DIAMOND</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_deck_script_1a95819c2deca4f14ad7302c2598210a94a156c51745c32c3af4938818d59ae86e2" prot="public">
+          <name>SPADE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_deck_script_1a95819c2deca4f14ad7302c2598210a94a6ce23cde90642f3d5dea6f01a6324677" prot="public">
+          <name>CLUB</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_deck_script_1a95819c2deca4f14ad7302c2598210a94a18088606c53f975286bf43154dca75af" prot="public">
+          <name>EMPTY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/DeckScript.h" line="14" column="1" bodyfile="Script/include/DeckScript.h" bodystart="15" bodyend="17"/>
+      </memberdef>
+      <memberdef kind="enum" id="class_deck_script_1a59973a055535137d2600feb94d0f824a" prot="public" static="no" strong="no">
+        <type></type>
+        <name>SIDE</name>
+        <qualifiedname>DeckScript::SIDE</qualifiedname>
+        <enumvalue id="class_deck_script_1a59973a055535137d2600feb94d0f824aae15bda3951b8b4c417936dad653948fa" prot="public">
+          <name>PLAYER</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_deck_script_1a59973a055535137d2600feb94d0f824aaa8df766521b15c70991b1b1fe492db9c" prot="public">
+          <name>CPU</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_deck_script_1a59973a055535137d2600feb94d0f824aa2ee406786d502b2b64aca91d4c6ef4f6" prot="public">
+          <name>TABLE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/DeckScript.h" line="20" column="1" bodyfile="Script/include/DeckScript.h" bodystart="21" bodyend="23"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_deck_script_1ac51731669aa64a4ea5507723d918e60f" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="struct_deck_script_1_1_card" kindref="compound">Card</ref> &gt;</type>
+        <definition>std::vector&lt;Card&gt; DeckScript::deck</definition>
+        <argsstring></argsstring>
+        <name>deck</name>
+        <qualifiedname>DeckScript::deck</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/DeckScript.h" line="66" column="13" bodyfile="Script/include/DeckScript.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_deck_script_1a2574cac2162b73d572c269b59758893c" prot="private" static="no" mutable="no">
+        <type>UINT</type>
+        <definition>UINT DeckScript::ySize</definition>
+        <argsstring></argsstring>
+        <name>ySize</name>
+        <qualifiedname>DeckScript::ySize</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/DeckScript.h" line="68" column="6" bodyfile="Script/include/DeckScript.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_deck_script_1a8b87f763dd121ffe2522ae10806fad0d" prot="private" static="no" mutable="no">
+        <type>DirectX::XMVECTOR</type>
+        <definition>DirectX::XMVECTOR DeckScript::defPos</definition>
+        <argsstring></argsstring>
+        <name>defPos</name>
+        <qualifiedname>DeckScript::defPos</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/DeckScript.h" line="70" column="19" bodyfile="Script/include/DeckScript.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_deck_script_1abfd7e2b8ac8b5a32da888fcb700d103e" prot="private" static="no" mutable="no">
+        <type><ref refid="class_deck_script_1a59973a055535137d2600feb94d0f824a" kindref="member">SIDE</ref></type>
+        <definition>SIDE DeckScript::side</definition>
+        <argsstring></argsstring>
+        <name>side</name>
+        <qualifiedname>DeckScript::side</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/DeckScript.h" line="72" column="6" bodyfile="Script/include/DeckScript.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_deck_script_1af778e716adebffd119568b2b0109b9ca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>DeckScript::DeckScript</definition>
+        <argsstring>(std::shared_ptr&lt; Entity &gt; ent)</argsstring>
+        <name>DeckScript</name>
+        <qualifiedname>DeckScript::DeckScript</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; Entity &gt;</type>
+          <declname>ent</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/DeckScript.h" line="49" column="1" bodyfile="Script/src/DeckScript.cpp" bodystart="5" bodyend="7"/>
+      </memberdef>
+      <memberdef kind="function" id="class_deck_script_1a914eac60f103856789dae0ac8cd5bdcd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>DeckScript::~DeckScript</definition>
+        <argsstring>()</argsstring>
+        <name>~DeckScript</name>
+        <qualifiedname>DeckScript::~DeckScript</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/DeckScript.h" line="51" column="1" bodyfile="Script/src/DeckScript.cpp" bodystart="9" bodyend="11"/>
+      </memberdef>
+      <memberdef kind="function" id="class_deck_script_1aa3b9228bdac8df299c4a0d5dc7fe5d3c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void DeckScript::Init</definition>
+        <argsstring>(SIDE side)</argsstring>
+        <name>Init</name>
+        <qualifiedname>DeckScript::Init</qualifiedname>
+        <param>
+          <type><ref refid="class_deck_script_1a59973a055535137d2600feb94d0f824a" kindref="member">SIDE</ref></type>
+          <declname>side</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/DeckScript.h" line="53" column="6" bodyfile="Script/src/DeckScript.cpp" bodystart="13" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="class_deck_script_1a056e40d93f5251c8e7038b2c8fd06ddb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool DeckScript::IsEmpty</definition>
+        <argsstring>()</argsstring>
+        <name>IsEmpty</name>
+        <qualifiedname>DeckScript::IsEmpty</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/DeckScript.h" line="55" column="6" bodyfile="Script/src/DeckScript.cpp" bodystart="55" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="class_deck_script_1abd3b8ddf40cd794d8de2824a813f435c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_deck_script_1_1_card" kindref="compound">Card</ref></type>
+        <definition>DeckScript::Card DeckScript::DrawCard</definition>
+        <argsstring>()</argsstring>
+        <name>DrawCard</name>
+        <qualifiedname>DeckScript::DrawCard</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/DeckScript.h" line="57" column="6" bodyfile="Script/src/DeckScript.cpp" bodystart="60" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="class_deck_script_1a43d249c7cecff0793d6ada25738bc6aa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>DirectX::XMVECTOR</type>
+        <definition>DirectX::XMVECTOR DeckScript::GetTopPos</definition>
+        <argsstring>()</argsstring>
+        <name>GetTopPos</name>
+        <qualifiedname>DeckScript::GetTopPos</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/DeckScript.h" line="59" column="19" bodyfile="Script/src/DeckScript.cpp" bodystart="95" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="class_deck_script_1a62a8e334924a3f3aaeb567ab687a41b2" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void DeckScript::OnStart</definition>
+        <argsstring>() override</argsstring>
+        <name>OnStart</name>
+        <qualifiedname>DeckScript::OnStart</qualifiedname>
+        <reimplements refid="class_script_component_1a74c66e170fed1beca9d8d0ff3e97d647">OnStart</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/DeckScript.h" line="61" column="6" bodyfile="Script/src/DeckScript.cpp" bodystart="100" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="class_deck_script_1abdfc391b9de195d7aa2b37c7db37dd23" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void DeckScript::OnUpdate</definition>
+        <argsstring>() override</argsstring>
+        <name>OnUpdate</name>
+        <qualifiedname>DeckScript::OnUpdate</qualifiedname>
+        <reimplements refid="class_script_component_1afffbd9e1537019a46798299fced10d09">OnUpdate</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/DeckScript.h" line="63" column="6" bodyfile="Script/src/DeckScript.cpp" bodystart="104" bodyend="108"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>Component</label>
+        <link refid="class_component"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>DeckScript</label>
+        <link refid="class_deck_script"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>ScriptComponent</label>
+        <link refid="class_script_component"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>std::enable_shared_from_this&lt; Component &gt;</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>Component</label>
+        <link refid="class_component"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>DeckScript</label>
+        <link refid="class_deck_script"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>ScriptComponent</label>
+        <link refid="class_script_component"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>std::enable_shared_from_this&lt; Component &gt;</label>
+      </node>
+    </collaborationgraph>
+    <location file="Script/include/DeckScript.h" line="11" column="1" bodyfile="Script/include/DeckScript.h" bodystart="12" bodyend="73"/>
+    <listofallmembers>
+      <member refid="class_component_1a61954f08c177e4c1ebb17cf8fd3aa56f" prot="public" virt="non-virtual"><scope>DeckScript</scope><name>attachFrom</name></member>
+      <member refid="class_script_component_1a96e27fa6ec29b4a3fb7a8032d5a27aad" prot="protected" virt="non-virtual"><scope>DeckScript</scope><name>camera</name></member>
+      <member refid="class_component_1a120d65094802a621c8d804a964cafa9c" prot="public" virt="non-virtual"><scope>DeckScript</scope><name>Cast</name></member>
+      <member refid="class_deck_script_1a95819c2deca4f14ad7302c2598210a94a6ce23cde90642f3d5dea6f01a6324677" prot="public" virt="non-virtual"><scope>DeckScript</scope><name>CLUB</name></member>
+      <member refid="class_component_1a5cba85e33b188bf87ee09f353d7b2fa5" prot="public" virt="non-virtual"><scope>DeckScript</scope><name>Component</name></member>
+      <member refid="class_deck_script_1a59973a055535137d2600feb94d0f824aaa8df766521b15c70991b1b1fe492db9c" prot="public" virt="non-virtual"><scope>DeckScript</scope><name>CPU</name></member>
+      <member refid="class_deck_script_1ac51731669aa64a4ea5507723d918e60f" prot="private" virt="non-virtual"><scope>DeckScript</scope><name>deck</name></member>
+      <member refid="class_deck_script_1af778e716adebffd119568b2b0109b9ca" prot="public" virt="non-virtual"><scope>DeckScript</scope><name>DeckScript</name></member>
+      <member refid="class_deck_script_1a8b87f763dd121ffe2522ae10806fad0d" prot="private" virt="non-virtual"><scope>DeckScript</scope><name>defPos</name></member>
+      <member refid="class_deck_script_1a95819c2deca4f14ad7302c2598210a94a615b690fe10c2128eee20677c981bfc8" prot="public" virt="non-virtual"><scope>DeckScript</scope><name>DIAMOND</name></member>
+      <member refid="class_deck_script_1abd3b8ddf40cd794d8de2824a813f435c" prot="public" virt="non-virtual"><scope>DeckScript</scope><name>DrawCard</name></member>
+      <member refid="class_deck_script_1a95819c2deca4f14ad7302c2598210a94a18088606c53f975286bf43154dca75af" prot="public" virt="non-virtual"><scope>DeckScript</scope><name>EMPTY</name></member>
+      <member refid="class_component_1a22ed217d642f4566a47c874ac9a63eab" prot="public" virt="virtual"><scope>DeckScript</scope><name>GetComponentName</name></member>
+      <member refid="class_component_1a2a9968090dabad782f2bbdaf0093be84" prot="public" virt="non-virtual"><scope>DeckScript</scope><name>GetHash</name></member>
+      <member refid="class_component_1ac0ee67584bdd569c2809495a5843612b" prot="public" virt="non-virtual"><scope>DeckScript</scope><name>GetLeafIndex</name></member>
+      <member refid="class_deck_script_1a43d249c7cecff0793d6ada25738bc6aa" prot="public" virt="non-virtual"><scope>DeckScript</scope><name>GetTopPos</name></member>
+      <member refid="class_component_1a1b25ee28c379d9f0d0c1ecc0df1e6328" prot="public" virt="non-virtual"><scope>DeckScript</scope><name>GetTreeIndex</name></member>
+      <member refid="class_deck_script_1a95819c2deca4f14ad7302c2598210a94a7f92dde54e2afd8df7074cb80076d4f7" prot="public" virt="non-virtual"><scope>DeckScript</scope><name>HEART</name></member>
+      <member refid="class_deck_script_1aa3b9228bdac8df299c4a0d5dc7fe5d3c" prot="public" virt="non-virtual"><scope>DeckScript</scope><name>Init</name></member>
+      <member refid="class_script_component_1a2027d87a56d690a2a198d6e15c57f907" prot="public" virt="virtual" ambiguityscope="ScriptComponent::"><scope>DeckScript</scope><name>Init</name></member>
+      <member refid="class_deck_script_1a056e40d93f5251c8e7038b2c8fd06ddb" prot="public" virt="non-virtual"><scope>DeckScript</scope><name>IsEmpty</name></member>
+      <member refid="class_script_component_1a883990ab3b0eb3ed62c8bc85fd4f596d" prot="protected" virt="non-virtual"><scope>DeckScript</scope><name>meshLoader</name></member>
+      <member refid="class_script_component_1aaef3daf7c260c21efa8fd9cde4e5a4a7" prot="public" virt="virtual"><scope>DeckScript</scope><name>OnDestroy</name></member>
+      <member refid="class_script_component_1af30cc5777fe0db148c0f46deffbfa995" prot="public" virt="virtual"><scope>DeckScript</scope><name>OnFixedUpdate</name></member>
+      <member refid="class_script_component_1ad9b2758d768994bc36a42e328157047c" prot="public" virt="virtual"><scope>DeckScript</scope><name>OnMousePointerClick</name></member>
+      <member refid="class_script_component_1a43fad9a126b4df10d450ebda1b0eb958" prot="public" virt="virtual"><scope>DeckScript</scope><name>OnMousePointerIn</name></member>
+      <member refid="class_script_component_1a594aa67f58cfe5dd2e9f9920cfdfcb08" prot="public" virt="virtual"><scope>DeckScript</scope><name>OnMousePointerOn</name></member>
+      <member refid="class_script_component_1a684ce3d22fb83d9ade9db726afb0ca28" prot="public" virt="virtual"><scope>DeckScript</scope><name>OnMousePointerOut</name></member>
+      <member refid="class_script_component_1a3f3a0bbc66f3809a353ae16ff0380a1e" prot="public" virt="virtual"><scope>DeckScript</scope><name>OnRayCast</name></member>
+      <member refid="class_deck_script_1a62a8e334924a3f3aaeb567ab687a41b2" prot="public" virt="virtual"><scope>DeckScript</scope><name>OnStart</name></member>
+      <member refid="class_deck_script_1abdfc391b9de195d7aa2b37c7db37dd23" prot="public" virt="virtual"><scope>DeckScript</scope><name>OnUpdate</name></member>
+      <member refid="class_deck_script_1a95819c2deca4f14ad7302c2598210a94" prot="public" virt="non-virtual"><scope>DeckScript</scope><name>PATTERN</name></member>
+      <member refid="class_deck_script_1a59973a055535137d2600feb94d0f824aae15bda3951b8b4c417936dad653948fa" prot="public" virt="non-virtual"><scope>DeckScript</scope><name>PLAYER</name></member>
+      <member refid="class_script_component_1a6d517b821cb2239397c4bc9df8935df1" prot="protected" virt="non-virtual"><scope>DeckScript</scope><name>sceneManager</name></member>
+      <member refid="class_script_component_1a79c3ecd7f476197899c2b41279a40843" prot="protected" virt="non-virtual"><scope>DeckScript</scope><name>ScriptComponent</name></member>
+      <member refid="class_component_1a053713eb8c3c356263a588fc398da49f" prot="public" virt="non-virtual"><scope>DeckScript</scope><name>SetHash</name></member>
+      <member refid="class_component_1a93263d6a4c7a133ad05f8b754463d81a" prot="public" virt="non-virtual"><scope>DeckScript</scope><name>SetIndex</name></member>
+      <member refid="class_deck_script_1a59973a055535137d2600feb94d0f824a" prot="public" virt="non-virtual"><scope>DeckScript</scope><name>SIDE</name></member>
+      <member refid="class_deck_script_1abfd7e2b8ac8b5a32da888fcb700d103e" prot="private" virt="non-virtual"><scope>DeckScript</scope><name>side</name></member>
+      <member refid="class_deck_script_1a95819c2deca4f14ad7302c2598210a94a156c51745c32c3af4938818d59ae86e2" prot="public" virt="non-virtual"><scope>DeckScript</scope><name>SPADE</name></member>
+      <member refid="class_script_component_1a85aa9f3caec7cadbad5bade77d1a497b" prot="protected" virt="non-virtual"><scope>DeckScript</scope><name>systemManager</name></member>
+      <member refid="class_deck_script_1a59973a055535137d2600feb94d0f824aa2ee406786d502b2b64aca91d4c6ef4f6" prot="public" virt="non-virtual"><scope>DeckScript</scope><name>TABLE</name></member>
+      <member refid="class_script_component_1a8da06cfeede85f5294be061a45d78885" prot="protected" virt="non-virtual"><scope>DeckScript</scope><name>textureLoader</name></member>
+      <member refid="class_script_component_1a2dfacd191e367be8e1e667ece474b860" prot="protected" virt="non-virtual"><scope>DeckScript</scope><name>tweenSystem</name></member>
+      <member refid="class_deck_script_1a2574cac2162b73d572c269b59758893c" prot="private" virt="non-virtual"><scope>DeckScript</scope><name>ySize</name></member>
+      <member refid="class_component_1ab8378fa275af98e568a7e91d33d867af" prot="public" virt="virtual"><scope>DeckScript</scope><name>~Component</name></member>
+      <member refid="class_deck_script_1a914eac60f103856789dae0ac8cd5bdcd" prot="public" virt="non-virtual"><scope>DeckScript</scope><name>~DeckScript</name></member>
+      <member refid="class_script_component_1a6c266c364bf21d0dddb6d7639500a077" prot="public" virt="virtual"><scope>DeckScript</scope><name>~ScriptComponent</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

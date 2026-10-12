@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="struct_square_wipe_script_1_1_square_info" kind="struct" language="C++" prot="private">
+    <compoundname>SquareWipeScript::SquareInfo</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_square_wipe_script_1_1_square_info_1a059b77e8ad10f808e144d5b6cc532f2b" prot="public" static="no" mutable="no">
+        <type>XMMATRIX</type>
+        <definition>XMMATRIX SquareWipeScript::SquareInfo::rotate</definition>
+        <argsstring></argsstring>
+        <name>rotate</name>
+        <qualifiedname>SquareWipeScript::SquareInfo::rotate</qualifiedname>
+        <initializer>= DirectX::XMMatrixIdentity()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/SquareWipeScript.h" line="29" column="10" bodyfile="Script/include/SquareWipeScript.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_square_wipe_script_1_1_square_info_1afd5ec0404e7b72aebc28525ecb92b6b4" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float SquareWipeScript::SquareInfo::scale</definition>
+        <argsstring></argsstring>
+        <name>scale</name>
+        <qualifiedname>SquareWipeScript::SquareInfo::scale</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/SquareWipeScript.h" line="30" column="7" bodyfile="Script/include/SquareWipeScript.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_square_wipe_script_1_1_square_info_1ab053efb918050e53e5b62634b8c97ddf" prot="public" static="no" mutable="no">
+        <type>XMFLOAT3</type>
+        <definition>XMFLOAT3 SquareWipeScript::SquareInfo::pad2</definition>
+        <argsstring></argsstring>
+        <name>pad2</name>
+        <qualifiedname>SquareWipeScript::SquareInfo::pad2</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/SquareWipeScript.h" line="31" column="10" bodyfile="Script/include/SquareWipeScript.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="Script/include/SquareWipeScript.h" line="27" column="1" bodyfile="Script/include/SquareWipeScript.h" bodystart="28" bodyend="32"/>
+    <listofallmembers>
+      <member refid="struct_square_wipe_script_1_1_square_info_1ab053efb918050e53e5b62634b8c97ddf" prot="public" virt="non-virtual"><scope>SquareWipeScript::SquareInfo</scope><name>pad2</name></member>
+      <member refid="struct_square_wipe_script_1_1_square_info_1a059b77e8ad10f808e144d5b6cc532f2b" prot="public" virt="non-virtual"><scope>SquareWipeScript::SquareInfo</scope><name>rotate</name></member>
+      <member refid="struct_square_wipe_script_1_1_square_info_1afd5ec0404e7b72aebc28525ecb92b6b4" prot="public" virt="non-virtual"><scope>SquareWipeScript::SquareInfo</scope><name>scale</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

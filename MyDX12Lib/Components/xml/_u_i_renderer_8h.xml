@@ -1,0 +1,308 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="_u_i_renderer_8h" kind="file" language="C++">
+    <compoundname>UIRenderer.h</compoundname>
+    <includes refid="_renderer_8h" local="yes">Renderer.h</includes>
+    <includedby refid="_component_list_8cpp" local="yes">ComponentList/src/ComponentList.cpp</includedby>
+    <includedby refid="_square_wipe_script_8h" local="yes">Script/include/SquareWipeScript.h</includedby>
+    <includedby refid="_game_end_script_8cpp" local="yes">Script/src/GameEndScript.cpp</includedby>
+    <includedby refid="_game_start_u_i_script_8cpp" local="yes">Script/src/GameStartUIScript.cpp</includedby>
+    <includedby refid="_game_starting_script_8cpp" local="yes">Script/src/GameStartingScript.cpp</includedby>
+    <includedby refid="_place_card_u_i_script_8cpp" local="yes">Script/src/PlaceCardUIScript.cpp</includedby>
+    <includedby refid="_ready_u_i_script_8cpp" local="yes">Script/src/ReadyUIScript.cpp</includedby>
+    <includedby refid="_square_wipe_script_8cpp" local="yes">Script/src/SquareWipeScript.cpp</includedby>
+    <includedby refid="_debug_u_i_renderer_8cpp" local="yes">src/Debug/DebugUIRenderer.cpp</includedby>
+    <includedby refid="_u_i_renderer_8cpp" local="yes">src/UIRenderer.cpp</includedby>
+    <incdepgraph>
+      <node id="11">
+        <label>D3Dcompiler.h</label>
+      </node>
+      <node id="15">
+        <label>DXRenderSystem.h</label>
+      </node>
+      <node id="12">
+        <label>DirectXMath.h</label>
+      </node>
+      <node id="4">
+        <label>ComponentList.h</label>
+        <link refid="_component_list_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>Component.h</label>
+        <link refid="_component_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>Renderer.h</label>
+        <link refid="_renderer_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/UIRenderer.h</label>
+        <link refid="_u_i_renderer_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>MeshLoader.h</label>
+      </node>
+      <node id="16">
+        <label>Utility.h</label>
+      </node>
+      <node id="13">
+        <label>Window.h</label>
+      </node>
+      <node id="7">
+        <label>Windows.h</label>
+      </node>
+      <node id="8">
+        <label>d3d12.h</label>
+      </node>
+      <node id="9">
+        <label>d3dx12.h</label>
+      </node>
+      <node id="10">
+        <label>dxgi1_4.h</label>
+      </node>
+      <node id="5">
+        <label>iostream</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>ComponentList/src/ComponentList.cpp</label>
+        <link refid="_component_list_8cpp"/>
+      </node>
+      <node id="13">
+        <label>Script/include/CPUScript.h</label>
+        <link refid="_c_p_u_script_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>Script/include/CardScript.h</label>
+        <link refid="_card_script_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>Script/include/GameManagerScript.h</label>
+        <link refid="_game_manager_script_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>Script/include/HandScript.h</label>
+        <link refid="_hand_script_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>Script/include/SquareWipeScript.h</label>
+        <link refid="_square_wipe_script_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>Script/src/CPUScript.cpp</label>
+        <link refid="_c_p_u_script_8cpp"/>
+      </node>
+      <node id="6">
+        <label>Script/src/CardScript.cpp</label>
+        <link refid="_card_script_8cpp"/>
+      </node>
+      <node id="11">
+        <label>Script/src/GameEndScript.cpp</label>
+        <link refid="_game_end_script_8cpp"/>
+      </node>
+      <node id="7">
+        <label>Script/src/GameManagerScript.cpp</label>
+        <link refid="_game_manager_script_8cpp"/>
+      </node>
+      <node id="15">
+        <label>Script/src/GameStartUIScript.cpp</label>
+        <link refid="_game_start_u_i_script_8cpp"/>
+      </node>
+      <node id="16">
+        <label>Script/src/GameStartingScript.cpp</label>
+        <link refid="_game_starting_script_8cpp"/>
+      </node>
+      <node id="8">
+        <label>Script/src/HandScript.cpp</label>
+        <link refid="_hand_script_8cpp"/>
+      </node>
+      <node id="17">
+        <label>Script/src/PlaceCardUIScript.cpp</label>
+        <link refid="_place_card_u_i_script_8cpp"/>
+      </node>
+      <node id="18">
+        <label>Script/src/ReadyUIScript.cpp</label>
+        <link refid="_ready_u_i_script_8cpp"/>
+      </node>
+      <node id="14">
+        <label>Script/src/SquareWipeScript.cpp</label>
+        <link refid="_square_wipe_script_8cpp"/>
+      </node>
+      <node id="9">
+        <label>Script/src/TableDeckScript.cpp</label>
+        <link refid="_table_deck_script_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/UIRenderer.h</label>
+        <link refid="_u_i_renderer_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>src/Debug/DebugUIRenderer.cpp</label>
+        <link refid="_debug_u_i_renderer_8cpp"/>
+      </node>
+      <node id="20">
+        <label>src/UIRenderer.cpp</label>
+        <link refid="_u_i_renderer_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="class_u_i_renderer" prot="public">UIRenderer</innerclass>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#ifndef<sp/>UIRENDERER_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>UIRENDERER_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_renderer_8h" kindref="compound">Renderer.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">PtrHandles;</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8" refid="class_u_i_renderer" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_u_i_renderer_1a657bccad411f0b6b149ef1bf9273a571" kindref="member">UIRenderer</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="class_renderer_1a3e79920a8fb355dbb2eb24bdc0623bb7" kindref="member">Renderer</ref></highlight></codeline>
+<codeline lineno="9"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_u_i_renderer_1a657bccad411f0b6b149ef1bf9273a571" kindref="member">UIRenderer</ref>(std::shared_ptr&lt;Entity&gt;<sp/>ent);</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_u_i_renderer_1a657bccad411f0b6b149ef1bf9273a571" kindref="member">~UIRenderer</ref>();</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/>D3D12_CPU_DESCRIPTOR_HANDLE<sp/><ref refid="class_u_i_renderer_1a48fe2f046e4fb852255cc22ded8f935d" kindref="member">GetTextureCPUHandle</ref>();</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/>D3D12_GPU_DESCRIPTOR_HANDLE<sp/><ref refid="class_u_i_renderer_1a198decb0ab5278f05d6e69f6778d8e44" kindref="member">GetTextureGPUHandle</ref>();</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_u_i_renderer_1a265707da20a56a5fcd20d58f3b157796" kindref="member">CreateTexture</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>fileName);</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/>UINT<sp/><ref refid="class_u_i_renderer_1a19548725e4e25641a7ebfd3ef4ce469e" kindref="member">GetImageWidth</ref>();</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/>UINT<sp/><ref refid="class_u_i_renderer_1ade7305d6c04231810f87201394885f0e" kindref="member">GetImageHeight</ref>();</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_u_i_renderer_1ad92f2b4ef61600cba2e2f84d07d9cc87" kindref="member">SetImageWidth</ref>(UINT<sp/>size);</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_u_i_renderer_1af869cd918af7a0b54a1dd819b26a5682" kindref="member">SetImageHeight</ref>(UINT<sp/>size);</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>XMFLOAT2<sp/><ref refid="class_u_i_renderer_1ad4be1ee97d72d529d8b397255129668d" kindref="member">GetResultScale</ref>();</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31" refid="class_u_i_renderer_1a7344e763cfc34ee002de4ebd0ded1bcd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>DirectX::XMVECTOR<sp/><ref refid="class_u_i_renderer_1a7344e763cfc34ee002de4ebd0ded1bcd" kindref="member">colPosition</ref><sp/>=<sp/>DirectX::XMVectorZero();</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33" refid="class_u_i_renderer_1a7d780cdfdb8f55c637c9ba9cfa43177e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>DirectX::XMVECTOR<sp/><ref refid="class_u_i_renderer_1a7d780cdfdb8f55c637c9ba9cfa43177e" kindref="member">colScale</ref><sp/>=<sp/>DirectX::XMVectorSplatOne();</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_u_i_renderer_1ac528f8a768905e7dfb7ce4ebc6734570" kindref="member">InitRenderer</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_u_i_renderer_1a96d5ce8381ec3354ebb49ed1e49b532d" kindref="member">Update</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>Transform<sp/><ref refid="class_u_i_renderer_1a8d3cf8bc00fa4266a2cc240381d8e842" kindref="member">GetTransform</ref>();</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_u_i_renderer_1aa7fea5587dbfcfde932ca17aa0b9ad2f" kindref="member">CheckPointerInbound</ref>();</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;PtrHandles&gt;<sp/>texHandle;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>UINT<sp/>imageWidth<sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>UINT<sp/>imageHeight<sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>isOnMousePointer<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/UIRenderer.h"/>
+  </compounddef>
+</doxygen>

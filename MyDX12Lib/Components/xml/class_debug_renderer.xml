@@ -1,0 +1,386 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="class_debug_renderer" kind="class" language="C++" prot="public">
+    <compoundname>DebugRenderer</compoundname>
+    <basecompoundref refid="class_renderer" prot="public" virt="non-virtual">Renderer</basecompoundref>
+    <derivedcompoundref refid="class_debug_collider" prot="public" virt="non-virtual">DebugCollider</derivedcompoundref>
+    <derivedcompoundref refid="class_debug_directional_light" prot="public" virt="non-virtual">DebugDirectionalLight</derivedcompoundref>
+    <derivedcompoundref refid="class_debug_grids" prot="public" virt="non-virtual">DebugGrids</derivedcompoundref>
+    <derivedcompoundref refid="class_debug_origin" prot="public" virt="non-virtual">DebugOrigin</derivedcompoundref>
+    <derivedcompoundref refid="class_debug_point_light" prot="public" virt="non-virtual">DebugPointLight</derivedcompoundref>
+    <derivedcompoundref refid="class_debug_ray_cast" prot="public" virt="non-virtual">DebugRayCast</derivedcompoundref>
+    <derivedcompoundref refid="class_debug_spot_light" prot="public" virt="non-virtual">DebugSpotLight</derivedcompoundref>
+    <derivedcompoundref refid="class_debug_u_i_renderer" prot="public" virt="non-virtual">DebugUIRenderer</derivedcompoundref>
+    <includes refid="_debug_renderer_8h" local="no">DebugRenderer.h</includes>
+    <innerclass refid="struct_debug_renderer_1_1_instance" prot="protected">DebugRenderer::Instance</innerclass>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_debug_renderer_1a1c81815a6bf1ce055d53c773046f281a" prot="protected" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="struct_debug_renderer_1_1_instance" kindref="compound">Instance</ref> &gt;</type>
+        <definition>std::vector&lt;Instance&gt; DebugRenderer::instances</definition>
+        <argsstring></argsstring>
+        <name>instances</name>
+        <qualifiedname>DebugRenderer::instances</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/DebugRenderer.h" line="27" column="13" bodyfile="include/Base/DebugRenderer.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_debug_renderer_1af2e5b28a8763fb6a5f73a80ef298e4e3" prot="protected" static="no" mutable="no">
+        <type>D3D12_VERTEX_BUFFER_VIEW</type>
+        <definition>D3D12_VERTEX_BUFFER_VIEW DebugRenderer::IVBV</definition>
+        <argsstring></argsstring>
+        <name>IVBV</name>
+        <qualifiedname>DebugRenderer::IVBV</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/DebugRenderer.h" line="31" column="26" bodyfile="include/Base/DebugRenderer.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_debug_renderer_1a7703e60e65a7274819a8c35779c0295f" prot="private" static="no" mutable="no">
+        <type>ComPtr&lt; ID3D12Resource &gt;</type>
+        <definition>ComPtr&lt;ID3D12Resource&gt; DebugRenderer::IVB</definition>
+        <argsstring></argsstring>
+        <name>IVB</name>
+        <qualifiedname>DebugRenderer::IVB</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/DebugRenderer.h" line="41" column="8" bodyfile="include/Base/DebugRenderer.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_debug_renderer_1a4374b7c1ce3ee04f86f6f910c82aff09" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>DebugRenderer::~DebugRenderer</definition>
+        <argsstring>()</argsstring>
+        <name>~DebugRenderer</name>
+        <qualifiedname>DebugRenderer::~DebugRenderer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/DebugRenderer.h" line="13" column="9" bodyfile="src/Base/DebugRenderer.cpp" bodystart="8" bodyend="10"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_debug_renderer_1a1ebe78b3469a8f1490fcad38dece3d54" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>DebugRenderer::DebugRenderer</definition>
+        <argsstring>(std::shared_ptr&lt; Entity &gt; ent)</argsstring>
+        <name>DebugRenderer</name>
+        <qualifiedname>DebugRenderer::DebugRenderer</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; Entity &gt;</type>
+          <declname>ent</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/DebugRenderer.h" line="15" column="1" bodyfile="src/Base/DebugRenderer.cpp" bodystart="4" bodyend="6"/>
+      </memberdef>
+      <memberdef kind="function" id="class_debug_renderer_1a8b5547996a687276e7101ada37ae4426" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool DebugRenderer::InitIVB</definition>
+        <argsstring>()</argsstring>
+        <name>InitIVB</name>
+        <qualifiedname>DebugRenderer::InitIVB</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/DebugRenderer.h" line="17" column="6" bodyfile="src/Base/DebugRenderer.cpp" bodystart="107" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="class_debug_renderer_1ad23346b1acd3d884cb46e928e37036a5" prot="protected" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void DebugRenderer::InitDebugRenderer</definition>
+        <argsstring>()</argsstring>
+        <name>InitDebugRenderer</name>
+        <qualifiedname>DebugRenderer::InitDebugRenderer</qualifiedname>
+        <reimplementedby refid="class_debug_collider_1abc2b7b93e870316e7d5c6fc0dce51f8c">InitDebugRenderer</reimplementedby>
+        <reimplementedby refid="class_debug_directional_light_1a702bd875838ddaf4d7802426f2f368d9">InitDebugRenderer</reimplementedby>
+        <reimplementedby refid="class_debug_grids_1aad33b4f35a03a15e673ce995bd6e8d07">InitDebugRenderer</reimplementedby>
+        <reimplementedby refid="class_debug_origin_1ac287dc0892635dd763ecdac97dce22e6">InitDebugRenderer</reimplementedby>
+        <reimplementedby refid="class_debug_point_light_1a5e3fe52d8978f2865ca4f76fc81bd537">InitDebugRenderer</reimplementedby>
+        <reimplementedby refid="class_debug_ray_cast_1ae0abeeae21576785325120af6c23826b">InitDebugRenderer</reimplementedby>
+        <reimplementedby refid="class_debug_spot_light_1ae37a4a0dc8482be41a44695b72d29900">InitDebugRenderer</reimplementedby>
+        <reimplementedby refid="class_debug_u_i_renderer_1ae5ef8f2d95fb4140a9eae90f500d73a0">InitDebugRenderer</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/DebugRenderer.h" line="19" column="14" bodyfile="src/Base/DebugRenderer.cpp" bodystart="123" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="class_debug_renderer_1a6a7ff23d2df774d53c6b2c01618e6273" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool DebugRenderer::MapDVB</definition>
+        <argsstring>()</argsstring>
+        <name>MapDVB</name>
+        <qualifiedname>DebugRenderer::MapDVB</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/DebugRenderer.h" line="29" column="6" bodyfile="src/Base/DebugRenderer.cpp" bodystart="71" bodyend="89"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="class_debug_renderer_1ac03486f4dd2c1699754c13af617faee1" prot="private" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void DebugRenderer::AddCommand</definition>
+        <argsstring>(ComPtr&lt; ID3D12GraphicsCommandList &gt; cmdList) override</argsstring>
+        <name>AddCommand</name>
+        <qualifiedname>DebugRenderer::AddCommand</qualifiedname>
+        <reimplements refid="class_renderer_1ac9336d05cc8a2bb6c57138f2d303439c">AddCommand</reimplements>
+        <reimplementedby refid="class_debug_spot_light_1ad0f3eccb3c55fe6d9076ad080ff693a8">AddCommand</reimplementedby>
+        <param>
+          <type>ComPtr&lt; ID3D12GraphicsCommandList &gt;</type>
+          <declname>cmdList</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/DebugRenderer.h" line="33" column="6" bodyfile="src/Base/DebugRenderer.cpp" bodystart="100" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="class_debug_renderer_1ae72cc7d8366af19ea6119c7c1e4a3255" prot="private" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void DebugRenderer::InitRenderer</definition>
+        <argsstring>() override</argsstring>
+        <name>InitRenderer</name>
+        <qualifiedname>DebugRenderer::InitRenderer</qualifiedname>
+        <reimplements refid="class_renderer_1a26908c44f59e89bdedace76d6b2b1ff4">InitRenderer</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/DebugRenderer.h" line="35" column="6" bodyfile="src/Base/DebugRenderer.cpp" bodystart="127" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="function" id="class_debug_renderer_1a1992f6ff75f0178c0d08372027ad2024" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool DebugRenderer::InitDebugVertexBuffer</definition>
+        <argsstring>()</argsstring>
+        <name>InitDebugVertexBuffer</name>
+        <qualifiedname>DebugRenderer::InitDebugVertexBuffer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/DebugRenderer.h" line="37" column="6" bodyfile="src/Base/DebugRenderer.cpp" bodystart="12" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="class_debug_renderer_1abd4e5bfc54a9bdc599fd82df1de8b244" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool DebugRenderer::InitDBV</definition>
+        <argsstring>()</argsstring>
+        <name>InitDBV</name>
+        <qualifiedname>DebugRenderer::InitDBV</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/DebugRenderer.h" line="39" column="6" bodyfile="src/Base/DebugRenderer.cpp" bodystart="91" bodyend="98"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>Component</label>
+        <link refid="class_component"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>DebugCollider</label>
+        <link refid="class_debug_collider"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>DebugDirectionalLight</label>
+        <link refid="class_debug_directional_light"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>DebugGrids</label>
+        <link refid="class_debug_grids"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>DebugOrigin</label>
+        <link refid="class_debug_origin"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>DebugPointLight</label>
+        <link refid="class_debug_point_light"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>DebugRayCast</label>
+        <link refid="class_debug_ray_cast"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>DebugRenderer</label>
+        <link refid="class_debug_renderer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>DebugSpotLight</label>
+        <link refid="class_debug_spot_light"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>DebugUIRenderer</label>
+        <link refid="class_debug_u_i_renderer"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>Renderer</label>
+        <link refid="class_renderer"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>std::enable_shared_from_this&lt; Component &gt;</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>Component</label>
+        <link refid="class_component"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>DebugRenderer</label>
+        <link refid="class_debug_renderer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>Renderer</label>
+        <link refid="class_renderer"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>std::enable_shared_from_this&lt; Component &gt;</label>
+      </node>
+    </collaborationgraph>
+    <location file="include/Base/DebugRenderer.h" line="10" column="1" bodyfile="include/Base/DebugRenderer.h" bodystart="11" bodyend="42"/>
+    <listofallmembers>
+      <member refid="class_debug_renderer_1ac03486f4dd2c1699754c13af617faee1" prot="private" virt="virtual"><scope>DebugRenderer</scope><name>AddCommand</name></member>
+      <member refid="class_renderer_1adc4a2598dcf439e9651d53fb8a9c8eaa" prot="protected" virt="virtual" ambiguityscope="Renderer::"><scope>DebugRenderer</scope><name>AddCommand</name></member>
+      <member refid="class_renderer_1a371e146fbbbd2274dafa4fd5526e3fdd" prot="public" virt="non-virtual"><scope>DebugRenderer</scope><name>AddCommandListFunction</name></member>
+      <member refid="class_renderer_1af930cefb3ea41ef2808605698cad4bbd" prot="protected" virt="non-virtual"><scope>DebugRenderer</scope><name>AddInputElementDesc</name></member>
+      <member refid="class_renderer_1a8b9fdeeecb7b6c37cfba79bc85841db5" prot="public" virt="virtual"><scope>DebugRenderer</scope><name>AddRenderCommand</name></member>
+      <member refid="class_renderer_1aa726cdc916f149d8bb40a6fde9d25a63" prot="protected" virt="non-virtual"><scope>DebugRenderer</scope><name>AddRenderPipeline</name></member>
+      <member refid="class_renderer_1a063ae27fa4015a4ad4fd355d1d7a9a2d" prot="public" virt="non-virtual"><scope>DebugRenderer</scope><name>ApplyTextureOnMesh</name></member>
+      <member refid="class_renderer_1a177d22a97104d76e1cb249008c8c3148" prot="public" virt="non-virtual"><scope>DebugRenderer</scope><name>ApplyTextureOnMesh</name></member>
+      <member refid="class_component_1a61954f08c177e4c1ebb17cf8fd3aa56f" prot="public" virt="non-virtual"><scope>DebugRenderer</scope><name>attachFrom</name></member>
+      <member refid="class_component_1a120d65094802a621c8d804a964cafa9c" prot="public" virt="non-virtual"><scope>DebugRenderer</scope><name>Cast</name></member>
+      <member refid="class_renderer_1a7832117cb87326278a00ba0648feb440" prot="protected" virt="non-virtual"><scope>DebugRenderer</scope><name>cbHandle</name></member>
+      <member refid="class_renderer_1a9b39eecb49896cdc063229aa3a8086f6" prot="protected" virt="non-virtual"><scope>DebugRenderer</scope><name>cbView</name></member>
+      <member refid="class_renderer_1ab1ba84cc82cec719d474ed837fddaa12" prot="protected" virt="non-virtual"><scope>DebugRenderer</scope><name>ChangeRenderPipeline</name></member>
+      <member refid="class_renderer_1ae80ad596f0b476671b1794a6fe8ab2b9" prot="public" virt="non-virtual"><scope>DebugRenderer</scope><name>color</name></member>
+      <member refid="class_component_1a5cba85e33b188bf87ee09f353d7b2fa5" prot="public" virt="non-virtual"><scope>DebugRenderer</scope><name>Component</name></member>
+      <member refid="class_renderer_1ab64318c35f8f266b8c36efbc41c2f943" prot="protected" virt="non-virtual"><scope>DebugRenderer</scope><name>constantBuffer</name></member>
+      <member refid="class_renderer_1ab34659d99f36b87337a22436c694b77aa922dcc1fbe0210fff37a5c12e51c73bb" prot="public" virt="non-virtual"><scope>DebugRenderer</scope><name>CountLast</name></member>
+      <member refid="class_renderer_1a18c48b8f8772486e7c9a54087b2f5612" prot="public" virt="non-virtual"><scope>DebugRenderer</scope><name>CreateMesh</name></member>
+      <member refid="class_renderer_1ae6f45f31877b5738313a1dc9cc02155d" prot="public" virt="non-virtual"><scope>DebugRenderer</scope><name>CreateRenderPipeline</name></member>
+      <member refid="class_renderer_1aa94ee482132c778a9eebca26e55a8759" prot="protected" virt="non-virtual"><scope>DebugRenderer</scope><name>currentCBCount</name></member>
+      <member refid="class_renderer_1a332ce1ec861cc52aebf95fe1ece25e35" prot="protected" virt="non-virtual"><scope>DebugRenderer</scope><name>currentMeshType</name></member>
+      <member refid="class_debug_renderer_1a1ebe78b3469a8f1490fcad38dece3d54" prot="protected" virt="non-virtual"><scope>DebugRenderer</scope><name>DebugRenderer</name></member>
+      <member refid="class_renderer_1ab34659d99f36b87337a22436c694b77aafdf5aea8fe68699a92fc597e0f3aa410" prot="public" virt="non-virtual"><scope>DebugRenderer</scope><name>DIFFUSE</name></member>
+      <member refid="class_component_1a22ed217d642f4566a47c874ac9a63eab" prot="public" virt="virtual"><scope>DebugRenderer</scope><name>GetComponentName</name></member>
+      <member refid="class_renderer_1ad2ca3f47525a336279d7a3e9cd225155" prot="public" virt="non-virtual"><scope>DebugRenderer</scope><name>GetCurrentMeshType</name></member>
+      <member refid="class_renderer_1a2a9bb6274d6c2bd7b1373a5218c04d1e" prot="protected" virt="non-virtual"><scope>DebugRenderer</scope><name>GetDefaultPipelineDesc</name></member>
+      <member refid="class_component_1a2a9968090dabad782f2bbdaf0093be84" prot="public" virt="non-virtual"><scope>DebugRenderer</scope><name>GetHash</name></member>
+      <member refid="class_component_1ac0ee67584bdd569c2809495a5843612b" prot="public" virt="non-virtual"><scope>DebugRenderer</scope><name>GetLeafIndex</name></member>
+      <member refid="class_renderer_1a1e75024955af72f3c9dbadc96c10281f" prot="public" virt="non-virtual"><scope>DebugRenderer</scope><name>GetMaterial</name></member>
+      <member refid="class_renderer_1a0f84f3368c4efbf49fdce3b3373baac2" prot="public" virt="non-virtual"><scope>DebugRenderer</scope><name>GetMeshNameList</name></member>
+      <member refid="class_renderer_1ad77abbe0720398802884bfa581e89191" prot="protected" virt="non-virtual"><scope>DebugRenderer</scope><name>GetPrimitiveType</name></member>
+      <member refid="class_renderer_1a34068a389335bc378379c7d3209732e6" prot="public" virt="non-virtual"><scope>DebugRenderer</scope><name>GetTextureCPUHandle</name></member>
+      <member refid="class_renderer_1aae81abf8b1e97079d33df77b4757df44" prot="public" virt="non-virtual"><scope>DebugRenderer</scope><name>GetTextureGPUHandle</name></member>
+      <member refid="class_component_1a1b25ee28c379d9f0d0c1ecc0df1e6328" prot="public" virt="non-virtual"><scope>DebugRenderer</scope><name>GetTreeIndex</name></member>
+      <member refid="class_renderer_1ac0ef6dd4baa52d630c273b23c812d51f" prot="protected" virt="non-virtual"><scope>DebugRenderer</scope><name>hr</name></member>
+      <member refid="class_renderer_1ad92446fb0350d8537dcd2f01150b0efb" prot="public" virt="virtual"><scope>DebugRenderer</scope><name>Init</name></member>
+      <member refid="class_debug_renderer_1abd4e5bfc54a9bdc599fd82df1de8b244" prot="private" virt="non-virtual"><scope>DebugRenderer</scope><name>InitDBV</name></member>
+      <member refid="class_debug_renderer_1ad23346b1acd3d884cb46e928e37036a5" prot="protected" virt="virtual"><scope>DebugRenderer</scope><name>InitDebugRenderer</name></member>
+      <member refid="class_debug_renderer_1a1992f6ff75f0178c0d08372027ad2024" prot="private" virt="non-virtual"><scope>DebugRenderer</scope><name>InitDebugVertexBuffer</name></member>
+      <member refid="class_renderer_1a91339beb7c8d7127d80406fc95191467" prot="protected" virt="virtual"><scope>DebugRenderer</scope><name>InitInCreateMesh</name></member>
+      <member refid="class_debug_renderer_1a8b5547996a687276e7101ada37ae4426" prot="protected" virt="non-virtual"><scope>DebugRenderer</scope><name>InitIVB</name></member>
+      <member refid="class_debug_renderer_1ae72cc7d8366af19ea6119c7c1e4a3255" prot="private" virt="virtual"><scope>DebugRenderer</scope><name>InitRenderer</name></member>
+      <member refid="class_renderer_1a9417332e939d71be632e6d81854e8df1" prot="protected" virt="non-virtual"><scope>DebugRenderer</scope><name>instanceCount</name></member>
+      <member refid="class_debug_renderer_1a1c81815a6bf1ce055d53c773046f281a" prot="protected" virt="non-virtual"><scope>DebugRenderer</scope><name>instances</name></member>
+      <member refid="class_renderer_1adcb0d20572ce6fe825df04fa0788b2ab" prot="protected" virt="non-virtual"><scope>DebugRenderer</scope><name>isPipelineAlreadyCreated</name></member>
+      <member refid="class_debug_renderer_1a7703e60e65a7274819a8c35779c0295f" prot="private" virt="non-virtual"><scope>DebugRenderer</scope><name>IVB</name></member>
+      <member refid="class_debug_renderer_1af2e5b28a8763fb6a5f73a80ef298e4e3" prot="protected" virt="non-virtual"><scope>DebugRenderer</scope><name>IVBV</name></member>
+      <member refid="class_renderer_1a408d5fe9090735fa328d8d494cddfa2f" prot="public" virt="non-virtual"><scope>DebugRenderer</scope><name>LoadPixelShader</name></member>
+      <member refid="class_renderer_1a11816db1537fb8b768148001f5ad9f6a" prot="public" virt="non-virtual"><scope>DebugRenderer</scope><name>LoadVertexShader</name></member>
+      <member refid="class_debug_renderer_1a6a7ff23d2df774d53c6b2c01618e6273" prot="protected" virt="non-virtual"><scope>DebugRenderer</scope><name>MapDVB</name></member>
+      <member refid="class_renderer_1ab4e7d5df234bc02ae6587744e97fb4c9" prot="protected" virt="non-virtual"><scope>DebugRenderer</scope><name>materialHandle</name></member>
+      <member refid="class_renderer_1a400d0869b9758ed5ec0ab248e2736024" prot="protected" virt="non-virtual"><scope>DebugRenderer</scope><name>materialResource</name></member>
+      <member refid="class_renderer_1aebb08c6ad0f141810462711e9afb3d69" prot="protected" virt="non-virtual"><scope>DebugRenderer</scope><name>mats</name></member>
+      <member refid="class_renderer_1a08dd8b2ddddde6917db844ccc964a7fc" prot="protected" virt="non-virtual"><scope>DebugRenderer</scope><name>meshData</name></member>
+      <member refid="class_renderer_1ab34659d99f36b87337a22436c694b77aae429abe859bc1468cb76df92556daffc" prot="public" virt="non-virtual"><scope>DebugRenderer</scope><name>NORMAL</name></member>
+      <member refid="class_renderer_1aced37542105905c8620cc0e81bef741d" prot="protected" virt="non-virtual"><scope>DebugRenderer</scope><name>PrepareForRenderPipeline</name></member>
+      <member refid="class_renderer_1a3e79920a8fb355dbb2eb24bdc0623bb7" prot="protected" virt="non-virtual"><scope>DebugRenderer</scope><name>Renderer</name></member>
+      <member refid="class_renderer_1a813d0f334d299d3ceb2d5dc92563d80a" prot="protected" virt="non-virtual"><scope>DebugRenderer</scope><name>SetDepthStencilDesc</name></member>
+      <member refid="class_component_1a053713eb8c3c356263a588fc398da49f" prot="public" virt="non-virtual"><scope>DebugRenderer</scope><name>SetHash</name></member>
+      <member refid="class_component_1a93263d6a4c7a133ad05f8b754463d81a" prot="public" virt="non-virtual"><scope>DebugRenderer</scope><name>SetIndex</name></member>
+      <member refid="class_renderer_1a28d3dc05ad44bca091f1a27bafccc189" prot="public" virt="non-virtual"><scope>DebugRenderer</scope><name>SetMaterial</name></member>
+      <member refid="class_renderer_1aa7101ddc3d282a9f36821b36b46e303a" prot="protected" virt="non-virtual"><scope>DebugRenderer</scope><name>SetPrimitiveType</name></member>
+      <member refid="class_renderer_1aa0c95bbe27b96ae5e957205a4aaba80b" prot="protected" virt="non-virtual"><scope>DebugRenderer</scope><name>SetRasterizerDesc</name></member>
+      <member refid="class_renderer_1ae0b48c95af9c03c0eed1edd30c8d9b32" prot="protected" virt="non-virtual"><scope>DebugRenderer</scope><name>SetRTBDesc</name></member>
+      <member refid="class_renderer_1a8a71c03908e1318fd4a76155e9489005" prot="protected" virt="non-virtual"><scope>DebugRenderer</scope><name>texHandles</name></member>
+      <member refid="class_renderer_1ab34659d99f36b87337a22436c694b77a" prot="public" virt="non-virtual"><scope>DebugRenderer</scope><name>TEXTURE_TYPE</name></member>
+      <member refid="class_renderer_1a52f2d07a0df1cb61fd5e27593cf745ec" prot="protected" virt="non-virtual"><scope>DebugRenderer</scope><name>trans</name></member>
+      <member refid="class_renderer_1a7cbd30dabcc6cd3b977ae647f6d3f23c" prot="protected" virt="virtual"><scope>DebugRenderer</scope><name>Update</name></member>
+      <member refid="class_component_1ab8378fa275af98e568a7e91d33d867af" prot="public" virt="virtual"><scope>DebugRenderer</scope><name>~Component</name></member>
+      <member refid="class_debug_renderer_1a4374b7c1ce3ee04f86f6f910c82aff09" prot="public" virt="virtual"><scope>DebugRenderer</scope><name>~DebugRenderer</name></member>
+      <member refid="class_renderer_1afeee408862d5bd6255a6882d47e6d5cd" prot="public" virt="non-virtual"><scope>DebugRenderer</scope><name>~Renderer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

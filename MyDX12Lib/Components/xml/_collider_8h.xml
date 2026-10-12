@@ -1,0 +1,301 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="_collider_8h" kind="file" language="C++">
+    <compoundname>Collider.h</compoundname>
+    <includes local="no">vector</includes>
+    <includes local="no">list</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">iostream</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">DirectXMath.h</includes>
+    <includes refid="_component_8h" local="yes">Component.h</includes>
+    <includes local="yes">MeshLoader.h</includes>
+    <includedby refid="_component_list_8cpp" local="yes">ComponentList/src/ComponentList.cpp</includedby>
+    <includedby refid="_card_script_8h" local="yes">Script/include/CardScript.h</includedby>
+    <includedby refid="_title_frame_script_8h" local="yes">Script/include/TitleFrameScript.h</includedby>
+    <includedby refid="_table_deck_script_8cpp" local="yes">Script/src/TableDeckScript.cpp</includedby>
+    <includedby refid="_title_frame_script_8cpp" local="yes">Script/src/TitleFrameScript.cpp</includedby>
+    <includedby refid="_debug_collider_8h" local="yes">include/Debug/DebugCollider.h</includedby>
+    <includedby refid="_debug_directional_light_8h" local="yes">include/Debug/DebugDirectionalLight.h</includedby>
+    <includedby refid="_debug_grids_8h" local="yes">include/Debug/DebugGrids.h</includedby>
+    <includedby refid="_debug_origin_8h" local="yes">include/Debug/DebugOrigin.h</includedby>
+    <includedby refid="_debug_point_light_8h" local="yes">include/Debug/DebugPointLight.h</includedby>
+    <includedby refid="_debug_spot_light_8h" local="yes">include/Debug/DebugSpotLight.h</includedby>
+    <includedby refid="_debug_u_i_renderer_8h" local="yes">include/Debug/DebugUIRenderer.h</includedby>
+    <includedby refid="_collider_8cpp" local="yes">src/Collider.cpp</includedby>
+    <incdepgraph>
+      <node id="7">
+        <label>DirectXMath.h</label>
+      </node>
+      <node id="9">
+        <label>ComponentList.h</label>
+        <link refid="_component_list_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>Component.h</label>
+        <link refid="_component_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/Collider.h</label>
+        <link refid="_collider_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>MeshLoader.h</label>
+      </node>
+      <node id="10">
+        <label>Windows.h</label>
+      </node>
+      <node id="5">
+        <label>iostream</label>
+      </node>
+      <node id="3">
+        <label>list</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="6">
+        <label>unordered_map</label>
+      </node>
+      <node id="2">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>ComponentList/src/ComponentList.cpp</label>
+        <link refid="_component_list_8cpp"/>
+      </node>
+      <node id="3">
+        <label>Script/include/CardScript.h</label>
+        <link refid="_card_script_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>Script/include/TitleFrameScript.h</label>
+        <link refid="_title_frame_script_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>Script/src/CardScript.cpp</label>
+        <link refid="_card_script_8cpp"/>
+      </node>
+      <node id="5">
+        <label>Script/src/GameManagerScript.cpp</label>
+        <link refid="_game_manager_script_8cpp"/>
+      </node>
+      <node id="6">
+        <label>Script/src/HandScript.cpp</label>
+        <link refid="_hand_script_8cpp"/>
+      </node>
+      <node id="7">
+        <label>Script/src/TableDeckScript.cpp</label>
+        <link refid="_table_deck_script_8cpp"/>
+      </node>
+      <node id="9">
+        <label>Script/src/TitleFrameScript.cpp</label>
+        <link refid="_title_frame_script_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/Collider.h</label>
+        <link refid="_collider_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>include/Debug/DebugCollider.h</label>
+        <link refid="_debug_collider_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>include/Debug/DebugDirectionalLight.h</label>
+        <link refid="_debug_directional_light_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>include/Debug/DebugGrids.h</label>
+        <link refid="_debug_grids_8h"/>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>include/Debug/DebugOrigin.h</label>
+        <link refid="_debug_origin_8h"/>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>include/Debug/DebugPointLight.h</label>
+        <link refid="_debug_point_light_8h"/>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>include/Debug/DebugSpotLight.h</label>
+        <link refid="_debug_spot_light_8h"/>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>include/Debug/DebugUIRenderer.h</label>
+        <link refid="_debug_u_i_renderer_8h"/>
+        <childnode refid="23" relation="include">
+        </childnode>
+      </node>
+      <node id="24">
+        <label>src/Collider.cpp</label>
+        <link refid="_collider_8cpp"/>
+      </node>
+      <node id="11">
+        <label>src/Debug/DebugCollider.cpp</label>
+        <link refid="_debug_collider_8cpp"/>
+      </node>
+      <node id="13">
+        <label>src/Debug/DebugDirectionalLight.cpp</label>
+        <link refid="_debug_directional_light_8cpp"/>
+      </node>
+      <node id="15">
+        <label>src/Debug/DebugGrids.cpp</label>
+        <link refid="_debug_grids_8cpp"/>
+      </node>
+      <node id="17">
+        <label>src/Debug/DebugOrigin.cpp</label>
+        <link refid="_debug_origin_8cpp"/>
+      </node>
+      <node id="19">
+        <label>src/Debug/DebugPointLight.cpp</label>
+        <link refid="_debug_point_light_8cpp"/>
+      </node>
+      <node id="21">
+        <label>src/Debug/DebugSpotLight.cpp</label>
+        <link refid="_debug_spot_light_8cpp"/>
+      </node>
+      <node id="23">
+        <label>src/Debug/DebugUIRenderer.cpp</label>
+        <link refid="_debug_u_i_renderer_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="class_collider" prot="public">Collider</innerclass>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#ifndef<sp/>COLLIDER_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>COLLIDER_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;list&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;iostream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;DirectXMath.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_component_8h" kindref="compound">Component.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;MeshLoader.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">Entity;</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15" refid="class_collider" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_collider_1a037578012c112824eb87a2cba77cd05f" kindref="member">Collider</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="class_component_1a5cba85e33b188bf87ee09f353d7b2fa5" kindref="member">Component</ref></highlight></codeline>
+<codeline lineno="16"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="18" refid="class_collider_1aaf711504401d9e2edfa19d3c89b340af" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/><ref refid="class_collider_1aaf711504401d9e2edfa19d3c89b340af" kindref="member">ColliderType</ref><sp/></highlight></codeline>
+<codeline lineno="19" refid="class_collider_1aaf711504401d9e2edfa19d3c89b340afaa43be0cff46759a81b05f37eb78da788" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>{<sp/><ref refid="class_collider_1aaf711504401d9e2edfa19d3c89b340afaa43be0cff46759a81b05f37eb78da788" kindref="member">Cube</ref><sp/>,<sp/><ref refid="class_collider_1aaf711504401d9e2edfa19d3c89b340afa832e3186475a61e69bcaadcc2f78e5ad" kindref="member">Sphere</ref>};</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_collider_1a037578012c112824eb87a2cba77cd05f" kindref="member">Collider</ref>(std::shared_ptr&lt;Entity&gt;<sp/>ent);</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_collider" kindref="compound">~Collider</ref>();</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;DirectX::XMVECTOR&gt;<sp/><ref refid="class_collider_1a9526e25fb3dae81c1ec87c77076217d3" kindref="member">GetCurrentVerticesPos</ref>();</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>DirectX::XMMATRIX<sp/><ref refid="class_collider_1a4e4c19417eed9bde8a919a66983bb899" kindref="member">GetTRSMatrix</ref>();</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_collider_1a515a6cc5988878812fc41b3b08508525" kindref="member">SetColliderType</ref>(<ref refid="class_collider_1aaf711504401d9e2edfa19d3c89b340af" kindref="member">ColliderType</ref><sp/>type);</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_collider_1aaf711504401d9e2edfa19d3c89b340af" kindref="member">ColliderType</ref><sp/><ref refid="class_collider_1a9ff9921b753ca1decc915604829406f5" kindref="member">GetColliderType</ref>();</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>DirectX::XMVECTOR<sp/><ref refid="class_collider_1af968ee929e9d1c82ed984dba26777db7" kindref="member">GetRotQuaternion</ref>();</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>std::pair<sp/>&lt;<sp/>std::vector&lt;int&gt;,<sp/>std::vector<sp/>&lt;DirectX::XMVECTOR&gt;&gt;<sp/><ref refid="class_collider_1a8ae32fd17e4b07d25eca73a527b32ce7" kindref="member">GetTriangles</ref>();</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="class_collider_1a25f5cd8132a2104ec813938a2cdec784" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>DirectX::XMVECTOR<sp/><ref refid="class_collider_1a25f5cd8132a2104ec813938a2cdec784" kindref="member">position</ref><sp/>=<sp/>DirectX::XMVectorSet(0,0,0,0);</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="class_collider_1a158c6ee6c175e119e23ce4e79eb1bfa8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>DirectX::XMVECTOR<sp/><ref refid="class_collider_1a158c6ee6c175e119e23ce4e79eb1bfa8" kindref="member">scale</ref><sp/>=<sp/>DirectX::XMVectorSet(1,<sp/>1,<sp/>1,<sp/>0);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51" refid="class_collider_1a93e181cc68e11762cceb29bd48ffbb17" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>DirectX::XMVECTOR<sp/><ref refid="class_collider_1a93e181cc68e11762cceb29bd48ffbb17" kindref="member">rot</ref><sp/>=<sp/>DirectX::XMVectorSet(0,<sp/>0,<sp/>0,<sp/>0);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="class_collider_1ad67edfb6dc7832cde3726e09ca717975" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_collider_1ad67edfb6dc7832cde3726e09ca717975" kindref="member">isColliding</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;DirectX::XMVECTOR&gt;<sp/>verticesPos;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_collider_1aaf711504401d9e2edfa19d3c89b340af" kindref="member">ColliderType</ref><sp/>currentType<sp/>=<sp/><ref refid="class_collider_1aaf711504401d9e2edfa19d3c89b340afaa43be0cff46759a81b05f37eb78da788" kindref="member">Cube</ref>;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>MeshLoader::MeshData*<sp/>mesh;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+    </programlisting>
+    <location file="include/Collider.h"/>
+  </compounddef>
+</doxygen>

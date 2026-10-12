@@ -1,0 +1,321 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="class_light" kind="class" language="C++" prot="public">
+    <compoundname>Light</compoundname>
+    <basecompoundref refid="class_component" prot="public" virt="non-virtual">Component</basecompoundref>
+    <derivedcompoundref refid="class_directional_light" prot="public" virt="non-virtual">DirectionalLight</derivedcompoundref>
+    <derivedcompoundref refid="class_point_light" prot="public" virt="non-virtual">PointLight</derivedcompoundref>
+    <derivedcompoundref refid="class_spot_light" prot="public" virt="non-virtual">SpotLight</derivedcompoundref>
+    <includes refid="_light_8h" local="no">Light.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_light_1a6c4c401141c4cdb3b9b9b3bab7dd6fbb" prot="private" static="no" mutable="no">
+        <type>float</type>
+        <definition>float Light::power</definition>
+        <argsstring></argsstring>
+        <name>power</name>
+        <qualifiedname>Light::power</qualifiedname>
+        <initializer>= 0.5f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/Light.h" line="34" column="7" bodyfile="include/Base/Light.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_light_1a8471a8effa7ea1e54e3b407974d4406e" prot="private" static="no" mutable="no">
+        <type>UINT</type>
+        <definition>UINT Light::shadowMapIndex</definition>
+        <argsstring></argsstring>
+        <name>shadowMapIndex</name>
+        <qualifiedname>Light::shadowMapIndex</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/Light.h" line="36" column="6" bodyfile="include/Base/Light.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_light_1a47f1cdce550a2c5ee4e2baa654f36695" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool Light::isCastShadow</definition>
+        <argsstring></argsstring>
+        <name>isCastShadow</name>
+        <qualifiedname>Light::isCastShadow</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/Light.h" line="38" column="6" bodyfile="include/Base/Light.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_light_1acb9f0aad77a521300a17e54f5374f83c" prot="private" static="no" mutable="no">
+        <type>DirectX::XMVECTOR</type>
+        <definition>DirectX::XMVECTOR Light::color</definition>
+        <argsstring></argsstring>
+        <name>color</name>
+        <qualifiedname>Light::color</qualifiedname>
+        <initializer>= DirectX::XMVectorSet(0.6, 0.5, 0.5, 1)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/Light.h" line="40" column="19" bodyfile="include/Base/Light.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_light_1ad0e59fad13bb6cfadc25b2c477e9ddc7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>Light::~Light</definition>
+        <argsstring>()</argsstring>
+        <name>~Light</name>
+        <qualifiedname>Light::~Light</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/Light.h" line="13" column="1" bodyfile="src/Base/Light.cpp" bodystart="9" bodyend="11"/>
+      </memberdef>
+      <memberdef kind="function" id="class_light_1a22d65826c51e2e891f3bd85ee5606d3c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float Light::GetPower</definition>
+        <argsstring>()</argsstring>
+        <name>GetPower</name>
+        <qualifiedname>Light::GetPower</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/Light.h" line="15" column="7" bodyfile="src/Base/Light.cpp" bodystart="13" bodyend="16"/>
+      </memberdef>
+      <memberdef kind="function" id="class_light_1aeae27f8b40c5e2632705d4d2f1e80896" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>DirectX::XMVECTOR</type>
+        <definition>DirectX::XMVECTOR Light::GetColor</definition>
+        <argsstring>()</argsstring>
+        <name>GetColor</name>
+        <qualifiedname>Light::GetColor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/Light.h" line="17" column="19" bodyfile="src/Base/Light.cpp" bodystart="18" bodyend="21"/>
+      </memberdef>
+      <memberdef kind="function" id="class_light_1aca5344fc1cf49b8450afba55d1171681" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Light::SetPower</definition>
+        <argsstring>(float pow)</argsstring>
+        <name>SetPower</name>
+        <qualifiedname>Light::SetPower</qualifiedname>
+        <param>
+          <type>float</type>
+          <declname>pow</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/Light.h" line="19" column="6" bodyfile="src/Base/Light.cpp" bodystart="23" bodyend="26"/>
+      </memberdef>
+      <memberdef kind="function" id="class_light_1a5b94e136b1c1d167d8831aec36717a68" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Light::SetColor</definition>
+        <argsstring>(DirectX::XMVECTOR col)</argsstring>
+        <name>SetColor</name>
+        <qualifiedname>Light::SetColor</qualifiedname>
+        <param>
+          <type>DirectX::XMVECTOR</type>
+          <declname>col</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/Light.h" line="21" column="6" bodyfile="src/Base/Light.cpp" bodystart="28" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="function" id="class_light_1ab3cd94e295f7701c26a6e416ced2e8bc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Light::SetIsCastShadow</definition>
+        <argsstring>(bool val)</argsstring>
+        <name>SetIsCastShadow</name>
+        <qualifiedname>Light::SetIsCastShadow</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>val</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/Light.h" line="23" column="6" bodyfile="src/Base/Light.cpp" bodystart="33" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="class_light_1a44883e730b17f97411021d47b958dc7e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool Light::GetIsCastShadow</definition>
+        <argsstring>()</argsstring>
+        <name>GetIsCastShadow</name>
+        <qualifiedname>Light::GetIsCastShadow</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/Light.h" line="25" column="6" bodyfile="src/Base/Light.cpp" bodystart="40" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="class_light_1a1ed95a758c802dbd54df80caeca4256d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Light::SetShadowMapIndex</definition>
+        <argsstring>(UINT ind)</argsstring>
+        <name>SetShadowMapIndex</name>
+        <qualifiedname>Light::SetShadowMapIndex</qualifiedname>
+        <param>
+          <type>UINT</type>
+          <declname>ind</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/Light.h" line="27" column="6" bodyfile="src/Base/Light.cpp" bodystart="45" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="class_light_1ae835856d6b27b6e84d5172bf6a3d2e45" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>UINT</type>
+        <definition>UINT Light::GetShadowMapIndex</definition>
+        <argsstring>()</argsstring>
+        <name>GetShadowMapIndex</name>
+        <qualifiedname>Light::GetShadowMapIndex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/Light.h" line="29" column="6" bodyfile="src/Base/Light.cpp" bodystart="53" bodyend="56"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_light_1aeab62d33e52a0e0413701e627f76adfd" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>Light::Light</definition>
+        <argsstring>(std::shared_ptr&lt; Entity &gt; ent)</argsstring>
+        <name>Light</name>
+        <qualifiedname>Light::Light</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; Entity &gt;</type>
+          <declname>ent</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/Light.h" line="31" column="1" bodyfile="src/Base/Light.cpp" bodystart="5" bodyend="7"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>Component</label>
+        <link refid="class_component"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>DirectionalLight</label>
+        <link refid="class_directional_light"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>Light</label>
+        <link refid="class_light"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>PointLight</label>
+        <link refid="class_point_light"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>SpotLight</label>
+        <link refid="class_spot_light"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>std::enable_shared_from_this&lt; Component &gt;</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>Component</label>
+        <link refid="class_component"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>Light</label>
+        <link refid="class_light"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>std::enable_shared_from_this&lt; Component &gt;</label>
+      </node>
+    </collaborationgraph>
+    <location file="include/Base/Light.h" line="10" column="1" bodyfile="include/Base/Light.h" bodystart="11" bodyend="41"/>
+    <listofallmembers>
+      <member refid="class_component_1a61954f08c177e4c1ebb17cf8fd3aa56f" prot="public" virt="non-virtual"><scope>Light</scope><name>attachFrom</name></member>
+      <member refid="class_component_1a120d65094802a621c8d804a964cafa9c" prot="public" virt="non-virtual"><scope>Light</scope><name>Cast</name></member>
+      <member refid="class_light_1acb9f0aad77a521300a17e54f5374f83c" prot="private" virt="non-virtual"><scope>Light</scope><name>color</name></member>
+      <member refid="class_component_1a5cba85e33b188bf87ee09f353d7b2fa5" prot="public" virt="non-virtual"><scope>Light</scope><name>Component</name></member>
+      <member refid="class_light_1aeae27f8b40c5e2632705d4d2f1e80896" prot="public" virt="non-virtual"><scope>Light</scope><name>GetColor</name></member>
+      <member refid="class_component_1a22ed217d642f4566a47c874ac9a63eab" prot="public" virt="virtual"><scope>Light</scope><name>GetComponentName</name></member>
+      <member refid="class_component_1a2a9968090dabad782f2bbdaf0093be84" prot="public" virt="non-virtual"><scope>Light</scope><name>GetHash</name></member>
+      <member refid="class_light_1a44883e730b17f97411021d47b958dc7e" prot="public" virt="non-virtual"><scope>Light</scope><name>GetIsCastShadow</name></member>
+      <member refid="class_component_1ac0ee67584bdd569c2809495a5843612b" prot="public" virt="non-virtual"><scope>Light</scope><name>GetLeafIndex</name></member>
+      <member refid="class_light_1a22d65826c51e2e891f3bd85ee5606d3c" prot="public" virt="non-virtual"><scope>Light</scope><name>GetPower</name></member>
+      <member refid="class_light_1ae835856d6b27b6e84d5172bf6a3d2e45" prot="public" virt="non-virtual"><scope>Light</scope><name>GetShadowMapIndex</name></member>
+      <member refid="class_component_1a1b25ee28c379d9f0d0c1ecc0df1e6328" prot="public" virt="non-virtual"><scope>Light</scope><name>GetTreeIndex</name></member>
+      <member refid="class_component_1ad3141017e589ef48d436bc743e15d122" prot="public" virt="virtual"><scope>Light</scope><name>Init</name></member>
+      <member refid="class_light_1a47f1cdce550a2c5ee4e2baa654f36695" prot="private" virt="non-virtual"><scope>Light</scope><name>isCastShadow</name></member>
+      <member refid="class_light_1aeab62d33e52a0e0413701e627f76adfd" prot="protected" virt="non-virtual"><scope>Light</scope><name>Light</name></member>
+      <member refid="class_light_1a6c4c401141c4cdb3b9b9b3bab7dd6fbb" prot="private" virt="non-virtual"><scope>Light</scope><name>power</name></member>
+      <member refid="class_light_1a5b94e136b1c1d167d8831aec36717a68" prot="public" virt="non-virtual"><scope>Light</scope><name>SetColor</name></member>
+      <member refid="class_component_1a053713eb8c3c356263a588fc398da49f" prot="public" virt="non-virtual"><scope>Light</scope><name>SetHash</name></member>
+      <member refid="class_component_1a93263d6a4c7a133ad05f8b754463d81a" prot="public" virt="non-virtual"><scope>Light</scope><name>SetIndex</name></member>
+      <member refid="class_light_1ab3cd94e295f7701c26a6e416ced2e8bc" prot="public" virt="non-virtual"><scope>Light</scope><name>SetIsCastShadow</name></member>
+      <member refid="class_light_1aca5344fc1cf49b8450afba55d1171681" prot="public" virt="non-virtual"><scope>Light</scope><name>SetPower</name></member>
+      <member refid="class_light_1a1ed95a758c802dbd54df80caeca4256d" prot="public" virt="non-virtual"><scope>Light</scope><name>SetShadowMapIndex</name></member>
+      <member refid="class_light_1a8471a8effa7ea1e54e3b407974d4406e" prot="private" virt="non-virtual"><scope>Light</scope><name>shadowMapIndex</name></member>
+      <member refid="class_component_1ab8378fa275af98e568a7e91d33d867af" prot="public" virt="virtual"><scope>Light</scope><name>~Component</name></member>
+      <member refid="class_light_1ad0e59fad13bb6cfadc25b2c477e9ddc7" prot="public" virt="non-virtual"><scope>Light</scope><name>~Light</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

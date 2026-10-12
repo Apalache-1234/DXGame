@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="struct_p_e_vertical_gaussian_blur_1_1_gaussian_blur_info" kind="struct" language="C++" prot="private">
+    <compoundname>PEVerticalGaussianBlur::GaussianBlurInfo</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_p_e_vertical_gaussian_blur_1_1_gaussian_blur_info_1a70f7db0e0f44ff5babbb9804ca4753a8" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float PEVerticalGaussianBlur::GaussianBlurInfo::sigma</definition>
+        <argsstring></argsstring>
+        <name>sigma</name>
+        <qualifiedname>PEVerticalGaussianBlur::GaussianBlurInfo::sigma</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/PostEffect/PEVerticalGaussianBlur.h" line="27" column="15" bodyfile="include/PostEffect/PEVerticalGaussianBlur.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_p_e_vertical_gaussian_blur_1_1_gaussian_blur_info_1acd94c1abf754aaeadecbc9ea7476e7c9" prot="public" static="no" mutable="no">
+        <type>XMFLOAT3</type>
+        <definition>XMFLOAT3 PEVerticalGaussianBlur::GaussianBlurInfo::padding1</definition>
+        <argsstring></argsstring>
+        <name>padding1</name>
+        <qualifiedname>PEVerticalGaussianBlur::GaussianBlurInfo::padding1</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/PostEffect/PEVerticalGaussianBlur.h" line="28" column="18" bodyfile="include/PostEffect/PEVerticalGaussianBlur.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_p_e_vertical_gaussian_blur_1_1_gaussian_blur_info_1a78dacd5a787f99e1fa55fd852466f7d7" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float PEVerticalGaussianBlur::GaussianBlurInfo::kernelRadius</definition>
+        <argsstring></argsstring>
+        <name>kernelRadius</name>
+        <qualifiedname>PEVerticalGaussianBlur::GaussianBlurInfo::kernelRadius</qualifiedname>
+        <initializer>= 4</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/PostEffect/PEVerticalGaussianBlur.h" line="29" column="15" bodyfile="include/PostEffect/PEVerticalGaussianBlur.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_p_e_vertical_gaussian_blur_1_1_gaussian_blur_info_1aa5089b0dc0aec57ef3bb2679c7310417" prot="public" static="no" mutable="no">
+        <type>XMFLOAT3</type>
+        <definition>XMFLOAT3 PEVerticalGaussianBlur::GaussianBlurInfo::padding2</definition>
+        <argsstring></argsstring>
+        <name>padding2</name>
+        <qualifiedname>PEVerticalGaussianBlur::GaussianBlurInfo::padding2</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/PostEffect/PEVerticalGaussianBlur.h" line="30" column="18" bodyfile="include/PostEffect/PEVerticalGaussianBlur.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/PostEffect/PEVerticalGaussianBlur.h" line="25" column="5" bodyfile="include/PostEffect/PEVerticalGaussianBlur.h" bodystart="26" bodyend="31"/>
+    <listofallmembers>
+      <member refid="struct_p_e_vertical_gaussian_blur_1_1_gaussian_blur_info_1a78dacd5a787f99e1fa55fd852466f7d7" prot="public" virt="non-virtual"><scope>PEVerticalGaussianBlur::GaussianBlurInfo</scope><name>kernelRadius</name></member>
+      <member refid="struct_p_e_vertical_gaussian_blur_1_1_gaussian_blur_info_1acd94c1abf754aaeadecbc9ea7476e7c9" prot="public" virt="non-virtual"><scope>PEVerticalGaussianBlur::GaussianBlurInfo</scope><name>padding1</name></member>
+      <member refid="struct_p_e_vertical_gaussian_blur_1_1_gaussian_blur_info_1aa5089b0dc0aec57ef3bb2679c7310417" prot="public" virt="non-virtual"><scope>PEVerticalGaussianBlur::GaussianBlurInfo</scope><name>padding2</name></member>
+      <member refid="struct_p_e_vertical_gaussian_blur_1_1_gaussian_blur_info_1a70f7db0e0f44ff5babbb9804ca4753a8" prot="public" virt="non-virtual"><scope>PEVerticalGaussianBlur::GaussianBlurInfo</scope><name>sigma</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

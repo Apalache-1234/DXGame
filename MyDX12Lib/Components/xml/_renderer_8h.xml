@@ -1,0 +1,936 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="_renderer_8h" kind="file" language="C++">
+    <compoundname>Renderer.h</compoundname>
+    <includes refid="_component_8h" local="yes">Component.h</includes>
+    <includes local="no">iostream</includes>
+    <includes local="no">d3d12.h</includes>
+    <includes local="no">d3dx12.h</includes>
+    <includes local="no">dxgi1_4.h</includes>
+    <includes local="no">D3Dcompiler.h</includes>
+    <includes local="no">DirectXMath.h</includes>
+    <includes local="yes">Window.h</includes>
+    <includes local="yes">MeshLoader.h</includes>
+    <includes local="yes">DXRenderSystem.h</includes>
+    <includes local="yes">Utility.h</includes>
+    <includedby refid="_debug_renderer_8h" local="yes">include/Base/DebugRenderer.h</includedby>
+    <includedby refid="_post_effect_8h" local="yes">include/Base/PostEffect.h</includedby>
+    <includedby refid="_debug_collider_8h" local="yes">include/Debug/DebugCollider.h</includedby>
+    <includedby refid="_debug_directional_light_8h" local="yes">include/Debug/DebugDirectionalLight.h</includedby>
+    <includedby refid="_debug_grids_8h" local="yes">include/Debug/DebugGrids.h</includedby>
+    <includedby refid="_debug_origin_8h" local="yes">include/Debug/DebugOrigin.h</includedby>
+    <includedby refid="_debug_point_light_8h" local="yes">include/Debug/DebugPointLight.h</includedby>
+    <includedby refid="_debug_ray_cast_8h" local="yes">include/Debug/DebugRayCast.h</includedby>
+    <includedby refid="_debug_spot_light_8h" local="yes">include/Debug/DebugSpotLight.h</includedby>
+    <includedby refid="_debug_u_i_renderer_8h" local="yes">include/Debug/DebugUIRenderer.h</includedby>
+    <includedby refid="_skinned_renderer_8h" local="yes">include/SkinnedRenderer.h</includedby>
+    <includedby refid="_sky_box_8h" local="yes">include/SkyBox.h</includedby>
+    <includedby refid="_u_i_renderer_8h" local="yes">include/UIRenderer.h</includedby>
+    <includedby refid="_renderer_8cpp" local="yes">src/Base/Renderer.cpp</includedby>
+    <incdepgraph>
+      <node id="10">
+        <label>D3Dcompiler.h</label>
+      </node>
+      <node id="14">
+        <label>DXRenderSystem.h</label>
+      </node>
+      <node id="11">
+        <label>DirectXMath.h</label>
+      </node>
+      <node id="3">
+        <label>ComponentList.h</label>
+        <link refid="_component_list_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>Component.h</label>
+        <link refid="_component_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/Base/Renderer.h</label>
+        <link refid="_renderer_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>MeshLoader.h</label>
+      </node>
+      <node id="15">
+        <label>Utility.h</label>
+      </node>
+      <node id="12">
+        <label>Window.h</label>
+      </node>
+      <node id="6">
+        <label>Windows.h</label>
+      </node>
+      <node id="7">
+        <label>d3d12.h</label>
+      </node>
+      <node id="8">
+        <label>d3dx12.h</label>
+      </node>
+      <node id="9">
+        <label>dxgi1_4.h</label>
+      </node>
+      <node id="4">
+        <label>iostream</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="31">
+        <label>ComponentList/src/ComponentList.cpp</label>
+        <link refid="_component_list_8cpp"/>
+      </node>
+      <node id="48">
+        <label>Script/include/CPUScript.h</label>
+        <link refid="_c_p_u_script_8h"/>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="49" relation="include">
+        </childnode>
+      </node>
+      <node id="41">
+        <label>Script/include/CardScript.h</label>
+        <link refid="_card_script_8h"/>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="42" relation="include">
+        </childnode>
+        <childnode refid="43" relation="include">
+        </childnode>
+        <childnode refid="44" relation="include">
+        </childnode>
+        <childnode refid="45" relation="include">
+        </childnode>
+      </node>
+      <node id="46">
+        <label>Script/include/CardTextureScript.h</label>
+        <link refid="_card_texture_script_8h"/>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="41" relation="include">
+        </childnode>
+        <childnode refid="47" relation="include">
+        </childnode>
+        <childnode refid="52" relation="include">
+        </childnode>
+        <childnode refid="53" relation="include">
+        </childnode>
+      </node>
+      <node id="63">
+        <label>Script/include/DeckScript.h</label>
+        <link refid="_deck_script_8h"/>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="48" relation="include">
+        </childnode>
+        <childnode refid="41" relation="include">
+        </childnode>
+        <childnode refid="46" relation="include">
+        </childnode>
+        <childnode refid="50" relation="include">
+        </childnode>
+        <childnode refid="47" relation="include">
+        </childnode>
+        <childnode refid="52" relation="include">
+        </childnode>
+        <childnode refid="64" relation="include">
+        </childnode>
+        <childnode refid="44" relation="include">
+        </childnode>
+      </node>
+      <node id="65">
+        <label>Script/include/FloorScript.h</label>
+        <link refid="_floor_script_8h"/>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="66" relation="include">
+        </childnode>
+      </node>
+      <node id="67">
+        <label>Script/include/GameEndScript.h</label>
+        <link refid="_game_end_script_8h"/>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="51" relation="include">
+        </childnode>
+      </node>
+      <node id="50">
+        <label>Script/include/GameManagerScript.h</label>
+        <link refid="_game_manager_script_8h"/>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="41" relation="include">
+        </childnode>
+        <childnode refid="49" relation="include">
+        </childnode>
+        <childnode refid="51" relation="include">
+        </childnode>
+        <childnode refid="43" relation="include">
+        </childnode>
+      </node>
+      <node id="54">
+        <label>Script/include/GameStartUIScript.h</label>
+        <link refid="_game_start_u_i_script_8h"/>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+      </node>
+      <node id="68">
+        <label>Script/include/GameStartingScript.h</label>
+        <link refid="_game_starting_script_8h"/>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="43" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+      </node>
+      <node id="47">
+        <label>Script/include/HandScript.h</label>
+        <link refid="_hand_script_8h"/>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="48" relation="include">
+        </childnode>
+        <childnode refid="50" relation="include">
+        </childnode>
+        <childnode refid="42" relation="include">
+        </childnode>
+        <childnode refid="44" relation="include">
+        </childnode>
+      </node>
+      <node id="69">
+        <label>Script/include/PlaceCardUIScript.h</label>
+        <link refid="_place_card_u_i_script_8h"/>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="49" relation="include">
+        </childnode>
+        <childnode refid="43" relation="include">
+        </childnode>
+        <childnode refid="70" relation="include">
+        </childnode>
+      </node>
+      <node id="71">
+        <label>Script/include/ReadyUIScript.h</label>
+        <link refid="_ready_u_i_script_8h"/>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="70" relation="include">
+        </childnode>
+        <childnode refid="72" relation="include">
+        </childnode>
+      </node>
+      <node id="55">
+        <label>Script/include/SquareWipeScript.h</label>
+        <link refid="_square_wipe_script_8h"/>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="50" relation="include">
+        </childnode>
+        <childnode refid="47" relation="include">
+        </childnode>
+        <childnode refid="56" relation="include">
+        </childnode>
+      </node>
+      <node id="30">
+        <label>Script/include/TableAndChairScript.h</label>
+        <link refid="_table_and_chair_script_8h"/>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+      </node>
+      <node id="52">
+        <label>Script/include/TableDeckScript.h</label>
+        <link refid="_table_deck_script_8h"/>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="50" relation="include">
+        </childnode>
+        <childnode refid="49" relation="include">
+        </childnode>
+        <childnode refid="42" relation="include">
+        </childnode>
+        <childnode refid="45" relation="include">
+        </childnode>
+      </node>
+      <node id="33">
+        <label>Script/include/TitleCardScript.h</label>
+        <link refid="_title_card_script_8h"/>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+      </node>
+      <node id="35">
+        <label>Script/include/TitleFrameScript.h</label>
+        <link refid="_title_frame_script_8h"/>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+      </node>
+      <node id="37">
+        <label>Script/include/TitleNoiseScript.h</label>
+        <link refid="_title_noise_script_8h"/>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+      </node>
+      <node id="73">
+        <label>Script/include/TitleSpotLightScript.h</label>
+        <link refid="_title_spot_light_script_8h"/>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="74" relation="include">
+        </childnode>
+      </node>
+      <node id="49">
+        <label>Script/src/CPUScript.cpp</label>
+        <link refid="_c_p_u_script_8cpp"/>
+      </node>
+      <node id="42">
+        <label>Script/src/CardScript.cpp</label>
+        <link refid="_card_script_8cpp"/>
+      </node>
+      <node id="53">
+        <label>Script/src/CardTextureScript.cpp</label>
+        <link refid="_card_texture_script_8cpp"/>
+      </node>
+      <node id="64">
+        <label>Script/src/DeckScript.cpp</label>
+        <link refid="_deck_script_8cpp"/>
+      </node>
+      <node id="66">
+        <label>Script/src/FloorScript.cpp</label>
+        <link refid="_floor_script_8cpp"/>
+      </node>
+      <node id="51">
+        <label>Script/src/GameEndScript.cpp</label>
+        <link refid="_game_end_script_8cpp"/>
+      </node>
+      <node id="43">
+        <label>Script/src/GameManagerScript.cpp</label>
+        <link refid="_game_manager_script_8cpp"/>
+      </node>
+      <node id="27">
+        <label>Script/src/GameStartUIScript.cpp</label>
+        <link refid="_game_start_u_i_script_8cpp"/>
+      </node>
+      <node id="22">
+        <label>Script/src/GameStartingScript.cpp</label>
+        <link refid="_game_starting_script_8cpp"/>
+      </node>
+      <node id="44">
+        <label>Script/src/HandScript.cpp</label>
+        <link refid="_hand_script_8cpp"/>
+      </node>
+      <node id="70">
+        <label>Script/src/PlaceCardUIScript.cpp</label>
+        <link refid="_place_card_u_i_script_8cpp"/>
+      </node>
+      <node id="72">
+        <label>Script/src/ReadyUIScript.cpp</label>
+        <link refid="_ready_u_i_script_8cpp"/>
+      </node>
+      <node id="56">
+        <label>Script/src/SquareWipeScript.cpp</label>
+        <link refid="_square_wipe_script_8cpp"/>
+      </node>
+      <node id="32">
+        <label>Script/src/TableAndChairScript.cpp</label>
+        <link refid="_table_and_chair_script_8cpp"/>
+      </node>
+      <node id="45">
+        <label>Script/src/TableDeckScript.cpp</label>
+        <link refid="_table_deck_script_8cpp"/>
+      </node>
+      <node id="34">
+        <label>Script/src/TitleCardScript.cpp</label>
+        <link refid="_title_card_script_8cpp"/>
+      </node>
+      <node id="36">
+        <label>Script/src/TitleFrameScript.cpp</label>
+        <link refid="_title_frame_script_8cpp"/>
+      </node>
+      <node id="38">
+        <label>Script/src/TitleNoiseScript.cpp</label>
+        <link refid="_title_noise_script_8cpp"/>
+      </node>
+      <node id="74">
+        <label>Script/src/TitleSpotLightScript.cpp</label>
+        <link refid="_title_spot_light_script_8cpp"/>
+      </node>
+      <node id="2">
+        <label>include/Base/DebugRenderer.h</label>
+        <link refid="_debug_renderer_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>include/Base/PostEffect.h</label>
+        <link refid="_post_effect_8h"/>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="40" relation="include">
+        </childnode>
+        <childnode refid="58" relation="include">
+        </childnode>
+        <childnode refid="60" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/Base/Renderer.h</label>
+        <link refid="_renderer_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="61" relation="include">
+        </childnode>
+        <childnode refid="78" relation="include">
+        </childnode>
+        <childnode refid="80" relation="include">
+        </childnode>
+        <childnode refid="81" relation="include">
+        </childnode>
+      </node>
+      <node id="62">
+        <label>include/Base/ScriptComponent.h</label>
+        <link refid="_script_component_8h"/>
+        <childnode refid="48" relation="include">
+        </childnode>
+        <childnode refid="41" relation="include">
+        </childnode>
+        <childnode refid="46" relation="include">
+        </childnode>
+        <childnode refid="63" relation="include">
+        </childnode>
+        <childnode refid="65" relation="include">
+        </childnode>
+        <childnode refid="67" relation="include">
+        </childnode>
+        <childnode refid="50" relation="include">
+        </childnode>
+        <childnode refid="54" relation="include">
+        </childnode>
+        <childnode refid="68" relation="include">
+        </childnode>
+        <childnode refid="47" relation="include">
+        </childnode>
+        <childnode refid="69" relation="include">
+        </childnode>
+        <childnode refid="71" relation="include">
+        </childnode>
+        <childnode refid="55" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="52" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="73" relation="include">
+        </childnode>
+        <childnode refid="75" relation="include">
+        </childnode>
+        <childnode refid="76" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>include/Debug/DebugCollider.h</label>
+        <link refid="_debug_collider_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>include/Debug/DebugDirectionalLight.h</label>
+        <link refid="_debug_directional_light_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>include/Debug/DebugGrids.h</label>
+        <link refid="_debug_grids_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>include/Debug/DebugOrigin.h</label>
+        <link refid="_debug_origin_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>include/Debug/DebugPointLight.h</label>
+        <link refid="_debug_point_light_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>include/Debug/DebugRayCast.h</label>
+        <link refid="_debug_ray_cast_8h"/>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>include/Debug/DebugSpotLight.h</label>
+        <link refid="_debug_spot_light_8h"/>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>include/Debug/DebugUIRenderer.h</label>
+        <link refid="_debug_u_i_renderer_8h"/>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>include/PostEffect/PEEdgeFilter.h</label>
+        <link refid="_p_e_edge_filter_8h"/>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+      </node>
+      <node id="24">
+        <label>include/PostEffect/PEHorizonGaussianBlur.h</label>
+        <link refid="_p_e_horizon_gaussian_blur_8h"/>
+        <childnode refid="25" relation="include">
+        </childnode>
+      </node>
+      <node id="26">
+        <label>include/PostEffect/PEMosaicFilter.h</label>
+        <link refid="_p_e_mosaic_filter_8h"/>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+      </node>
+      <node id="29">
+        <label>include/PostEffect/PENoiseFilter.h</label>
+        <link refid="_p_e_noise_filter_8h"/>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="39" relation="include">
+        </childnode>
+      </node>
+      <node id="40">
+        <label>include/PostEffect/PERadicalBlur.h</label>
+        <link refid="_p_e_radical_blur_8h"/>
+        <childnode refid="41" relation="include">
+        </childnode>
+        <childnode refid="46" relation="include">
+        </childnode>
+        <childnode refid="50" relation="include">
+        </childnode>
+        <childnode refid="54" relation="include">
+        </childnode>
+        <childnode refid="55" relation="include">
+        </childnode>
+        <childnode refid="51" relation="include">
+        </childnode>
+        <childnode refid="57" relation="include">
+        </childnode>
+      </node>
+      <node id="58">
+        <label>include/PostEffect/PEVerticalGaussianBlur.h</label>
+        <link refid="_p_e_vertical_gaussian_blur_8h"/>
+        <childnode refid="59" relation="include">
+        </childnode>
+      </node>
+      <node id="61">
+        <label>include/SkinnedRenderer.h</label>
+        <link refid="_skinned_renderer_8h"/>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="62" relation="include">
+        </childnode>
+        <childnode refid="77" relation="include">
+        </childnode>
+      </node>
+      <node id="78">
+        <label>include/SkyBox.h</label>
+        <link refid="_sky_box_8h"/>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="79" relation="include">
+        </childnode>
+      </node>
+      <node id="80">
+        <label>include/UIRenderer.h</label>
+        <link refid="_u_i_renderer_8h"/>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="55" relation="include">
+        </childnode>
+        <childnode refid="51" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="70" relation="include">
+        </childnode>
+        <childnode refid="72" relation="include">
+        </childnode>
+        <childnode refid="56" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="76" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>src/Base/DebugRenderer.cpp</label>
+        <link refid="_debug_renderer_8cpp"/>
+      </node>
+      <node id="60">
+        <label>src/Base/PostEffect.cpp</label>
+        <link refid="_post_effect_8cpp"/>
+      </node>
+      <node id="81">
+        <label>src/Base/Renderer.cpp</label>
+        <link refid="_renderer_8cpp"/>
+      </node>
+      <node id="75">
+        <label>src/Base/ScriptComponent.cpp</label>
+        <link refid="_script_component_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/Debug/DebugCollider.cpp</label>
+        <link refid="_debug_collider_8cpp"/>
+      </node>
+      <node id="6">
+        <label>src/Debug/DebugDirectionalLight.cpp</label>
+        <link refid="_debug_directional_light_8cpp"/>
+      </node>
+      <node id="8">
+        <label>src/Debug/DebugGrids.cpp</label>
+        <link refid="_debug_grids_8cpp"/>
+      </node>
+      <node id="10">
+        <label>src/Debug/DebugOrigin.cpp</label>
+        <link refid="_debug_origin_8cpp"/>
+      </node>
+      <node id="12">
+        <label>src/Debug/DebugPointLight.cpp</label>
+        <link refid="_debug_point_light_8cpp"/>
+      </node>
+      <node id="14">
+        <label>src/Debug/DebugRayCast.cpp</label>
+        <link refid="_debug_ray_cast_8cpp"/>
+      </node>
+      <node id="16">
+        <label>src/Debug/DebugSpotLight.cpp</label>
+        <link refid="_debug_spot_light_8cpp"/>
+      </node>
+      <node id="18">
+        <label>src/Debug/DebugUIRenderer.cpp</label>
+        <link refid="_debug_u_i_renderer_8cpp"/>
+      </node>
+      <node id="23">
+        <label>src/PostEffect/PEEdgeFilter.cpp</label>
+        <link refid="_p_e_edge_filter_8cpp"/>
+      </node>
+      <node id="25">
+        <label>src/PostEffect/PEHorizonGaussianBlur.cpp</label>
+        <link refid="_p_e_horizon_gaussian_blur_8cpp"/>
+      </node>
+      <node id="28">
+        <label>src/PostEffect/PEMosaicFilter.cpp</label>
+        <link refid="_p_e_mosaic_filter_8cpp"/>
+      </node>
+      <node id="39">
+        <label>src/PostEffect/PENoiseFilter.cpp</label>
+        <link refid="_p_e_noise_filter_8cpp"/>
+      </node>
+      <node id="57">
+        <label>src/PostEffect/PERadicalBlur.cpp</label>
+        <link refid="_p_e_radical_blur_8cpp"/>
+      </node>
+      <node id="59">
+        <label>src/PostEffect/PEVerticalGaussianBlur.cpp</label>
+        <link refid="_p_e_vertical_gaussian_blur_8cpp"/>
+      </node>
+      <node id="77">
+        <label>src/SkinnedRenderer.cpp</label>
+        <link refid="_skinned_renderer_8cpp"/>
+      </node>
+      <node id="79">
+        <label>src/SkyBox.cpp</label>
+        <link refid="_sky_box_8cpp"/>
+      </node>
+      <node id="76">
+        <label>src/UIRenderer.cpp</label>
+        <link refid="_u_i_renderer_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="class_renderer" prot="public">Renderer</innerclass>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#ifndef<sp/>RENDERER_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>RENDERER_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_component_8h" kindref="compound">Component.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;iostream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;d3d12.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;d3dx12.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;dxgi1_4.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;D3Dcompiler.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;DirectXMath.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;Window.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#undef<sp/>min</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#undef<sp/>max</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;MeshLoader.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;DXRenderSystem.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;Utility.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">DirectX;</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">Microsoft::WRL;</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">std;</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22" refid="class_renderer" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_renderer_1a3e79920a8fb355dbb2eb24bdc0623bb7" kindref="member">Renderer</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="class_component_1a5cba85e33b188bf87ee09f353d7b2fa5" kindref="member">Component</ref></highlight></codeline>
+<codeline lineno="23"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">MeshData;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27" refid="class_renderer_1ab34659d99f36b87337a22436c694b77a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/><ref refid="class_renderer_1ab34659d99f36b87337a22436c694b77a" kindref="member">TEXTURE_TYPE</ref></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="29" refid="class_renderer_1ab34659d99f36b87337a22436c694b77aafdf5aea8fe68699a92fc597e0f3aa410" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_renderer_1ab34659d99f36b87337a22436c694b77aafdf5aea8fe68699a92fc597e0f3aa410" kindref="member">DIFFUSE</ref>,</highlight></codeline>
+<codeline lineno="30" refid="class_renderer_1ab34659d99f36b87337a22436c694b77aae429abe859bc1468cb76df92556daffc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_renderer_1ab34659d99f36b87337a22436c694b77aae429abe859bc1468cb76df92556daffc" kindref="member">NORMAL</ref>,</highlight></codeline>
+<codeline lineno="31" refid="class_renderer_1ab34659d99f36b87337a22436c694b77aa922dcc1fbe0210fff37a5c12e51c73bb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_renderer_1ab34659d99f36b87337a22436c694b77aa922dcc1fbe0210fff37a5c12e51c73bb" kindref="member">CountLast</ref></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_renderer" kindref="compound">~Renderer</ref>();</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_renderer_1ad92446fb0350d8537dcd2f01150b0efb" kindref="member">Init</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="class_renderer_1a8b9fdeeecb7b6c37cfba79bc85841db5" kindref="member">AddRenderCommand</ref>(ComPtr&lt;ID3D12GraphicsCommandList&gt;&amp;<sp/>cmdList,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>backBufferIndex);</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="class_renderer_1a0f84f3368c4efbf49fdce3b3373baac2" kindref="member">GetMeshNameList</ref>();</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>Material&amp;<sp/><ref refid="class_renderer_1a1e75024955af72f3c9dbadc96c10281f" kindref="member">GetMaterial</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>idx);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_renderer_1a28d3dc05ad44bca091f1a27bafccc189" kindref="member">SetMaterial</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>idx,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Material&amp;<sp/>mat);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="class_renderer_1ae80ad596f0b476671b1794a6fe8ab2b9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>DirectX::XMVECTOR<sp/><ref refid="class_renderer_1ae80ad596f0b476671b1794a6fe8ab2b9" kindref="member">color</ref><sp/>=<sp/>DirectX::XMVectorSet(1,<sp/>1,<sp/>1,<sp/>1);</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>MeshLoader::MESHTYPE<sp/><ref refid="class_renderer_1ad2ca3f47525a336279d7a3e9cd225155" kindref="member">GetCurrentMeshType</ref>();</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>D3D12_GPU_DESCRIPTOR_HANDLE<sp/><ref refid="class_renderer_1aae81abf8b1e97079d33df77b4757df44" kindref="member">GetTextureGPUHandle</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>idx,<sp/><ref refid="class_renderer_1ab34659d99f36b87337a22436c694b77a" kindref="member">Renderer::TEXTURE_TYPE</ref><sp/>type);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>D3D12_CPU_DESCRIPTOR_HANDLE<sp/><ref refid="class_renderer_1a34068a389335bc378379c7d3209732e6" kindref="member">GetTextureCPUHandle</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>idx,<sp/><ref refid="class_renderer_1ab34659d99f36b87337a22436c694b77a" kindref="member">Renderer::TEXTURE_TYPE</ref><sp/>type);</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_renderer_1a18c48b8f8772486e7c9a54087b2f5612" kindref="member">CreateMesh</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>MeshLoader::MESHTYPE<sp/>type);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_renderer_1a063ae27fa4015a4ad4fd355d1d7a9a2d" kindref="member">ApplyTextureOnMesh</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>idx,<sp/><ref refid="class_renderer_1ab34659d99f36b87337a22436c694b77a" kindref="member">Renderer::TEXTURE_TYPE</ref><sp/>type,<sp/>ComPtr&lt;ID3D12Resource&gt;<sp/>texResource);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_renderer_1a063ae27fa4015a4ad4fd355d1d7a9a2d" kindref="member">ApplyTextureOnMesh</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>idx,<sp/><ref refid="class_renderer_1ab34659d99f36b87337a22436c694b77a" kindref="member">Renderer::TEXTURE_TYPE</ref><sp/>type,<sp/>ComPtr&lt;ID3D12Resource&gt;<sp/>texResource,<sp/>D3D12_SHADER_RESOURCE_VIEW_DESC<sp/>desc);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_renderer_1a11816db1537fb8b768148001f5ad9f6a" kindref="member">LoadVertexShader</ref>(LPCWSTR<sp/>vsName);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_renderer_1a408d5fe9090735fa328d8d494cddfa2f" kindref="member">LoadPixelShader</ref>(LPCWSTR<sp/>psName);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_renderer_1ae6f45f31877b5738313a1dc9cc02155d" kindref="member">CreateRenderPipeline</ref>();</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_renderer_1a371e146fbbbd2274dafa4fd5526e3fdd" kindref="member">AddCommandListFunction</ref>(std::function&lt;<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">(ComPtr&lt;ID3D12GraphicsCommandList&gt;)&gt;<sp/>f);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_renderer_1a3e79920a8fb355dbb2eb24bdc0623bb7" kindref="member">Renderer</ref>(std::shared_ptr&lt;Entity&gt;<sp/>ent);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="class_renderer_1a7cbd30dabcc6cd3b977ae647f6d3f23c" kindref="member">Update</ref>();</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="class_renderer_1a26908c44f59e89bdedace76d6b2b1ff4" kindref="member">InitRenderer</ref>();</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="class_renderer_1a91339beb7c8d7127d80406fc95191467" kindref="member">InitInCreateMesh</ref>();</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_renderer_1aa7101ddc3d282a9f36821b36b46e303a" kindref="member">SetPrimitiveType</ref>(D3D12_PRIMITIVE_TOPOLOGY<sp/>type);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>D3D12_PRIMITIVE_TOPOLOGY<sp/><ref refid="class_renderer_1ad77abbe0720398802884bfa581e89191" kindref="member">GetPrimitiveType</ref>();</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>D3D12_GRAPHICS_PIPELINE_STATE_DESC<sp/><ref refid="class_renderer_1a2a9bb6274d6c2bd7b1373a5218c04d1e" kindref="member">GetDefaultPipelineDesc</ref>();</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_renderer_1af930cefb3ea41ef2808605698cad4bbd" kindref="member">AddInputElementDesc</ref>(D3D12_INPUT_ELEMENT_DESC<sp/>desc);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="class_renderer_1ac9336d05cc8a2bb6c57138f2d303439c" kindref="member">AddCommand</ref>(ComPtr&lt;ID3D12GraphicsCommandList&gt;<sp/>cmdList);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="class_renderer_1ac9336d05cc8a2bb6c57138f2d303439c" kindref="member">AddCommand</ref>(ComPtr&lt;ID3D12GraphicsCommandList&gt;<sp/>cmdList,<sp/>UINT<sp/>meshInd);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_renderer_1aced37542105905c8620cc0e81bef741d" kindref="member">PrepareForRenderPipeline</ref>();</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_renderer_1aa726cdc916f149d8bb40a6fde9d25a63" kindref="member">AddRenderPipeline</ref>(D3D12_GRAPHICS_PIPELINE_STATE_DESC<sp/>desc);</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_renderer_1ab1ba84cc82cec719d474ed837fddaa12" kindref="member">ChangeRenderPipeline</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>idx);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_renderer_1aa0c95bbe27b96ae5e957205a4aaba80b" kindref="member">SetRasterizerDesc</ref>(D3D12_RASTERIZER_DESC<sp/>desc);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_renderer_1ae0b48c95af9c03c0eed1edd30c8d9b32" kindref="member">SetRTBDesc</ref>(D3D12_RENDER_TARGET_BLEND_DESC<sp/>desc);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_renderer_1a813d0f334d299d3ceb2d5dc92563d80a" kindref="member">SetDepthStencilDesc</ref>(D3D12_DEPTH_STENCIL_DESC<sp/>desc);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111" refid="class_renderer_1a9417332e939d71be632e6d81854e8df1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="class_renderer_1a9417332e939d71be632e6d81854e8df1" kindref="member">instanceCount</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113" refid="class_renderer_1adcb0d20572ce6fe825df04fa0788b2ab" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_renderer_1adcb0d20572ce6fe825df04fa0788b2ab" kindref="member">isPipelineAlreadyCreated</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118" refid="class_renderer_1ac0ef6dd4baa52d630c273b23c812d51f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>HRESULT<sp/><ref refid="class_renderer_1ac0ef6dd4baa52d630c273b23c812d51f" kindref="member">hr</ref>;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120" refid="class_renderer_1a08dd8b2ddddde6917db844ccc964a7fc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>MeshLoader::MeshData*<sp/><ref refid="class_renderer_1a08dd8b2ddddde6917db844ccc964a7fc" kindref="member">meshData</ref>;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122" refid="class_renderer_1a332ce1ec861cc52aebf95fe1ece25e35" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>MeshLoader::MESHTYPE<sp/><ref refid="class_renderer_1a332ce1ec861cc52aebf95fe1ece25e35" kindref="member">currentMeshType</ref>;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127" refid="class_renderer_1ab64318c35f8f266b8c36efbc41c2f943" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ComPtr&lt;ID3D12Resource&gt;&gt;<sp/><ref refid="class_renderer_1ab64318c35f8f266b8c36efbc41c2f943" kindref="member">constantBuffer</ref>;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129" refid="class_renderer_1aa94ee482132c778a9eebca26e55a8759" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>UINT<sp/><ref refid="class_renderer_1aa94ee482132c778a9eebca26e55a8759" kindref="member">currentCBCount</ref><sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134" refid="class_renderer_1a9b39eecb49896cdc063229aa3a8086f6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;D3D12_CONSTANT_BUFFER_VIEW_DESC&gt;<sp/><ref refid="class_renderer_1a9b39eecb49896cdc063229aa3a8086f6" kindref="member">cbView</ref>;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136" refid="class_renderer_1a7832117cb87326278a00ba0648feb440" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::unique_ptr&lt;PtrHandles&gt;&gt;<sp/><ref refid="class_renderer_1a7832117cb87326278a00ba0648feb440" kindref="member">cbHandle</ref>;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138" refid="class_renderer_1ab4e7d5df234bc02ae6587744e97fb4c9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;PtrHandles&gt;<sp/><ref refid="class_renderer_1ab4e7d5df234bc02ae6587744e97fb4c9" kindref="member">materialHandle</ref>;</highlight></codeline>
+<codeline lineno="139" refid="class_renderer_1a400d0869b9758ed5ec0ab248e2736024" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>ComPtr&lt;ID3D12Resource&gt;<sp/><ref refid="class_renderer_1a400d0869b9758ed5ec0ab248e2736024" kindref="member">materialResource</ref>;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141" refid="class_renderer_1a8a71c03908e1318fd4a76155e9489005" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::unique_ptr&lt;PtrHandles&gt;&gt;<sp/><ref refid="class_renderer_1a8a71c03908e1318fd4a76155e9489005" kindref="member">texHandles</ref>;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146" refid="class_renderer_1a52f2d07a0df1cb61fd5e27593cf745ec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>Transform<sp/><ref refid="class_renderer_1a52f2d07a0df1cb61fd5e27593cf745ec" kindref="member">trans</ref>;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148" refid="class_renderer_1aebb08c6ad0f141810462711e9afb3d69" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;Material&gt;<sp/><ref refid="class_renderer_1aebb08c6ad0f141810462711e9afb3d69" kindref="member">mats</ref>;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::function&lt;<sp/>void(ComPtr&lt;ID3D12GraphicsCommandList&gt;)&gt;&gt;<sp/>cmdFuncs;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>D3D12_PRIMITIVE_TOPOLOGY<sp/>primitiveType<sp/>=<sp/>D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ComPtr&lt;ID3D12PipelineState&gt;&gt;<sp/>pipeline;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>ComPtr&lt;ID3D12PipelineState&gt;<sp/>currentPipeline;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>ComPtr&lt;ID3D12PipelineState&gt;<sp/>shadowMapPipeline;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;D3D12_INPUT_ELEMENT_DESC&gt;<sp/>descElement;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>D3D12_RASTERIZER_DESC<sp/>descRas;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>D3D12_RENDER_TARGET_BLEND_DESC<sp/>descRtBlend;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>ComPtr&lt;ID3DBlob&gt;<sp/>vsBlob;</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>ComPtr&lt;ID3DBlob&gt;<sp/>psBlob;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>D3D12_BLEND_DESC<sp/>descBlend;</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>D3D12_DEPTH_STENCIL_DESC<sp/>dsDesc;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>InitCBVResource();</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>InitMaterialResource();</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>MapMB();</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>InitSRVForMaterialResource();</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>LinkCBVResourceToDescHeap();</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>CreateSRV(ComPtr&lt;ID3D12Resource&gt;<sp/>texResource,<sp/>D3D12_CPU_DESCRIPTOR_HANDLE<sp/>handle);</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>RegisterTextureSRV();</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ConvertValues();</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>MapCB(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>backBuffer);</highlight></codeline>
+<codeline lineno="209"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+    </programlisting>
+    <location file="include/Base/Renderer.h"/>
+  </compounddef>
+</doxygen>

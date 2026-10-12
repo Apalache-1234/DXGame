@@ -1,0 +1,528 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="class_hand_script" kind="class" language="C++" prot="public">
+    <compoundname>HandScript</compoundname>
+    <basecompoundref refid="class_script_component" prot="public" virt="non-virtual">ScriptComponent</basecompoundref>
+    <includes refid="_hand_script_8h" local="no">HandScript.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_hand_script_1a57f0c489a69af03e8f99d896a3a123d2" prot="private" static="no" mutable="no">
+        <type><ref refid="class_deck_script_1a59973a055535137d2600feb94d0f824a" kindref="member">DeckScript::SIDE</ref></type>
+        <definition>DeckScript::SIDE HandScript::side</definition>
+        <argsstring></argsstring>
+        <name>side</name>
+        <qualifiedname>HandScript::side</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/HandScript.h" line="48" column="18" bodyfile="Script/include/HandScript.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_hand_script_1a4affd39259b08692c30c1e86e19b5e69" prot="private" static="no" mutable="no">
+        <type>shared_ptr&lt; <ref refid="class_deck_script" kindref="compound">DeckScript</ref> &gt;</type>
+        <definition>shared_ptr&lt;DeckScript&gt; HandScript::deckSc</definition>
+        <argsstring></argsstring>
+        <name>deckSc</name>
+        <qualifiedname>HandScript::deckSc</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/HandScript.h" line="50" column="12" bodyfile="Script/include/HandScript.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_hand_script_1a2c351c807a695a9e04c311b721b24810" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; shared_ptr&lt; <ref refid="class_card_script" kindref="compound">CardScript</ref> &gt; &gt;</type>
+        <definition>std::vector&lt;shared_ptr&lt;CardScript&gt; &gt; HandScript::cardScs</definition>
+        <argsstring></argsstring>
+        <name>cardScs</name>
+        <qualifiedname>HandScript::cardScs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/HandScript.h" line="52" column="13" bodyfile="Script/include/HandScript.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_hand_script_1a99f9a49def2fbd0e9c8977f3d180a25b" prot="private" static="no" mutable="no">
+        <type>shared_ptr&lt; <ref refid="class_square_wipe_script" kindref="compound">SquareWipeScript</ref> &gt;</type>
+        <definition>shared_ptr&lt;SquareWipeScript&gt; HandScript::wipeSc</definition>
+        <argsstring></argsstring>
+        <name>wipeSc</name>
+        <qualifiedname>HandScript::wipeSc</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/HandScript.h" line="54" column="12" bodyfile="Script/include/HandScript.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_hand_script_1a34976ec5eb9fc4505080ebeb48d459d7" prot="private" static="no" mutable="no">
+        <type>shared_ptr&lt; <ref refid="class_game_manager_script" kindref="compound">GameManagerScript</ref> &gt;</type>
+        <definition>shared_ptr&lt;GameManagerScript&gt; HandScript::gameM</definition>
+        <argsstring></argsstring>
+        <name>gameM</name>
+        <qualifiedname>HandScript::gameM</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/HandScript.h" line="55" column="12" bodyfile="Script/include/HandScript.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_hand_script_1ad441d10525fed3858ba8ddd7799dacfe" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="class_table_deck_script" kindref="compound">TableDeckScript</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;TableDeckScript&gt; HandScript::tableDeck1Sc</definition>
+        <argsstring></argsstring>
+        <name>tableDeck1Sc</name>
+        <qualifiedname>HandScript::tableDeck1Sc</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/HandScript.h" line="57" column="18" bodyfile="Script/include/HandScript.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_hand_script_1af0874f96d1f0c58249b20f3302ecf666" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="class_table_deck_script" kindref="compound">TableDeckScript</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;TableDeckScript&gt; HandScript::tableDeck2Sc</definition>
+        <argsstring></argsstring>
+        <name>tableDeck2Sc</name>
+        <qualifiedname>HandScript::tableDeck2Sc</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/HandScript.h" line="58" column="18" bodyfile="Script/include/HandScript.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_hand_script_1ae11567025fe90ddc74101f95ddbd077b" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="class_skinned_renderer" kindref="compound">SkinnedRenderer</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;SkinnedRenderer&gt; HandScript::sRend</definition>
+        <argsstring></argsstring>
+        <name>sRend</name>
+        <qualifiedname>HandScript::sRend</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/HandScript.h" line="62" column="17" bodyfile="Script/include/HandScript.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_hand_script_1a63b8f74cd6b08314284b2112aa250be8" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::shared_ptr&lt; Entity &gt; &gt;</type>
+        <definition>std::vector&lt;std::shared_ptr&lt;Entity&gt; &gt; HandScript::cardEnts</definition>
+        <argsstring></argsstring>
+        <name>cardEnts</name>
+        <qualifiedname>HandScript::cardEnts</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/HandScript.h" line="64" column="13" bodyfile="Script/include/HandScript.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_hand_script_1a607c35ce039e3cb319530e517f5f0889" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::shared_ptr&lt; <ref refid="class_skinned_renderer" kindref="compound">SkinnedRenderer</ref> &gt; &gt;</type>
+        <definition>std::vector&lt;std::shared_ptr&lt;SkinnedRenderer&gt; &gt; HandScript::cardRends</definition>
+        <argsstring></argsstring>
+        <name>cardRends</name>
+        <qualifiedname>HandScript::cardRends</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/HandScript.h" line="65" column="13" bodyfile="Script/include/HandScript.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_hand_script_1ac876e961f6f299f6bcc14c3cce721d69" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; Tween&lt; XMVECTOR &gt; &gt;</type>
+        <definition>std::shared_ptr&lt;Tween &lt; XMVECTOR&gt; &gt; HandScript::cardTws[handNum]</definition>
+        <argsstring>[handNum]</argsstring>
+        <name>cardTws</name>
+        <qualifiedname>HandScript::cardTws</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/HandScript.h" line="66" column="17" bodyfile="Script/include/HandScript.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_hand_script_1a99ce2684d590f3c00ae508f9790bd6cd" prot="private" static="no" mutable="no">
+        <type>Material</type>
+        <definition>Material HandScript::mat</definition>
+        <argsstring></argsstring>
+        <name>mat</name>
+        <qualifiedname>HandScript::mat</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/HandScript.h" line="68" column="10" bodyfile="Script/include/HandScript.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_hand_script_1ac1b0089a52faa2ff512878777181b260" prot="private" static="no" mutable="no">
+        <type>shared_ptr&lt; <ref refid="class_card_texture_script" kindref="compound">CardTextureScript</ref> &gt;</type>
+        <definition>shared_ptr&lt;CardTextureScript&gt; HandScript::cardTex</definition>
+        <argsstring></argsstring>
+        <name>cardTex</name>
+        <qualifiedname>HandScript::cardTex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/HandScript.h" line="70" column="12" bodyfile="Script/include/HandScript.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="class_hand_script_1ad5f27e93bf17b66d0120093af1434a00" prot="private" static="yes" mutable="no">
+        <type>const int</type>
+        <definition>const int HandScript::handNum</definition>
+        <argsstring></argsstring>
+        <name>handNum</name>
+        <qualifiedname>HandScript::handNum</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/HandScript.h" line="60" column="18" bodyfile="Script/include/HandScript.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_hand_script_1ae3bed3a702da216c0466e7865c9c9027" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>HandScript::HandScript</definition>
+        <argsstring>(std::shared_ptr&lt; Entity &gt; ent)</argsstring>
+        <name>HandScript</name>
+        <qualifiedname>HandScript::HandScript</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; Entity &gt;</type>
+          <declname>ent</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/HandScript.h" line="19" column="1" bodyfile="Script/src/HandScript.cpp" bodystart="7" bodyend="9"/>
+      </memberdef>
+      <memberdef kind="function" id="class_hand_script_1afbe5a96b636c92ffb133c952c313e910" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>HandScript::~HandScript</definition>
+        <argsstring>()</argsstring>
+        <name>~HandScript</name>
+        <qualifiedname>HandScript::~HandScript</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/HandScript.h" line="21" column="1" bodyfile="Script/src/HandScript.cpp" bodystart="11" bodyend="13"/>
+      </memberdef>
+      <memberdef kind="function" id="class_hand_script_1a6364ae1550ae1d32a6d08c1fb560e4f5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>DirectX::XMVECTOR</type>
+        <definition>DirectX::XMVECTOR HandScript::GetCardLocalPos</definition>
+        <argsstring>(int idx)</argsstring>
+        <name>GetCardLocalPos</name>
+        <qualifiedname>HandScript::GetCardLocalPos</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>idx</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/HandScript.h" line="23" column="19" bodyfile="Script/src/HandScript.cpp" bodystart="15" bodyend="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_hand_script_1a7f8fcafe0f6426c45c209803b6f7f9ab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void HandScript::Init</definition>
+        <argsstring>(DeckScript::SIDE side)</argsstring>
+        <name>Init</name>
+        <qualifiedname>HandScript::Init</qualifiedname>
+        <param>
+          <type><ref refid="class_deck_script_1a59973a055535137d2600feb94d0f824a" kindref="member">DeckScript::SIDE</ref></type>
+          <declname>side</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/HandScript.h" line="25" column="6" bodyfile="Script/src/HandScript.cpp" bodystart="20" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="class_hand_script_1a4820f5d8bbd1d901ae72a3e3004d8e15" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void HandScript::OnStart</definition>
+        <argsstring>() override</argsstring>
+        <name>OnStart</name>
+        <qualifiedname>HandScript::OnStart</qualifiedname>
+        <reimplements refid="class_script_component_1a74c66e170fed1beca9d8d0ff3e97d647">OnStart</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/HandScript.h" line="27" column="6" bodyfile="Script/src/HandScript.cpp" bodystart="74" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="class_hand_script_1aab597b05f5b3d153b8aca3f2322eb5d1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="struct_deck_script_1_1_card" kindref="compound">DeckScript::Card</ref>, DirectX::XMVECTOR &gt;</type>
+        <definition>std::pair&lt; DeckScript::Card, DirectX::XMVECTOR &gt; HandScript::DrawPlaceableCard</definition>
+        <argsstring>()</argsstring>
+        <name>DrawPlaceableCard</name>
+        <qualifiedname>HandScript::DrawPlaceableCard</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/HandScript.h" line="29" column="12" bodyfile="Script/src/HandScript.cpp" bodystart="78" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="class_hand_script_1a81c175be1b8c063e4fdbc279dacca836" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool HandScript::HasPlaceableCard</definition>
+        <argsstring>()</argsstring>
+        <name>HasPlaceableCard</name>
+        <qualifiedname>HandScript::HasPlaceableCard</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/HandScript.h" line="31" column="10" bodyfile="Script/src/HandScript.cpp" bodystart="95" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="class_hand_script_1a60b94e19c8eb3feeefa41a23cde8c4f5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void HandScript::PlaceCard</definition>
+        <argsstring>()</argsstring>
+        <name>PlaceCard</name>
+        <qualifiedname>HandScript::PlaceCard</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/HandScript.h" line="33" column="6" bodyfile="Script/src/HandScript.cpp" bodystart="105" bodyend="132"/>
+      </memberdef>
+      <memberdef kind="function" id="class_hand_script_1a375f3976cd7d2a151942863a618e4848" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool HandScript::IsAllEmpty</definition>
+        <argsstring>()</argsstring>
+        <name>IsAllEmpty</name>
+        <qualifiedname>HandScript::IsAllEmpty</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/HandScript.h" line="35" column="6" bodyfile="Script/src/HandScript.cpp" bodystart="134" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="function" id="class_hand_script_1a349fd571e1c63c7d3bedf1c7b9f7a207" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool HandScript::IsAnyEmpty</definition>
+        <argsstring>()</argsstring>
+        <name>IsAnyEmpty</name>
+        <qualifiedname>HandScript::IsAnyEmpty</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/HandScript.h" line="37" column="6" bodyfile="Script/src/HandScript.cpp" bodystart="149" bodyend="162"/>
+      </memberdef>
+      <memberdef kind="function" id="class_hand_script_1a18d56c860c44ca2132aa0ad8810e011c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_deck_script_1a59973a055535137d2600feb94d0f824a" kindref="member">DeckScript::SIDE</ref></type>
+        <definition>DeckScript::SIDE HandScript::GetSide</definition>
+        <argsstring>()</argsstring>
+        <name>GetSide</name>
+        <qualifiedname>HandScript::GetSide</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/HandScript.h" line="39" column="18" bodyfile="Script/src/HandScript.cpp" bodystart="164" bodyend="167"/>
+      </memberdef>
+      <memberdef kind="function" id="class_hand_script_1a2bbfd925b680c8764fc42def1e99eff0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>shared_ptr&lt; <ref refid="class_deck_script" kindref="compound">DeckScript</ref> &gt;</type>
+        <definition>shared_ptr&lt; DeckScript &gt; HandScript::GetUsingDeck</definition>
+        <argsstring>()</argsstring>
+        <name>GetUsingDeck</name>
+        <qualifiedname>HandScript::GetUsingDeck</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/HandScript.h" line="41" column="12" bodyfile="Script/src/HandScript.cpp" bodystart="169" bodyend="172"/>
+      </memberdef>
+      <memberdef kind="function" id="class_hand_script_1a8dace7da4f6859132fbbb152a2de5ed1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="struct_deck_script_1_1_card" kindref="compound">DeckScript::Card</ref>, DirectX::XMVECTOR &gt;</type>
+        <definition>std::pair&lt; DeckScript::Card, DirectX::XMVECTOR &gt; HandScript::DrawRandomCard</definition>
+        <argsstring>()</argsstring>
+        <name>DrawRandomCard</name>
+        <qualifiedname>HandScript::DrawRandomCard</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/HandScript.h" line="43" column="12" bodyfile="Script/src/HandScript.cpp" bodystart="174" bodyend="194"/>
+      </memberdef>
+      <memberdef kind="function" id="class_hand_script_1ad161f8eeafcf089b643cdb2fce680df3" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void HandScript::OnUpdate</definition>
+        <argsstring>() override</argsstring>
+        <name>OnUpdate</name>
+        <qualifiedname>HandScript::OnUpdate</qualifiedname>
+        <reimplements refid="class_script_component_1afffbd9e1537019a46798299fced10d09">OnUpdate</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/HandScript.h" line="45" column="6" bodyfile="Script/src/HandScript.cpp" bodystart="196" bodyend="218"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>Component</label>
+        <link refid="class_component"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>HandScript</label>
+        <link refid="class_hand_script"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>ScriptComponent</label>
+        <link refid="class_script_component"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>std::enable_shared_from_this&lt; Component &gt;</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>Component</label>
+        <link refid="class_component"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>HandScript</label>
+        <link refid="class_hand_script"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>ScriptComponent</label>
+        <link refid="class_script_component"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>std::enable_shared_from_this&lt; Component &gt;</label>
+      </node>
+    </collaborationgraph>
+    <location file="Script/include/HandScript.h" line="16" column="1" bodyfile="Script/include/HandScript.h" bodystart="17" bodyend="71"/>
+    <listofallmembers>
+      <member refid="class_component_1a61954f08c177e4c1ebb17cf8fd3aa56f" prot="public" virt="non-virtual"><scope>HandScript</scope><name>attachFrom</name></member>
+      <member refid="class_script_component_1a96e27fa6ec29b4a3fb7a8032d5a27aad" prot="protected" virt="non-virtual"><scope>HandScript</scope><name>camera</name></member>
+      <member refid="class_hand_script_1a63b8f74cd6b08314284b2112aa250be8" prot="private" virt="non-virtual"><scope>HandScript</scope><name>cardEnts</name></member>
+      <member refid="class_hand_script_1a607c35ce039e3cb319530e517f5f0889" prot="private" virt="non-virtual"><scope>HandScript</scope><name>cardRends</name></member>
+      <member refid="class_hand_script_1a2c351c807a695a9e04c311b721b24810" prot="private" virt="non-virtual"><scope>HandScript</scope><name>cardScs</name></member>
+      <member refid="class_hand_script_1ac1b0089a52faa2ff512878777181b260" prot="private" virt="non-virtual"><scope>HandScript</scope><name>cardTex</name></member>
+      <member refid="class_hand_script_1ac876e961f6f299f6bcc14c3cce721d69" prot="private" virt="non-virtual"><scope>HandScript</scope><name>cardTws</name></member>
+      <member refid="class_component_1a120d65094802a621c8d804a964cafa9c" prot="public" virt="non-virtual"><scope>HandScript</scope><name>Cast</name></member>
+      <member refid="class_component_1a5cba85e33b188bf87ee09f353d7b2fa5" prot="public" virt="non-virtual"><scope>HandScript</scope><name>Component</name></member>
+      <member refid="class_hand_script_1a4affd39259b08692c30c1e86e19b5e69" prot="private" virt="non-virtual"><scope>HandScript</scope><name>deckSc</name></member>
+      <member refid="class_hand_script_1aab597b05f5b3d153b8aca3f2322eb5d1" prot="public" virt="non-virtual"><scope>HandScript</scope><name>DrawPlaceableCard</name></member>
+      <member refid="class_hand_script_1a8dace7da4f6859132fbbb152a2de5ed1" prot="public" virt="non-virtual"><scope>HandScript</scope><name>DrawRandomCard</name></member>
+      <member refid="class_hand_script_1a34976ec5eb9fc4505080ebeb48d459d7" prot="private" virt="non-virtual"><scope>HandScript</scope><name>gameM</name></member>
+      <member refid="class_hand_script_1a6364ae1550ae1d32a6d08c1fb560e4f5" prot="public" virt="non-virtual"><scope>HandScript</scope><name>GetCardLocalPos</name></member>
+      <member refid="class_component_1a22ed217d642f4566a47c874ac9a63eab" prot="public" virt="virtual"><scope>HandScript</scope><name>GetComponentName</name></member>
+      <member refid="class_component_1a2a9968090dabad782f2bbdaf0093be84" prot="public" virt="non-virtual"><scope>HandScript</scope><name>GetHash</name></member>
+      <member refid="class_component_1ac0ee67584bdd569c2809495a5843612b" prot="public" virt="non-virtual"><scope>HandScript</scope><name>GetLeafIndex</name></member>
+      <member refid="class_hand_script_1a18d56c860c44ca2132aa0ad8810e011c" prot="public" virt="non-virtual"><scope>HandScript</scope><name>GetSide</name></member>
+      <member refid="class_component_1a1b25ee28c379d9f0d0c1ecc0df1e6328" prot="public" virt="non-virtual"><scope>HandScript</scope><name>GetTreeIndex</name></member>
+      <member refid="class_hand_script_1a2bbfd925b680c8764fc42def1e99eff0" prot="public" virt="non-virtual"><scope>HandScript</scope><name>GetUsingDeck</name></member>
+      <member refid="class_hand_script_1ad5f27e93bf17b66d0120093af1434a00" prot="private" virt="non-virtual"><scope>HandScript</scope><name>handNum</name></member>
+      <member refid="class_hand_script_1ae3bed3a702da216c0466e7865c9c9027" prot="public" virt="non-virtual"><scope>HandScript</scope><name>HandScript</name></member>
+      <member refid="class_hand_script_1a81c175be1b8c063e4fdbc279dacca836" prot="public" virt="non-virtual"><scope>HandScript</scope><name>HasPlaceableCard</name></member>
+      <member refid="class_hand_script_1a7f8fcafe0f6426c45c209803b6f7f9ab" prot="public" virt="non-virtual"><scope>HandScript</scope><name>Init</name></member>
+      <member refid="class_script_component_1a2027d87a56d690a2a198d6e15c57f907" prot="public" virt="virtual" ambiguityscope="ScriptComponent::"><scope>HandScript</scope><name>Init</name></member>
+      <member refid="class_hand_script_1a375f3976cd7d2a151942863a618e4848" prot="public" virt="non-virtual"><scope>HandScript</scope><name>IsAllEmpty</name></member>
+      <member refid="class_hand_script_1a349fd571e1c63c7d3bedf1c7b9f7a207" prot="public" virt="non-virtual"><scope>HandScript</scope><name>IsAnyEmpty</name></member>
+      <member refid="class_hand_script_1a99ce2684d590f3c00ae508f9790bd6cd" prot="private" virt="non-virtual"><scope>HandScript</scope><name>mat</name></member>
+      <member refid="class_script_component_1a883990ab3b0eb3ed62c8bc85fd4f596d" prot="protected" virt="non-virtual"><scope>HandScript</scope><name>meshLoader</name></member>
+      <member refid="class_script_component_1aaef3daf7c260c21efa8fd9cde4e5a4a7" prot="public" virt="virtual"><scope>HandScript</scope><name>OnDestroy</name></member>
+      <member refid="class_script_component_1af30cc5777fe0db148c0f46deffbfa995" prot="public" virt="virtual"><scope>HandScript</scope><name>OnFixedUpdate</name></member>
+      <member refid="class_script_component_1ad9b2758d768994bc36a42e328157047c" prot="public" virt="virtual"><scope>HandScript</scope><name>OnMousePointerClick</name></member>
+      <member refid="class_script_component_1a43fad9a126b4df10d450ebda1b0eb958" prot="public" virt="virtual"><scope>HandScript</scope><name>OnMousePointerIn</name></member>
+      <member refid="class_script_component_1a594aa67f58cfe5dd2e9f9920cfdfcb08" prot="public" virt="virtual"><scope>HandScript</scope><name>OnMousePointerOn</name></member>
+      <member refid="class_script_component_1a684ce3d22fb83d9ade9db726afb0ca28" prot="public" virt="virtual"><scope>HandScript</scope><name>OnMousePointerOut</name></member>
+      <member refid="class_script_component_1a3f3a0bbc66f3809a353ae16ff0380a1e" prot="public" virt="virtual"><scope>HandScript</scope><name>OnRayCast</name></member>
+      <member refid="class_hand_script_1a4820f5d8bbd1d901ae72a3e3004d8e15" prot="public" virt="virtual"><scope>HandScript</scope><name>OnStart</name></member>
+      <member refid="class_hand_script_1ad161f8eeafcf089b643cdb2fce680df3" prot="public" virt="virtual"><scope>HandScript</scope><name>OnUpdate</name></member>
+      <member refid="class_hand_script_1a60b94e19c8eb3feeefa41a23cde8c4f5" prot="public" virt="non-virtual"><scope>HandScript</scope><name>PlaceCard</name></member>
+      <member refid="class_script_component_1a6d517b821cb2239397c4bc9df8935df1" prot="protected" virt="non-virtual"><scope>HandScript</scope><name>sceneManager</name></member>
+      <member refid="class_script_component_1a79c3ecd7f476197899c2b41279a40843" prot="protected" virt="non-virtual"><scope>HandScript</scope><name>ScriptComponent</name></member>
+      <member refid="class_component_1a053713eb8c3c356263a588fc398da49f" prot="public" virt="non-virtual"><scope>HandScript</scope><name>SetHash</name></member>
+      <member refid="class_component_1a93263d6a4c7a133ad05f8b754463d81a" prot="public" virt="non-virtual"><scope>HandScript</scope><name>SetIndex</name></member>
+      <member refid="class_hand_script_1a57f0c489a69af03e8f99d896a3a123d2" prot="private" virt="non-virtual"><scope>HandScript</scope><name>side</name></member>
+      <member refid="class_hand_script_1ae11567025fe90ddc74101f95ddbd077b" prot="private" virt="non-virtual"><scope>HandScript</scope><name>sRend</name></member>
+      <member refid="class_script_component_1a85aa9f3caec7cadbad5bade77d1a497b" prot="protected" virt="non-virtual"><scope>HandScript</scope><name>systemManager</name></member>
+      <member refid="class_hand_script_1ad441d10525fed3858ba8ddd7799dacfe" prot="private" virt="non-virtual"><scope>HandScript</scope><name>tableDeck1Sc</name></member>
+      <member refid="class_hand_script_1af0874f96d1f0c58249b20f3302ecf666" prot="private" virt="non-virtual"><scope>HandScript</scope><name>tableDeck2Sc</name></member>
+      <member refid="class_script_component_1a8da06cfeede85f5294be061a45d78885" prot="protected" virt="non-virtual"><scope>HandScript</scope><name>textureLoader</name></member>
+      <member refid="class_script_component_1a2dfacd191e367be8e1e667ece474b860" prot="protected" virt="non-virtual"><scope>HandScript</scope><name>tweenSystem</name></member>
+      <member refid="class_hand_script_1a99f9a49def2fbd0e9c8977f3d180a25b" prot="private" virt="non-virtual"><scope>HandScript</scope><name>wipeSc</name></member>
+      <member refid="class_component_1ab8378fa275af98e568a7e91d33d867af" prot="public" virt="virtual"><scope>HandScript</scope><name>~Component</name></member>
+      <member refid="class_hand_script_1afbe5a96b636c92ffb133c952c313e910" prot="public" virt="non-virtual"><scope>HandScript</scope><name>~HandScript</name></member>
+      <member refid="class_script_component_1a6c266c364bf21d0dddb6d7639500a077" prot="public" virt="virtual"><scope>HandScript</scope><name>~ScriptComponent</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

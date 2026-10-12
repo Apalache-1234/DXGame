@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="dir_3624c3011e0f2f30fa93f2c3df0f9e35" kind="dir">
+    <compoundname>src/Debug</compoundname>
+    <innerfile refid="_debug_collider_8cpp">DebugCollider.cpp</innerfile>
+    <innerfile refid="_debug_directional_light_8cpp">DebugDirectionalLight.cpp</innerfile>
+    <innerfile refid="_debug_grids_8cpp">DebugGrids.cpp</innerfile>
+    <innerfile refid="_debug_origin_8cpp">DebugOrigin.cpp</innerfile>
+    <innerfile refid="_debug_point_light_8cpp">DebugPointLight.cpp</innerfile>
+    <innerfile refid="_debug_ray_cast_8cpp">DebugRayCast.cpp</innerfile>
+    <innerfile refid="_debug_spot_light_8cpp">DebugSpotLight.cpp</innerfile>
+    <innerfile refid="_debug_u_i_renderer_8cpp">DebugUIRenderer.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/Debug/"/>
+  </compounddef>
+</doxygen>

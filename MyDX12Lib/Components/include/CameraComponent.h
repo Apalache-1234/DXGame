@@ -1,0 +1,23 @@
+#ifndef CAMERACOMPONENT_H
+#define CAMERACOMPONENT_H
+
+#include <memory>
+#include <DirectXMath.h>
+#include "Component.h"
+#include "Camera.h"
+
+
+
+class CameraComponent : public Component
+{
+public:
+	CameraComponent(std::shared_ptr<Entity> ent);
+
+	~CameraComponent();
+
+	void SetCameraTransform(DirectX::XMVECTOR position , DirectX::XMVECTOR rotation);
+protected:
+
+};
+
+#endif

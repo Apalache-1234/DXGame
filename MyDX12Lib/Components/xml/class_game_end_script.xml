@@ -1,0 +1,307 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="class_game_end_script" kind="class" language="C++" prot="public">
+    <compoundname>GameEndScript</compoundname>
+    <basecompoundref refid="class_script_component" prot="public" virt="non-virtual">ScriptComponent</basecompoundref>
+    <includes refid="_game_end_script_8h" local="no">GameEndScript.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_game_end_script_1ae99c927d7dd17c35e9906654f4748251" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="class_p_e_radical_blur" kindref="compound">PERadicalBlur</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;PERadicalBlur&gt; GameEndScript::radPE</definition>
+        <argsstring></argsstring>
+        <name>radPE</name>
+        <qualifiedname>GameEndScript::radPE</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/GameEndScript.h" line="26" column="17" bodyfile="Script/include/GameEndScript.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_game_end_script_1aaeb7b3b8e6f03f10201151bd7fcd5473" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; Tween&lt; float &gt; &gt;</type>
+        <definition>std::shared_ptr&lt;Tween&lt;float&gt; &gt; GameEndScript::radTw</definition>
+        <argsstring></argsstring>
+        <name>radTw</name>
+        <qualifiedname>GameEndScript::radTw</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/GameEndScript.h" line="28" column="17" bodyfile="Script/include/GameEndScript.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_game_end_script_1ad09c1e17cb88affb0a037312e92fca8a" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; Entity &gt;</type>
+        <definition>std::shared_ptr&lt;Entity&gt; GameEndScript::upBlackLine</definition>
+        <argsstring></argsstring>
+        <name>upBlackLine</name>
+        <qualifiedname>GameEndScript::upBlackLine</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/GameEndScript.h" line="30" column="17" bodyfile="Script/include/GameEndScript.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_game_end_script_1a344f4fc7a1ba88e29797e9a3d52e78ba" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="class_u_i_renderer" kindref="compound">UIRenderer</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;UIRenderer&gt; GameEndScript::upBlackLineRend</definition>
+        <argsstring></argsstring>
+        <name>upBlackLineRend</name>
+        <qualifiedname>GameEndScript::upBlackLineRend</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/GameEndScript.h" line="31" column="17" bodyfile="Script/include/GameEndScript.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_game_end_script_1abc3e0a811c22542282ed5cce58af9a66" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; Entity &gt;</type>
+        <definition>std::shared_ptr&lt;Entity&gt; GameEndScript::downBlackLine</definition>
+        <argsstring></argsstring>
+        <name>downBlackLine</name>
+        <qualifiedname>GameEndScript::downBlackLine</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/GameEndScript.h" line="32" column="17" bodyfile="Script/include/GameEndScript.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_game_end_script_1a65e967ed5384a35010f207851d5a892e" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="class_u_i_renderer" kindref="compound">UIRenderer</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;UIRenderer&gt; GameEndScript::downBlackLineRend</definition>
+        <argsstring></argsstring>
+        <name>downBlackLineRend</name>
+        <qualifiedname>GameEndScript::downBlackLineRend</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/GameEndScript.h" line="33" column="17" bodyfile="Script/include/GameEndScript.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_game_end_script_1aadcd32f95da343dfe8dcde8c8b547067" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; Entity &gt;</type>
+        <definition>std::shared_ptr&lt;Entity&gt; GameEndScript::GameFinished</definition>
+        <argsstring></argsstring>
+        <name>GameFinished</name>
+        <qualifiedname>GameEndScript::GameFinished</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/GameEndScript.h" line="35" column="17" bodyfile="Script/include/GameEndScript.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_game_end_script_1a3d40378752db613ac7fec07d6ec74a9c" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="class_u_i_renderer" kindref="compound">UIRenderer</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;UIRenderer&gt; GameEndScript::GameFinishedRend</definition>
+        <argsstring></argsstring>
+        <name>GameFinishedRend</name>
+        <qualifiedname>GameEndScript::GameFinishedRend</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/GameEndScript.h" line="36" column="17" bodyfile="Script/include/GameEndScript.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_game_end_script_1a3b8257e914225e71e979eafdc4f500cb" prot="private" static="no" mutable="no">
+        <type>Material</type>
+        <definition>Material GameEndScript::mat</definition>
+        <argsstring></argsstring>
+        <name>mat</name>
+        <qualifiedname>GameEndScript::mat</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/GameEndScript.h" line="38" column="10" bodyfile="Script/include/GameEndScript.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_game_end_script_1a70536d94b9d8832f160db0653cd922d8" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="class_game_manager_script" kindref="compound">GameManagerScript</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;GameManagerScript&gt; GameEndScript::gameM</definition>
+        <argsstring></argsstring>
+        <name>gameM</name>
+        <qualifiedname>GameEndScript::gameM</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/GameEndScript.h" line="40" column="17" bodyfile="Script/include/GameEndScript.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_game_end_script_1a0969402fd5fa6a8d343a1cfb00ebabb8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>GameEndScript::GameEndScript</definition>
+        <argsstring>(std::shared_ptr&lt; Entity &gt; ent)</argsstring>
+        <name>GameEndScript</name>
+        <qualifiedname>GameEndScript::GameEndScript</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; Entity &gt;</type>
+          <declname>ent</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/GameEndScript.h" line="17" column="1" bodyfile="Script/src/GameEndScript.cpp" bodystart="8" bodyend="10"/>
+      </memberdef>
+      <memberdef kind="function" id="class_game_end_script_1a3ebd4365dc2835b21f0b0151566c9c06" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>GameEndScript::~GameEndScript</definition>
+        <argsstring>()</argsstring>
+        <name>~GameEndScript</name>
+        <qualifiedname>GameEndScript::~GameEndScript</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/GameEndScript.h" line="19" column="1" bodyfile="Script/src/GameEndScript.cpp" bodystart="12" bodyend="14"/>
+      </memberdef>
+      <memberdef kind="function" id="class_game_end_script_1aa8ecf20ef3f8ec3ae65f63770f00ab4a" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void GameEndScript::OnStart</definition>
+        <argsstring>() override</argsstring>
+        <name>OnStart</name>
+        <qualifiedname>GameEndScript::OnStart</qualifiedname>
+        <reimplements refid="class_script_component_1a74c66e170fed1beca9d8d0ff3e97d647">OnStart</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/GameEndScript.h" line="21" column="6" bodyfile="Script/src/GameEndScript.cpp" bodystart="16" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="class_game_end_script_1a304e70c750865f6e3805a858d1da56f2" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void GameEndScript::OnUpdate</definition>
+        <argsstring>() override</argsstring>
+        <name>OnUpdate</name>
+        <qualifiedname>GameEndScript::OnUpdate</qualifiedname>
+        <reimplements refid="class_script_component_1afffbd9e1537019a46798299fced10d09">OnUpdate</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/GameEndScript.h" line="23" column="6" bodyfile="Script/src/GameEndScript.cpp" bodystart="47" bodyend="68"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>Component</label>
+        <link refid="class_component"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>GameEndScript</label>
+        <link refid="class_game_end_script"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>ScriptComponent</label>
+        <link refid="class_script_component"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>std::enable_shared_from_this&lt; Component &gt;</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>Component</label>
+        <link refid="class_component"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>GameEndScript</label>
+        <link refid="class_game_end_script"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>ScriptComponent</label>
+        <link refid="class_script_component"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>std::enable_shared_from_this&lt; Component &gt;</label>
+      </node>
+    </collaborationgraph>
+    <location file="Script/include/GameEndScript.h" line="14" column="1" bodyfile="Script/include/GameEndScript.h" bodystart="15" bodyend="41"/>
+    <listofallmembers>
+      <member refid="class_component_1a61954f08c177e4c1ebb17cf8fd3aa56f" prot="public" virt="non-virtual"><scope>GameEndScript</scope><name>attachFrom</name></member>
+      <member refid="class_script_component_1a96e27fa6ec29b4a3fb7a8032d5a27aad" prot="protected" virt="non-virtual"><scope>GameEndScript</scope><name>camera</name></member>
+      <member refid="class_component_1a120d65094802a621c8d804a964cafa9c" prot="public" virt="non-virtual"><scope>GameEndScript</scope><name>Cast</name></member>
+      <member refid="class_component_1a5cba85e33b188bf87ee09f353d7b2fa5" prot="public" virt="non-virtual"><scope>GameEndScript</scope><name>Component</name></member>
+      <member refid="class_game_end_script_1abc3e0a811c22542282ed5cce58af9a66" prot="private" virt="non-virtual"><scope>GameEndScript</scope><name>downBlackLine</name></member>
+      <member refid="class_game_end_script_1a65e967ed5384a35010f207851d5a892e" prot="private" virt="non-virtual"><scope>GameEndScript</scope><name>downBlackLineRend</name></member>
+      <member refid="class_game_end_script_1a0969402fd5fa6a8d343a1cfb00ebabb8" prot="public" virt="non-virtual"><scope>GameEndScript</scope><name>GameEndScript</name></member>
+      <member refid="class_game_end_script_1aadcd32f95da343dfe8dcde8c8b547067" prot="private" virt="non-virtual"><scope>GameEndScript</scope><name>GameFinished</name></member>
+      <member refid="class_game_end_script_1a3d40378752db613ac7fec07d6ec74a9c" prot="private" virt="non-virtual"><scope>GameEndScript</scope><name>GameFinishedRend</name></member>
+      <member refid="class_game_end_script_1a70536d94b9d8832f160db0653cd922d8" prot="private" virt="non-virtual"><scope>GameEndScript</scope><name>gameM</name></member>
+      <member refid="class_component_1a22ed217d642f4566a47c874ac9a63eab" prot="public" virt="virtual"><scope>GameEndScript</scope><name>GetComponentName</name></member>
+      <member refid="class_component_1a2a9968090dabad782f2bbdaf0093be84" prot="public" virt="non-virtual"><scope>GameEndScript</scope><name>GetHash</name></member>
+      <member refid="class_component_1ac0ee67584bdd569c2809495a5843612b" prot="public" virt="non-virtual"><scope>GameEndScript</scope><name>GetLeafIndex</name></member>
+      <member refid="class_component_1a1b25ee28c379d9f0d0c1ecc0df1e6328" prot="public" virt="non-virtual"><scope>GameEndScript</scope><name>GetTreeIndex</name></member>
+      <member refid="class_script_component_1a2027d87a56d690a2a198d6e15c57f907" prot="public" virt="virtual"><scope>GameEndScript</scope><name>Init</name></member>
+      <member refid="class_game_end_script_1a3b8257e914225e71e979eafdc4f500cb" prot="private" virt="non-virtual"><scope>GameEndScript</scope><name>mat</name></member>
+      <member refid="class_script_component_1a883990ab3b0eb3ed62c8bc85fd4f596d" prot="protected" virt="non-virtual"><scope>GameEndScript</scope><name>meshLoader</name></member>
+      <member refid="class_script_component_1aaef3daf7c260c21efa8fd9cde4e5a4a7" prot="public" virt="virtual"><scope>GameEndScript</scope><name>OnDestroy</name></member>
+      <member refid="class_script_component_1af30cc5777fe0db148c0f46deffbfa995" prot="public" virt="virtual"><scope>GameEndScript</scope><name>OnFixedUpdate</name></member>
+      <member refid="class_script_component_1ad9b2758d768994bc36a42e328157047c" prot="public" virt="virtual"><scope>GameEndScript</scope><name>OnMousePointerClick</name></member>
+      <member refid="class_script_component_1a43fad9a126b4df10d450ebda1b0eb958" prot="public" virt="virtual"><scope>GameEndScript</scope><name>OnMousePointerIn</name></member>
+      <member refid="class_script_component_1a594aa67f58cfe5dd2e9f9920cfdfcb08" prot="public" virt="virtual"><scope>GameEndScript</scope><name>OnMousePointerOn</name></member>
+      <member refid="class_script_component_1a684ce3d22fb83d9ade9db726afb0ca28" prot="public" virt="virtual"><scope>GameEndScript</scope><name>OnMousePointerOut</name></member>
+      <member refid="class_script_component_1a3f3a0bbc66f3809a353ae16ff0380a1e" prot="public" virt="virtual"><scope>GameEndScript</scope><name>OnRayCast</name></member>
+      <member refid="class_game_end_script_1aa8ecf20ef3f8ec3ae65f63770f00ab4a" prot="public" virt="virtual"><scope>GameEndScript</scope><name>OnStart</name></member>
+      <member refid="class_game_end_script_1a304e70c750865f6e3805a858d1da56f2" prot="public" virt="virtual"><scope>GameEndScript</scope><name>OnUpdate</name></member>
+      <member refid="class_game_end_script_1ae99c927d7dd17c35e9906654f4748251" prot="private" virt="non-virtual"><scope>GameEndScript</scope><name>radPE</name></member>
+      <member refid="class_game_end_script_1aaeb7b3b8e6f03f10201151bd7fcd5473" prot="private" virt="non-virtual"><scope>GameEndScript</scope><name>radTw</name></member>
+      <member refid="class_script_component_1a6d517b821cb2239397c4bc9df8935df1" prot="protected" virt="non-virtual"><scope>GameEndScript</scope><name>sceneManager</name></member>
+      <member refid="class_script_component_1a79c3ecd7f476197899c2b41279a40843" prot="protected" virt="non-virtual"><scope>GameEndScript</scope><name>ScriptComponent</name></member>
+      <member refid="class_component_1a053713eb8c3c356263a588fc398da49f" prot="public" virt="non-virtual"><scope>GameEndScript</scope><name>SetHash</name></member>
+      <member refid="class_component_1a93263d6a4c7a133ad05f8b754463d81a" prot="public" virt="non-virtual"><scope>GameEndScript</scope><name>SetIndex</name></member>
+      <member refid="class_script_component_1a85aa9f3caec7cadbad5bade77d1a497b" prot="protected" virt="non-virtual"><scope>GameEndScript</scope><name>systemManager</name></member>
+      <member refid="class_script_component_1a8da06cfeede85f5294be061a45d78885" prot="protected" virt="non-virtual"><scope>GameEndScript</scope><name>textureLoader</name></member>
+      <member refid="class_script_component_1a2dfacd191e367be8e1e667ece474b860" prot="protected" virt="non-virtual"><scope>GameEndScript</scope><name>tweenSystem</name></member>
+      <member refid="class_game_end_script_1ad09c1e17cb88affb0a037312e92fca8a" prot="private" virt="non-virtual"><scope>GameEndScript</scope><name>upBlackLine</name></member>
+      <member refid="class_game_end_script_1a344f4fc7a1ba88e29797e9a3d52e78ba" prot="private" virt="non-virtual"><scope>GameEndScript</scope><name>upBlackLineRend</name></member>
+      <member refid="class_component_1ab8378fa275af98e568a7e91d33d867af" prot="public" virt="virtual"><scope>GameEndScript</scope><name>~Component</name></member>
+      <member refid="class_game_end_script_1a3ebd4365dc2835b21f0b0151566c9c06" prot="public" virt="non-virtual"><scope>GameEndScript</scope><name>~GameEndScript</name></member>
+      <member refid="class_script_component_1a6c266c364bf21d0dddb6d7639500a077" prot="public" virt="virtual"><scope>GameEndScript</scope><name>~ScriptComponent</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

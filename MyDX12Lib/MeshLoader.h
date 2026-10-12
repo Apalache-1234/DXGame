@@ -1,0 +1,186 @@
+#include <memory>
+#include <iostream>
+#include <vector>
+#include "Entity.h"
+#include "windows.h"
+#undef min
+#undef max
+#include "DirectXMath.h"
+#include "SystemManager.h"
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
+#include "TextureLoader.h"
+#include "wrl.h"
+#include "Utility.h"
+
+using namespace DirectX;
+using namespace Microsoft::WRL;
+using namespace std;
+
+#ifndef MESHLOADER_H
+#define MESHLOADER_H
+
+using namespace DirectX;
+
+class MeshLoader
+{
+public:
+	MeshLoader();
+
+	~MeshLoader();
+
+	enum MESHTYPE
+	{
+		KNIGHT,
+		SPARTAN,
+		BOX,
+		PLANE,
+		SPHERE,
+		CARD,
+		TABLE_AND_CHAIR,
+		FRAME,
+		CARPET,
+		DEBUG_ORIGIN,
+		DEBUG_RAY
+	};
+
+	struct VertexData
+	{
+		XMFLOAT3 vertex;
+
+		XMFLOAT2 texCoord;
+
+		XMFLOAT3 normal;
+
+		XMFLOAT4 color;
+
+		XMFLOAT3 tangent;
+
+		XMINT4 boneID;
+
+		XMFLOAT4 weight;
+
+		float parentBone = -1;
+
+		float index = 0;
+	};
+
+	struct VertexBoneData {
+		std::vector<UINT> boneID;
+
+		std::vector<float> weight;
+	};
+
+	struct Mesh
+	{
+		std::string meshName;
+
+		/// <summary>
+		/// デフォルトは立方体
+		/// </summary>
+		std::vector<VertexData> vertexDatas;
+
+		/// <summary>
+		/// デフォルトは立方体のインデックス
+		/// </summary>
+		std::vector<int> indices;
+
+		std::vector<VertexBoneData> vertexBoneDatas;
+
+		int baseVertexNumber;
+
+		int baseIndexNumber;
+
+		ComPtr<ID3D12Resource> texResource;
+
+		ComPtr<ID3D12Resource> normalTexResource;
+
+		ComPtr<ID3D12Resource> vertexBuffer;
+
+		D3D12_VERTEX_BUFFER_VIEW vbView;
+
+		ComPtr<ID3D12Resource> indexBuffer;
+
+		D3D12_INDEX_BUFFER_VIEW ibView;
+
+		Material mat;
+
+		Mesh() = default;
+	};
+
+	struct MeshData
+	{
+		std::vector<Mesh> meshes;
+
+		std::vector<aiMatrix4x4> boneOffset;
+
+		std::unordered_map<std::string, UINT> boneMapping;
+
+		const aiScene* scene;
+
+		Assimp::Importer import;
+
+		MeshData(const MeshData&) = delete;
+
+		MeshData& operator=(const MeshData&) = delete;
+
+		MeshData() = default;
+	};
+
+	void Init();
+
+	static MeshLoader& GetInstance();
+
+	MeshData* GetMesh(MESHTYPE type);
+private:
+	const aiScene* currentScene;
+
+	std::unordered_map<MESHTYPE, MeshData> meshData;
+
+	Assimp::Importer import;
+
+	HRESULT hr;
+
+	/// <summary>
+    /// メッシュを読み込む
+    /// </summary>
+    /// <param name="fileName">ファイルのパス</param>
+    /// <returns>ロードの可否</returns>
+	bool LoadMesh(const std::string fileName, MESHTYPE type);
+
+	void RelateMeshWithBone(MeshData& meshData, aiNode& node);
+
+	/// <summary>
+    /// DirectXの基幹システムを構築するクラスのシングルトンのインスタンス
+    /// </summary>
+	static std::unique_ptr<MeshLoader> instance;
+
+	/// <summary>
+    /// 読み込んだメッシュの頂点情報を格納する
+    /// </summary>
+    /// <param name="scene">assimpのメッシュの情報を展開して格納されているaiScene変数</param>
+	void StoreVertices(const std::string filePath, std::vector<Mesh>& meshes, MeshData& meshData);
+
+	void InitBone(const aiMesh& aiMesh, Mesh& mesh, MeshData& meshData);
+
+	void InitMaterial(const std::string filePath, const aiMesh& mesh, Mesh& data);
+
+	bool InitVBVResource(MeshLoader::Mesh& mesh , ComPtr<ID3D12Resource>& uploadVertexbuffer);
+
+	bool MapVB(MeshLoader::Mesh& mesh, ComPtr<ID3D12Resource>& uploadVertexbuffer);
+
+	bool VBUploadToDefultHeap(MeshLoader::Mesh& mesh, ComPtr<ID3D12Resource>& uploadVertexbuffer);
+
+	bool InitIBVResource(MeshLoader::Mesh& mesh, ComPtr<ID3D12Resource>& uploadIndexbuffer);
+
+	bool MapIB(MeshLoader::Mesh& mesh, ComPtr<ID3D12Resource>& uploadIndexbuffer);
+
+	bool IBUploadToDefultHeap(MeshLoader::Mesh& mesh, ComPtr<ID3D12Resource>& uploadIndexbuffer);
+
+	void Init(MESHTYPE type);
+};
+
+#endif
+
+

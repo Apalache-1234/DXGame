@@ -1,0 +1,235 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="class_rigidbody" kind="class" language="C++" prot="public">
+    <compoundname>Rigidbody</compoundname>
+    <basecompoundref refid="class_component" prot="public" virt="non-virtual">Component</basecompoundref>
+    <includes refid="_rigidbody_8h" local="no">Rigidbody.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_rigidbody_1aac501b7f51395b8ec3204b0353c91db0" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool Rigidbody::isStatic</definition>
+        <argsstring></argsstring>
+        <name>isStatic</name>
+        <qualifiedname>Rigidbody::isStatic</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Rigidbody.h" line="25" column="6" bodyfile="include/Rigidbody.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_rigidbody_1afc40899dcfc1297bfa7b10ba72d648b5" prot="private" static="no" mutable="no">
+        <type>DirectX::XMVECTOR</type>
+        <definition>DirectX::XMVECTOR Rigidbody::velocity</definition>
+        <argsstring></argsstring>
+        <name>velocity</name>
+        <qualifiedname>Rigidbody::velocity</qualifiedname>
+        <initializer>= DirectX::XMVectorSet(0,0,0,0)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Rigidbody.h" line="27" column="19" bodyfile="include/Rigidbody.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_rigidbody_1a0ff47d17bcd8629f60b5b36de8a5357c" prot="private" static="no" mutable="no">
+        <type>float</type>
+        <definition>float Rigidbody::mass</definition>
+        <argsstring></argsstring>
+        <name>mass</name>
+        <qualifiedname>Rigidbody::mass</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Rigidbody.h" line="29" column="7" bodyfile="include/Rigidbody.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_rigidbody_1ab2769878b769b29d1e07846f568f9e9d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>Rigidbody::Rigidbody</definition>
+        <argsstring>(std::shared_ptr&lt; Entity &gt; ent)</argsstring>
+        <name>Rigidbody</name>
+        <qualifiedname>Rigidbody::Rigidbody</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; Entity &gt;</type>
+          <declname>ent</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Rigidbody.h" line="11" column="1" bodyfile="src/Rigidbody.cpp" bodystart="4" bodyend="6"/>
+      </memberdef>
+      <memberdef kind="function" id="class_rigidbody_1adef2355db93cd489250ce7ab2c797a10" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>Rigidbody::~Rigidbody</definition>
+        <argsstring>()</argsstring>
+        <name>~Rigidbody</name>
+        <qualifiedname>Rigidbody::~Rigidbody</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Rigidbody.h" line="13" column="1" bodyfile="src/Rigidbody.cpp" bodystart="8" bodyend="10"/>
+      </memberdef>
+      <memberdef kind="function" id="class_rigidbody_1af2c72b18c631af183bdb4013ba796d20" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>DirectX::XMVECTOR</type>
+        <definition>DirectX::XMVECTOR Rigidbody::GetVelocity</definition>
+        <argsstring>()</argsstring>
+        <name>GetVelocity</name>
+        <qualifiedname>Rigidbody::GetVelocity</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Rigidbody.h" line="15" column="19" bodyfile="src/Rigidbody.cpp" bodystart="12" bodyend="15"/>
+      </memberdef>
+      <memberdef kind="function" id="class_rigidbody_1a7b135771f4181983066b5646016d4ce3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Rigidbody::SetVelocity</definition>
+        <argsstring>(DirectX::XMVECTOR vel)</argsstring>
+        <name>SetVelocity</name>
+        <qualifiedname>Rigidbody::SetVelocity</qualifiedname>
+        <param>
+          <type>DirectX::XMVECTOR</type>
+          <declname>vel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Rigidbody.h" line="17" column="6" bodyfile="src/Rigidbody.cpp" bodystart="17" bodyend="20"/>
+      </memberdef>
+      <memberdef kind="function" id="class_rigidbody_1a12e503f50c9bbd1a3596563f49810137" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Rigidbody::AddForce</definition>
+        <argsstring>(DirectX::XMVECTOR vel)</argsstring>
+        <name>AddForce</name>
+        <qualifiedname>Rigidbody::AddForce</qualifiedname>
+        <param>
+          <type>DirectX::XMVECTOR</type>
+          <declname>vel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Rigidbody.h" line="19" column="6" bodyfile="src/Rigidbody.cpp" bodystart="22" bodyend="27"/>
+      </memberdef>
+      <memberdef kind="function" id="class_rigidbody_1a5d48e20a52edcf8a27d52c998265d8fc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float Rigidbody::GetMass</definition>
+        <argsstring>()</argsstring>
+        <name>GetMass</name>
+        <qualifiedname>Rigidbody::GetMass</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Rigidbody.h" line="21" column="7" bodyfile="src/Rigidbody.cpp" bodystart="29" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="function" id="class_rigidbody_1ad85b1f195ccbdafd86fa3f8da421ba3a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Rigidbody::SetMass</definition>
+        <argsstring>(float val)</argsstring>
+        <name>SetMass</name>
+        <qualifiedname>Rigidbody::SetMass</qualifiedname>
+        <param>
+          <type>float</type>
+          <declname>val</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Rigidbody.h" line="23" column="6" bodyfile="src/Rigidbody.cpp" bodystart="34" bodyend="40"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>Component</label>
+        <link refid="class_component"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>Rigidbody</label>
+        <link refid="class_rigidbody"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>std::enable_shared_from_this&lt; Component &gt;</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>Component</label>
+        <link refid="class_component"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>Rigidbody</label>
+        <link refid="class_rigidbody"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>std::enable_shared_from_this&lt; Component &gt;</label>
+      </node>
+    </collaborationgraph>
+    <location file="include/Rigidbody.h" line="8" column="1" bodyfile="include/Rigidbody.h" bodystart="9" bodyend="30"/>
+    <listofallmembers>
+      <member refid="class_rigidbody_1a12e503f50c9bbd1a3596563f49810137" prot="public" virt="non-virtual"><scope>Rigidbody</scope><name>AddForce</name></member>
+      <member refid="class_component_1a61954f08c177e4c1ebb17cf8fd3aa56f" prot="public" virt="non-virtual"><scope>Rigidbody</scope><name>attachFrom</name></member>
+      <member refid="class_component_1a120d65094802a621c8d804a964cafa9c" prot="public" virt="non-virtual"><scope>Rigidbody</scope><name>Cast</name></member>
+      <member refid="class_component_1a5cba85e33b188bf87ee09f353d7b2fa5" prot="public" virt="non-virtual"><scope>Rigidbody</scope><name>Component</name></member>
+      <member refid="class_component_1a22ed217d642f4566a47c874ac9a63eab" prot="public" virt="virtual"><scope>Rigidbody</scope><name>GetComponentName</name></member>
+      <member refid="class_component_1a2a9968090dabad782f2bbdaf0093be84" prot="public" virt="non-virtual"><scope>Rigidbody</scope><name>GetHash</name></member>
+      <member refid="class_component_1ac0ee67584bdd569c2809495a5843612b" prot="public" virt="non-virtual"><scope>Rigidbody</scope><name>GetLeafIndex</name></member>
+      <member refid="class_rigidbody_1a5d48e20a52edcf8a27d52c998265d8fc" prot="public" virt="non-virtual"><scope>Rigidbody</scope><name>GetMass</name></member>
+      <member refid="class_component_1a1b25ee28c379d9f0d0c1ecc0df1e6328" prot="public" virt="non-virtual"><scope>Rigidbody</scope><name>GetTreeIndex</name></member>
+      <member refid="class_rigidbody_1af2c72b18c631af183bdb4013ba796d20" prot="public" virt="non-virtual"><scope>Rigidbody</scope><name>GetVelocity</name></member>
+      <member refid="class_component_1ad3141017e589ef48d436bc743e15d122" prot="public" virt="virtual"><scope>Rigidbody</scope><name>Init</name></member>
+      <member refid="class_rigidbody_1aac501b7f51395b8ec3204b0353c91db0" prot="public" virt="non-virtual"><scope>Rigidbody</scope><name>isStatic</name></member>
+      <member refid="class_rigidbody_1a0ff47d17bcd8629f60b5b36de8a5357c" prot="private" virt="non-virtual"><scope>Rigidbody</scope><name>mass</name></member>
+      <member refid="class_rigidbody_1ab2769878b769b29d1e07846f568f9e9d" prot="public" virt="non-virtual"><scope>Rigidbody</scope><name>Rigidbody</name></member>
+      <member refid="class_component_1a053713eb8c3c356263a588fc398da49f" prot="public" virt="non-virtual"><scope>Rigidbody</scope><name>SetHash</name></member>
+      <member refid="class_component_1a93263d6a4c7a133ad05f8b754463d81a" prot="public" virt="non-virtual"><scope>Rigidbody</scope><name>SetIndex</name></member>
+      <member refid="class_rigidbody_1ad85b1f195ccbdafd86fa3f8da421ba3a" prot="public" virt="non-virtual"><scope>Rigidbody</scope><name>SetMass</name></member>
+      <member refid="class_rigidbody_1a7b135771f4181983066b5646016d4ce3" prot="public" virt="non-virtual"><scope>Rigidbody</scope><name>SetVelocity</name></member>
+      <member refid="class_rigidbody_1afc40899dcfc1297bfa7b10ba72d648b5" prot="private" virt="non-virtual"><scope>Rigidbody</scope><name>velocity</name></member>
+      <member refid="class_component_1ab8378fa275af98e568a7e91d33d867af" prot="public" virt="virtual"><scope>Rigidbody</scope><name>~Component</name></member>
+      <member refid="class_rigidbody_1adef2355db93cd489250ce7ab2c797a10" prot="public" virt="non-virtual"><scope>Rigidbody</scope><name>~Rigidbody</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

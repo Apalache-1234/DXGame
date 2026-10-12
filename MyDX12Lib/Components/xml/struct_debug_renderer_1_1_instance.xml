@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="struct_debug_renderer_1_1_instance" kind="struct" language="C++" prot="protected">
+    <compoundname>DebugRenderer::Instance</compoundname>
+    <includes refid="_debug_renderer_8h" local="no">DebugRenderer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_debug_renderer_1_1_instance_1a957d5b547422ad5b2a7522fe1b56d30a" prot="public" static="no" mutable="no">
+        <type>XMMATRIX</type>
+        <definition>XMMATRIX DebugRenderer::Instance::world</definition>
+        <argsstring></argsstring>
+        <name>world</name>
+        <qualifiedname>DebugRenderer::Instance::world</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/DebugRenderer.h" line="23" column="10" bodyfile="include/Base/DebugRenderer.h" bodystart="23" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_debug_renderer_1_1_instance_1ae5e98e89dedf5c0691657547c7b9b0fd" prot="public" static="no" mutable="no">
+        <type>XMFLOAT4</type>
+        <definition>XMFLOAT4 DebugRenderer::Instance::color</definition>
+        <argsstring></argsstring>
+        <name>color</name>
+        <qualifiedname>DebugRenderer::Instance::color</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/DebugRenderer.h" line="24" column="10" bodyfile="include/Base/DebugRenderer.h" bodystart="24" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/Base/DebugRenderer.h" line="21" column="1" bodyfile="include/Base/DebugRenderer.h" bodystart="22" bodyend="25"/>
+    <listofallmembers>
+      <member refid="struct_debug_renderer_1_1_instance_1ae5e98e89dedf5c0691657547c7b9b0fd" prot="public" virt="non-virtual"><scope>DebugRenderer::Instance</scope><name>color</name></member>
+      <member refid="struct_debug_renderer_1_1_instance_1a957d5b547422ad5b2a7522fe1b56d30a" prot="public" virt="non-virtual"><scope>DebugRenderer::Instance</scope><name>world</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

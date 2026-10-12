@@ -1,0 +1,513 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="class_script_component" kind="class" language="C++" prot="public">
+    <compoundname>ScriptComponent</compoundname>
+    <basecompoundref refid="class_component" prot="public" virt="non-virtual">Component</basecompoundref>
+    <derivedcompoundref refid="class_c_p_u_script" prot="public" virt="non-virtual">CPUScript</derivedcompoundref>
+    <derivedcompoundref refid="class_card_script" prot="public" virt="non-virtual">CardScript</derivedcompoundref>
+    <derivedcompoundref refid="class_card_texture_script" prot="public" virt="non-virtual">CardTextureScript</derivedcompoundref>
+    <derivedcompoundref refid="class_deck_script" prot="public" virt="non-virtual">DeckScript</derivedcompoundref>
+    <derivedcompoundref refid="class_floor_script" prot="public" virt="non-virtual">FloorScript</derivedcompoundref>
+    <derivedcompoundref refid="class_game_end_script" prot="public" virt="non-virtual">GameEndScript</derivedcompoundref>
+    <derivedcompoundref refid="class_game_manager_script" prot="public" virt="non-virtual">GameManagerScript</derivedcompoundref>
+    <derivedcompoundref refid="class_game_start_u_i_script" prot="public" virt="non-virtual">GameStartUIScript</derivedcompoundref>
+    <derivedcompoundref refid="class_game_starting_script" prot="public" virt="non-virtual">GameStartingScript</derivedcompoundref>
+    <derivedcompoundref refid="class_hand_script" prot="public" virt="non-virtual">HandScript</derivedcompoundref>
+    <derivedcompoundref refid="class_place_card_u_i_script" prot="public" virt="non-virtual">PlaceCardUIScript</derivedcompoundref>
+    <derivedcompoundref refid="class_ready_u_i_script" prot="public" virt="non-virtual">ReadyUIScript</derivedcompoundref>
+    <derivedcompoundref refid="class_square_wipe_script" prot="public" virt="non-virtual">SquareWipeScript</derivedcompoundref>
+    <derivedcompoundref refid="class_table_and_chair_script" prot="public" virt="non-virtual">TableAndChairScript</derivedcompoundref>
+    <derivedcompoundref refid="class_table_deck_script" prot="public" virt="non-virtual">TableDeckScript</derivedcompoundref>
+    <derivedcompoundref refid="class_title_card_script" prot="public" virt="non-virtual">TitleCardScript</derivedcompoundref>
+    <derivedcompoundref refid="class_title_frame_script" prot="public" virt="non-virtual">TitleFrameScript</derivedcompoundref>
+    <derivedcompoundref refid="class_title_noise_script" prot="public" virt="non-virtual">TitleNoiseScript</derivedcompoundref>
+    <derivedcompoundref refid="class_title_spot_light_script" prot="public" virt="non-virtual">TitleSpotLightScript</derivedcompoundref>
+    <includes refid="_script_component_8h" local="no">ScriptComponent.h</includes>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_script_component_1a2dfacd191e367be8e1e667ece474b860" prot="protected" static="no" mutable="no">
+        <type>TweenSystem *</type>
+        <definition>TweenSystem* ScriptComponent::tweenSystem</definition>
+        <argsstring></argsstring>
+        <name>tweenSystem</name>
+        <qualifiedname>ScriptComponent::tweenSystem</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/ScriptComponent.h" line="51" column="13" bodyfile="include/Base/ScriptComponent.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_script_component_1a85aa9f3caec7cadbad5bade77d1a497b" prot="protected" static="no" mutable="no">
+        <type>SystemManager *</type>
+        <definition>SystemManager* ScriptComponent::systemManager</definition>
+        <argsstring></argsstring>
+        <name>systemManager</name>
+        <qualifiedname>ScriptComponent::systemManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/ScriptComponent.h" line="53" column="15" bodyfile="include/Base/ScriptComponent.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_script_component_1a883990ab3b0eb3ed62c8bc85fd4f596d" prot="protected" static="no" mutable="no">
+        <type>MeshLoader *</type>
+        <definition>MeshLoader* ScriptComponent::meshLoader</definition>
+        <argsstring></argsstring>
+        <name>meshLoader</name>
+        <qualifiedname>ScriptComponent::meshLoader</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/ScriptComponent.h" line="55" column="12" bodyfile="include/Base/ScriptComponent.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_script_component_1a8da06cfeede85f5294be061a45d78885" prot="protected" static="no" mutable="no">
+        <type>TextureLoader *</type>
+        <definition>TextureLoader* ScriptComponent::textureLoader</definition>
+        <argsstring></argsstring>
+        <name>textureLoader</name>
+        <qualifiedname>ScriptComponent::textureLoader</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/ScriptComponent.h" line="57" column="15" bodyfile="include/Base/ScriptComponent.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_script_component_1a6d517b821cb2239397c4bc9df8935df1" prot="protected" static="no" mutable="no">
+        <type>SceneManager *</type>
+        <definition>SceneManager* ScriptComponent::sceneManager</definition>
+        <argsstring></argsstring>
+        <name>sceneManager</name>
+        <qualifiedname>ScriptComponent::sceneManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/ScriptComponent.h" line="59" column="14" bodyfile="include/Base/ScriptComponent.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_script_component_1a96e27fa6ec29b4a3fb7a8032d5a27aad" prot="protected" static="no" mutable="no">
+        <type>Camera *</type>
+        <definition>Camera* ScriptComponent::camera</definition>
+        <argsstring></argsstring>
+        <name>camera</name>
+        <qualifiedname>ScriptComponent::camera</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/ScriptComponent.h" line="61" column="8" bodyfile="include/Base/ScriptComponent.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_script_component_1a6c266c364bf21d0dddb6d7639500a077" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>ScriptComponent::~ScriptComponent</definition>
+        <argsstring>()</argsstring>
+        <name>~ScriptComponent</name>
+        <qualifiedname>ScriptComponent::~ScriptComponent</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/ScriptComponent.h" line="26" column="9" bodyfile="src/Base/ScriptComponent.cpp" bodystart="14" bodyend="16"/>
+      </memberdef>
+      <memberdef kind="function" id="class_script_component_1a43fad9a126b4df10d450ebda1b0eb958" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void ScriptComponent::OnMousePointerIn</definition>
+        <argsstring>()</argsstring>
+        <name>OnMousePointerIn</name>
+        <qualifiedname>ScriptComponent::OnMousePointerIn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/ScriptComponent.h" line="28" column="14" bodyfile="src/Base/ScriptComponent.cpp" bodystart="18" bodyend="20"/>
+      </memberdef>
+      <memberdef kind="function" id="class_script_component_1a594aa67f58cfe5dd2e9f9920cfdfcb08" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void ScriptComponent::OnMousePointerOn</definition>
+        <argsstring>()</argsstring>
+        <name>OnMousePointerOn</name>
+        <qualifiedname>ScriptComponent::OnMousePointerOn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/ScriptComponent.h" line="30" column="14" bodyfile="src/Base/ScriptComponent.cpp" bodystart="22" bodyend="24"/>
+      </memberdef>
+      <memberdef kind="function" id="class_script_component_1ad9b2758d768994bc36a42e328157047c" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void ScriptComponent::OnMousePointerClick</definition>
+        <argsstring>()</argsstring>
+        <name>OnMousePointerClick</name>
+        <qualifiedname>ScriptComponent::OnMousePointerClick</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/ScriptComponent.h" line="32" column="14" bodyfile="src/Base/ScriptComponent.cpp" bodystart="26" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="function" id="class_script_component_1a684ce3d22fb83d9ade9db726afb0ca28" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void ScriptComponent::OnMousePointerOut</definition>
+        <argsstring>()</argsstring>
+        <name>OnMousePointerOut</name>
+        <qualifiedname>ScriptComponent::OnMousePointerOut</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/ScriptComponent.h" line="34" column="14" bodyfile="src/Base/ScriptComponent.cpp" bodystart="30" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="function" id="class_script_component_1a74c66e170fed1beca9d8d0ff3e97d647" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void ScriptComponent::OnStart</definition>
+        <argsstring>()</argsstring>
+        <name>OnStart</name>
+        <qualifiedname>ScriptComponent::OnStart</qualifiedname>
+        <reimplementedby refid="class_card_script_1ad8e15c4339375ec72fb5a5cf36f0a4b0">OnStart</reimplementedby>
+        <reimplementedby refid="class_card_texture_script_1acc01a4de6456edba8d3ab9f4c1be012b">OnStart</reimplementedby>
+        <reimplementedby refid="class_c_p_u_script_1a4fbd571c982adf6da7f8dc767e4e15e8">OnStart</reimplementedby>
+        <reimplementedby refid="class_deck_script_1a62a8e334924a3f3aaeb567ab687a41b2">OnStart</reimplementedby>
+        <reimplementedby refid="class_floor_script_1aa103b9b016c1b03ff9661b291edc9408">OnStart</reimplementedby>
+        <reimplementedby refid="class_game_end_script_1aa8ecf20ef3f8ec3ae65f63770f00ab4a">OnStart</reimplementedby>
+        <reimplementedby refid="class_game_manager_script_1a531a2b0187da55c04f8b5e4d08bd5605">OnStart</reimplementedby>
+        <reimplementedby refid="class_game_starting_script_1ada1a0c043625aa430b4d366d63e0ef03">OnStart</reimplementedby>
+        <reimplementedby refid="class_game_start_u_i_script_1a2ddbfc5d7e14e45ce07c30f523c8ce53">OnStart</reimplementedby>
+        <reimplementedby refid="class_hand_script_1a4820f5d8bbd1d901ae72a3e3004d8e15">OnStart</reimplementedby>
+        <reimplementedby refid="class_place_card_u_i_script_1aaffcd8c00b7ca7cc73bd8218b20c8ba3">OnStart</reimplementedby>
+        <reimplementedby refid="class_ready_u_i_script_1aaf467ddce113d44e5c786093e2a3dd32">OnStart</reimplementedby>
+        <reimplementedby refid="class_square_wipe_script_1a5410ffb869f43675ee50dd736808cf6a">OnStart</reimplementedby>
+        <reimplementedby refid="class_table_and_chair_script_1ae482684ae03eec70c3d8b9b5bdffc3e8">OnStart</reimplementedby>
+        <reimplementedby refid="class_table_deck_script_1ad637b25a2ec73bd154a725e9e91f6b82">OnStart</reimplementedby>
+        <reimplementedby refid="class_title_card_script_1aa49332cc40e8ef128762b3331cf817dc">OnStart</reimplementedby>
+        <reimplementedby refid="class_title_frame_script_1a4a689564415e7b385b9a317d2fe23256">OnStart</reimplementedby>
+        <reimplementedby refid="class_title_noise_script_1a3435cdf369b2de8256f94de967e968b2">OnStart</reimplementedby>
+        <reimplementedby refid="class_title_spot_light_script_1afc55cba9ea7c7077e9a5eb3a03365811">OnStart</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/ScriptComponent.h" line="36" column="14" bodyfile="src/Base/ScriptComponent.cpp" bodystart="34" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="class_script_component_1afffbd9e1537019a46798299fced10d09" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void ScriptComponent::OnUpdate</definition>
+        <argsstring>()</argsstring>
+        <name>OnUpdate</name>
+        <qualifiedname>ScriptComponent::OnUpdate</qualifiedname>
+        <reimplementedby refid="class_card_script_1a3a30702b67e77039d76ae9bda8a6cf92">OnUpdate</reimplementedby>
+        <reimplementedby refid="class_c_p_u_script_1aa98b62ad6b36ca4fc67732e5703f3b87">OnUpdate</reimplementedby>
+        <reimplementedby refid="class_deck_script_1abdfc391b9de195d7aa2b37c7db37dd23">OnUpdate</reimplementedby>
+        <reimplementedby refid="class_floor_script_1a29199aa0a35fd4f6fc1514f044d94f6e">OnUpdate</reimplementedby>
+        <reimplementedby refid="class_game_end_script_1a304e70c750865f6e3805a858d1da56f2">OnUpdate</reimplementedby>
+        <reimplementedby refid="class_game_manager_script_1a84adfa99a8b060c844c7b22e89c281b2">OnUpdate</reimplementedby>
+        <reimplementedby refid="class_game_starting_script_1a515cf669d06e7c2026326a4c3cb0aa24">OnUpdate</reimplementedby>
+        <reimplementedby refid="class_game_start_u_i_script_1afe1e5d1b79fceff733931d984db0a8f3">OnUpdate</reimplementedby>
+        <reimplementedby refid="class_hand_script_1ad161f8eeafcf089b643cdb2fce680df3">OnUpdate</reimplementedby>
+        <reimplementedby refid="class_place_card_u_i_script_1a618f70d7670b3fe53e49516bf31ecda5">OnUpdate</reimplementedby>
+        <reimplementedby refid="class_ready_u_i_script_1aae101836f458eb1c4818b642d8bacbeb">OnUpdate</reimplementedby>
+        <reimplementedby refid="class_square_wipe_script_1a2d095408e2ee1363dbcfdc3c39eacab5">OnUpdate</reimplementedby>
+        <reimplementedby refid="class_table_and_chair_script_1a8182a63832d96d182b34f036feae3eaa">OnUpdate</reimplementedby>
+        <reimplementedby refid="class_table_deck_script_1abeb233919fb60692e52e76055f21498c">OnUpdate</reimplementedby>
+        <reimplementedby refid="class_title_card_script_1ae04f23d6ee7319dfeed404133864b807">OnUpdate</reimplementedby>
+        <reimplementedby refid="class_title_frame_script_1a83b3c8c3b8aad2e248801d858d9987ef">OnUpdate</reimplementedby>
+        <reimplementedby refid="class_title_noise_script_1a72c383ad7cd74359e212fa0f865b719a">OnUpdate</reimplementedby>
+        <reimplementedby refid="class_title_spot_light_script_1a4284694966be90a6520c6684cfc8ccdb">OnUpdate</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/ScriptComponent.h" line="38" column="14" bodyfile="src/Base/ScriptComponent.cpp" bodystart="38" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="class_script_component_1af30cc5777fe0db148c0f46deffbfa995" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void ScriptComponent::OnFixedUpdate</definition>
+        <argsstring>()</argsstring>
+        <name>OnFixedUpdate</name>
+        <qualifiedname>ScriptComponent::OnFixedUpdate</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/ScriptComponent.h" line="40" column="14" bodyfile="src/Base/ScriptComponent.cpp" bodystart="42" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="class_script_component_1a3f3a0bbc66f3809a353ae16ff0380a1e" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void ScriptComponent::OnRayCast</definition>
+        <argsstring>()</argsstring>
+        <name>OnRayCast</name>
+        <qualifiedname>ScriptComponent::OnRayCast</qualifiedname>
+        <reimplementedby refid="class_card_script_1a9d703cec7e469f5e43455d8a81087efd">OnRayCast</reimplementedby>
+        <reimplementedby refid="class_table_deck_script_1a53955b80350fef05e99d60f9fd093f61">OnRayCast</reimplementedby>
+        <reimplementedby refid="class_title_frame_script_1a254cc9b7a16f956643205694c504232a">OnRayCast</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/ScriptComponent.h" line="42" column="14" bodyfile="src/Base/ScriptComponent.cpp" bodystart="46" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="class_script_component_1aaef3daf7c260c21efa8fd9cde4e5a4a7" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void ScriptComponent::OnDestroy</definition>
+        <argsstring>()</argsstring>
+        <name>OnDestroy</name>
+        <qualifiedname>ScriptComponent::OnDestroy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/ScriptComponent.h" line="44" column="14" bodyfile="src/Base/ScriptComponent.cpp" bodystart="50" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="class_script_component_1a2027d87a56d690a2a198d6e15c57f907" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void ScriptComponent::Init</definition>
+        <argsstring>() override</argsstring>
+        <name>Init</name>
+        <qualifiedname>ScriptComponent::Init</qualifiedname>
+        <reimplements refid="class_component_1ad3141017e589ef48d436bc743e15d122">Init</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/ScriptComponent.h" line="46" column="6" bodyfile="src/Base/ScriptComponent.cpp" bodystart="54" bodyend="57"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_script_component_1a79c3ecd7f476197899c2b41279a40843" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ScriptComponent::ScriptComponent</definition>
+        <argsstring>(std::shared_ptr&lt; Entity &gt; ent)</argsstring>
+        <name>ScriptComponent</name>
+        <qualifiedname>ScriptComponent::ScriptComponent</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; Entity &gt;</type>
+          <declname>ent</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Base/ScriptComponent.h" line="49" column="1" bodyfile="src/Base/ScriptComponent.cpp" bodystart="4" bodyend="12"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="4">
+        <label>CPUScript</label>
+        <link refid="class_c_p_u_script"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>CardScript</label>
+        <link refid="class_card_script"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>CardTextureScript</label>
+        <link refid="class_card_texture_script"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>Component</label>
+        <link refid="class_component"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>DeckScript</label>
+        <link refid="class_deck_script"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>FloorScript</label>
+        <link refid="class_floor_script"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>GameEndScript</label>
+        <link refid="class_game_end_script"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>GameManagerScript</label>
+        <link refid="class_game_manager_script"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>GameStartUIScript</label>
+        <link refid="class_game_start_u_i_script"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>GameStartingScript</label>
+        <link refid="class_game_starting_script"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>HandScript</label>
+        <link refid="class_hand_script"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>PlaceCardUIScript</label>
+        <link refid="class_place_card_u_i_script"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>ReadyUIScript</label>
+        <link refid="class_ready_u_i_script"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>ScriptComponent</label>
+        <link refid="class_script_component"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>SquareWipeScript</label>
+        <link refid="class_square_wipe_script"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>TableAndChairScript</label>
+        <link refid="class_table_and_chair_script"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>TableDeckScript</label>
+        <link refid="class_table_deck_script"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>TitleCardScript</label>
+        <link refid="class_title_card_script"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>TitleFrameScript</label>
+        <link refid="class_title_frame_script"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>TitleNoiseScript</label>
+        <link refid="class_title_noise_script"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>TitleSpotLightScript</label>
+        <link refid="class_title_spot_light_script"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>std::enable_shared_from_this&lt; Component &gt;</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>Component</label>
+        <link refid="class_component"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>ScriptComponent</label>
+        <link refid="class_script_component"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>std::enable_shared_from_this&lt; Component &gt;</label>
+      </node>
+    </collaborationgraph>
+    <location file="include/Base/ScriptComponent.h" line="23" column="1" bodyfile="include/Base/ScriptComponent.h" bodystart="24" bodyend="62"/>
+    <listofallmembers>
+      <member refid="class_component_1a61954f08c177e4c1ebb17cf8fd3aa56f" prot="public" virt="non-virtual"><scope>ScriptComponent</scope><name>attachFrom</name></member>
+      <member refid="class_script_component_1a96e27fa6ec29b4a3fb7a8032d5a27aad" prot="protected" virt="non-virtual"><scope>ScriptComponent</scope><name>camera</name></member>
+      <member refid="class_component_1a120d65094802a621c8d804a964cafa9c" prot="public" virt="non-virtual"><scope>ScriptComponent</scope><name>Cast</name></member>
+      <member refid="class_component_1a5cba85e33b188bf87ee09f353d7b2fa5" prot="public" virt="non-virtual"><scope>ScriptComponent</scope><name>Component</name></member>
+      <member refid="class_component_1a22ed217d642f4566a47c874ac9a63eab" prot="public" virt="virtual"><scope>ScriptComponent</scope><name>GetComponentName</name></member>
+      <member refid="class_component_1a2a9968090dabad782f2bbdaf0093be84" prot="public" virt="non-virtual"><scope>ScriptComponent</scope><name>GetHash</name></member>
+      <member refid="class_component_1ac0ee67584bdd569c2809495a5843612b" prot="public" virt="non-virtual"><scope>ScriptComponent</scope><name>GetLeafIndex</name></member>
+      <member refid="class_component_1a1b25ee28c379d9f0d0c1ecc0df1e6328" prot="public" virt="non-virtual"><scope>ScriptComponent</scope><name>GetTreeIndex</name></member>
+      <member refid="class_script_component_1a2027d87a56d690a2a198d6e15c57f907" prot="public" virt="virtual"><scope>ScriptComponent</scope><name>Init</name></member>
+      <member refid="class_script_component_1a883990ab3b0eb3ed62c8bc85fd4f596d" prot="protected" virt="non-virtual"><scope>ScriptComponent</scope><name>meshLoader</name></member>
+      <member refid="class_script_component_1aaef3daf7c260c21efa8fd9cde4e5a4a7" prot="public" virt="virtual"><scope>ScriptComponent</scope><name>OnDestroy</name></member>
+      <member refid="class_script_component_1af30cc5777fe0db148c0f46deffbfa995" prot="public" virt="virtual"><scope>ScriptComponent</scope><name>OnFixedUpdate</name></member>
+      <member refid="class_script_component_1ad9b2758d768994bc36a42e328157047c" prot="public" virt="virtual"><scope>ScriptComponent</scope><name>OnMousePointerClick</name></member>
+      <member refid="class_script_component_1a43fad9a126b4df10d450ebda1b0eb958" prot="public" virt="virtual"><scope>ScriptComponent</scope><name>OnMousePointerIn</name></member>
+      <member refid="class_script_component_1a594aa67f58cfe5dd2e9f9920cfdfcb08" prot="public" virt="virtual"><scope>ScriptComponent</scope><name>OnMousePointerOn</name></member>
+      <member refid="class_script_component_1a684ce3d22fb83d9ade9db726afb0ca28" prot="public" virt="virtual"><scope>ScriptComponent</scope><name>OnMousePointerOut</name></member>
+      <member refid="class_script_component_1a3f3a0bbc66f3809a353ae16ff0380a1e" prot="public" virt="virtual"><scope>ScriptComponent</scope><name>OnRayCast</name></member>
+      <member refid="class_script_component_1a74c66e170fed1beca9d8d0ff3e97d647" prot="public" virt="virtual"><scope>ScriptComponent</scope><name>OnStart</name></member>
+      <member refid="class_script_component_1afffbd9e1537019a46798299fced10d09" prot="public" virt="virtual"><scope>ScriptComponent</scope><name>OnUpdate</name></member>
+      <member refid="class_script_component_1a6d517b821cb2239397c4bc9df8935df1" prot="protected" virt="non-virtual"><scope>ScriptComponent</scope><name>sceneManager</name></member>
+      <member refid="class_script_component_1a79c3ecd7f476197899c2b41279a40843" prot="protected" virt="non-virtual"><scope>ScriptComponent</scope><name>ScriptComponent</name></member>
+      <member refid="class_component_1a053713eb8c3c356263a588fc398da49f" prot="public" virt="non-virtual"><scope>ScriptComponent</scope><name>SetHash</name></member>
+      <member refid="class_component_1a93263d6a4c7a133ad05f8b754463d81a" prot="public" virt="non-virtual"><scope>ScriptComponent</scope><name>SetIndex</name></member>
+      <member refid="class_script_component_1a85aa9f3caec7cadbad5bade77d1a497b" prot="protected" virt="non-virtual"><scope>ScriptComponent</scope><name>systemManager</name></member>
+      <member refid="class_script_component_1a8da06cfeede85f5294be061a45d78885" prot="protected" virt="non-virtual"><scope>ScriptComponent</scope><name>textureLoader</name></member>
+      <member refid="class_script_component_1a2dfacd191e367be8e1e667ece474b860" prot="protected" virt="non-virtual"><scope>ScriptComponent</scope><name>tweenSystem</name></member>
+      <member refid="class_component_1ab8378fa275af98e568a7e91d33d867af" prot="public" virt="virtual"><scope>ScriptComponent</scope><name>~Component</name></member>
+      <member refid="class_script_component_1a6c266c364bf21d0dddb6d7639500a077" prot="public" virt="virtual"><scope>ScriptComponent</scope><name>~ScriptComponent</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,315 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="class_title_frame_script" kind="class" language="C++" prot="public">
+    <compoundname>TitleFrameScript</compoundname>
+    <basecompoundref refid="class_script_component" prot="public" virt="non-virtual">ScriptComponent</basecompoundref>
+    <includes refid="_title_frame_script_8h" local="no">TitleFrameScript.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="class_title_frame_script_1a11b6f0a29aab6101087322d14b9a5535" prot="public" static="no" strong="no">
+        <type></type>
+        <name>FLAG</name>
+        <qualifiedname>TitleFrameScript::FLAG</qualifiedname>
+        <enumvalue id="class_title_frame_script_1a11b6f0a29aab6101087322d14b9a5535a3b79398ec0a5c1a0765244dd5748d048" prot="public">
+          <name>START</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_title_frame_script_1a11b6f0a29aab6101087322d14b9a5535ab0fcba459b9e2c4daca8295345546131" prot="public">
+          <name>EXIT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/TitleFrameScript.h" line="27" column="1" bodyfile="Script/include/TitleFrameScript.h" bodystart="28" bodyend="30"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_title_frame_script_1ad1532483382f9553240a3cbfcc0c9869" prot="public" static="no" mutable="no">
+        <type><ref refid="class_title_frame_script_1a11b6f0a29aab6101087322d14b9a5535" kindref="member">FLAG</ref></type>
+        <definition>FLAG TitleFrameScript::flag</definition>
+        <argsstring></argsstring>
+        <name>flag</name>
+        <qualifiedname>TitleFrameScript::flag</qualifiedname>
+        <initializer>= <ref refid="class_title_frame_script_1a11b6f0a29aab6101087322d14b9a5535a3b79398ec0a5c1a0765244dd5748d048" kindref="member">START</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/TitleFrameScript.h" line="32" column="6" bodyfile="Script/include/TitleFrameScript.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_title_frame_script_1a39038ceabbb1ab86dcfcac0fe7af1086" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="class_skinned_renderer" kindref="compound">SkinnedRenderer</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;SkinnedRenderer&gt; TitleFrameScript::rend</definition>
+        <argsstring></argsstring>
+        <name>rend</name>
+        <qualifiedname>TitleFrameScript::rend</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/TitleFrameScript.h" line="34" column="17" bodyfile="Script/include/TitleFrameScript.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_title_frame_script_1ae56906ef9a2708f4d1cf71403e562490" prot="private" static="no" mutable="no">
+        <type>Material</type>
+        <definition>Material TitleFrameScript::mat</definition>
+        <argsstring></argsstring>
+        <name>mat</name>
+        <qualifiedname>TitleFrameScript::mat</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/TitleFrameScript.h" line="36" column="10" bodyfile="Script/include/TitleFrameScript.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_title_frame_script_1a9601b8350d9ab5c44931f8e85e8807be" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool TitleFrameScript::isOnRay</definition>
+        <argsstring></argsstring>
+        <name>isOnRay</name>
+        <qualifiedname>TitleFrameScript::isOnRay</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/TitleFrameScript.h" line="38" column="6" bodyfile="Script/include/TitleFrameScript.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_title_frame_script_1a48511ec056baf60b0426a58da42007ca" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="class_collider" kindref="compound">Collider</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;Collider&gt; TitleFrameScript::col</definition>
+        <argsstring></argsstring>
+        <name>col</name>
+        <qualifiedname>TitleFrameScript::col</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/TitleFrameScript.h" line="42" column="17" bodyfile="Script/include/TitleFrameScript.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_title_frame_script_1a48424e2125710a9e9877b3c69e9bfa97" prot="private" static="no" mutable="no">
+        <type>float</type>
+        <definition>float TitleFrameScript::time</definition>
+        <argsstring></argsstring>
+        <name>time</name>
+        <qualifiedname>TitleFrameScript::time</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/TitleFrameScript.h" line="44" column="7" bodyfile="Script/include/TitleFrameScript.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="class_title_frame_script_1af9efff497aab985e98e2a31e0e88ce80" prot="private" static="yes" mutable="no">
+        <type>bool</type>
+        <definition>bool TitleFrameScript::isPressed</definition>
+        <argsstring></argsstring>
+        <name>isPressed</name>
+        <qualifiedname>TitleFrameScript::isPressed</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/TitleFrameScript.h" line="40" column="13" bodyfile="Script/include/TitleFrameScript.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_title_frame_script_1ad498d8ddf25ad0efe656a3dca5ff5b99" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TitleFrameScript::TitleFrameScript</definition>
+        <argsstring>(std::shared_ptr&lt; Entity &gt; ent)</argsstring>
+        <name>TitleFrameScript</name>
+        <qualifiedname>TitleFrameScript::TitleFrameScript</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; Entity &gt;</type>
+          <declname>ent</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/TitleFrameScript.h" line="17" column="1" bodyfile="Script/src/TitleFrameScript.cpp" bodystart="9" bodyend="11"/>
+      </memberdef>
+      <memberdef kind="function" id="class_title_frame_script_1a3c78886008bd18df991f79ba59815795" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TitleFrameScript::~TitleFrameScript</definition>
+        <argsstring>()</argsstring>
+        <name>~TitleFrameScript</name>
+        <qualifiedname>TitleFrameScript::~TitleFrameScript</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/TitleFrameScript.h" line="19" column="1" bodyfile="Script/src/TitleFrameScript.cpp" bodystart="13" bodyend="15"/>
+      </memberdef>
+      <memberdef kind="function" id="class_title_frame_script_1a4a689564415e7b385b9a317d2fe23256" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void TitleFrameScript::OnStart</definition>
+        <argsstring>() override</argsstring>
+        <name>OnStart</name>
+        <qualifiedname>TitleFrameScript::OnStart</qualifiedname>
+        <reimplements refid="class_script_component_1a74c66e170fed1beca9d8d0ff3e97d647">OnStart</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/TitleFrameScript.h" line="21" column="6" bodyfile="Script/src/TitleFrameScript.cpp" bodystart="17" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="function" id="class_title_frame_script_1a83b3c8c3b8aad2e248801d858d9987ef" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void TitleFrameScript::OnUpdate</definition>
+        <argsstring>() override</argsstring>
+        <name>OnUpdate</name>
+        <qualifiedname>TitleFrameScript::OnUpdate</qualifiedname>
+        <reimplements refid="class_script_component_1afffbd9e1537019a46798299fced10d09">OnUpdate</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/TitleFrameScript.h" line="23" column="6" bodyfile="Script/src/TitleFrameScript.cpp" bodystart="36" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="class_title_frame_script_1a254cc9b7a16f956643205694c504232a" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void TitleFrameScript::OnRayCast</definition>
+        <argsstring>() override</argsstring>
+        <name>OnRayCast</name>
+        <qualifiedname>TitleFrameScript::OnRayCast</qualifiedname>
+        <reimplements refid="class_script_component_1a3f3a0bbc66f3809a353ae16ff0380a1e">OnRayCast</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/TitleFrameScript.h" line="25" column="6" bodyfile="Script/src/TitleFrameScript.cpp" bodystart="99" bodyend="102"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>Component</label>
+        <link refid="class_component"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>ScriptComponent</label>
+        <link refid="class_script_component"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>TitleFrameScript</label>
+        <link refid="class_title_frame_script"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>std::enable_shared_from_this&lt; Component &gt;</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>Component</label>
+        <link refid="class_component"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>ScriptComponent</label>
+        <link refid="class_script_component"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>TitleFrameScript</label>
+        <link refid="class_title_frame_script"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>std::enable_shared_from_this&lt; Component &gt;</label>
+      </node>
+    </collaborationgraph>
+    <location file="Script/include/TitleFrameScript.h" line="14" column="1" bodyfile="Script/include/TitleFrameScript.h" bodystart="15" bodyend="45"/>
+    <listofallmembers>
+      <member refid="class_component_1a61954f08c177e4c1ebb17cf8fd3aa56f" prot="public" virt="non-virtual"><scope>TitleFrameScript</scope><name>attachFrom</name></member>
+      <member refid="class_script_component_1a96e27fa6ec29b4a3fb7a8032d5a27aad" prot="protected" virt="non-virtual"><scope>TitleFrameScript</scope><name>camera</name></member>
+      <member refid="class_component_1a120d65094802a621c8d804a964cafa9c" prot="public" virt="non-virtual"><scope>TitleFrameScript</scope><name>Cast</name></member>
+      <member refid="class_title_frame_script_1a48511ec056baf60b0426a58da42007ca" prot="private" virt="non-virtual"><scope>TitleFrameScript</scope><name>col</name></member>
+      <member refid="class_component_1a5cba85e33b188bf87ee09f353d7b2fa5" prot="public" virt="non-virtual"><scope>TitleFrameScript</scope><name>Component</name></member>
+      <member refid="class_title_frame_script_1a11b6f0a29aab6101087322d14b9a5535ab0fcba459b9e2c4daca8295345546131" prot="public" virt="non-virtual"><scope>TitleFrameScript</scope><name>EXIT</name></member>
+      <member refid="class_title_frame_script_1a11b6f0a29aab6101087322d14b9a5535" prot="public" virt="non-virtual"><scope>TitleFrameScript</scope><name>FLAG</name></member>
+      <member refid="class_title_frame_script_1ad1532483382f9553240a3cbfcc0c9869" prot="public" virt="non-virtual"><scope>TitleFrameScript</scope><name>flag</name></member>
+      <member refid="class_component_1a22ed217d642f4566a47c874ac9a63eab" prot="public" virt="virtual"><scope>TitleFrameScript</scope><name>GetComponentName</name></member>
+      <member refid="class_component_1a2a9968090dabad782f2bbdaf0093be84" prot="public" virt="non-virtual"><scope>TitleFrameScript</scope><name>GetHash</name></member>
+      <member refid="class_component_1ac0ee67584bdd569c2809495a5843612b" prot="public" virt="non-virtual"><scope>TitleFrameScript</scope><name>GetLeafIndex</name></member>
+      <member refid="class_component_1a1b25ee28c379d9f0d0c1ecc0df1e6328" prot="public" virt="non-virtual"><scope>TitleFrameScript</scope><name>GetTreeIndex</name></member>
+      <member refid="class_script_component_1a2027d87a56d690a2a198d6e15c57f907" prot="public" virt="virtual"><scope>TitleFrameScript</scope><name>Init</name></member>
+      <member refid="class_title_frame_script_1a9601b8350d9ab5c44931f8e85e8807be" prot="private" virt="non-virtual"><scope>TitleFrameScript</scope><name>isOnRay</name></member>
+      <member refid="class_title_frame_script_1af9efff497aab985e98e2a31e0e88ce80" prot="private" virt="non-virtual"><scope>TitleFrameScript</scope><name>isPressed</name></member>
+      <member refid="class_title_frame_script_1ae56906ef9a2708f4d1cf71403e562490" prot="private" virt="non-virtual"><scope>TitleFrameScript</scope><name>mat</name></member>
+      <member refid="class_script_component_1a883990ab3b0eb3ed62c8bc85fd4f596d" prot="protected" virt="non-virtual"><scope>TitleFrameScript</scope><name>meshLoader</name></member>
+      <member refid="class_script_component_1aaef3daf7c260c21efa8fd9cde4e5a4a7" prot="public" virt="virtual"><scope>TitleFrameScript</scope><name>OnDestroy</name></member>
+      <member refid="class_script_component_1af30cc5777fe0db148c0f46deffbfa995" prot="public" virt="virtual"><scope>TitleFrameScript</scope><name>OnFixedUpdate</name></member>
+      <member refid="class_script_component_1ad9b2758d768994bc36a42e328157047c" prot="public" virt="virtual"><scope>TitleFrameScript</scope><name>OnMousePointerClick</name></member>
+      <member refid="class_script_component_1a43fad9a126b4df10d450ebda1b0eb958" prot="public" virt="virtual"><scope>TitleFrameScript</scope><name>OnMousePointerIn</name></member>
+      <member refid="class_script_component_1a594aa67f58cfe5dd2e9f9920cfdfcb08" prot="public" virt="virtual"><scope>TitleFrameScript</scope><name>OnMousePointerOn</name></member>
+      <member refid="class_script_component_1a684ce3d22fb83d9ade9db726afb0ca28" prot="public" virt="virtual"><scope>TitleFrameScript</scope><name>OnMousePointerOut</name></member>
+      <member refid="class_title_frame_script_1a254cc9b7a16f956643205694c504232a" prot="public" virt="virtual"><scope>TitleFrameScript</scope><name>OnRayCast</name></member>
+      <member refid="class_title_frame_script_1a4a689564415e7b385b9a317d2fe23256" prot="public" virt="virtual"><scope>TitleFrameScript</scope><name>OnStart</name></member>
+      <member refid="class_title_frame_script_1a83b3c8c3b8aad2e248801d858d9987ef" prot="public" virt="virtual"><scope>TitleFrameScript</scope><name>OnUpdate</name></member>
+      <member refid="class_title_frame_script_1a39038ceabbb1ab86dcfcac0fe7af1086" prot="private" virt="non-virtual"><scope>TitleFrameScript</scope><name>rend</name></member>
+      <member refid="class_script_component_1a6d517b821cb2239397c4bc9df8935df1" prot="protected" virt="non-virtual"><scope>TitleFrameScript</scope><name>sceneManager</name></member>
+      <member refid="class_script_component_1a79c3ecd7f476197899c2b41279a40843" prot="protected" virt="non-virtual"><scope>TitleFrameScript</scope><name>ScriptComponent</name></member>
+      <member refid="class_component_1a053713eb8c3c356263a588fc398da49f" prot="public" virt="non-virtual"><scope>TitleFrameScript</scope><name>SetHash</name></member>
+      <member refid="class_component_1a93263d6a4c7a133ad05f8b754463d81a" prot="public" virt="non-virtual"><scope>TitleFrameScript</scope><name>SetIndex</name></member>
+      <member refid="class_title_frame_script_1a11b6f0a29aab6101087322d14b9a5535a3b79398ec0a5c1a0765244dd5748d048" prot="public" virt="non-virtual"><scope>TitleFrameScript</scope><name>START</name></member>
+      <member refid="class_script_component_1a85aa9f3caec7cadbad5bade77d1a497b" prot="protected" virt="non-virtual"><scope>TitleFrameScript</scope><name>systemManager</name></member>
+      <member refid="class_script_component_1a8da06cfeede85f5294be061a45d78885" prot="protected" virt="non-virtual"><scope>TitleFrameScript</scope><name>textureLoader</name></member>
+      <member refid="class_title_frame_script_1a48424e2125710a9e9877b3c69e9bfa97" prot="private" virt="non-virtual"><scope>TitleFrameScript</scope><name>time</name></member>
+      <member refid="class_title_frame_script_1ad498d8ddf25ad0efe656a3dca5ff5b99" prot="public" virt="non-virtual"><scope>TitleFrameScript</scope><name>TitleFrameScript</name></member>
+      <member refid="class_script_component_1a2dfacd191e367be8e1e667ece474b860" prot="protected" virt="non-virtual"><scope>TitleFrameScript</scope><name>tweenSystem</name></member>
+      <member refid="class_component_1ab8378fa275af98e568a7e91d33d867af" prot="public" virt="virtual"><scope>TitleFrameScript</scope><name>~Component</name></member>
+      <member refid="class_script_component_1a6c266c364bf21d0dddb6d7639500a077" prot="public" virt="virtual"><scope>TitleFrameScript</scope><name>~ScriptComponent</name></member>
+      <member refid="class_title_frame_script_1a3c78886008bd18df991f79ba59815795" prot="public" virt="non-virtual"><scope>TitleFrameScript</scope><name>~TitleFrameScript</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

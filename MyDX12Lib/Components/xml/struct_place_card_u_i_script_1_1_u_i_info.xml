@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="struct_place_card_u_i_script_1_1_u_i_info" kind="struct" language="C++" prot="private">
+    <compoundname>PlaceCardUIScript::UIInfo</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_place_card_u_i_script_1_1_u_i_info_1aedd692e0114cee238ac5ddd67202796b" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float PlaceCardUIScript::UIInfo::time</definition>
+        <argsstring></argsstring>
+        <name>time</name>
+        <qualifiedname>PlaceCardUIScript::UIInfo::time</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/PlaceCardUIScript.h" line="42" column="7" bodyfile="Script/include/PlaceCardUIScript.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_place_card_u_i_script_1_1_u_i_info_1a9563575892bdcd228ebe9a7c7990468b" prot="public" static="no" mutable="no">
+        <type>XMFLOAT3</type>
+        <definition>XMFLOAT3 PlaceCardUIScript::UIInfo::padding1</definition>
+        <argsstring></argsstring>
+        <name>padding1</name>
+        <qualifiedname>PlaceCardUIScript::UIInfo::padding1</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/PlaceCardUIScript.h" line="44" column="10" bodyfile="Script/include/PlaceCardUIScript.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_place_card_u_i_script_1_1_u_i_info_1acbbc2edc9d465428e68b667d411afbf1" prot="public" static="no" mutable="no">
+        <type>DirectX::XMVECTOR</type>
+        <definition>DirectX::XMVECTOR PlaceCardUIScript::UIInfo::color</definition>
+        <argsstring></argsstring>
+        <name>color</name>
+        <qualifiedname>PlaceCardUIScript::UIInfo::color</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/PlaceCardUIScript.h" line="46" column="19" bodyfile="Script/include/PlaceCardUIScript.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="Script/include/PlaceCardUIScript.h" line="40" column="1" bodyfile="Script/include/PlaceCardUIScript.h" bodystart="41" bodyend="47"/>
+    <listofallmembers>
+      <member refid="struct_place_card_u_i_script_1_1_u_i_info_1acbbc2edc9d465428e68b667d411afbf1" prot="public" virt="non-virtual"><scope>PlaceCardUIScript::UIInfo</scope><name>color</name></member>
+      <member refid="struct_place_card_u_i_script_1_1_u_i_info_1a9563575892bdcd228ebe9a7c7990468b" prot="public" virt="non-virtual"><scope>PlaceCardUIScript::UIInfo</scope><name>padding1</name></member>
+      <member refid="struct_place_card_u_i_script_1_1_u_i_info_1aedd692e0114cee238ac5ddd67202796b" prot="public" virt="non-virtual"><scope>PlaceCardUIScript::UIInfo</scope><name>time</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

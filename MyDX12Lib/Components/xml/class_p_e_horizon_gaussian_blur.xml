@@ -1,0 +1,347 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="class_p_e_horizon_gaussian_blur" kind="class" language="C++" prot="public">
+    <compoundname>PEHorizonGaussianBlur</compoundname>
+    <basecompoundref refid="class_post_effect" prot="public" virt="non-virtual">PostEffect</basecompoundref>
+    <includes refid="_p_e_horizon_gaussian_blur_8h" local="no">PEHorizonGaussianBlur.h</includes>
+    <innerclass refid="struct_p_e_horizon_gaussian_blur_1_1_gaussian_blur_info" prot="private">PEHorizonGaussianBlur::GaussianBlurInfo</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_p_e_horizon_gaussian_blur_1a1a4e9871a9d49042498e70c34ba674e4" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int PEHorizonGaussianBlur::currentPass</definition>
+        <argsstring></argsstring>
+        <name>currentPass</name>
+        <qualifiedname>PEHorizonGaussianBlur::currentPass</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/PostEffect/PEHorizonGaussianBlur.h" line="33" column="9" bodyfile="include/PostEffect/PEHorizonGaussianBlur.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_p_e_horizon_gaussian_blur_1a69403db6e27a57d068bf8e0a3b95f1cc" prot="private" static="no" mutable="no">
+        <type>GaussianBlurInfo</type>
+        <definition>GaussianBlurInfo PEHorizonGaussianBlur::info</definition>
+        <argsstring></argsstring>
+        <name>info</name>
+        <qualifiedname>PEHorizonGaussianBlur::info</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/PostEffect/PEHorizonGaussianBlur.h" line="35" column="22" bodyfile="include/PostEffect/PEHorizonGaussianBlur.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_p_e_horizon_gaussian_blur_1a3c9a0f5acd4a24e26316a3c51dcd9295" prot="private" static="no" mutable="no">
+        <type>ComPtr&lt; ID3DBlob &gt;</type>
+        <definition>ComPtr&lt;ID3DBlob&gt; PEHorizonGaussianBlur::psBlob</definition>
+        <argsstring></argsstring>
+        <name>psBlob</name>
+        <qualifiedname>PEHorizonGaussianBlur::psBlob</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/PostEffect/PEHorizonGaussianBlur.h" line="37" column="12" bodyfile="include/PostEffect/PEHorizonGaussianBlur.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_p_e_horizon_gaussian_blur_1a3b5995b6b5947dc6bb3e2f8157344702" prot="private" static="no" mutable="no">
+        <type>ComPtr&lt; ID3DBlob &gt;</type>
+        <definition>ComPtr&lt;ID3DBlob&gt; PEHorizonGaussianBlur::vsBlob</definition>
+        <argsstring></argsstring>
+        <name>vsBlob</name>
+        <qualifiedname>PEHorizonGaussianBlur::vsBlob</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/PostEffect/PEHorizonGaussianBlur.h" line="38" column="12" bodyfile="include/PostEffect/PEHorizonGaussianBlur.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_p_e_horizon_gaussian_blur_1a7f358eb3df26d1e58775306b9d9ab3fb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>PEHorizonGaussianBlur::PEHorizonGaussianBlur</definition>
+        <argsstring>(shared_ptr&lt; Entity &gt; ent)</argsstring>
+        <name>PEHorizonGaussianBlur</name>
+        <qualifiedname>PEHorizonGaussianBlur::PEHorizonGaussianBlur</qualifiedname>
+        <param>
+          <type>shared_ptr&lt; Entity &gt;</type>
+          <declname>ent</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/PostEffect/PEHorizonGaussianBlur.h" line="9" column="5" bodyfile="src/PostEffect/PEHorizonGaussianBlur.cpp" bodystart="4" bodyend="6"/>
+      </memberdef>
+      <memberdef kind="function" id="class_p_e_horizon_gaussian_blur_1addfa521beb1816186b4fce32c33a1610" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>PEHorizonGaussianBlur::~PEHorizonGaussianBlur</definition>
+        <argsstring>()</argsstring>
+        <name>~PEHorizonGaussianBlur</name>
+        <qualifiedname>PEHorizonGaussianBlur::~PEHorizonGaussianBlur</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/PostEffect/PEHorizonGaussianBlur.h" line="11" column="5" bodyfile="src/PostEffect/PEHorizonGaussianBlur.cpp" bodystart="9" bodyend="11"/>
+      </memberdef>
+      <memberdef kind="function" id="class_p_e_horizon_gaussian_blur_1aabc1bde882d439aa3580bd0297cb104b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int PEHorizonGaussianBlur::GetKernelRadius</definition>
+        <argsstring>()</argsstring>
+        <name>GetKernelRadius</name>
+        <qualifiedname>PEHorizonGaussianBlur::GetKernelRadius</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/PostEffect/PEHorizonGaussianBlur.h" line="13" column="9" bodyfile="src/PostEffect/PEHorizonGaussianBlur.cpp" bodystart="40" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="class_p_e_horizon_gaussian_blur_1add92ef3d3d5a785122dc19c44345171b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void PEHorizonGaussianBlur::SetKernelRadius</definition>
+        <argsstring>(int count)</argsstring>
+        <name>SetKernelRadius</name>
+        <qualifiedname>PEHorizonGaussianBlur::SetKernelRadius</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/PostEffect/PEHorizonGaussianBlur.h" line="15" column="10" bodyfile="src/PostEffect/PEHorizonGaussianBlur.cpp" bodystart="45" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="class_p_e_horizon_gaussian_blur_1adead30253d78e9596aa60310238b95cc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float PEHorizonGaussianBlur::GetSigma</definition>
+        <argsstring>()</argsstring>
+        <name>GetSigma</name>
+        <qualifiedname>PEHorizonGaussianBlur::GetSigma</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/PostEffect/PEHorizonGaussianBlur.h" line="17" column="11" bodyfile="src/PostEffect/PEHorizonGaussianBlur.cpp" bodystart="52" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="class_p_e_horizon_gaussian_blur_1affea743f023531440e8508800fad5a3e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void PEHorizonGaussianBlur::SetSigma</definition>
+        <argsstring>(float sig)</argsstring>
+        <name>SetSigma</name>
+        <qualifiedname>PEHorizonGaussianBlur::SetSigma</qualifiedname>
+        <param>
+          <type>float</type>
+          <declname>sig</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/PostEffect/PEHorizonGaussianBlur.h" line="19" column="10" bodyfile="src/PostEffect/PEHorizonGaussianBlur.cpp" bodystart="57" bodyend="62"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="class_p_e_horizon_gaussian_blur_1ab2b058df069f4b98c30598428184f77d" prot="private" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void PEHorizonGaussianBlur::InitPostEffect</definition>
+        <argsstring>() override</argsstring>
+        <name>InitPostEffect</name>
+        <qualifiedname>PEHorizonGaussianBlur::InitPostEffect</qualifiedname>
+        <reimplements refid="class_post_effect_1a7161e20bc0eec545016a1472c5269a79">InitPostEffect</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/PostEffect/PEHorizonGaussianBlur.h" line="21" column="10" bodyfile="src/PostEffect/PEHorizonGaussianBlur.cpp" bodystart="13" bodyend="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_p_e_horizon_gaussian_blur_1ab80f27ff16d4010aea49fd7265e461aa" prot="private" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool PEHorizonGaussianBlur::MapPECB</definition>
+        <argsstring>() override</argsstring>
+        <name>MapPECB</name>
+        <qualifiedname>PEHorizonGaussianBlur::MapPECB</qualifiedname>
+        <reimplements refid="class_post_effect_1a1387e467cf22d74654d3aaac23ae97d0">MapPECB</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/PostEffect/PEHorizonGaussianBlur.h" line="23" column="10" bodyfile="src/PostEffect/PEHorizonGaussianBlur.cpp" bodystart="20" bodyend="38"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="4">
+        <label>Component</label>
+        <link refid="class_component"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>PEHorizonGaussianBlur</label>
+        <link refid="class_p_e_horizon_gaussian_blur"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>PostEffect</label>
+        <link refid="class_post_effect"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>Renderer</label>
+        <link refid="class_renderer"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>std::enable_shared_from_this&lt; Component &gt;</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="4">
+        <label>Component</label>
+        <link refid="class_component"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>PEHorizonGaussianBlur</label>
+        <link refid="class_p_e_horizon_gaussian_blur"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>PostEffect</label>
+        <link refid="class_post_effect"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>Renderer</label>
+        <link refid="class_renderer"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>std::enable_shared_from_this&lt; Component &gt;</label>
+      </node>
+    </collaborationgraph>
+    <location file="include/PostEffect/PEHorizonGaussianBlur.h" line="6" column="1" bodyfile="include/PostEffect/PEHorizonGaussianBlur.h" bodystart="7" bodyend="39"/>
+    <listofallmembers>
+      <member refid="class_post_effect_1a8f9ee29fcee5f8deb706cee533834806" prot="public" virt="virtual"><scope>PEHorizonGaussianBlur</scope><name>AddCommand</name></member>
+      <member refid="class_renderer_1adc4a2598dcf439e9651d53fb8a9c8eaa" prot="protected" virt="virtual" ambiguityscope="Renderer::"><scope>PEHorizonGaussianBlur</scope><name>AddCommand</name></member>
+      <member refid="class_renderer_1a371e146fbbbd2274dafa4fd5526e3fdd" prot="public" virt="non-virtual"><scope>PEHorizonGaussianBlur</scope><name>AddCommandListFunction</name></member>
+      <member refid="class_renderer_1af930cefb3ea41ef2808605698cad4bbd" prot="protected" virt="non-virtual"><scope>PEHorizonGaussianBlur</scope><name>AddInputElementDesc</name></member>
+      <member refid="class_renderer_1a8b9fdeeecb7b6c37cfba79bc85841db5" prot="public" virt="virtual"><scope>PEHorizonGaussianBlur</scope><name>AddRenderCommand</name></member>
+      <member refid="class_renderer_1aa726cdc916f149d8bb40a6fde9d25a63" prot="protected" virt="non-virtual"><scope>PEHorizonGaussianBlur</scope><name>AddRenderPipeline</name></member>
+      <member refid="class_renderer_1a063ae27fa4015a4ad4fd355d1d7a9a2d" prot="public" virt="non-virtual"><scope>PEHorizonGaussianBlur</scope><name>ApplyTextureOnMesh</name></member>
+      <member refid="class_renderer_1a177d22a97104d76e1cb249008c8c3148" prot="public" virt="non-virtual"><scope>PEHorizonGaussianBlur</scope><name>ApplyTextureOnMesh</name></member>
+      <member refid="class_component_1a61954f08c177e4c1ebb17cf8fd3aa56f" prot="public" virt="non-virtual"><scope>PEHorizonGaussianBlur</scope><name>attachFrom</name></member>
+      <member refid="class_component_1a120d65094802a621c8d804a964cafa9c" prot="public" virt="non-virtual"><scope>PEHorizonGaussianBlur</scope><name>Cast</name></member>
+      <member refid="class_renderer_1a7832117cb87326278a00ba0648feb440" prot="protected" virt="non-virtual"><scope>PEHorizonGaussianBlur</scope><name>cbHandle</name></member>
+      <member refid="class_renderer_1a9b39eecb49896cdc063229aa3a8086f6" prot="protected" virt="non-virtual"><scope>PEHorizonGaussianBlur</scope><name>cbView</name></member>
+      <member refid="class_renderer_1ab1ba84cc82cec719d474ed837fddaa12" prot="protected" virt="non-virtual"><scope>PEHorizonGaussianBlur</scope><name>ChangeRenderPipeline</name></member>
+      <member refid="class_renderer_1ae80ad596f0b476671b1794a6fe8ab2b9" prot="public" virt="non-virtual"><scope>PEHorizonGaussianBlur</scope><name>color</name></member>
+      <member refid="class_component_1a5cba85e33b188bf87ee09f353d7b2fa5" prot="public" virt="non-virtual"><scope>PEHorizonGaussianBlur</scope><name>Component</name></member>
+      <member refid="class_renderer_1ab64318c35f8f266b8c36efbc41c2f943" prot="protected" virt="non-virtual"><scope>PEHorizonGaussianBlur</scope><name>constantBuffer</name></member>
+      <member refid="class_renderer_1ab34659d99f36b87337a22436c694b77aa922dcc1fbe0210fff37a5c12e51c73bb" prot="public" virt="non-virtual"><scope>PEHorizonGaussianBlur</scope><name>CountLast</name></member>
+      <member refid="class_post_effect_1a44efaec82e65d93c0c01e49c3ba43516" prot="protected" virt="non-virtual"><scope>PEHorizonGaussianBlur</scope><name>CreateConstantBuffer</name></member>
+      <member refid="class_renderer_1a18c48b8f8772486e7c9a54087b2f5612" prot="public" virt="non-virtual"><scope>PEHorizonGaussianBlur</scope><name>CreateMesh</name></member>
+      <member refid="class_renderer_1ae6f45f31877b5738313a1dc9cc02155d" prot="public" virt="non-virtual"><scope>PEHorizonGaussianBlur</scope><name>CreateRenderPipeline</name></member>
+      <member refid="class_renderer_1aa94ee482132c778a9eebca26e55a8759" prot="protected" virt="non-virtual"><scope>PEHorizonGaussianBlur</scope><name>currentCBCount</name></member>
+      <member refid="class_renderer_1a332ce1ec861cc52aebf95fe1ece25e35" prot="protected" virt="non-virtual"><scope>PEHorizonGaussianBlur</scope><name>currentMeshType</name></member>
+      <member refid="class_p_e_horizon_gaussian_blur_1a1a4e9871a9d49042498e70c34ba674e4" prot="private" virt="non-virtual"><scope>PEHorizonGaussianBlur</scope><name>currentPass</name></member>
+      <member refid="class_renderer_1ab34659d99f36b87337a22436c694b77aafdf5aea8fe68699a92fc597e0f3aa410" prot="public" virt="non-virtual"><scope>PEHorizonGaussianBlur</scope><name>DIFFUSE</name></member>
+      <member refid="class_post_effect_1aeb86a7a3f7c867bca77d9d575cd84b74" prot="public" virt="non-virtual"><scope>PEHorizonGaussianBlur</scope><name>flag</name></member>
+      <member refid="class_component_1a22ed217d642f4566a47c874ac9a63eab" prot="public" virt="virtual"><scope>PEHorizonGaussianBlur</scope><name>GetComponentName</name></member>
+      <member refid="class_renderer_1ad2ca3f47525a336279d7a3e9cd225155" prot="public" virt="non-virtual"><scope>PEHorizonGaussianBlur</scope><name>GetCurrentMeshType</name></member>
+      <member refid="class_renderer_1a2a9bb6274d6c2bd7b1373a5218c04d1e" prot="protected" virt="non-virtual"><scope>PEHorizonGaussianBlur</scope><name>GetDefaultPipelineDesc</name></member>
+      <member refid="class_component_1a2a9968090dabad782f2bbdaf0093be84" prot="public" virt="non-virtual"><scope>PEHorizonGaussianBlur</scope><name>GetHash</name></member>
+      <member refid="class_p_e_horizon_gaussian_blur_1aabc1bde882d439aa3580bd0297cb104b" prot="public" virt="non-virtual"><scope>PEHorizonGaussianBlur</scope><name>GetKernelRadius</name></member>
+      <member refid="class_component_1ac0ee67584bdd569c2809495a5843612b" prot="public" virt="non-virtual"><scope>PEHorizonGaussianBlur</scope><name>GetLeafIndex</name></member>
+      <member refid="class_renderer_1a1e75024955af72f3c9dbadc96c10281f" prot="public" virt="non-virtual"><scope>PEHorizonGaussianBlur</scope><name>GetMaterial</name></member>
+      <member refid="class_renderer_1a0f84f3368c4efbf49fdce3b3373baac2" prot="public" virt="non-virtual"><scope>PEHorizonGaussianBlur</scope><name>GetMeshNameList</name></member>
+      <member refid="class_renderer_1ad77abbe0720398802884bfa581e89191" prot="protected" virt="non-virtual"><scope>PEHorizonGaussianBlur</scope><name>GetPrimitiveType</name></member>
+      <member refid="class_p_e_horizon_gaussian_blur_1adead30253d78e9596aa60310238b95cc" prot="public" virt="non-virtual"><scope>PEHorizonGaussianBlur</scope><name>GetSigma</name></member>
+      <member refid="class_renderer_1a34068a389335bc378379c7d3209732e6" prot="public" virt="non-virtual"><scope>PEHorizonGaussianBlur</scope><name>GetTextureCPUHandle</name></member>
+      <member refid="class_renderer_1aae81abf8b1e97079d33df77b4757df44" prot="public" virt="non-virtual"><scope>PEHorizonGaussianBlur</scope><name>GetTextureGPUHandle</name></member>
+      <member refid="class_component_1a1b25ee28c379d9f0d0c1ecc0df1e6328" prot="public" virt="non-virtual"><scope>PEHorizonGaussianBlur</scope><name>GetTreeIndex</name></member>
+      <member refid="class_renderer_1ac0ef6dd4baa52d630c273b23c812d51f" prot="protected" virt="non-virtual"><scope>PEHorizonGaussianBlur</scope><name>hr</name></member>
+      <member refid="class_p_e_horizon_gaussian_blur_1a69403db6e27a57d068bf8e0a3b95f1cc" prot="private" virt="non-virtual"><scope>PEHorizonGaussianBlur</scope><name>info</name></member>
+      <member refid="class_renderer_1ad92446fb0350d8537dcd2f01150b0efb" prot="public" virt="virtual"><scope>PEHorizonGaussianBlur</scope><name>Init</name></member>
+      <member refid="class_post_effect_1aa8b40c51405b6bd438d84a4404ec67e5" prot="protected" virt="non-virtual"><scope>PEHorizonGaussianBlur</scope><name>InitCB</name></member>
+      <member refid="class_renderer_1a91339beb7c8d7127d80406fc95191467" prot="protected" virt="virtual"><scope>PEHorizonGaussianBlur</scope><name>InitInCreateMesh</name></member>
+      <member refid="class_p_e_horizon_gaussian_blur_1ab2b058df069f4b98c30598428184f77d" prot="private" virt="virtual"><scope>PEHorizonGaussianBlur</scope><name>InitPostEffect</name></member>
+      <member refid="class_post_effect_1a2b78c69a6f45a5108cc68e4f8c278d15" prot="public" virt="virtual"><scope>PEHorizonGaussianBlur</scope><name>InitRenderer</name></member>
+      <member refid="class_renderer_1a9417332e939d71be632e6d81854e8df1" prot="protected" virt="non-virtual"><scope>PEHorizonGaussianBlur</scope><name>instanceCount</name></member>
+      <member refid="class_renderer_1adcb0d20572ce6fe825df04fa0788b2ab" prot="protected" virt="non-virtual"><scope>PEHorizonGaussianBlur</scope><name>isPipelineAlreadyCreated</name></member>
+      <member refid="class_post_effect_1a5a31542350ade125c46b1542aebe99b3" prot="protected" virt="non-virtual"><scope>PEHorizonGaussianBlur</scope><name>LinkPostEffectCBVToDescHeap</name></member>
+      <member refid="class_renderer_1a408d5fe9090735fa328d8d494cddfa2f" prot="public" virt="non-virtual"><scope>PEHorizonGaussianBlur</scope><name>LoadPixelShader</name></member>
+      <member refid="class_renderer_1a11816db1537fb8b768148001f5ad9f6a" prot="public" virt="non-virtual"><scope>PEHorizonGaussianBlur</scope><name>LoadVertexShader</name></member>
+      <member refid="class_p_e_horizon_gaussian_blur_1ab80f27ff16d4010aea49fd7265e461aa" prot="private" virt="virtual"><scope>PEHorizonGaussianBlur</scope><name>MapPECB</name></member>
+      <member refid="class_renderer_1ab4e7d5df234bc02ae6587744e97fb4c9" prot="protected" virt="non-virtual"><scope>PEHorizonGaussianBlur</scope><name>materialHandle</name></member>
+      <member refid="class_renderer_1a400d0869b9758ed5ec0ab248e2736024" prot="protected" virt="non-virtual"><scope>PEHorizonGaussianBlur</scope><name>materialResource</name></member>
+      <member refid="class_renderer_1aebb08c6ad0f141810462711e9afb3d69" prot="protected" virt="non-virtual"><scope>PEHorizonGaussianBlur</scope><name>mats</name></member>
+      <member refid="class_renderer_1a08dd8b2ddddde6917db844ccc964a7fc" prot="protected" virt="non-virtual"><scope>PEHorizonGaussianBlur</scope><name>meshData</name></member>
+      <member refid="class_renderer_1ab34659d99f36b87337a22436c694b77aae429abe859bc1468cb76df92556daffc" prot="public" virt="non-virtual"><scope>PEHorizonGaussianBlur</scope><name>NORMAL</name></member>
+      <member refid="class_post_effect_1a3d8f2f5d8ea9413c4383e4ab4c04be9d" prot="public" virt="non-virtual"><scope>PEHorizonGaussianBlur</scope><name>onUI</name></member>
+      <member refid="class_post_effect_1aed075a0e0de577366c04ab0eb31c392a" prot="protected" virt="non-virtual"><scope>PEHorizonGaussianBlur</scope><name>paramNum</name></member>
+      <member refid="class_p_e_horizon_gaussian_blur_1a7f358eb3df26d1e58775306b9d9ab3fb" prot="public" virt="non-virtual"><scope>PEHorizonGaussianBlur</scope><name>PEHorizonGaussianBlur</name></member>
+      <member refid="class_post_effect_1aefea5a98a7ed716761aad211bf0cae28" prot="protected" virt="non-virtual"><scope>PEHorizonGaussianBlur</scope><name>PostEffect</name></member>
+      <member refid="class_post_effect_1abff33e8e48e1f698977217e18cd32234" prot="protected" virt="non-virtual"><scope>PEHorizonGaussianBlur</scope><name>postEffectCB</name></member>
+      <member refid="class_post_effect_1abdeac5a41e4a89901d726c0abd833545" prot="protected" virt="non-virtual"><scope>PEHorizonGaussianBlur</scope><name>postEffectCBHandle</name></member>
+      <member refid="class_post_effect_1ad205808848388bce94b0ac0f1cf14033" prot="protected" virt="non-virtual"><scope>PEHorizonGaussianBlur</scope><name>postEffectCBView</name></member>
+      <member refid="class_renderer_1aced37542105905c8620cc0e81bef741d" prot="protected" virt="non-virtual"><scope>PEHorizonGaussianBlur</scope><name>PrepareForRenderPipeline</name></member>
+      <member refid="class_p_e_horizon_gaussian_blur_1a3c9a0f5acd4a24e26316a3c51dcd9295" prot="private" virt="non-virtual"><scope>PEHorizonGaussianBlur</scope><name>psBlob</name></member>
+      <member refid="class_renderer_1a3e79920a8fb355dbb2eb24bdc0623bb7" prot="protected" virt="non-virtual"><scope>PEHorizonGaussianBlur</scope><name>Renderer</name></member>
+      <member refid="class_renderer_1a813d0f334d299d3ceb2d5dc92563d80a" prot="protected" virt="non-virtual"><scope>PEHorizonGaussianBlur</scope><name>SetDepthStencilDesc</name></member>
+      <member refid="class_component_1a053713eb8c3c356263a588fc398da49f" prot="public" virt="non-virtual"><scope>PEHorizonGaussianBlur</scope><name>SetHash</name></member>
+      <member refid="class_component_1a93263d6a4c7a133ad05f8b754463d81a" prot="public" virt="non-virtual"><scope>PEHorizonGaussianBlur</scope><name>SetIndex</name></member>
+      <member refid="class_p_e_horizon_gaussian_blur_1add92ef3d3d5a785122dc19c44345171b" prot="public" virt="non-virtual"><scope>PEHorizonGaussianBlur</scope><name>SetKernelRadius</name></member>
+      <member refid="class_renderer_1a28d3dc05ad44bca091f1a27bafccc189" prot="public" virt="non-virtual"><scope>PEHorizonGaussianBlur</scope><name>SetMaterial</name></member>
+      <member refid="class_renderer_1aa7101ddc3d282a9f36821b36b46e303a" prot="protected" virt="non-virtual"><scope>PEHorizonGaussianBlur</scope><name>SetPrimitiveType</name></member>
+      <member refid="class_renderer_1aa0c95bbe27b96ae5e957205a4aaba80b" prot="protected" virt="non-virtual"><scope>PEHorizonGaussianBlur</scope><name>SetRasterizerDesc</name></member>
+      <member refid="class_renderer_1ae0b48c95af9c03c0eed1edd30c8d9b32" prot="protected" virt="non-virtual"><scope>PEHorizonGaussianBlur</scope><name>SetRTBDesc</name></member>
+      <member refid="class_p_e_horizon_gaussian_blur_1affea743f023531440e8508800fad5a3e" prot="public" virt="non-virtual"><scope>PEHorizonGaussianBlur</scope><name>SetSigma</name></member>
+      <member refid="class_renderer_1a8a71c03908e1318fd4a76155e9489005" prot="protected" virt="non-virtual"><scope>PEHorizonGaussianBlur</scope><name>texHandles</name></member>
+      <member refid="class_renderer_1ab34659d99f36b87337a22436c694b77a" prot="public" virt="non-virtual"><scope>PEHorizonGaussianBlur</scope><name>TEXTURE_TYPE</name></member>
+      <member refid="class_renderer_1a52f2d07a0df1cb61fd5e27593cf745ec" prot="protected" virt="non-virtual"><scope>PEHorizonGaussianBlur</scope><name>trans</name></member>
+      <member refid="class_post_effect_1a2f3963988774713d839b35bebafb2de0" prot="protected" virt="virtual"><scope>PEHorizonGaussianBlur</scope><name>Update</name></member>
+      <member refid="class_p_e_horizon_gaussian_blur_1a3b5995b6b5947dc6bb3e2f8157344702" prot="private" virt="non-virtual"><scope>PEHorizonGaussianBlur</scope><name>vsBlob</name></member>
+      <member refid="class_component_1ab8378fa275af98e568a7e91d33d867af" prot="public" virt="virtual"><scope>PEHorizonGaussianBlur</scope><name>~Component</name></member>
+      <member refid="class_p_e_horizon_gaussian_blur_1addfa521beb1816186b4fce32c33a1610" prot="public" virt="non-virtual"><scope>PEHorizonGaussianBlur</scope><name>~PEHorizonGaussianBlur</name></member>
+      <member refid="class_post_effect_1a32f18bcd9c45994f86ce402a82285172" prot="public" virt="non-virtual"><scope>PEHorizonGaussianBlur</scope><name>~PostEffect</name></member>
+      <member refid="class_renderer_1afeee408862d5bd6255a6882d47e6d5cd" prot="public" virt="non-virtual"><scope>PEHorizonGaussianBlur</scope><name>~Renderer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

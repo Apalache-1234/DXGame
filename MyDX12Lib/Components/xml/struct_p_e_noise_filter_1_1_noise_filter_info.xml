@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="struct_p_e_noise_filter_1_1_noise_filter_info" kind="struct" language="C++" prot="private">
+    <compoundname>PENoiseFilter::NoiseFilterInfo</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_p_e_noise_filter_1_1_noise_filter_info_1a7f49282c275dcb5d96acae79158e660d" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float PENoiseFilter::NoiseFilterInfo::intensify</definition>
+        <argsstring></argsstring>
+        <name>intensify</name>
+        <qualifiedname>PENoiseFilter::NoiseFilterInfo::intensify</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/PostEffect/PENoiseFilter.h" line="27" column="15" bodyfile="include/PostEffect/PENoiseFilter.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_p_e_noise_filter_1_1_noise_filter_info_1a9c99282fa88e32de0a171c090bddc6a1" prot="public" static="no" mutable="no">
+        <type>DirectX::XMFLOAT3</type>
+        <definition>DirectX::XMFLOAT3 PENoiseFilter::NoiseFilterInfo::padding1</definition>
+        <argsstring></argsstring>
+        <name>padding1</name>
+        <qualifiedname>PENoiseFilter::NoiseFilterInfo::padding1</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/PostEffect/PENoiseFilter.h" line="28" column="27" bodyfile="include/PostEffect/PENoiseFilter.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_p_e_noise_filter_1_1_noise_filter_info_1a0e83673163ae837ee3376c244d317abf" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float PENoiseFilter::NoiseFilterInfo::blockSize</definition>
+        <argsstring></argsstring>
+        <name>blockSize</name>
+        <qualifiedname>PENoiseFilter::NoiseFilterInfo::blockSize</qualifiedname>
+        <initializer>= 0.001f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/PostEffect/PENoiseFilter.h" line="29" column="15" bodyfile="include/PostEffect/PENoiseFilter.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_p_e_noise_filter_1_1_noise_filter_info_1ad93482b7c71c3c59b0c86b965c7de8a7" prot="public" static="no" mutable="no">
+        <type>DirectX::XMFLOAT3</type>
+        <definition>DirectX::XMFLOAT3 PENoiseFilter::NoiseFilterInfo::padding2</definition>
+        <argsstring></argsstring>
+        <name>padding2</name>
+        <qualifiedname>PENoiseFilter::NoiseFilterInfo::padding2</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/PostEffect/PENoiseFilter.h" line="30" column="27" bodyfile="include/PostEffect/PENoiseFilter.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/PostEffect/PENoiseFilter.h" line="25" column="5" bodyfile="include/PostEffect/PENoiseFilter.h" bodystart="26" bodyend="31"/>
+    <listofallmembers>
+      <member refid="struct_p_e_noise_filter_1_1_noise_filter_info_1a0e83673163ae837ee3376c244d317abf" prot="public" virt="non-virtual"><scope>PENoiseFilter::NoiseFilterInfo</scope><name>blockSize</name></member>
+      <member refid="struct_p_e_noise_filter_1_1_noise_filter_info_1a7f49282c275dcb5d96acae79158e660d" prot="public" virt="non-virtual"><scope>PENoiseFilter::NoiseFilterInfo</scope><name>intensify</name></member>
+      <member refid="struct_p_e_noise_filter_1_1_noise_filter_info_1a9c99282fa88e32de0a171c090bddc6a1" prot="public" virt="non-virtual"><scope>PENoiseFilter::NoiseFilterInfo</scope><name>padding1</name></member>
+      <member refid="struct_p_e_noise_filter_1_1_noise_filter_info_1ad93482b7c71c3c59b0c86b965c7de8a7" prot="public" virt="non-virtual"><scope>PENoiseFilter::NoiseFilterInfo</scope><name>padding2</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

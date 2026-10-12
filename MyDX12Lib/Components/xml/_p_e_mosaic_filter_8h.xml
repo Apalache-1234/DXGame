@@ -1,0 +1,158 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="_p_e_mosaic_filter_8h" kind="file" language="C++">
+    <compoundname>PEMosaicFilter.h</compoundname>
+    <includes refid="_post_effect_8h" local="yes">PostEffect.h</includes>
+    <includedby refid="_game_start_u_i_script_8cpp" local="yes">Script/src/GameStartUIScript.cpp</includedby>
+    <includedby refid="_p_e_mosaic_filter_8cpp" local="yes">src/PostEffect/PEMosaicFilter.cpp</includedby>
+    <incdepgraph>
+      <node id="12">
+        <label>D3Dcompiler.h</label>
+      </node>
+      <node id="16">
+        <label>DXRenderSystem.h</label>
+      </node>
+      <node id="13">
+        <label>DirectXMath.h</label>
+      </node>
+      <node id="5">
+        <label>ComponentList.h</label>
+        <link refid="_component_list_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>Component.h</label>
+        <link refid="_component_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>PostEffect.h</label>
+        <link refid="_post_effect_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>Renderer.h</label>
+        <link refid="_renderer_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/PostEffect/PEMosaicFilter.h</label>
+        <link refid="_p_e_mosaic_filter_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>MeshLoader.h</label>
+      </node>
+      <node id="17">
+        <label>Utility.h</label>
+      </node>
+      <node id="14">
+        <label>Window.h</label>
+      </node>
+      <node id="8">
+        <label>Windows.h</label>
+      </node>
+      <node id="9">
+        <label>d3d12.h</label>
+      </node>
+      <node id="10">
+        <label>d3dx12.h</label>
+      </node>
+      <node id="11">
+        <label>dxgi1_4.h</label>
+      </node>
+      <node id="6">
+        <label>iostream</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>Script/src/GameStartUIScript.cpp</label>
+        <link refid="_game_start_u_i_script_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/PostEffect/PEMosaicFilter.h</label>
+        <link refid="_p_e_mosaic_filter_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/PostEffect/PEMosaicFilter.cpp</label>
+        <link refid="_p_e_mosaic_filter_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="class_p_e_mosaic_filter" prot="public">PEMosaicFilter</innerclass>
+    <innerclass refid="struct_p_e_mosaic_filter_1_1_mosaic_filter_info" prot="private">PEMosaicFilter::MosaicFilterInfo</innerclass>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#ifndef<sp/>PS_MOSAIC_FILTER</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>PS_MOSAIC_FILTER</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_post_effect_8h" kindref="compound">PostEffect.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6" refid="class_p_e_mosaic_filter" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_p_e_mosaic_filter_1ac5c7e24e298fe1c0c3779187a3a3ee47" kindref="member">PEMosaicFilter</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="class_post_effect_1aefea5a98a7ed716761aad211bf0cae28" kindref="member">PostEffect</ref></highlight></codeline>
+<codeline lineno="7"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_p_e_mosaic_filter_1ac5c7e24e298fe1c0c3779187a3a3ee47" kindref="member">PEMosaicFilter</ref>(shared_ptr&lt;Entity&gt;<sp/>ent);</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_p_e_mosaic_filter_1ac5c7e24e298fe1c0c3779187a3a3ee47" kindref="member">~PEMosaicFilter</ref>();</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="class_p_e_mosaic_filter_1ab7dbc226cf728327e73d0e7b90f08414" kindref="member">GetIntensify</ref>();</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_p_e_mosaic_filter_1a99ef3922283cc8a4e1e5f88f245b1b59" kindref="member">SetIntensify</ref>(</highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>val);</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>InitPostEffect()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>MapPECB()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="keyword">alignas</highlight><highlight class="normal">(256)<sp/>MosaicFilterInfo</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>intensify<sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>DirectX::XMFLOAT3<sp/>padding1;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>MosaicFilterInfo<sp/>info;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+    </programlisting>
+    <location file="include/PostEffect/PEMosaicFilter.h"/>
+  </compounddef>
+</doxygen>

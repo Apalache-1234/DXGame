@@ -1,0 +1,203 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="class_point_light" kind="class" language="C++" prot="public">
+    <compoundname>PointLight</compoundname>
+    <basecompoundref refid="class_light" prot="public" virt="non-virtual">Light</basecompoundref>
+    <includes refid="_point_light_8h" local="no">PointLight.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_point_light_1a8c43e041287304189f63a7bf423249ab" prot="public" static="no" mutable="no">
+        <type>DirectX::XMVECTOR</type>
+        <definition>DirectX::XMVECTOR PointLight::position</definition>
+        <argsstring></argsstring>
+        <name>position</name>
+        <qualifiedname>PointLight::position</qualifiedname>
+        <initializer>= DirectX::XMVectorZero()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/PointLight.h" line="30" column="19" bodyfile="include/PointLight.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_point_light_1a49f48fc72be12660d6248c060abc0da6" prot="private" static="no" mutable="no">
+        <type>float</type>
+        <definition>float PointLight::radius</definition>
+        <argsstring></argsstring>
+        <name>radius</name>
+        <qualifiedname>PointLight::radius</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/PointLight.h" line="32" column="7" bodyfile="include/PointLight.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_point_light_1a2c8905cda36ea5de867603769df956f5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>PointLight::PointLight</definition>
+        <argsstring>(std::shared_ptr&lt; Entity &gt; ent)</argsstring>
+        <name>PointLight</name>
+        <qualifiedname>PointLight::PointLight</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; Entity &gt;</type>
+          <declname>ent</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/PointLight.h" line="20" column="1" bodyfile="src/PointLight.cpp" bodystart="4" bodyend="6"/>
+      </memberdef>
+      <memberdef kind="function" id="class_point_light_1aa12d9005d5372dbbe655a82231634341" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>PointLight::~PointLight</definition>
+        <argsstring>()</argsstring>
+        <name>~PointLight</name>
+        <qualifiedname>PointLight::~PointLight</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/PointLight.h" line="22" column="1" bodyfile="src/PointLight.cpp" bodystart="8" bodyend="10"/>
+      </memberdef>
+      <memberdef kind="function" id="class_point_light_1a20e58296d9b45a3650c4fea54939b747" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float PointLight::GetRadius</definition>
+        <argsstring>()</argsstring>
+        <name>GetRadius</name>
+        <qualifiedname>PointLight::GetRadius</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/PointLight.h" line="24" column="7" bodyfile="src/PointLight.cpp" bodystart="12" bodyend="15"/>
+      </memberdef>
+      <memberdef kind="function" id="class_point_light_1af3a41c02defc29c106318609f451fa50" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>DirectX::XMVECTOR</type>
+        <definition>DirectX::XMVECTOR PointLight::GetPosition</definition>
+        <argsstring>()</argsstring>
+        <name>GetPosition</name>
+        <qualifiedname>PointLight::GetPosition</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/PointLight.h" line="26" column="19" bodyfile="src/PointLight.cpp" bodystart="17" bodyend="20"/>
+      </memberdef>
+      <memberdef kind="function" id="class_point_light_1af7335a89c0a43315deb647cb021c0cff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void PointLight::SetRadius</definition>
+        <argsstring>(float rad)</argsstring>
+        <name>SetRadius</name>
+        <qualifiedname>PointLight::SetRadius</qualifiedname>
+        <param>
+          <type>float</type>
+          <declname>rad</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/PointLight.h" line="28" column="6" bodyfile="src/PointLight.cpp" bodystart="22" bodyend="25"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>Component</label>
+        <link refid="class_component"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>Light</label>
+        <link refid="class_light"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>PointLight</label>
+        <link refid="class_point_light"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>std::enable_shared_from_this&lt; Component &gt;</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>Component</label>
+        <link refid="class_component"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>Light</label>
+        <link refid="class_light"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>PointLight</label>
+        <link refid="class_point_light"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>std::enable_shared_from_this&lt; Component &gt;</label>
+      </node>
+    </collaborationgraph>
+    <location file="include/PointLight.h" line="17" column="1" bodyfile="include/PointLight.h" bodystart="18" bodyend="33"/>
+    <listofallmembers>
+      <member refid="class_component_1a61954f08c177e4c1ebb17cf8fd3aa56f" prot="public" virt="non-virtual"><scope>PointLight</scope><name>attachFrom</name></member>
+      <member refid="class_component_1a120d65094802a621c8d804a964cafa9c" prot="public" virt="non-virtual"><scope>PointLight</scope><name>Cast</name></member>
+      <member refid="class_component_1a5cba85e33b188bf87ee09f353d7b2fa5" prot="public" virt="non-virtual"><scope>PointLight</scope><name>Component</name></member>
+      <member refid="class_light_1aeae27f8b40c5e2632705d4d2f1e80896" prot="public" virt="non-virtual"><scope>PointLight</scope><name>GetColor</name></member>
+      <member refid="class_component_1a22ed217d642f4566a47c874ac9a63eab" prot="public" virt="virtual"><scope>PointLight</scope><name>GetComponentName</name></member>
+      <member refid="class_component_1a2a9968090dabad782f2bbdaf0093be84" prot="public" virt="non-virtual"><scope>PointLight</scope><name>GetHash</name></member>
+      <member refid="class_light_1a44883e730b17f97411021d47b958dc7e" prot="public" virt="non-virtual"><scope>PointLight</scope><name>GetIsCastShadow</name></member>
+      <member refid="class_component_1ac0ee67584bdd569c2809495a5843612b" prot="public" virt="non-virtual"><scope>PointLight</scope><name>GetLeafIndex</name></member>
+      <member refid="class_point_light_1af3a41c02defc29c106318609f451fa50" prot="public" virt="non-virtual"><scope>PointLight</scope><name>GetPosition</name></member>
+      <member refid="class_light_1a22d65826c51e2e891f3bd85ee5606d3c" prot="public" virt="non-virtual"><scope>PointLight</scope><name>GetPower</name></member>
+      <member refid="class_point_light_1a20e58296d9b45a3650c4fea54939b747" prot="public" virt="non-virtual"><scope>PointLight</scope><name>GetRadius</name></member>
+      <member refid="class_light_1ae835856d6b27b6e84d5172bf6a3d2e45" prot="public" virt="non-virtual"><scope>PointLight</scope><name>GetShadowMapIndex</name></member>
+      <member refid="class_component_1a1b25ee28c379d9f0d0c1ecc0df1e6328" prot="public" virt="non-virtual"><scope>PointLight</scope><name>GetTreeIndex</name></member>
+      <member refid="class_component_1ad3141017e589ef48d436bc743e15d122" prot="public" virt="virtual"><scope>PointLight</scope><name>Init</name></member>
+      <member refid="class_light_1aeab62d33e52a0e0413701e627f76adfd" prot="protected" virt="non-virtual"><scope>PointLight</scope><name>Light</name></member>
+      <member refid="class_point_light_1a2c8905cda36ea5de867603769df956f5" prot="public" virt="non-virtual"><scope>PointLight</scope><name>PointLight</name></member>
+      <member refid="class_point_light_1a8c43e041287304189f63a7bf423249ab" prot="public" virt="non-virtual"><scope>PointLight</scope><name>position</name></member>
+      <member refid="class_point_light_1a49f48fc72be12660d6248c060abc0da6" prot="private" virt="non-virtual"><scope>PointLight</scope><name>radius</name></member>
+      <member refid="class_light_1a5b94e136b1c1d167d8831aec36717a68" prot="public" virt="non-virtual"><scope>PointLight</scope><name>SetColor</name></member>
+      <member refid="class_component_1a053713eb8c3c356263a588fc398da49f" prot="public" virt="non-virtual"><scope>PointLight</scope><name>SetHash</name></member>
+      <member refid="class_component_1a93263d6a4c7a133ad05f8b754463d81a" prot="public" virt="non-virtual"><scope>PointLight</scope><name>SetIndex</name></member>
+      <member refid="class_light_1ab3cd94e295f7701c26a6e416ced2e8bc" prot="public" virt="non-virtual"><scope>PointLight</scope><name>SetIsCastShadow</name></member>
+      <member refid="class_light_1aca5344fc1cf49b8450afba55d1171681" prot="public" virt="non-virtual"><scope>PointLight</scope><name>SetPower</name></member>
+      <member refid="class_point_light_1af7335a89c0a43315deb647cb021c0cff" prot="public" virt="non-virtual"><scope>PointLight</scope><name>SetRadius</name></member>
+      <member refid="class_light_1a1ed95a758c802dbd54df80caeca4256d" prot="public" virt="non-virtual"><scope>PointLight</scope><name>SetShadowMapIndex</name></member>
+      <member refid="class_component_1ab8378fa275af98e568a7e91d33d867af" prot="public" virt="virtual"><scope>PointLight</scope><name>~Component</name></member>
+      <member refid="class_light_1ad0e59fad13bb6cfadc25b2c477e9ddc7" prot="public" virt="non-virtual"><scope>PointLight</scope><name>~Light</name></member>
+      <member refid="class_point_light_1aa12d9005d5372dbbe655a82231634341" prot="public" virt="non-virtual"><scope>PointLight</scope><name>~PointLight</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,220 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="_p_e_noise_filter_8h" kind="file" language="C++">
+    <compoundname>PENoiseFilter.h</compoundname>
+    <includes refid="_post_effect_8h" local="yes">PostEffect.h</includes>
+    <includedby refid="_table_and_chair_script_8h" local="yes">Script/include/TableAndChairScript.h</includedby>
+    <includedby refid="_title_card_script_8h" local="yes">Script/include/TitleCardScript.h</includedby>
+    <includedby refid="_title_frame_script_8h" local="yes">Script/include/TitleFrameScript.h</includedby>
+    <includedby refid="_title_noise_script_8h" local="yes">Script/include/TitleNoiseScript.h</includedby>
+    <includedby refid="_p_e_noise_filter_8cpp" local="yes">src/PostEffect/PENoiseFilter.cpp</includedby>
+    <incdepgraph>
+      <node id="12">
+        <label>D3Dcompiler.h</label>
+      </node>
+      <node id="16">
+        <label>DXRenderSystem.h</label>
+      </node>
+      <node id="13">
+        <label>DirectXMath.h</label>
+      </node>
+      <node id="5">
+        <label>ComponentList.h</label>
+        <link refid="_component_list_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>Component.h</label>
+        <link refid="_component_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>PostEffect.h</label>
+        <link refid="_post_effect_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>Renderer.h</label>
+        <link refid="_renderer_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/PostEffect/PENoiseFilter.h</label>
+        <link refid="_p_e_noise_filter_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>MeshLoader.h</label>
+      </node>
+      <node id="17">
+        <label>Utility.h</label>
+      </node>
+      <node id="14">
+        <label>Window.h</label>
+      </node>
+      <node id="8">
+        <label>Windows.h</label>
+      </node>
+      <node id="9">
+        <label>d3d12.h</label>
+      </node>
+      <node id="10">
+        <label>d3dx12.h</label>
+      </node>
+      <node id="11">
+        <label>dxgi1_4.h</label>
+      </node>
+      <node id="6">
+        <label>iostream</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="3">
+        <label>ComponentList/src/ComponentList.cpp</label>
+        <link refid="_component_list_8cpp"/>
+      </node>
+      <node id="2">
+        <label>Script/include/TableAndChairScript.h</label>
+        <link refid="_table_and_chair_script_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>Script/include/TitleCardScript.h</label>
+        <link refid="_title_card_script_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>Script/include/TitleFrameScript.h</label>
+        <link refid="_title_frame_script_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>Script/include/TitleNoiseScript.h</label>
+        <link refid="_title_noise_script_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>Script/src/TableAndChairScript.cpp</label>
+        <link refid="_table_and_chair_script_8cpp"/>
+      </node>
+      <node id="6">
+        <label>Script/src/TitleCardScript.cpp</label>
+        <link refid="_title_card_script_8cpp"/>
+      </node>
+      <node id="8">
+        <label>Script/src/TitleFrameScript.cpp</label>
+        <link refid="_title_frame_script_8cpp"/>
+      </node>
+      <node id="10">
+        <label>Script/src/TitleNoiseScript.cpp</label>
+        <link refid="_title_noise_script_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/PostEffect/PENoiseFilter.h</label>
+        <link refid="_p_e_noise_filter_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>src/PostEffect/PENoiseFilter.cpp</label>
+        <link refid="_p_e_noise_filter_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="class_p_e_noise_filter" prot="public">PENoiseFilter</innerclass>
+    <innerclass refid="struct_p_e_noise_filter_1_1_noise_filter_info" prot="private">PENoiseFilter::NoiseFilterInfo</innerclass>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#ifndef<sp/>PS_NOISE_BLUR</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>PS_NOISE_BLUR</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_post_effect_8h" kindref="compound">PostEffect.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6" refid="class_p_e_noise_filter" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_p_e_noise_filter_1a6e6939df1f2dc2522f4bda9458d22d24" kindref="member">PENoiseFilter</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="class_post_effect_1aefea5a98a7ed716761aad211bf0cae28" kindref="member">PostEffect</ref></highlight></codeline>
+<codeline lineno="7"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_p_e_noise_filter_1a6e6939df1f2dc2522f4bda9458d22d24" kindref="member">PENoiseFilter</ref>(shared_ptr&lt;Entity&gt;<sp/>ent);</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_p_e_noise_filter_1a6e6939df1f2dc2522f4bda9458d22d24" kindref="member">~PENoiseFilter</ref>();</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_p_e_noise_filter_1a71bd7b8dde30177ebc08888b39837172" kindref="member">SetIntensify</ref>(</highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>in);</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="class_p_e_noise_filter_1ab7b5e6d86a7dbe9464bd557f015f41ad" kindref="member">GetIntensify</ref>();</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_p_e_noise_filter_1a673fcd00768e4a5982c8a476a5626361" kindref="member">SetBlockSize</ref>(</highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>size);</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="class_p_e_noise_filter_1abf9bf76b9d337071b85cfd5e69523f20" kindref="member">GetBlockSize</ref>();</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>InitPostEffect()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>MapPECB()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="keyword">alignas</highlight><highlight class="normal">(256)<sp/>NoiseFilterInfo</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>intensify<sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>DirectX::XMFLOAT3<sp/>padding1;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>blockSize<sp/>=<sp/>0.001f;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>DirectX::XMFLOAT3<sp/>padding2;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>NoiseFilterInfo<sp/>info;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+    </programlisting>
+    <location file="include/PostEffect/PENoiseFilter.h"/>
+  </compounddef>
+</doxygen>

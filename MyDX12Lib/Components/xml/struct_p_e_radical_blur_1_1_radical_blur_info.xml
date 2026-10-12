@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="struct_p_e_radical_blur_1_1_radical_blur_info" kind="struct" language="C++" prot="private">
+    <compoundname>PERadicalBlur::RadicalBlurInfo</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_p_e_radical_blur_1_1_radical_blur_info_1aae8f69a97c3ed143cfa6fe0362abe824" prot="public" static="no" mutable="no">
+        <type>DirectX::XMFLOAT2</type>
+        <definition>DirectX::XMFLOAT2 PERadicalBlur::RadicalBlurInfo::screenCenter</definition>
+        <argsstring></argsstring>
+        <name>screenCenter</name>
+        <qualifiedname>PERadicalBlur::RadicalBlurInfo::screenCenter</qualifiedname>
+        <initializer>= { 0.5f, 0.5f }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/PostEffect/PERadicalBlur.h" line="31" column="27" bodyfile="include/PostEffect/PERadicalBlur.h" bodystart="31" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_p_e_radical_blur_1_1_radical_blur_info_1a08f7562e46e7be8a19db1f84cb8011f4" prot="public" static="no" mutable="no">
+        <type>DirectX::XMFLOAT2</type>
+        <definition>DirectX::XMFLOAT2 PERadicalBlur::RadicalBlurInfo::padding1</definition>
+        <argsstring></argsstring>
+        <name>padding1</name>
+        <qualifiedname>PERadicalBlur::RadicalBlurInfo::padding1</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/PostEffect/PERadicalBlur.h" line="32" column="27" bodyfile="include/PostEffect/PERadicalBlur.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_p_e_radical_blur_1_1_radical_blur_info_1aac55c36f4e75caf9daff1bd835129246" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float PERadicalBlur::RadicalBlurInfo::blurStrength</definition>
+        <argsstring></argsstring>
+        <name>blurStrength</name>
+        <qualifiedname>PERadicalBlur::RadicalBlurInfo::blurStrength</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/PostEffect/PERadicalBlur.h" line="33" column="15" bodyfile="include/PostEffect/PERadicalBlur.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_p_e_radical_blur_1_1_radical_blur_info_1ad2f865d7507772a11f47bdb703068206" prot="public" static="no" mutable="no">
+        <type>DirectX::XMFLOAT3</type>
+        <definition>DirectX::XMFLOAT3 PERadicalBlur::RadicalBlurInfo::padding2</definition>
+        <argsstring></argsstring>
+        <name>padding2</name>
+        <qualifiedname>PERadicalBlur::RadicalBlurInfo::padding2</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/PostEffect/PERadicalBlur.h" line="34" column="27" bodyfile="include/PostEffect/PERadicalBlur.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_p_e_radical_blur_1_1_radical_blur_info_1a664467e5e357ffed705f33d41e60cf51" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int PERadicalBlur::RadicalBlurInfo::sampleCount</definition>
+        <argsstring></argsstring>
+        <name>sampleCount</name>
+        <qualifiedname>PERadicalBlur::RadicalBlurInfo::sampleCount</qualifiedname>
+        <initializer>= 16</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/PostEffect/PERadicalBlur.h" line="35" column="13" bodyfile="include/PostEffect/PERadicalBlur.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_p_e_radical_blur_1_1_radical_blur_info_1a536fbcb010e4b5446c4b98f2476a6f49" prot="public" static="no" mutable="no">
+        <type>DirectX::XMFLOAT3</type>
+        <definition>DirectX::XMFLOAT3 PERadicalBlur::RadicalBlurInfo::padding3</definition>
+        <argsstring></argsstring>
+        <name>padding3</name>
+        <qualifiedname>PERadicalBlur::RadicalBlurInfo::padding3</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/PostEffect/PERadicalBlur.h" line="36" column="27" bodyfile="include/PostEffect/PERadicalBlur.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/PostEffect/PERadicalBlur.h" line="29" column="5" bodyfile="include/PostEffect/PERadicalBlur.h" bodystart="30" bodyend="37"/>
+    <listofallmembers>
+      <member refid="struct_p_e_radical_blur_1_1_radical_blur_info_1aac55c36f4e75caf9daff1bd835129246" prot="public" virt="non-virtual"><scope>PERadicalBlur::RadicalBlurInfo</scope><name>blurStrength</name></member>
+      <member refid="struct_p_e_radical_blur_1_1_radical_blur_info_1a08f7562e46e7be8a19db1f84cb8011f4" prot="public" virt="non-virtual"><scope>PERadicalBlur::RadicalBlurInfo</scope><name>padding1</name></member>
+      <member refid="struct_p_e_radical_blur_1_1_radical_blur_info_1ad2f865d7507772a11f47bdb703068206" prot="public" virt="non-virtual"><scope>PERadicalBlur::RadicalBlurInfo</scope><name>padding2</name></member>
+      <member refid="struct_p_e_radical_blur_1_1_radical_blur_info_1a536fbcb010e4b5446c4b98f2476a6f49" prot="public" virt="non-virtual"><scope>PERadicalBlur::RadicalBlurInfo</scope><name>padding3</name></member>
+      <member refid="struct_p_e_radical_blur_1_1_radical_blur_info_1a664467e5e357ffed705f33d41e60cf51" prot="public" virt="non-virtual"><scope>PERadicalBlur::RadicalBlurInfo</scope><name>sampleCount</name></member>
+      <member refid="struct_p_e_radical_blur_1_1_radical_blur_info_1aae8f69a97c3ed143cfa6fe0362abe824" prot="public" virt="non-virtual"><scope>PERadicalBlur::RadicalBlurInfo</scope><name>screenCenter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

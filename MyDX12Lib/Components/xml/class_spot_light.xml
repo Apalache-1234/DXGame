@@ -1,0 +1,349 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="class_spot_light" kind="class" language="C++" prot="public">
+    <compoundname>SpotLight</compoundname>
+    <basecompoundref refid="class_light" prot="public" virt="non-virtual">Light</basecompoundref>
+    <includes refid="_spot_light_8h" local="no">SpotLight.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_spot_light_1afe3c289fdb0691f344440efac7017c64" prot="public" static="no" mutable="no">
+        <type>DirectX::XMVECTOR</type>
+        <definition>DirectX::XMVECTOR SpotLight::position</definition>
+        <argsstring></argsstring>
+        <name>position</name>
+        <qualifiedname>SpotLight::position</qualifiedname>
+        <initializer>= DirectX::XMVectorZero()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/SpotLight.h" line="38" column="19" bodyfile="include/SpotLight.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_spot_light_1ae8817300e866415fe5e92c69fbd396ae" prot="public" static="no" mutable="no">
+        <type>XMMATRIX</type>
+        <definition>XMMATRIX SpotLight::lightVP</definition>
+        <argsstring></argsstring>
+        <name>lightVP</name>
+        <qualifiedname>SpotLight::lightVP</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/SpotLight.h" line="40" column="10" bodyfile="include/SpotLight.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_spot_light_1a1f800c6e86feb65d3bd0227d9bcb8e3c" prot="private" static="no" mutable="no">
+        <type>float</type>
+        <definition>float SpotLight::length</definition>
+        <argsstring></argsstring>
+        <name>length</name>
+        <qualifiedname>SpotLight::length</qualifiedname>
+        <initializer>= 13</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/SpotLight.h" line="42" column="7" bodyfile="include/SpotLight.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_spot_light_1a4d190fb4d01a9808fd802237dc940f43" prot="private" static="no" mutable="no">
+        <type>float</type>
+        <definition>float SpotLight::angular</definition>
+        <argsstring></argsstring>
+        <name>angular</name>
+        <qualifiedname>SpotLight::angular</qualifiedname>
+        <initializer>= DirectX::XMConvertToRadians(45)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/SpotLight.h" line="43" column="7" bodyfile="include/SpotLight.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_spot_light_1a645c8aec89954d09ab59dd04683f802f" prot="private" static="no" mutable="no">
+        <type>DirectX::XMVECTOR</type>
+        <definition>DirectX::XMVECTOR SpotLight::lightDir</definition>
+        <argsstring></argsstring>
+        <name>lightDir</name>
+        <qualifiedname>SpotLight::lightDir</qualifiedname>
+        <initializer>= Utility::forward</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/SpotLight.h" line="44" column="19" bodyfile="include/SpotLight.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_spot_light_1a6cf69ad78deab6de90c45f2b127668d2" prot="private" static="no" mutable="no">
+        <type>DirectX::XMVECTOR</type>
+        <definition>DirectX::XMVECTOR SpotLight::rotation</definition>
+        <argsstring></argsstring>
+        <name>rotation</name>
+        <qualifiedname>SpotLight::rotation</qualifiedname>
+        <initializer>= DirectX::XMVectorZero()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/SpotLight.h" line="45" column="19" bodyfile="include/SpotLight.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_spot_light_1aca6741b28830196f0193de0e71f68bd5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>SpotLight::SpotLight</definition>
+        <argsstring>(std::shared_ptr&lt; Entity &gt; ent)</argsstring>
+        <name>SpotLight</name>
+        <qualifiedname>SpotLight::SpotLight</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; Entity &gt;</type>
+          <declname>ent</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/SpotLight.h" line="18" column="1" bodyfile="src/SpotLight.cpp" bodystart="5" bodyend="7"/>
+      </memberdef>
+      <memberdef kind="function" id="class_spot_light_1aa16b741d73aa198c203ce40a066a115c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>SpotLight::~SpotLight</definition>
+        <argsstring>()</argsstring>
+        <name>~SpotLight</name>
+        <qualifiedname>SpotLight::~SpotLight</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/SpotLight.h" line="20" column="1" bodyfile="src/SpotLight.cpp" bodystart="9" bodyend="11"/>
+      </memberdef>
+      <memberdef kind="function" id="class_spot_light_1a9dc9f893c71d7947557a1036a31fc0c7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float SpotLight::GetAngular</definition>
+        <argsstring>()</argsstring>
+        <name>GetAngular</name>
+        <qualifiedname>SpotLight::GetAngular</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/SpotLight.h" line="22" column="7" bodyfile="src/SpotLight.cpp" bodystart="13" bodyend="16"/>
+      </memberdef>
+      <memberdef kind="function" id="class_spot_light_1a49842390292e06cba4d76c11a6b43bf0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float SpotLight::GetLength</definition>
+        <argsstring>()</argsstring>
+        <name>GetLength</name>
+        <qualifiedname>SpotLight::GetLength</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/SpotLight.h" line="24" column="7" bodyfile="src/SpotLight.cpp" bodystart="18" bodyend="21"/>
+      </memberdef>
+      <memberdef kind="function" id="class_spot_light_1af378931fe1e08c83d1d56be20360d50e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>DirectX::XMVECTOR</type>
+        <definition>DirectX::XMVECTOR SpotLight::GetPosition</definition>
+        <argsstring>()</argsstring>
+        <name>GetPosition</name>
+        <qualifiedname>SpotLight::GetPosition</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/SpotLight.h" line="26" column="19" bodyfile="src/SpotLight.cpp" bodystart="23" bodyend="26"/>
+      </memberdef>
+      <memberdef kind="function" id="class_spot_light_1a54bd492452a2de025633c7ae932eb1ee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>DirectX::XMVECTOR</type>
+        <definition>DirectX::XMVECTOR SpotLight::GetRotation</definition>
+        <argsstring>()</argsstring>
+        <name>GetRotation</name>
+        <qualifiedname>SpotLight::GetRotation</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/SpotLight.h" line="28" column="19" bodyfile="src/SpotLight.cpp" bodystart="28" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="function" id="class_spot_light_1acdc00525ef3ce833ed42118073911202" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>DirectX::XMVECTOR</type>
+        <definition>DirectX::XMVECTOR SpotLight::GetLightDir</definition>
+        <argsstring>()</argsstring>
+        <name>GetLightDir</name>
+        <qualifiedname>SpotLight::GetLightDir</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/SpotLight.h" line="30" column="19" bodyfile="src/SpotLight.cpp" bodystart="33" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="class_spot_light_1a937a3b8cba5491f55be8023e3a81eea7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void SpotLight::SetAngular</definition>
+        <argsstring>(float rad)</argsstring>
+        <name>SetAngular</name>
+        <qualifiedname>SpotLight::SetAngular</qualifiedname>
+        <param>
+          <type>float</type>
+          <declname>rad</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/SpotLight.h" line="32" column="6" bodyfile="src/SpotLight.cpp" bodystart="51" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="class_spot_light_1a5c94caf56c1bc81c9d75b8bbd25b8a5f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void SpotLight::SetLength</definition>
+        <argsstring>(float len)</argsstring>
+        <name>SetLength</name>
+        <qualifiedname>SpotLight::SetLength</qualifiedname>
+        <param>
+          <type>float</type>
+          <declname>len</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/SpotLight.h" line="34" column="6" bodyfile="src/SpotLight.cpp" bodystart="58" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="class_spot_light_1a3ffc3f7e606cd4e839fde15d59bcaf4b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void SpotLight::SetRotation</definition>
+        <argsstring>(DirectX::XMVECTOR rot)</argsstring>
+        <name>SetRotation</name>
+        <qualifiedname>SpotLight::SetRotation</qualifiedname>
+        <param>
+          <type>DirectX::XMVECTOR</type>
+          <declname>rot</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/SpotLight.h" line="36" column="6" bodyfile="src/SpotLight.cpp" bodystart="65" bodyend="68"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>Component</label>
+        <link refid="class_component"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>Light</label>
+        <link refid="class_light"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>SpotLight</label>
+        <link refid="class_spot_light"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>std::enable_shared_from_this&lt; Component &gt;</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>Component</label>
+        <link refid="class_component"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>Light</label>
+        <link refid="class_light"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>SpotLight</label>
+        <link refid="class_spot_light"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>std::enable_shared_from_this&lt; Component &gt;</label>
+      </node>
+    </collaborationgraph>
+    <location file="include/SpotLight.h" line="15" column="1" bodyfile="include/SpotLight.h" bodystart="16" bodyend="46"/>
+    <listofallmembers>
+      <member refid="class_spot_light_1a4d190fb4d01a9808fd802237dc940f43" prot="private" virt="non-virtual"><scope>SpotLight</scope><name>angular</name></member>
+      <member refid="class_component_1a61954f08c177e4c1ebb17cf8fd3aa56f" prot="public" virt="non-virtual"><scope>SpotLight</scope><name>attachFrom</name></member>
+      <member refid="class_component_1a120d65094802a621c8d804a964cafa9c" prot="public" virt="non-virtual"><scope>SpotLight</scope><name>Cast</name></member>
+      <member refid="class_component_1a5cba85e33b188bf87ee09f353d7b2fa5" prot="public" virt="non-virtual"><scope>SpotLight</scope><name>Component</name></member>
+      <member refid="class_spot_light_1a9dc9f893c71d7947557a1036a31fc0c7" prot="public" virt="non-virtual"><scope>SpotLight</scope><name>GetAngular</name></member>
+      <member refid="class_light_1aeae27f8b40c5e2632705d4d2f1e80896" prot="public" virt="non-virtual"><scope>SpotLight</scope><name>GetColor</name></member>
+      <member refid="class_component_1a22ed217d642f4566a47c874ac9a63eab" prot="public" virt="virtual"><scope>SpotLight</scope><name>GetComponentName</name></member>
+      <member refid="class_component_1a2a9968090dabad782f2bbdaf0093be84" prot="public" virt="non-virtual"><scope>SpotLight</scope><name>GetHash</name></member>
+      <member refid="class_light_1a44883e730b17f97411021d47b958dc7e" prot="public" virt="non-virtual"><scope>SpotLight</scope><name>GetIsCastShadow</name></member>
+      <member refid="class_component_1ac0ee67584bdd569c2809495a5843612b" prot="public" virt="non-virtual"><scope>SpotLight</scope><name>GetLeafIndex</name></member>
+      <member refid="class_spot_light_1a49842390292e06cba4d76c11a6b43bf0" prot="public" virt="non-virtual"><scope>SpotLight</scope><name>GetLength</name></member>
+      <member refid="class_spot_light_1acdc00525ef3ce833ed42118073911202" prot="public" virt="non-virtual"><scope>SpotLight</scope><name>GetLightDir</name></member>
+      <member refid="class_spot_light_1af378931fe1e08c83d1d56be20360d50e" prot="public" virt="non-virtual"><scope>SpotLight</scope><name>GetPosition</name></member>
+      <member refid="class_light_1a22d65826c51e2e891f3bd85ee5606d3c" prot="public" virt="non-virtual"><scope>SpotLight</scope><name>GetPower</name></member>
+      <member refid="class_spot_light_1a54bd492452a2de025633c7ae932eb1ee" prot="public" virt="non-virtual"><scope>SpotLight</scope><name>GetRotation</name></member>
+      <member refid="class_light_1ae835856d6b27b6e84d5172bf6a3d2e45" prot="public" virt="non-virtual"><scope>SpotLight</scope><name>GetShadowMapIndex</name></member>
+      <member refid="class_component_1a1b25ee28c379d9f0d0c1ecc0df1e6328" prot="public" virt="non-virtual"><scope>SpotLight</scope><name>GetTreeIndex</name></member>
+      <member refid="class_component_1ad3141017e589ef48d436bc743e15d122" prot="public" virt="virtual"><scope>SpotLight</scope><name>Init</name></member>
+      <member refid="class_spot_light_1a1f800c6e86feb65d3bd0227d9bcb8e3c" prot="private" virt="non-virtual"><scope>SpotLight</scope><name>length</name></member>
+      <member refid="class_light_1aeab62d33e52a0e0413701e627f76adfd" prot="protected" virt="non-virtual"><scope>SpotLight</scope><name>Light</name></member>
+      <member refid="class_spot_light_1a645c8aec89954d09ab59dd04683f802f" prot="private" virt="non-virtual"><scope>SpotLight</scope><name>lightDir</name></member>
+      <member refid="class_spot_light_1ae8817300e866415fe5e92c69fbd396ae" prot="public" virt="non-virtual"><scope>SpotLight</scope><name>lightVP</name></member>
+      <member refid="class_spot_light_1afe3c289fdb0691f344440efac7017c64" prot="public" virt="non-virtual"><scope>SpotLight</scope><name>position</name></member>
+      <member refid="class_spot_light_1a6cf69ad78deab6de90c45f2b127668d2" prot="private" virt="non-virtual"><scope>SpotLight</scope><name>rotation</name></member>
+      <member refid="class_spot_light_1a937a3b8cba5491f55be8023e3a81eea7" prot="public" virt="non-virtual"><scope>SpotLight</scope><name>SetAngular</name></member>
+      <member refid="class_light_1a5b94e136b1c1d167d8831aec36717a68" prot="public" virt="non-virtual"><scope>SpotLight</scope><name>SetColor</name></member>
+      <member refid="class_component_1a053713eb8c3c356263a588fc398da49f" prot="public" virt="non-virtual"><scope>SpotLight</scope><name>SetHash</name></member>
+      <member refid="class_component_1a93263d6a4c7a133ad05f8b754463d81a" prot="public" virt="non-virtual"><scope>SpotLight</scope><name>SetIndex</name></member>
+      <member refid="class_light_1ab3cd94e295f7701c26a6e416ced2e8bc" prot="public" virt="non-virtual"><scope>SpotLight</scope><name>SetIsCastShadow</name></member>
+      <member refid="class_spot_light_1a5c94caf56c1bc81c9d75b8bbd25b8a5f" prot="public" virt="non-virtual"><scope>SpotLight</scope><name>SetLength</name></member>
+      <member refid="class_light_1aca5344fc1cf49b8450afba55d1171681" prot="public" virt="non-virtual"><scope>SpotLight</scope><name>SetPower</name></member>
+      <member refid="class_spot_light_1a3ffc3f7e606cd4e839fde15d59bcaf4b" prot="public" virt="non-virtual"><scope>SpotLight</scope><name>SetRotation</name></member>
+      <member refid="class_light_1a1ed95a758c802dbd54df80caeca4256d" prot="public" virt="non-virtual"><scope>SpotLight</scope><name>SetShadowMapIndex</name></member>
+      <member refid="class_spot_light_1aca6741b28830196f0193de0e71f68bd5" prot="public" virt="non-virtual"><scope>SpotLight</scope><name>SpotLight</name></member>
+      <member refid="class_component_1ab8378fa275af98e568a7e91d33d867af" prot="public" virt="virtual"><scope>SpotLight</scope><name>~Component</name></member>
+      <member refid="class_light_1ad0e59fad13bb6cfadc25b2c477e9ddc7" prot="public" virt="non-virtual"><scope>SpotLight</scope><name>~Light</name></member>
+      <member refid="class_spot_light_1aa16b741d73aa198c203ce40a066a115c" prot="public" virt="non-virtual"><scope>SpotLight</scope><name>~SpotLight</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

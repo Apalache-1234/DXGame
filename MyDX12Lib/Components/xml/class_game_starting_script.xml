@@ -1,0 +1,343 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="class_game_starting_script" kind="class" language="C++" prot="public">
+    <compoundname>GameStartingScript</compoundname>
+    <basecompoundref refid="class_script_component" prot="public" virt="non-virtual">ScriptComponent</basecompoundref>
+    <includes refid="_game_starting_script_8h" local="no">GameStartingScript.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_game_starting_script_1a279bdfd88580b62438e59a2abd3cb84a" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool GameStartingScript::animStarted</definition>
+        <argsstring></argsstring>
+        <name>animStarted</name>
+        <qualifiedname>GameStartingScript::animStarted</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/GameStartingScript.h" line="27" column="6" bodyfile="Script/include/GameStartingScript.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_game_starting_script_1a0e466af52b5dae7135b150c4c4990288" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="class_p_e_edge_filter" kindref="compound">PEEdgeFilter</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;PEEdgeFilter&gt; GameStartingScript::edgePE</definition>
+        <argsstring></argsstring>
+        <name>edgePE</name>
+        <qualifiedname>GameStartingScript::edgePE</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/GameStartingScript.h" line="29" column="17" bodyfile="Script/include/GameStartingScript.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_game_starting_script_1a179aaa753438b279f98656d2b22e5d19" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="class_u_i_renderer" kindref="compound">UIRenderer</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;UIRenderer&gt; GameStartingScript::uiRend</definition>
+        <argsstring></argsstring>
+        <name>uiRend</name>
+        <qualifiedname>GameStartingScript::uiRend</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/GameStartingScript.h" line="31" column="17" bodyfile="Script/include/GameStartingScript.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_game_starting_script_1ae6b4ef153d73a8d3ba73e88e67797e34" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; Entity &gt;</type>
+        <definition>std::shared_ptr&lt;Entity&gt; GameStartingScript::readyEnt</definition>
+        <argsstring></argsstring>
+        <name>readyEnt</name>
+        <qualifiedname>GameStartingScript::readyEnt</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/GameStartingScript.h" line="33" column="17" bodyfile="Script/include/GameStartingScript.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_game_starting_script_1ad2b0d294e36738a936ee5c312dd21b73" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="class_u_i_renderer" kindref="compound">UIRenderer</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;UIRenderer&gt; GameStartingScript::readyRend</definition>
+        <argsstring></argsstring>
+        <name>readyRend</name>
+        <qualifiedname>GameStartingScript::readyRend</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/GameStartingScript.h" line="34" column="17" bodyfile="Script/include/GameStartingScript.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_game_starting_script_1a404c1f2d8ed9eb37c88f260ea43e64cd" prot="private" static="no" mutable="no">
+        <type>shared_ptr&lt; Tween&lt; int &gt; &gt;</type>
+        <definition>shared_ptr&lt;Tween&lt;int&gt; &gt; GameStartingScript::spriteTw</definition>
+        <argsstring></argsstring>
+        <name>spriteTw</name>
+        <qualifiedname>GameStartingScript::spriteTw</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/GameStartingScript.h" line="36" column="12" bodyfile="Script/include/GameStartingScript.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_game_starting_script_1afd2bfe9add54ae2e8c02dea457e807b7" prot="private" static="no" mutable="no">
+        <type>float</type>
+        <definition>float GameStartingScript::time</definition>
+        <argsstring></argsstring>
+        <name>time</name>
+        <qualifiedname>GameStartingScript::time</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/GameStartingScript.h" line="38" column="7" bodyfile="Script/include/GameStartingScript.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_game_starting_script_1a723636c6aedb46d11d8b4d7e77578000" prot="private" static="no" mutable="no">
+        <type>float</type>
+        <definition>float GameStartingScript::interval</definition>
+        <argsstring></argsstring>
+        <name>interval</name>
+        <qualifiedname>GameStartingScript::interval</qualifiedname>
+        <initializer>= 0.02</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/GameStartingScript.h" line="39" column="7" bodyfile="Script/include/GameStartingScript.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_game_starting_script_1ae862cb5f9ac6349b6dd9cd94455eb6ac" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; GameStartingScript::file_names</definition>
+        <argsstring></argsstring>
+        <name>file_names</name>
+        <qualifiedname>GameStartingScript::file_names</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/GameStartingScript.h" line="41" column="13" bodyfile="Script/include/GameStartingScript.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_game_starting_script_1ae2c3805aceceb665ca924be2a4538c2e" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; ComPtr&lt; ID3D12Resource &gt; &gt;</type>
+        <definition>std::vector&lt;ComPtr&lt;ID3D12Resource&gt; &gt; GameStartingScript::sprites</definition>
+        <argsstring></argsstring>
+        <name>sprites</name>
+        <qualifiedname>GameStartingScript::sprites</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/GameStartingScript.h" line="43" column="13" bodyfile="Script/include/GameStartingScript.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_game_starting_script_1a556118daa0f1c80f0273cf36ce5d7518" prot="private" static="no" mutable="no">
+        <type>Material</type>
+        <definition>Material GameStartingScript::mat</definition>
+        <argsstring></argsstring>
+        <name>mat</name>
+        <qualifiedname>GameStartingScript::mat</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/GameStartingScript.h" line="45" column="10" bodyfile="Script/include/GameStartingScript.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_game_starting_script_1a8996e6e01ecdff24272dddd96acfd350" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>GameStartingScript::GameStartingScript</definition>
+        <argsstring>(std::shared_ptr&lt; Entity &gt; ent)</argsstring>
+        <name>GameStartingScript</name>
+        <qualifiedname>GameStartingScript::GameStartingScript</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; Entity &gt;</type>
+          <declname>ent</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/GameStartingScript.h" line="16" column="1" bodyfile="Script/src/GameStartingScript.cpp" bodystart="10" bodyend="13"/>
+      </memberdef>
+      <memberdef kind="function" id="class_game_starting_script_1ae1c26e6cf7c3731753f982f32e63ee18" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>GameStartingScript::~GameStartingScript</definition>
+        <argsstring>()</argsstring>
+        <name>~GameStartingScript</name>
+        <qualifiedname>GameStartingScript::~GameStartingScript</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/GameStartingScript.h" line="18" column="1" bodyfile="Script/src/GameStartingScript.cpp" bodystart="15" bodyend="17"/>
+      </memberdef>
+      <memberdef kind="function" id="class_game_starting_script_1ada1a0c043625aa430b4d366d63e0ef03" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void GameStartingScript::OnStart</definition>
+        <argsstring>() override</argsstring>
+        <name>OnStart</name>
+        <qualifiedname>GameStartingScript::OnStart</qualifiedname>
+        <reimplements refid="class_script_component_1a74c66e170fed1beca9d8d0ff3e97d647">OnStart</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/GameStartingScript.h" line="20" column="6" bodyfile="Script/src/GameStartingScript.cpp" bodystart="19" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="class_game_starting_script_1a700058f3fe617a240fa68dd269c5bb67" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void GameStartingScript::StartAnim</definition>
+        <argsstring>(std::function&lt; void()&gt; f)</argsstring>
+        <name>StartAnim</name>
+        <qualifiedname>GameStartingScript::StartAnim</qualifiedname>
+        <param>
+          <type>std::function&lt; void()&gt;</type>
+          <declname>f</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/GameStartingScript.h" line="22" column="6" bodyfile="Script/src/GameStartingScript.cpp" bodystart="71" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="class_game_starting_script_1a515cf669d06e7c2026326a4c3cb0aa24" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void GameStartingScript::OnUpdate</definition>
+        <argsstring>() override</argsstring>
+        <name>OnUpdate</name>
+        <qualifiedname>GameStartingScript::OnUpdate</qualifiedname>
+        <reimplements refid="class_script_component_1afffbd9e1537019a46798299fced10d09">OnUpdate</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Script/include/GameStartingScript.h" line="24" column="6" bodyfile="Script/src/GameStartingScript.cpp" bodystart="84" bodyend="98"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>Component</label>
+        <link refid="class_component"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>GameStartingScript</label>
+        <link refid="class_game_starting_script"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>ScriptComponent</label>
+        <link refid="class_script_component"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>std::enable_shared_from_this&lt; Component &gt;</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>Component</label>
+        <link refid="class_component"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>GameStartingScript</label>
+        <link refid="class_game_starting_script"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>ScriptComponent</label>
+        <link refid="class_script_component"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>std::enable_shared_from_this&lt; Component &gt;</label>
+      </node>
+    </collaborationgraph>
+    <location file="Script/include/GameStartingScript.h" line="13" column="1" bodyfile="Script/include/GameStartingScript.h" bodystart="14" bodyend="46"/>
+    <listofallmembers>
+      <member refid="class_game_starting_script_1a279bdfd88580b62438e59a2abd3cb84a" prot="private" virt="non-virtual"><scope>GameStartingScript</scope><name>animStarted</name></member>
+      <member refid="class_component_1a61954f08c177e4c1ebb17cf8fd3aa56f" prot="public" virt="non-virtual"><scope>GameStartingScript</scope><name>attachFrom</name></member>
+      <member refid="class_script_component_1a96e27fa6ec29b4a3fb7a8032d5a27aad" prot="protected" virt="non-virtual"><scope>GameStartingScript</scope><name>camera</name></member>
+      <member refid="class_component_1a120d65094802a621c8d804a964cafa9c" prot="public" virt="non-virtual"><scope>GameStartingScript</scope><name>Cast</name></member>
+      <member refid="class_component_1a5cba85e33b188bf87ee09f353d7b2fa5" prot="public" virt="non-virtual"><scope>GameStartingScript</scope><name>Component</name></member>
+      <member refid="class_game_starting_script_1a0e466af52b5dae7135b150c4c4990288" prot="private" virt="non-virtual"><scope>GameStartingScript</scope><name>edgePE</name></member>
+      <member refid="class_game_starting_script_1ae862cb5f9ac6349b6dd9cd94455eb6ac" prot="private" virt="non-virtual"><scope>GameStartingScript</scope><name>file_names</name></member>
+      <member refid="class_game_starting_script_1a8996e6e01ecdff24272dddd96acfd350" prot="public" virt="non-virtual"><scope>GameStartingScript</scope><name>GameStartingScript</name></member>
+      <member refid="class_component_1a22ed217d642f4566a47c874ac9a63eab" prot="public" virt="virtual"><scope>GameStartingScript</scope><name>GetComponentName</name></member>
+      <member refid="class_component_1a2a9968090dabad782f2bbdaf0093be84" prot="public" virt="non-virtual"><scope>GameStartingScript</scope><name>GetHash</name></member>
+      <member refid="class_component_1ac0ee67584bdd569c2809495a5843612b" prot="public" virt="non-virtual"><scope>GameStartingScript</scope><name>GetLeafIndex</name></member>
+      <member refid="class_component_1a1b25ee28c379d9f0d0c1ecc0df1e6328" prot="public" virt="non-virtual"><scope>GameStartingScript</scope><name>GetTreeIndex</name></member>
+      <member refid="class_script_component_1a2027d87a56d690a2a198d6e15c57f907" prot="public" virt="virtual"><scope>GameStartingScript</scope><name>Init</name></member>
+      <member refid="class_game_starting_script_1a723636c6aedb46d11d8b4d7e77578000" prot="private" virt="non-virtual"><scope>GameStartingScript</scope><name>interval</name></member>
+      <member refid="class_game_starting_script_1a556118daa0f1c80f0273cf36ce5d7518" prot="private" virt="non-virtual"><scope>GameStartingScript</scope><name>mat</name></member>
+      <member refid="class_script_component_1a883990ab3b0eb3ed62c8bc85fd4f596d" prot="protected" virt="non-virtual"><scope>GameStartingScript</scope><name>meshLoader</name></member>
+      <member refid="class_script_component_1aaef3daf7c260c21efa8fd9cde4e5a4a7" prot="public" virt="virtual"><scope>GameStartingScript</scope><name>OnDestroy</name></member>
+      <member refid="class_script_component_1af30cc5777fe0db148c0f46deffbfa995" prot="public" virt="virtual"><scope>GameStartingScript</scope><name>OnFixedUpdate</name></member>
+      <member refid="class_script_component_1ad9b2758d768994bc36a42e328157047c" prot="public" virt="virtual"><scope>GameStartingScript</scope><name>OnMousePointerClick</name></member>
+      <member refid="class_script_component_1a43fad9a126b4df10d450ebda1b0eb958" prot="public" virt="virtual"><scope>GameStartingScript</scope><name>OnMousePointerIn</name></member>
+      <member refid="class_script_component_1a594aa67f58cfe5dd2e9f9920cfdfcb08" prot="public" virt="virtual"><scope>GameStartingScript</scope><name>OnMousePointerOn</name></member>
+      <member refid="class_script_component_1a684ce3d22fb83d9ade9db726afb0ca28" prot="public" virt="virtual"><scope>GameStartingScript</scope><name>OnMousePointerOut</name></member>
+      <member refid="class_script_component_1a3f3a0bbc66f3809a353ae16ff0380a1e" prot="public" virt="virtual"><scope>GameStartingScript</scope><name>OnRayCast</name></member>
+      <member refid="class_game_starting_script_1ada1a0c043625aa430b4d366d63e0ef03" prot="public" virt="virtual"><scope>GameStartingScript</scope><name>OnStart</name></member>
+      <member refid="class_game_starting_script_1a515cf669d06e7c2026326a4c3cb0aa24" prot="public" virt="virtual"><scope>GameStartingScript</scope><name>OnUpdate</name></member>
+      <member refid="class_game_starting_script_1ae6b4ef153d73a8d3ba73e88e67797e34" prot="private" virt="non-virtual"><scope>GameStartingScript</scope><name>readyEnt</name></member>
+      <member refid="class_game_starting_script_1ad2b0d294e36738a936ee5c312dd21b73" prot="private" virt="non-virtual"><scope>GameStartingScript</scope><name>readyRend</name></member>
+      <member refid="class_script_component_1a6d517b821cb2239397c4bc9df8935df1" prot="protected" virt="non-virtual"><scope>GameStartingScript</scope><name>sceneManager</name></member>
+      <member refid="class_script_component_1a79c3ecd7f476197899c2b41279a40843" prot="protected" virt="non-virtual"><scope>GameStartingScript</scope><name>ScriptComponent</name></member>
+      <member refid="class_component_1a053713eb8c3c356263a588fc398da49f" prot="public" virt="non-virtual"><scope>GameStartingScript</scope><name>SetHash</name></member>
+      <member refid="class_component_1a93263d6a4c7a133ad05f8b754463d81a" prot="public" virt="non-virtual"><scope>GameStartingScript</scope><name>SetIndex</name></member>
+      <member refid="class_game_starting_script_1ae2c3805aceceb665ca924be2a4538c2e" prot="private" virt="non-virtual"><scope>GameStartingScript</scope><name>sprites</name></member>
+      <member refid="class_game_starting_script_1a404c1f2d8ed9eb37c88f260ea43e64cd" prot="private" virt="non-virtual"><scope>GameStartingScript</scope><name>spriteTw</name></member>
+      <member refid="class_game_starting_script_1a700058f3fe617a240fa68dd269c5bb67" prot="public" virt="non-virtual"><scope>GameStartingScript</scope><name>StartAnim</name></member>
+      <member refid="class_script_component_1a85aa9f3caec7cadbad5bade77d1a497b" prot="protected" virt="non-virtual"><scope>GameStartingScript</scope><name>systemManager</name></member>
+      <member refid="class_script_component_1a8da06cfeede85f5294be061a45d78885" prot="protected" virt="non-virtual"><scope>GameStartingScript</scope><name>textureLoader</name></member>
+      <member refid="class_game_starting_script_1afd2bfe9add54ae2e8c02dea457e807b7" prot="private" virt="non-virtual"><scope>GameStartingScript</scope><name>time</name></member>
+      <member refid="class_script_component_1a2dfacd191e367be8e1e667ece474b860" prot="protected" virt="non-virtual"><scope>GameStartingScript</scope><name>tweenSystem</name></member>
+      <member refid="class_game_starting_script_1a179aaa753438b279f98656d2b22e5d19" prot="private" virt="non-virtual"><scope>GameStartingScript</scope><name>uiRend</name></member>
+      <member refid="class_component_1ab8378fa275af98e568a7e91d33d867af" prot="public" virt="virtual"><scope>GameStartingScript</scope><name>~Component</name></member>
+      <member refid="class_game_starting_script_1ae1c26e6cf7c3731753f982f32e63ee18" prot="public" virt="non-virtual"><scope>GameStartingScript</scope><name>~GameStartingScript</name></member>
+      <member refid="class_script_component_1a6c266c364bf21d0dddb6d7639500a077" prot="public" virt="virtual"><scope>GameStartingScript</scope><name>~ScriptComponent</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

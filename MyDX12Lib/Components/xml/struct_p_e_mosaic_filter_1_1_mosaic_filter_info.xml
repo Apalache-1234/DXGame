@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="struct_p_e_mosaic_filter_1_1_mosaic_filter_info" kind="struct" language="C++" prot="private">
+    <compoundname>PEMosaicFilter::MosaicFilterInfo</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_p_e_mosaic_filter_1_1_mosaic_filter_info_1adbda77587d7475375fba27e6955d784d" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float PEMosaicFilter::MosaicFilterInfo::intensify</definition>
+        <argsstring></argsstring>
+        <name>intensify</name>
+        <qualifiedname>PEMosaicFilter::MosaicFilterInfo::intensify</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/PostEffect/PEMosaicFilter.h" line="23" column="15" bodyfile="include/PostEffect/PEMosaicFilter.h" bodystart="23" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_p_e_mosaic_filter_1_1_mosaic_filter_info_1a0c44d255e0c4384afc467c66b6ffb816" prot="public" static="no" mutable="no">
+        <type>DirectX::XMFLOAT3</type>
+        <definition>DirectX::XMFLOAT3 PEMosaicFilter::MosaicFilterInfo::padding1</definition>
+        <argsstring></argsstring>
+        <name>padding1</name>
+        <qualifiedname>PEMosaicFilter::MosaicFilterInfo::padding1</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/PostEffect/PEMosaicFilter.h" line="25" column="27" bodyfile="include/PostEffect/PEMosaicFilter.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/PostEffect/PEMosaicFilter.h" line="21" column="5" bodyfile="include/PostEffect/PEMosaicFilter.h" bodystart="22" bodyend="26"/>
+    <listofallmembers>
+      <member refid="struct_p_e_mosaic_filter_1_1_mosaic_filter_info_1adbda77587d7475375fba27e6955d784d" prot="public" virt="non-virtual"><scope>PEMosaicFilter::MosaicFilterInfo</scope><name>intensify</name></member>
+      <member refid="struct_p_e_mosaic_filter_1_1_mosaic_filter_info_1a0c44d255e0c4384afc467c66b6ffb816" prot="public" virt="non-virtual"><scope>PEMosaicFilter::MosaicFilterInfo</scope><name>padding1</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>
